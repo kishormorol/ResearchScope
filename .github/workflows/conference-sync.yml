@@ -65,10 +65,24 @@ jobs:
 
       - name: Commit updated data
         run: |
+          set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git rebase origin/main
           git add site/data/
-          git diff --cached --quiet || git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]" && git push || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]"
+            for i in 1 2 3; do
+              git push origin main && break
+              echo "Push attempt $i failed, rebasing and retrying…"
+              git fetch origin main
+              git rebase origin/main
+              sleep 10
+            done
+          fi
 
   deploy:
     needs: conference-sync
