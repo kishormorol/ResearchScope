@@ -1,14 +1,16 @@
 """
 OpenReview connector.
 
-Covers COLM and any other venue hosted on openreview.net that is not yet
-well-indexed by Semantic Scholar.  Uses the public OpenReview API v2
-(no authentication required for public venues).
+Fetches ALL accepted papers from OpenReview-hosted conferences by querying
+the official API with venueid — no keyword queries, no API key required.
+
+Covers: ICLR, NeurIPS (2023+), COLM
 """
 from __future__ import annotations
 
 import json
 import logging
+import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -21,90 +23,120 @@ log = logging.getLogger(__name__)
 
 _API_BASE = "https://api2.openreview.net"
 
-# group ID → (canonical venue name, rank, year)
-_GROUPS: dict[str, tuple[str, str, int]] = {
-    "colmweb.org/COLM/2024/Conference":  ("COLM", "A*", 2024),
-    "ICLR.cc/2025/Conference":           ("ICLR", "A*", 2025),
-    "ICLR.cc/2024/Conference":           ("ICLR", "A*", 2024),
-    "NeurIPS.cc/2024/Conference":        ("NeurIPS", "A*", 2024),
+# venueid → (canonical name, rank, year)
+# Add new venues here each year
+_VENUES: dict[str, tuple[str, str, int]] = {
+    "ICLR.cc/2025/Conference":          ("ICLR",    "A*", 2025),
+    "ICLR.cc/2024/Conference":          ("ICLR",    "A*", 2024),
+    "ICLR.cc/2023/Conference":          ("ICLR",    "A*", 2023),
+    "NeurIPS.cc/2024/Conference":       ("NeurIPS", "A*", 2024),
+    "NeurIPS.cc/2023/Conference":       ("NeurIPS", "A*", 2023),
+    "colmweb.org/COLM/2024/Conference": ("COLM",    "A*", 2024),
 }
 
-# Default: only venues not well-covered by Semantic Scholar
-_DEFAULT_GROUPS = ["colmweb.org/COLM/2024/Conference"]
+_BATCH = 1000
+_DELAY = 1.0   # seconds between paginated requests
 
 
 class OpenReviewConnector(BaseConnector):
-    """Fetches papers from OpenReview-hosted conferences."""
+    """Fetches ALL accepted papers from OpenReview conferences."""
 
-    def __init__(self, groups: list[str] | None = None) -> None:
-        self._groups = groups or _DEFAULT_GROUPS
+    def __init__(self, venues: list[str] | None = None) -> None:
+        self._venues = venues or list(_VENUES.keys())
 
     @property
     def source_name(self) -> str:
         return "openreview"
 
-    def fetch(self, query: str, max_results: int = 50) -> list[Paper]:
+    # ── Called by conference-sync (fetch everything) ──────────────────────────
+
+    def fetch_all(self) -> list[Paper]:
+        """Fetch ALL accepted papers from every configured venue."""
         all_papers: list[Paper] = []
         seen: set[str] = set()
-        per_group = max(10, max_results // len(self._groups))
-
-        for group in self._groups:
+        for venue_id in self._venues:
             try:
-                papers = self._fetch_group(query, group, per_group)
+                papers = self._fetch_venue_all(venue_id)
+                log.info("[openreview] %s → %d papers", venue_id, len(papers))
                 for p in papers:
                     if p.id not in seen:
                         seen.add(p.id)
                         all_papers.append(p)
             except Exception as exc:
-                log.warning("[openreview] group=%s query='%s' failed: %s", group, query, exc)
-
+                log.warning("[openreview] %s failed: %s", venue_id, exc)
         return all_papers
 
-    # ── internal ──────────────────────────────────────────────────────────────
+    # ── Called by daily pipeline (keyword search within a venue) ─────────────
 
-    def _fetch_group(self, query: str, group: str, max_results: int) -> list[Paper]:
-        venue_name, rank, year = _GROUPS.get(group, ("Unknown", "", 0))
+    def fetch(self, query: str, max_results: int = 50) -> list[Paper]:
+        """Keyword search across configured venues (used in non-sync mode)."""
+        all_papers: list[Paper] = []
+        seen: set[str] = set()
+        per_venue = max(10, max_results // len(self._venues))
+        for venue_id in self._venues:
+            try:
+                papers = self._fetch_venue_search(query, venue_id, per_venue)
+                for p in papers:
+                    if p.id not in seen:
+                        seen.add(p.id)
+                        all_papers.append(p)
+            except Exception as exc:
+                log.warning("[openreview] search %s q='%s' failed: %s", venue_id, query, exc)
+        return all_papers
 
-        # Use the notes/search endpoint for keyword queries within a group
-        params = urllib.parse.urlencode({
-            "term":   query,
-            "source": "forum",
-            "group":  group,
-            "limit":  min(max_results, 100),
-            "offset": 0,
-        })
-        url = f"{_API_BASE}/notes/search?{params}"
-        req = urllib.request.Request(url, headers={"User-Agent": "ResearchScope/1.0"})
+    # ── internals ─────────────────────────────────────────────────────────────
 
-        try:
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                data = json.loads(resp.read())
-            notes = data.get("notes", [])
-        except Exception:
-            # Fall back to listing accepted notes directly
-            notes = self._fetch_accepted(group, max_results)
+    def _fetch_venue_all(self, venue_id: str) -> list[Paper]:
+        """Paginate through ALL notes with content.venueid == venue_id."""
+        venue_name, rank, year = _VENUES.get(venue_id, ("Unknown", "", 0))
+        notes: list[dict] = []
+        offset = 0
+
+        while True:
+            params = urllib.parse.urlencode({
+                "content.venueid": venue_id,
+                "limit": _BATCH,
+                "offset": offset,
+            })
+            data = self._get(f"{_API_BASE}/notes?{params}")
+            batch = data.get("notes", [])
+            notes.extend(batch)
+            if len(batch) < _BATCH:
+                break
+            offset += _BATCH
+            time.sleep(_DELAY)
 
         return [
-            p for p in (
-                self._note_to_paper(n, venue_name, rank, year) for n in notes
-            )
+            p for p in (self._note_to_paper(n, venue_name, rank, year) for n in notes)
             if p is not None
         ]
 
-    def _fetch_accepted(self, group: str, max_results: int) -> list[dict]:
-        """Fallback: fetch notes by venueid (returns accepted papers)."""
-        venue_name, rank, year = _GROUPS.get(group, ("Unknown", "", 0))
-        # venueid is the group ID for most OpenReview conferences
+    def _fetch_venue_search(self, query: str, venue_id: str, max_results: int) -> list[Paper]:
+        venue_name, rank, year = _VENUES.get(venue_id, ("Unknown", "", 0))
         params = urllib.parse.urlencode({
-            "content.venueid": group,
-            "limit": min(max_results, 100),
+            "term":   query,
+            "source": "forum",
+            "group":  venue_id,
+            "limit":  min(max_results, 100),
             "offset": 0,
         })
-        url = f"{_API_BASE}/notes?{params}"
+        try:
+            data  = self._get(f"{_API_BASE}/notes/search?{params}")
+            notes = data.get("notes", [])
+        except Exception:
+            # fallback: venueid query
+            notes = self._fetch_venue_all(venue_id)[:max_results]
+
+        return [
+            p for p in (self._note_to_paper(n, venue_name, rank, year) for n in notes)
+            if p is not None
+        ]
+
+    @staticmethod
+    def _get(url: str) -> dict:
         req = urllib.request.Request(url, headers={"User-Agent": "ResearchScope/1.0"})
         with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read())
-        return data.get("notes", [])
+            return json.loads(resp.read())
 
     def _note_to_paper(
         self,
@@ -117,7 +149,6 @@ class OpenReviewConnector(BaseConnector):
 
         def val(key: str) -> Any:
             v = content.get(key, "")
-            # OpenReview v2 wraps values: {"value": ...}
             return v.get("value", "") if isinstance(v, dict) else v
 
         title = str(val("title") or "").strip()

@@ -34,7 +34,9 @@ from src.aggregation.aggregator import Aggregator
 from src.clustering.clusterer import TopicClusterer
 from src.connectors.acl_connector import ACLAnthologyConnector
 from src.connectors.arxiv_connector import ArxivConnector
+from src.connectors.cvf_connector import CVFConnector
 from src.connectors.openreview_connector import OpenReviewConnector
+from src.connectors.pmlr_connector import PMLRConnector
 from src.connectors.semantic_scholar_connector import SemanticScholarConnector
 from src.content.generator import ContentGenerator, EditorialQueue
 from src.dedup.deduplicator import Deduplicator
@@ -191,30 +193,60 @@ def run_pipeline(
             all_papers.extend(fetched)
 
     if not skip_conferences or conferences_only:
-        # Semantic Scholar — ICLR, NeurIPS, ICML, AAAI, IJCAI, CVPR, ICCV, ECCV, CHI
-        s2 = SemanticScholarConnector()
-        conf_queries = queries[:4]  # use top 4 queries to keep runtime reasonable
-        for query in conf_queries:
-            log.info("  [s2-conferences] '%s' …", query)
+        if conferences_only:
+            # ── Conference-sync mode: fetch ALL papers directly from proceedings ──
+            log.info("  [openreview] fetching ALL papers (ICLR, NeurIPS, COLM) …")
             try:
-                fetched = s2.fetch(query, max_results=max_results_per_query)
+                fetched = OpenReviewConnector().fetch_all()
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
             except Exception as exc:
-                log.warning("  [s2-conferences] fetch failed for '%s': %s", query, exc)
-                fetched = []
-            log.info("    → %d papers", len(fetched))
-            all_papers.extend(fetched)
+                log.warning("  [openreview] fetch_all failed: %s", exc)
 
-        # OpenReview — COLM
-        or_conn = OpenReviewConnector()
-        for query in conf_queries:
-            log.info("  [openreview] '%s' …", query)
+            log.info("  [pmlr] fetching ALL papers (ICML) …")
             try:
-                fetched = or_conn.fetch(query, max_results=max_results_per_query)
+                fetched = PMLRConnector().fetch_all()
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
             except Exception as exc:
-                log.warning("  [openreview] fetch failed for '%s': %s", query, exc)
-                fetched = []
-            log.info("    → %d papers", len(fetched))
-            all_papers.extend(fetched)
+                log.warning("  [pmlr] fetch_all failed: %s", exc)
+
+            log.info("  [cvf] fetching ALL papers (CVPR, ICCV, ECCV) …")
+            try:
+                fetched = CVFConnector().fetch_all()
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
+            except Exception as exc:
+                log.warning("  [cvf] fetch_all failed: %s", exc)
+
+            # Semantic Scholar — AAAI, IJCAI, CHI (no good direct proceedings API)
+            log.info("  [s2] fetching AAAI, IJCAI, CHI …")
+            s2 = SemanticScholarConnector(venues=["AAAI", "IJCAI", "CHI"])
+            conf_queries = queries[:3]
+            for query in conf_queries:
+                try:
+                    fetched = s2.fetch(query, max_results=max_results_per_query)
+                    log.info("    [s2] '%s' → %d papers", query, len(fetched))
+                    all_papers.extend(fetched)
+                except Exception as exc:
+                    log.warning("  [s2] '%s' failed: %s", query, exc)
+
+        else:
+            # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──
+            conf_queries = queries[:4]
+            for query in conf_queries:
+                for connector, name in [
+                    (OpenReviewConnector(), "openreview"),
+                    (SemanticScholarConnector(venues=["AAAI","IJCAI","CHI"]), "s2"),
+                ]:
+                    log.info("  [%s] '%s' …", name, query)
+                    try:
+                        fetched = connector.fetch(query, max_results=max_results_per_query)
+                    except Exception as exc:
+                        log.warning("  [%s] '%s' failed: %s", name, query, exc)
+                        fetched = []
+                    log.info("    → %d papers", len(fetched))
+                    all_papers.extend(fetched)
 
     log.info("Fetched %d papers total (before dedup)", len(all_papers))
 
