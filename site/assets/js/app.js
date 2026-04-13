@@ -343,6 +343,22 @@ function initSearch() {
   });
 }
 
+// ── GitHub Star count ─────────────────────────────────────────────────
+async function initStarCount() {
+  try {
+    const res = await fetch('https://api.github.com/repos/kishormorol/ResearchScope');
+    if (!res.ok) return;
+    const data = await res.json();
+    const count = data.stargazers_count ?? 0;
+    const label = count >= 1000
+      ? (count / 1000).toFixed(1).replace(/\.0$/, '') + 'k'
+      : String(count);
+    document.querySelectorAll('.github-star-count').forEach(el => {
+      el.textContent = label;
+    });
+  } catch (_) { /* silently fail — button still works without count */ }
+}
+
 // ── Paper of the Day ──────────────────────────────────────────────────
 function pickPaperOfTheDay(papers, poolSize = 150) {
   if (!papers || !papers.length) return null;
@@ -424,6 +440,7 @@ function copyPotdLink(url, btn) {
 // ── Init ───────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initStarCount();
   const toggle = document.getElementById('theme-toggle');
   if (toggle) toggle.addEventListener('click', toggleTheme);
 
