@@ -21,6 +21,10 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: push-to-main
+  cancel-in-progress: false
+
 jobs:
   conference-sync:
     runs-on: ubuntu-latest
