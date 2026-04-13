@@ -152,7 +152,7 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+# /site  -- disabled: ResearchScope uses site/ for frontend
 
 # mypy
 .mypy_cache/
@@ -205,3 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# ResearchScope generated data (keep .gitkeep, ignore JSON outputs)
+data/*.json

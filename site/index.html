@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResearchScope – Track What Matters in CS Research</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────────────────────── -->
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">
+        🔭 ResearchScope
+      </a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html"       class="rs-nav-link">Home</a>
+        <a href="papers.html"      class="rs-nav-link">Papers</a>
+        <a href="topics.html"      class="rs-nav-link">Topics</a>
+        <a href="conferences.html" class="rs-nav-link">Conferences</a>
+        <a href="authors.html"     class="rs-nav-link">Authors</a>
+        <a href="labs.html"        class="rs-nav-link">Labs</a>
+        <a href="gaps.html"        class="rs-nav-link">Research Gaps</a>
+      </div>
+      <button id="theme-toggle" aria-label="Toggle theme">
+        <span id="theme-icon">🌙</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────────────────────── -->
+<section class="hero-gradient text-white py-20 px-4">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight">
+      Track What Matters in CS Research
+    </h1>
+    <p class="text-lg sm:text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
+      ResearchScope aggregates papers from arXiv and ACL Anthology, scores them by
+      relevance, detects emerging trends, and surfaces research gaps — updated daily.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a href="papers.html"
+         class="bg-white text-indigo-700 font-semibold px-6 py-2.5 rounded-lg hover:bg-indigo-50 transition">
+        Browse Papers
+      </a>
+      <a href="gaps.html"
+         class="border border-white text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-white/10 transition">
+        Explore Gaps
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Stats bar ────────────────────────────────────────────────────── -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-10">
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <div class="stat-card">
+      <div class="stat-value" id="stat-papers">–</div>
+      <div class="stat-label">Papers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-topics">–</div>
+      <div class="stat-label">Topics</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-authors">–</div>
+      <div class="stat-label">Authors</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="stat-gaps">–</div>
+      <div class="stat-label">Research Gaps</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Top Papers ────────────────────────────────────────────────────── -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+  <h2 class="text-xl font-bold mb-4">🏆 Top Papers by Score</h2>
+  <div id="top-papers-container"><div class="spinner"></div></div>
+</section>
+
+<!-- ── Featured Topics ──────────────────────────────────────────────── -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+  <h2 class="text-xl font-bold mb-4">🗂 Featured Topics</h2>
+  <div id="topics-container" class="flex flex-wrap gap-2"></div>
+</section>
+
+<!-- ── Recent Papers ────────────────────────────────────────────────── -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+  <h2 class="text-xl font-bold mb-4">🕒 Recent Papers</h2>
+  <div id="recent-papers-container"><div class="spinner"></div></div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────────── -->
+<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence · Updated daily via GitHub Actions
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+(async () => {
+  await loadStats();
+
+  // Top papers
+  const papers = await fetchData('/data/papers.json');
+  if (!papers || !papers.length) {
+    showEmpty('top-papers-container');
+    showEmpty('recent-papers-container');
+  } else {
+    const sorted = [...papers].sort((a, b) => (b.read_first_score || 0) - (a.read_first_score || 0));
+    document.getElementById('top-papers-container').innerHTML =
+      sorted.slice(0, 5).map(renderPaperCard).join('');
+
+    const recent = [...papers].sort((a, b) => (b.year || 0) - (a.year || 0));
+    document.getElementById('recent-papers-container').innerHTML =
+      recent.slice(0, 5).map(renderPaperCard).join('');
+  }
+
+  // Topics
+  const topics = await fetchData('/data/topics.json');
+  const topicsEl = document.getElementById('topics-container');
+  if (topics && topics.length) {
+    topicsEl.innerHTML = topics.slice(0, 20).map(t =>
+      `<a href="topics.html" class="topic-chip">
+         ${escHtml(t.name)}
+         <span class="ml-1 opacity-60 text-xs">${t.paper_ids ? t.paper_ids.length : 0}</span>
+       </a>`
+    ).join('');
+  } else {
+    topicsEl.innerHTML = '<p style="color:var(--rs-muted)">No topics yet.</p>';
+  }
+})();
+</script>
+</body>
+</html>

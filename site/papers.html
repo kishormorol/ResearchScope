@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Papers – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html" class="active">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs</a>
+        <a href="gaps.html">Research Gaps</a>
+      </div>
+      <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-2xl font-bold mb-6">📄 Papers</h1>
+
+  <!-- Filters -->
+  <div class="rs-card p-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+      <input id="search-input" class="rs-input sm:col-span-2" type="text"
+             placeholder="Search title, abstract, author…"/>
+      <select id="filter-tag"        class="rs-select">
+        <option value="">All Tags</option>
+      </select>
+      <select id="filter-difficulty" class="rs-select">
+        <option value="">All Difficulties</option>
+        <option value="beginner">Beginner</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+      <select id="filter-year" class="rs-select">
+        <option value="">All Years</option>
+      </select>
+      <select id="filter-source" class="rs-select">
+        <option value="">All Sources</option>
+        <option value="arxiv">arXiv</option>
+        <option value="acl_anthology">ACL Anthology</option>
+      </select>
+      <select id="sort-by" class="rs-select">
+        <option value="score">Sort: Score</option>
+        <option value="year">Sort: Year</option>
+        <option value="citations">Sort: Citations</option>
+        <option value="title">Sort: Title</option>
+      </select>
+    </div>
+  </div>
+
+  <p id="result-count" class="text-sm mb-3" style="color:var(--rs-muted)"></p>
+
+  <!-- Table -->
+  <div class="rs-card overflow-hidden">
+    <table class="rs-table" id="papers-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th class="hidden sm:table-cell">Authors</th>
+          <th class="hidden md:table-cell">Venue / Year</th>
+          <th>Tags</th>
+          <th>Difficulty</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="papers-body">
+        <tr><td colspan="6"><div class="spinner"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allPapers = [];
+
+function renderRows(papers) {
+  const tbody = document.getElementById('papers-body');
+  document.getElementById('result-count').textContent =
+    `Showing ${papers.length} paper${papers.length !== 1 ? 's' : ''}`;
+
+  if (!papers.length) {
+    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No papers match your filters.</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = papers.map((p, i) => {
+    const authors = (p.authors || []).slice(0, 2).join(', ');
+    const moreAuthors = (p.authors || []).length > 2 ? ` +${p.authors.length - 2}` : '';
+    return `
+    <tr class="cursor-pointer" onclick="toggleDetail(${i})">
+      <td>
+        <a href="${escHtml(p.url)}" target="_blank" rel="noopener"
+           class="font-medium hover:text-indigo-600 transition-colors"
+           onclick="event.stopPropagation()">
+          ${escHtml(p.title)}
+        </a>
+      </td>
+      <td class="hidden sm:table-cell text-sm" style="color:var(--rs-muted)">
+        ${escHtml(authors)}${escHtml(moreAuthors)}
+      </td>
+      <td class="hidden md:table-cell text-sm" style="color:var(--rs-muted)">
+        ${escHtml(p.venue || '')} ${p.year || ''}
+      </td>
+      <td>${tagChips((p.tags || []).slice(0, 3))}</td>
+      <td>${difficultyBadge(p.difficulty)}</td>
+      <td>${scoreBadge(p.read_first_score)}</td>
+    </tr>
+    <tr class="detail-row" id="detail-${i}">
+      <td colspan="6">
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Abstract</p>
+            <p class="text-sm leading-relaxed">${escHtml(p.abstract || 'No abstract available.')}</p>
+          </div>
+          <div class="space-y-3">
+            ${p.why_it_matters ? `
+            <div>
+              <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Why It Matters</p>
+              <p class="text-sm leading-relaxed">${escHtml(p.why_it_matters)}</p>
+            </div>` : ''}
+            ${p.limitations && p.limitations.length ? `
+            <div>
+              <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Limitations</p>
+              <ul class="text-sm list-disc list-inside space-y-0.5">
+                ${p.limitations.map(l => `<li>${escHtml(l)}</li>`).join('')}
+              </ul>
+            </div>` : ''}
+            ${p.pdf_url ? `
+            <a href="${escHtml(p.pdf_url)}" target="_blank" rel="noopener"
+               class="inline-flex items-center gap-1 text-indigo-600 text-sm font-medium hover:underline">
+              📄 View PDF
+            </a>` : ''}
+          </div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+let currentFiltered = [];
+function toggleDetail(i) {
+  const row = document.getElementById(`detail-${i}`);
+  if (row) row.classList.toggle('open');
+}
+
+function applyFilters() {
+  const q      = document.getElementById('search-input').value.toLowerCase();
+  const tag    = document.getElementById('filter-tag').value;
+  const diff   = document.getElementById('filter-difficulty').value;
+  const year   = document.getElementById('filter-year').value;
+  const source = document.getElementById('filter-source').value;
+  const sort   = document.getElementById('sort-by').value;
+
+  let filtered = allPapers.filter(p => {
+    if (q && !['title','abstract','authors'].some(f => (Array.isArray(p[f]) ? p[f].join(' ') : (p[f]||'')).toLowerCase().includes(q))) return false;
+    if (tag    && !(p.tags || []).includes(tag))        return false;
+    if (diff   && p.difficulty !== diff)                return false;
+    if (year   && String(p.year) !== year)              return false;
+    if (source && p.source !== source)                  return false;
+    return true;
+  });
+
+  filtered.sort((a, b) => {
+    if (sort === 'score')     return (b.read_first_score || 0) - (a.read_first_score || 0);
+    if (sort === 'year')      return (b.year || 0) - (a.year || 0);
+    if (sort === 'citations') return (b.citations || 0) - (a.citations || 0);
+    if (sort === 'title')     return (a.title || '').localeCompare(b.title || '');
+    return 0;
+  });
+
+  currentFiltered = filtered;
+  renderRows(filtered);
+}
+
+const debouncedFilter = debounce(applyFilters, 200);
+
+(async () => {
+  const papers = await fetchData('/data/papers.json');
+  if (!papers || !papers.length) {
+    showEmpty('papers-body');
+    return;
+  }
+  allPapers = papers;
+
+  // Populate tag filter
+  const tagSet = new Set(papers.flatMap(p => p.tags || []));
+  const tagSel = document.getElementById('filter-tag');
+  [...tagSet].sort().forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    tagSel.appendChild(opt);
+  });
+
+  // Populate year filter
+  const yearSet = new Set(papers.map(p => p.year).filter(Boolean));
+  const yearSel = document.getElementById('filter-year');
+  [...yearSet].sort((a,b) => b - a).forEach(y => {
+    const opt = document.createElement('option');
+    opt.value = y; opt.textContent = y;
+    yearSel.appendChild(opt);
+  });
+
+  ['search-input','filter-tag','filter-difficulty','filter-year','filter-source','sort-by']
+    .forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', debouncedFilter);
+    });
+
+  applyFilters();
+})();
+</script>
+</body>
+</html>

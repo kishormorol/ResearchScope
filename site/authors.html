@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Authors – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="authors.html" class="active">Authors</a>
+        <a href="labs.html">Labs</a>
+        <a href="gaps.html">Research Gaps</a>
+      </div>
+      <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <h1 class="text-2xl font-bold">👤 Author Intelligence</h1>
+    <div class="flex gap-2">
+      <input id="search-input" class="rs-input" type="text" placeholder="Search authors…"/>
+      <select id="sort-by" class="rs-select">
+        <option value="papers">Sort: Papers</option>
+        <option value="momentum">Sort: Momentum</option>
+        <option value="hindex">Sort: h-index</option>
+        <option value="name">Sort: Name</option>
+      </select>
+    </div>
+  </div>
+
+  <p id="result-count" class="text-sm mb-4" style="color:var(--rs-muted)"></p>
+  <div id="authors-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="spinner" style="grid-column:1/-1"></div>
+  </div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allAuthors = [];
+
+function renderAuthorCard(a) {
+  const momentum = (a.momentum_score * 100).toFixed(0);
+  const topics = (a.top_topics || []).slice(0, 4).map(t =>
+    `<span class="badge badge-tag">${escHtml(t)}</span>`).join(' ');
+  const affiliations = (a.affiliations || []).slice(0,2).join(', ');
+
+  return `
+  <div class="rs-card p-5 flex flex-col gap-3">
+    <div class="flex items-start justify-between">
+      <div>
+        <h3 class="font-semibold">${escHtml(a.name)}</h3>
+        ${affiliations ? `<p class="text-sm mt-0.5" style="color:var(--rs-muted)">${escHtml(affiliations)}</p>` : ''}
+      </div>
+      <span class="badge badge-score">📈 ${momentum}%</span>
+    </div>
+    <div class="grid grid-cols-2 gap-2 text-sm">
+      <div class="text-center p-2 rounded" style="background:var(--rs-bg)">
+        <div class="font-bold text-lg text-indigo-600">${(a.paper_ids || []).length}</div>
+        <div style="color:var(--rs-muted)">Papers</div>
+      </div>
+      <div class="text-center p-2 rounded" style="background:var(--rs-bg)">
+        <div class="font-bold text-lg text-indigo-600">${a.h_index || 0}</div>
+        <div style="color:var(--rs-muted)">h-index</div>
+      </div>
+    </div>
+    ${topics ? `<div class="flex flex-wrap gap-1">${topics}</div>` : ''}
+  </div>`;
+}
+
+function renderGrid(authors) {
+  const grid = document.getElementById('authors-grid');
+  document.getElementById('result-count').textContent =
+    `Showing ${authors.length} author${authors.length !== 1 ? 's' : ''}`;
+  if (!authors.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No authors match.</p></div>`;
+  } else {
+    grid.innerHTML = authors.map(renderAuthorCard).join('');
+  }
+}
+
+function applyFilters() {
+  const q    = document.getElementById('search-input').value.toLowerCase();
+  const sort = document.getElementById('sort-by').value;
+  let filtered = allAuthors.filter(a =>
+    !q || (a.name || '').toLowerCase().includes(q) ||
+    (a.affiliations || []).join(' ').toLowerCase().includes(q)
+  );
+  filtered.sort((a, b) => {
+    if (sort === 'papers')   return (b.paper_ids||[]).length - (a.paper_ids||[]).length;
+    if (sort === 'momentum') return (b.momentum_score||0) - (a.momentum_score||0);
+    if (sort === 'hindex')   return (b.h_index||0) - (a.h_index||0);
+    if (sort === 'name')     return (a.name||'').localeCompare(b.name||'');
+    return 0;
+  });
+  renderGrid(filtered);
+}
+
+(async () => {
+  const authors = await fetchData('/data/authors.json');
+  if (!authors || !authors.length) {
+    showEmpty('authors-grid');
+    return;
+  }
+  allAuthors = authors;
+  applyFilters();
+
+  ['search-input','sort-by'].forEach(id => {
+    document.getElementById(id).addEventListener('input', debounce(applyFilters, 200));
+  });
+})();
+</script>
+</body>
+</html>

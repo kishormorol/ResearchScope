@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conferences – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="conferences.html" class="active">Conferences</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs</a>
+        <a href="gaps.html">Research Gaps</a>
+      </div>
+      <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-2xl font-bold mb-6">🏛 Conference Explorer</h1>
+
+  <!-- Tabs -->
+  <div class="flex gap-2 mb-6 border-b" style="border-color:var(--rs-border)">
+    <button class="conf-tab px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600"
+            data-source="arxiv">arXiv</button>
+    <button class="conf-tab px-4 py-2 text-sm font-semibold border-b-2 border-transparent"
+            style="color:var(--rs-muted)" data-source="acl_anthology">ACL Anthology</button>
+    <span class="ml-auto text-xs self-center" style="color:var(--rs-muted)">
+      Future: NeurIPS, ICLR, ICML…
+    </span>
+  </div>
+
+  <div id="conf-content"><div class="spinner"></div></div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allPapers = [];
+let activeSource = 'arxiv';
+
+function renderConference(source) {
+  const filtered = allPapers.filter(p => p.source === source);
+  const container = document.getElementById('conf-content');
+
+  if (!filtered.length) {
+    container.innerHTML = `<div class="empty-state"><p>No papers from this source yet.</p></div>`;
+    return;
+  }
+
+  // Theme chips
+  const tagCount = {};
+  filtered.forEach(p => (p.tags || []).forEach(t => { tagCount[t] = (tagCount[t] || 0) + 1; }));
+  const topTags = Object.entries(tagCount).sort((a,b) => b[1]-a[1]).slice(0, 10);
+
+  const topPapers = [...filtered]
+    .sort((a,b) => (b.read_first_score || 0) - (a.read_first_score || 0))
+    .slice(0, 10);
+
+  container.innerHTML = `
+    <div class="mb-6">
+      <h3 class="font-semibold mb-2">🔖 Top Themes</h3>
+      <div class="flex flex-wrap gap-2">
+        ${topTags.map(([t,c]) => `
+          <span class="topic-chip">${escHtml(t)} <span class="opacity-60">${c}</span></span>
+        `).join('')}
+      </div>
+    </div>
+    <h3 class="font-semibold mb-3">⭐ Top Papers</h3>
+    <div class="rs-card overflow-hidden">
+      <table class="rs-table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th class="hidden sm:table-cell">Authors</th>
+            <th class="hidden md:table-cell">Year</th>
+            <th>Tags</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${topPapers.map(p => `
+          <tr>
+            <td>
+              <a href="${escHtml(p.url)}" target="_blank" rel="noopener"
+                 class="font-medium hover:text-indigo-600 transition-colors">
+                ${escHtml(p.title)}
+              </a>
+            </td>
+            <td class="hidden sm:table-cell text-sm" style="color:var(--rs-muted)">
+              ${escHtml((p.authors || []).slice(0,2).join(', '))}
+            </td>
+            <td class="hidden md:table-cell text-sm" style="color:var(--rs-muted)">${p.year || ''}</td>
+            <td>${tagChips((p.tags || []).slice(0,2))}</td>
+            <td>${scoreBadge(p.read_first_score)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <p class="text-sm mt-3" style="color:var(--rs-muted)">
+      Showing top 10 of ${filtered.length} papers from this source.
+      <a href="papers.html" class="text-indigo-600 hover:underline">See all →</a>
+    </p>`;
+}
+
+document.querySelectorAll('.conf-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.conf-tab').forEach(b => {
+      b.classList.remove('border-indigo-600', 'text-indigo-600');
+      b.classList.add('border-transparent');
+      b.style.color = 'var(--rs-muted)';
+    });
+    btn.classList.add('border-indigo-600', 'text-indigo-600');
+    btn.classList.remove('border-transparent');
+    btn.style.color = '';
+    activeSource = btn.dataset.source;
+    renderConference(activeSource);
+  });
+});
+
+(async () => {
+  const papers = await fetchData('/data/papers.json');
+  if (!papers || !papers.length) {
+    showEmpty('conf-content');
+    return;
+  }
+  allPapers = papers;
+  renderConference(activeSource);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Labs – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html" class="active">Labs</a>
+        <a href="gaps.html">Research Gaps</a>
+      </div>
+      <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <h1 class="text-2xl font-bold mb-2">🏫 Labs &amp; Universities</h1>
+  <p class="mb-6 text-sm" style="color:var(--rs-muted)">
+    Lab and university data will be automatically populated as author affiliation
+    extraction is added to the pipeline. Shown below are placeholder cards.
+  </p>
+
+  <div id="labs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div class="spinner" style="grid-column:1/-1"></div>
+  </div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+function renderLabCard(lab) {
+  const momentum = ((lab.momentum_score || 0) * 100).toFixed(0);
+  const topics = (lab.top_topics || []).slice(0, 4).map(t =>
+    `<span class="badge badge-tag">${escHtml(t)}</span>`).join(' ');
+  return `
+  <div class="rs-card p-5 flex flex-col gap-3">
+    <div class="flex items-start justify-between">
+      <div>
+        <h3 class="font-semibold">${escHtml(lab.name)}</h3>
+        ${lab.university ? `<p class="text-sm mt-0.5" style="color:var(--rs-muted)">${escHtml(lab.university)}</p>` : ''}
+      </div>
+      <span class="badge badge-score">📈 ${momentum}%</span>
+    </div>
+    <div class="text-center p-2 rounded" style="background:var(--rs-bg)">
+      <div class="font-bold text-lg text-indigo-600">${(lab.paper_ids || []).length}</div>
+      <div class="text-sm" style="color:var(--rs-muted)">Papers</div>
+    </div>
+    ${topics ? `<div class="flex flex-wrap gap-1">${topics}</div>` : ''}
+  </div>`;
+}
+
+(async () => {
+  const labs = await fetchData('/data/labs.json');
+  const grid = document.getElementById('labs-grid');
+  if (!labs || !labs.length) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <p class="text-lg font-medium">No lab data yet</p>
+        <p class="text-sm mt-1">
+          Lab data will appear here once author affiliation extraction is
+          implemented in the pipeline. Check back after the next update.
+        </p>
+      </div>`;
+    return;
+  }
+  grid.innerHTML = labs.map(renderLabCard).join('');
+})();
+</script>
+</body>
+</html>

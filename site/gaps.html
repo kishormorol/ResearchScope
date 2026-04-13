@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Research Gaps – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs</a>
+        <a href="gaps.html" class="active">Research Gaps</a>
+      </div>
+      <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">🔬 Research Gaps</h1>
+      <p class="text-sm mt-1" style="color:var(--rs-muted)">
+        Automatically extracted from paper abstracts — limitations, open challenges,
+        and future directions waiting to be explored.
+      </p>
+    </div>
+    <div class="flex gap-2">
+      <input id="search-input" class="rs-input" type="text" placeholder="Search gaps…"/>
+      <select id="filter-topic" class="rs-select">
+        <option value="">All Topics</option>
+      </select>
+    </div>
+  </div>
+
+  <p id="result-count" class="text-sm mb-4" style="color:var(--rs-muted)"></p>
+  <div id="gaps-container"></div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allGaps = [];
+
+function renderGapCard(g) {
+  const projects = (g.suggested_projects || []).slice(0, 3);
+  const freq = g.frequency || 1;
+
+  return `
+  <div class="gap-card">
+    <div class="flex items-start justify-between flex-wrap gap-2 mb-3">
+      <div>
+        <span class="badge badge-tag mb-1">${escHtml(g.topic)}</span>
+        <h3 class="font-semibold mt-1 leading-snug">${escHtml(g.description)}</h3>
+      </div>
+      <span class="badge badge-score flex-shrink-0">
+        🔁 ${freq} paper${freq !== 1 ? 's' : ''}
+      </span>
+    </div>
+    ${projects.length ? `
+    <div>
+      <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">
+        💡 Suggested Beginner Projects
+      </p>
+      <ul class="space-y-1.5">
+        ${projects.map(pr => `
+          <li class="flex items-start gap-2 text-sm">
+            <span class="mt-0.5 flex-shrink-0">▸</span>
+            <span>${escHtml(pr)}</span>
+          </li>`).join('')}
+      </ul>
+    </div>` : ''}
+  </div>`;
+}
+
+function renderGaps(gaps) {
+  const container = document.getElementById('gaps-container');
+  document.getElementById('result-count').textContent =
+    `Showing ${gaps.length} gap${gaps.length !== 1 ? 's' : ''}`;
+  if (!gaps.length) {
+    container.innerHTML = `<div class="empty-state"><p>No gaps match your filters.</p></div>`;
+  } else {
+    container.innerHTML = gaps.map(renderGapCard).join('');
+  }
+}
+
+function applyFilters() {
+  const q     = document.getElementById('search-input').value.toLowerCase();
+  const topic = document.getElementById('filter-topic').value;
+  const filtered = allGaps.filter(g => {
+    if (topic && g.topic !== topic) return false;
+    if (q && !(g.topic + ' ' + g.description).toLowerCase().includes(q)) return false;
+    return true;
+  });
+  renderGaps(filtered);
+}
+
+(async () => {
+  const gaps = await fetchData('/data/gaps.json');
+  if (!gaps || !gaps.length) {
+    document.getElementById('gaps-container').innerHTML = `
+      <div class="empty-state">
+        <p class="text-lg font-medium">No research gaps detected yet</p>
+        <p class="text-sm mt-1">Run the pipeline to populate gap data.</p>
+      </div>`;
+    return;
+  }
+  allGaps = gaps;
+
+  // Populate topic filter
+  const topics = [...new Set(gaps.map(g => g.topic))].sort();
+  const topicSel = document.getElementById('filter-topic');
+  topics.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    topicSel.appendChild(opt);
+  });
+
+  renderGaps(gaps);
+
+  ['search-input', 'filter-topic'].forEach(id => {
+    document.getElementById(id).addEventListener('input', debounce(applyFilters, 200));
+  });
+})();
+</script>
+</body>
+</html>

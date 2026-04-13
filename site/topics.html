@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Topics – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html" class="active">Topics</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs</a>
+        <a href="gaps.html">Research Gaps</a>
+      </div>
+      <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold">🗂 Topics Explorer</h1>
+    <input id="search-input" class="rs-input w-64" type="text" placeholder="Search topics…"/>
+  </div>
+
+  <!-- Topic cards grid -->
+  <div id="topics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+    <div class="spinner" style="grid-column:1/-1"></div>
+  </div>
+
+  <!-- Prerequisite tree -->
+  <div id="prereq-section" class="hidden">
+    <h2 class="text-xl font-bold mb-4">🌳 Prerequisite Tree</h2>
+    <div id="prereq-tree" class="rs-card p-6"></div>
+  </div>
+</div>
+
+<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  ResearchScope — open-source research intelligence
+</footer>
+
+<script src="assets/js/app.js"></script>
+<script>
+let allTopics = [];
+
+const DIFF_ICON = { beginner: '🟢', intermediate: '🟡', advanced: '🔴' };
+
+function renderTopicCard(t) {
+  const icon = DIFF_ICON[t.difficulty] || '⚪';
+  const related = (t.related_topics || []).slice(0, 3).map(r =>
+    `<span class="badge badge-tag">${escHtml(r)}</span>`).join(' ');
+  const prereqs = (t.prerequisites || []).slice(0, 3).map(r =>
+    `<span class="badge" style="background:var(--rs-bg);border:1px solid var(--rs-border)">${escHtml(r)}</span>`
+  ).join(' ');
+
+  return `
+  <div class="rs-card p-5 flex flex-col gap-3">
+    <div class="flex items-start justify-between">
+      <h3 class="font-semibold text-base">${icon} ${escHtml(t.name)}</h3>
+      ${difficultyBadge(t.difficulty)}
+    </div>
+    <p class="text-sm" style="color:var(--rs-muted)">
+      📄 ${(t.paper_ids || []).length} papers
+    </p>
+    ${prereqs ? `<div><p class="text-xs font-semibold mb-1" style="color:var(--rs-muted)">PREREQUISITES</p><div class="flex flex-wrap gap-1">${prereqs}</div></div>` : ''}
+    ${related ? `<div><p class="text-xs font-semibold mb-1" style="color:var(--rs-muted)">RELATED</p><div class="flex flex-wrap gap-1">${related}</div></div>` : ''}
+    <a href="papers.html" class="text-indigo-600 text-sm font-medium hover:underline mt-auto">
+      View papers →
+    </a>
+  </div>`;
+}
+
+function renderPrereqTree(topics) {
+  const section = document.getElementById('prereq-section');
+  const tree    = document.getElementById('prereq-tree');
+  const withPrereqs = topics.filter(t => t.prerequisites && t.prerequisites.length);
+  if (!withPrereqs.length) return;
+  section.classList.remove('hidden');
+  tree.innerHTML = withPrereqs.map(t => `
+    <div class="mb-4">
+      <p class="font-semibold">${escHtml(t.name)}</p>
+      <div class="ml-4 mt-1 flex flex-wrap gap-2 items-center">
+        <span class="text-sm" style="color:var(--rs-muted)">requires →</span>
+        ${t.prerequisites.map(p => `<span class="badge badge-tag">${escHtml(p)}</span>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+function filterTopics(q) {
+  const filtered = q
+    ? allTopics.filter(t => t.name.toLowerCase().includes(q.toLowerCase()))
+    : allTopics;
+  const grid = document.getElementById('topics-grid');
+  if (!filtered.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No topics match.</p></div>`;
+  } else {
+    grid.innerHTML = filtered.map(renderTopicCard).join('');
+  }
+}
+
+(async () => {
+  const topics = await fetchData('/data/topics.json');
+  if (!topics || !topics.length) {
+    showEmpty('topics-grid');
+    return;
+  }
+  allTopics = topics;
+  filterTopics('');
+  renderPrereqTree(topics);
+
+  document.getElementById('search-input').addEventListener('input',
+    debounce(e => filterTopics(e.target.value), 200));
+})();
+</script>
+</body>
+</html>
