@@ -25,36 +25,134 @@ def _load_topics() -> dict[str, Any]:
     return {}
 
 
-# ── Built-in tag rules (pattern, human-readable tag) ─────────────────────────
+# ── Built-in tag rules (pattern → human-readable topic) ──────────────────────
+# Ordered from most specific to most general. Each paper can match multiple.
+# Avoid abbreviations — use full names throughout.
 
 _BUILTIN_RULES: list[tuple[str, str]] = [
-    (r"large language model|llm\b|gpt|chatgpt|instruction.tun|chat model",      "LLMs"),
-    (r"transformer|self[- ]attention|multi[- ]head attention|bert\b",             "Transformers"),
-    (r"diffusion model|denoising diffusion|score.based|ddpm|latent diffusion",    "Diffusion Models"),
-    (r"reinforcement learning|reward model|policy gradient|rlhf\b|dqn\b|ppo\b", "RL"),
-    (r"graph neural|graph convolution|knowledge graph|gcn\b|gat\b",              "GNN"),
-    (r"retrieval.augmented|retrieval augmented|rag\b|dense retrieval",            "RAG"),
-    (r"question answering|reading comprehension|qa\b",                            "QA"),
-    (r"machine translation|neural machine translation|nmt\b",                     "Translation"),
-    (r"named entity|relation extraction|information extraction",                  "IE"),
-    (r"sentiment analysis|opinion mining",                                        "Sentiment Analysis"),
-    (r"image generation|text.to.image|image synthesis|stable diffusion",         "Image Generation"),
-    (r"object detection|image classification|semantic segmentation|resnet\b",    "Computer Vision"),
-    (r"speech recognition|automatic speech|asr\b|whisper\b|text.to.speech",      "Speech"),
-    (r"code generation|program synthesis|code completion|codex\b|copilot",        "Code Generation"),
-    (r"federated learning",                                                        "Federated Learning"),
-    (r"continual learning|catastrophic forgetting|lifelong learning",              "Continual Learning"),
-    (r"few.shot|zero.shot|in.context learning|chain.of.thought|cot\b",            "Prompting"),
-    (r"knowledge distillation|model compression|pruning|quantiz",                 "Model Compression"),
-    (r"multimodal|vision.language|visual grounding|vqa\b|clip\b|llava\b",         "Multimodal"),
-    (r"summarization|abstractive summarization",                                   "Summarization"),
-    (r"deep learning|neural network|deep neural",                                  "Deep Learning"),
-    (r"natural language processing|text classification|text mining",               "NLP"),
-    (r"machine learning|gradient descent|supervised learning",                     "Machine Learning"),
-    (r"ai safety|alignment|hallucination|red teaming|constitutional ai",           "AI Safety & Alignment"),
-    (r"autonomous agent|agent framework|tool use|react\b.*agent|function calling", "AI Agents"),
-    (r"information retrieval|search engine|document ranking|bm25\b",              "Information Retrieval"),
-    (r"artificial intelligence\b",                                                 "Artificial Intelligence"),
+    # ── Large Language Models ──────────────────────────────────────────────────
+    (r"large language model|llm\b|gpt.?\d|chatgpt|chat model|instruction.tun|instruction follow",
+     "Large Language Models"),
+    (r"reasoning|chain.of.thought|cot\b|step.by.step reasoning|logical reasoning|math reasoning",
+     "Reasoning & Chain-of-Thought"),
+    (r"in.context learning|few.shot|zero.shot prompting|prompt engineering|prompt tuning",
+     "Prompting & In-Context Learning"),
+    (r"hallucination|factuality|grounding|faithfulness|factual consistency",
+     "Factuality & Hallucination"),
+    (r"long.context|extended context|context window|long document|context length",
+     "Long-Context Modeling"),
+    (r"mixture of experts|moe\b|sparse model|sparse activation",
+     "Mixture of Experts"),
+    (r"state space model|mamba\b|ssm\b|linear recurrence|selective state",
+     "State Space Models"),
+
+    # ── Fine-tuning & Alignment ────────────────────────────────────────────────
+    (r"reinforcement learning from human feedback|rlhf\b|reward model|preference learning|dpo\b|ppo\b.*align",
+     "RLHF & Preference Alignment"),
+    (r"fine.tun|lora\b|peft\b|adapter\b.*train|parameter.efficient",
+     "Fine-Tuning & PEFT"),
+    (r"ai safety|alignment|red teaming|constitutional ai|value alignment|jailbreak",
+     "AI Safety & Alignment"),
+
+    # ── Agents & Tool Use ─────────────────────────────────────────────────────
+    (r"autonomous agent|ai agent|agent framework|tool use|function calling|react\b.*agent|agentic",
+     "AI Agents & Tool Use"),
+    (r"retrieval.augmented generation|retrieval augmented|rag\b|dense retrieval|passage retrieval",
+     "Retrieval-Augmented Generation"),
+
+    # ── Multimodal ────────────────────────────────────────────────────────────
+    (r"vision.language model|visual language|vqa\b|clip\b|llava\b|visual question|image.text",
+     "Vision-Language Models"),
+    (r"multimodal|cross.modal|audio.visual|video.language|multi.modal",
+     "Multimodal Learning"),
+    (r"text.to.image|image generation|image synthesis|stable diffusion|dall.e|imagen\b",
+     "Text-to-Image Generation"),
+    (r"video generation|video understanding|video captioning|video question|temporal visual",
+     "Video Understanding & Generation"),
+
+    # ── Computer Vision ───────────────────────────────────────────────────────
+    (r"object detection|image classification|semantic segmentation|instance segmentation",
+     "Object Detection & Segmentation"),
+    (r"3d (understanding|reconstruction|generation|point cloud|scene)|nerf\b|gaussian splatting",
+     "3D Vision & Scene Understanding"),
+    (r"diffusion model|denoising diffusion|score.based generative|ddpm\b|latent diffusion",
+     "Diffusion Models"),
+
+    # ── NLP Core Tasks ────────────────────────────────────────────────────────
+    (r"machine translation|neural machine translation|nmt\b|low.resource translation",
+     "Machine Translation"),
+    (r"question answering|reading comprehension|open.domain qa|closed.book qa",
+     "Question Answering"),
+    (r"summarization|abstractive summarization|extractive summarization|document summarization",
+     "Text Summarization"),
+    (r"information extraction|named entity recognition|ner\b|relation extraction|event extraction",
+     "Information Extraction"),
+    (r"sentiment analysis|opinion mining|stance detection|aspect.based sentiment",
+     "Sentiment & Opinion Analysis"),
+    (r"text classification|document classification|intent detection|topic classification",
+     "Text Classification"),
+    (r"dialogue|conversation|chatbot|open.domain dialogue|task.oriented dialogue",
+     "Dialogue Systems"),
+    (r"text generation|natural language generation|nlg\b|story generation|data.to.text",
+     "Natural Language Generation"),
+    (r"information retrieval|document ranking|search engine|bm25\b|dense retrieval|neural ir",
+     "Information Retrieval"),
+
+    # ── Architectures ─────────────────────────────────────────────────────────
+    (r"transformer|self[- ]attention|multi[- ]head attention|attention mechanism",
+     "Transformer Architectures"),
+    (r"graph neural network|graph convolution|gnn\b|gcn\b|gat\b|message passing",
+     "Graph Neural Networks"),
+
+    # ── Training & Efficiency ─────────────────────────────────────────────────
+    (r"knowledge distillation|model compression|pruning|quantization|quantised",
+     "Model Compression & Efficiency"),
+    (r"federated learning|privacy.preserving|differential privacy|secure aggregation",
+     "Federated & Privacy-Preserving Learning"),
+    (r"continual learning|catastrophic forgetting|lifelong learning|incremental learning",
+     "Continual Learning"),
+    (r"contrastive learning|self.supervised|representation learning|pretraining|pre.training",
+     "Self-Supervised & Contrastive Learning"),
+    (r"reinforcement learning|reward shaping|policy gradient|q.learning|dqn\b|actor.critic",
+     "Reinforcement Learning"),
+
+    # ── Speech & Audio ────────────────────────────────────────────────────────
+    (r"speech recognition|automatic speech|asr\b|whisper\b|speech transcription",
+     "Speech Recognition"),
+    (r"text.to.speech|speech synthesis|tts\b|voice cloning|neural speech",
+     "Speech Synthesis"),
+
+    # ── Code & Software ───────────────────────────────────────────────────────
+    (r"code generation|program synthesis|code completion|codex\b|copilot|software engineer.*agent",
+     "Code Generation & Synthesis"),
+
+    # ── Domain Applications ───────────────────────────────────────────────────
+    (r"biomedical|clinical|medical nlp|electronic health|drug discovery|genomic|protein",
+     "Biomedical & Clinical AI"),
+    (r"legal (nlp|ai|text|document)|contract analysis|legal reasoning",
+     "Legal AI"),
+    (r"robotic|embodied (ai|agent)|manipulation|navigation.*robot|sim.to.real",
+     "Robotics & Embodied AI"),
+    (r"table (understanding|qa|parsing)|structured (data|prediction)|tabular",
+     "Structured Data & Tables"),
+    (r"document (understanding|layout|parsing)|ocr\b|visually rich document",
+     "Document Understanding"),
+    (r"knowledge graph|ontology|knowledge base|entity link|wikidata\b|knowledge representation",
+     "Knowledge Graphs & Representation"),
+
+    # ── Evaluation & Robustness ───────────────────────────────────────────────
+    (r"adversarial (attack|example|robustness|training)|robust(ness)? to",
+     "Adversarial Robustness"),
+    (r"bias|fairness|gender bias|racial bias|toxic|hate speech|social bias",
+     "Bias, Fairness & Ethics"),
+    (r"interpretab|explainab|attention visuali|saliency|feature importance",
+     "Interpretability & Explainability"),
+    (r"benchmark|evaluation framework|leaderboard|human evaluation|automatic evaluation",
+     "Benchmarking & Evaluation"),
+
+    # ── Embeddings ────────────────────────────────────────────────────────────
+    (r"word embedding|sentence embedding|text embedding|semantic similarity|dense vector",
+     "Text Embeddings & Semantic Similarity"),
 ]
 
 _COMPILED_TAGS: list[tuple[re.Pattern[str], str]] = [
