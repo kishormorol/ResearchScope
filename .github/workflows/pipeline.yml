@@ -1,5 +1,8 @@
 name: Daily arXiv Pipeline
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   schedule:
     # Run daily at 06:00 UTC — after arXiv's nightly announcement (~05:00 UTC)

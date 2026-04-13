@@ -1,5 +1,8 @@
 name: Monthly Conference Sync
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 # Conferences publish once a year — syncing monthly is more than enough.
 # Papers accumulate in papers_db.json and persist across daily arXiv runs.
 
