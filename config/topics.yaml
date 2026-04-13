@@ -1,0 +1,313 @@
+# Topic taxonomy for ResearchScope.
+# Each topic has:
+#   - keywords: matched against title+abstract (case-insensitive)
+#   - difficulty: L1 | L2 | L3 | L4
+#   - prerequisites: list of topic IDs
+#   - paper_types: typical paper types in this topic
+
+topics:
+  llms:
+    name: "Large Language Models"
+    keywords:
+      - large language model
+      - llm
+      - gpt
+      - chatgpt
+      - instruction tuning
+      - chat model
+      - language model alignment
+      - constitutional ai
+    difficulty: L2
+    prerequisites: [transformers, nlp_basics]
+    paper_types: [methods, benchmark, empirical, survey]
+
+  transformers:
+    name: "Transformers"
+    keywords:
+      - transformer
+      - self-attention
+      - multi-head attention
+      - bert
+      - attention mechanism
+      - encoder-decoder
+    difficulty: L2
+    prerequisites: [deep_learning, nlp_basics]
+    paper_types: [methods, theory, benchmark]
+
+  diffusion_models:
+    name: "Diffusion Models"
+    keywords:
+      - diffusion model
+      - denoising diffusion
+      - score-based
+      - ddpm
+      - stable diffusion
+      - latent diffusion
+    difficulty: L3
+    prerequisites: [deep_learning, generative_models]
+    paper_types: [methods, theory, benchmark]
+
+  rl:
+    name: "Reinforcement Learning"
+    keywords:
+      - reinforcement learning
+      - reward model
+      - policy gradient
+      - rlhf
+      - ppo
+      - dqn
+      - q-learning
+      - reward shaping
+    difficulty: L3
+    prerequisites: [machine_learning]
+    paper_types: [methods, theory, benchmark, empirical]
+
+  rag:
+    name: "Retrieval-Augmented Generation"
+    keywords:
+      - retrieval-augmented
+      - retrieval augmented
+      - rag
+      - dense retrieval
+      - knowledge retrieval
+    difficulty: L2
+    prerequisites: [llms, information_retrieval]
+    paper_types: [methods, benchmark, systems]
+
+  gnn:
+    name: "Graph Neural Networks"
+    keywords:
+      - graph neural
+      - graph convolution
+      - knowledge graph
+      - graph transformer
+      - gcn
+      - gat
+    difficulty: L3
+    prerequisites: [deep_learning, machine_learning]
+    paper_types: [methods, theory, benchmark]
+
+  multimodal:
+    name: "Multimodal AI"
+    keywords:
+      - multimodal
+      - vision-language
+      - visual grounding
+      - image-text
+      - vqa
+      - visual question answering
+      - clip
+      - llava
+    difficulty: L2
+    prerequisites: [transformers, computer_vision]
+    paper_types: [methods, benchmark, empirical]
+
+  computer_vision:
+    name: "Computer Vision"
+    keywords:
+      - object detection
+      - image classification
+      - semantic segmentation
+      - convolutional
+      - resnet
+      - visual recognition
+    difficulty: L2
+    prerequisites: [deep_learning]
+    paper_types: [methods, benchmark, dataset]
+
+  nlp_basics:
+    name: "NLP"
+    keywords:
+      - natural language processing
+      - text classification
+      - named entity
+      - relation extraction
+      - information extraction
+      - text mining
+    difficulty: L1
+    prerequisites: [machine_learning]
+    paper_types: [methods, dataset, benchmark, survey]
+
+  code_generation:
+    name: "Code Generation"
+    keywords:
+      - code generation
+      - program synthesis
+      - code completion
+      - codex
+      - copilot
+      - code llm
+    difficulty: L2
+    prerequisites: [llms]
+    paper_types: [methods, benchmark, empirical]
+
+  speech:
+    name: "Speech & Audio"
+    keywords:
+      - speech recognition
+      - automatic speech
+      - asr
+      - text-to-speech
+      - tts
+      - whisper
+      - speaker
+    difficulty: L2
+    prerequisites: [deep_learning]
+    paper_types: [methods, benchmark, dataset]
+
+  model_compression:
+    name: "Model Compression"
+    keywords:
+      - knowledge distillation
+      - model compression
+      - pruning
+      - quantization
+      - efficient
+      - lightweight
+    difficulty: L2
+    prerequisites: [deep_learning]
+    paper_types: [methods, systems, empirical]
+
+  federated_learning:
+    name: "Federated Learning"
+    keywords:
+      - federated learning
+      - federated
+      - privacy-preserving
+      - distributed training
+    difficulty: L3
+    prerequisites: [machine_learning]
+    paper_types: [methods, systems, theory]
+
+  continual_learning:
+    name: "Continual Learning"
+    keywords:
+      - continual learning
+      - catastrophic forgetting
+      - lifelong learning
+      - incremental learning
+    difficulty: L3
+    prerequisites: [deep_learning, machine_learning]
+    paper_types: [methods, benchmark, theory]
+
+  prompting:
+    name: "Prompting & In-Context Learning"
+    keywords:
+      - few-shot
+      - zero-shot
+      - in-context learning
+      - prompt
+      - chain-of-thought
+      - cot
+    difficulty: L1
+    prerequisites: [llms]
+    paper_types: [methods, empirical, benchmark]
+
+  deep_learning:
+    name: "Deep Learning"
+    keywords:
+      - deep learning
+      - neural network
+      - backpropagation
+      - deep neural
+    difficulty: L2
+    prerequisites: [machine_learning]
+    paper_types: [methods, theory, survey]
+
+  machine_learning:
+    name: "Machine Learning"
+    keywords:
+      - machine learning
+      - gradient descent
+      - overfitting
+      - generalisation
+      - supervised learning
+    difficulty: L1
+    prerequisites: []
+    paper_types: [methods, theory, survey, benchmark]
+
+  generative_models:
+    name: "Generative Models"
+    keywords:
+      - generative model
+      - image generation
+      - text-to-image
+      - image synthesis
+      - gan
+      - vae
+      - variational autoencoder
+    difficulty: L2
+    prerequisites: [deep_learning]
+    paper_types: [methods, benchmark, theory]
+
+  information_retrieval:
+    name: "Information Retrieval"
+    keywords:
+      - information retrieval
+      - search engine
+      - document ranking
+      - bm25
+      - dense retrieval
+    difficulty: L2
+    prerequisites: [machine_learning]
+    paper_types: [methods, benchmark, dataset]
+
+  summarization:
+    name: "Summarization"
+    keywords:
+      - summarization
+      - abstractive summarization
+      - text summarization
+      - document summarization
+    difficulty: L1
+    prerequisites: [nlp_basics, transformers]
+    paper_types: [methods, benchmark, dataset]
+
+  sentiment_analysis:
+    name: "Sentiment Analysis"
+    keywords:
+      - sentiment analysis
+      - opinion mining
+      - emotion detection
+      - aspect-based sentiment
+    difficulty: L1
+    prerequisites: [nlp_basics]
+    paper_types: [methods, dataset, benchmark]
+
+  machine_translation:
+    name: "Machine Translation"
+    keywords:
+      - machine translation
+      - neural machine translation
+      - nmt
+      - translation
+    difficulty: L1
+    prerequisites: [nlp_basics, transformers]
+    paper_types: [methods, benchmark, dataset]
+
+  ai_safety:
+    name: "AI Safety & Alignment"
+    keywords:
+      - ai safety
+      - alignment
+      - constitutional ai
+      - red teaming
+      - hallucination
+      - truthfulness
+      - harmlessness
+    difficulty: L2
+    prerequisites: [llms, rl]
+    paper_types: [methods, empirical, position, survey]
+
+  agents:
+    name: "AI Agents"
+    keywords:
+      - agent
+      - autonomous agent
+      - tool use
+      - planning
+      - react
+      - function calling
+    difficulty: L2
+    prerequisites: [llms, rl]
+    paper_types: [methods, benchmark, empirical]

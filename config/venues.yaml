@@ -1,0 +1,190 @@
+# Conference and venue rankings for ResearchScope.
+# rank: A* (top-tier), A (excellent), B (good), C (acceptable)
+# Used to set conference_rank on papers and weight quality_hint_score.
+
+venues:
+  # NLP / CL
+  - id: acl
+    name: "Annual Meeting of the Association for Computational Linguistics"
+    short: ACL
+    rank: "A*"
+    area: NLP
+    source: acl_anthology
+
+  - id: emnlp
+    name: "Conference on Empirical Methods in Natural Language Processing"
+    short: EMNLP
+    rank: "A*"
+    area: NLP
+    source: acl_anthology
+
+  - id: naacl
+    name: "North American Chapter of the ACL"
+    short: NAACL
+    rank: "A"
+    area: NLP
+    source: acl_anthology
+
+  - id: eacl
+    name: "European Chapter of the ACL"
+    short: EACL
+    rank: "A"
+    area: NLP
+    source: acl_anthology
+
+  - id: coling
+    name: "International Conference on Computational Linguistics"
+    short: COLING
+    rank: "A"
+    area: NLP
+    source: acl_anthology
+
+  - id: conll
+    name: "Conference on Computational Natural Language Learning"
+    short: CoNLL
+    rank: "A"
+    area: NLP
+    source: acl_anthology
+
+  - id: findings_acl
+    name: "Findings of ACL"
+    short: Findings-ACL
+    rank: "A"
+    area: NLP
+    source: acl_anthology
+
+  # ML / AI
+  - id: neurips
+    name: "Neural Information Processing Systems"
+    short: NeurIPS
+    rank: "A*"
+    area: ML
+    source: openreview
+    planned: true
+
+  - id: icml
+    name: "International Conference on Machine Learning"
+    short: ICML
+    rank: "A*"
+    area: ML
+    source: openreview
+    planned: true
+
+  - id: iclr
+    name: "International Conference on Learning Representations"
+    short: ICLR
+    rank: "A*"
+    area: ML
+    source: openreview
+    planned: true
+
+  - id: colm
+    name: "Conference on Language Modeling"
+    short: COLM
+    rank: "A*"
+    area: ML
+    source: openreview
+    planned: true
+
+  - id: aaai
+    name: "AAAI Conference on Artificial Intelligence"
+    short: AAAI
+    rank: "A*"
+    area: AI
+    source: proceedings
+    planned: true
+
+  - id: ijcai
+    name: "International Joint Conference on Artificial Intelligence"
+    short: IJCAI
+    rank: "A*"
+    area: AI
+    source: proceedings
+    planned: true
+
+  # Vision
+  - id: cvpr
+    name: "IEEE/CVF Conference on Computer Vision and Pattern Recognition"
+    short: CVPR
+    rank: "A*"
+    area: CV
+    source: proceedings
+    planned: true
+
+  - id: iccv
+    name: "International Conference on Computer Vision"
+    short: ICCV
+    rank: "A*"
+    area: CV
+    source: proceedings
+    planned: true
+
+  - id: eccv
+    name: "European Conference on Computer Vision"
+    short: ECCV
+    rank: "A*"
+    area: CV
+    source: proceedings
+    planned: true
+
+  # HCI
+  - id: chi
+    name: "ACM CHI Conference on Human Factors in Computing Systems"
+    short: CHI
+    rank: "A*"
+    area: HCI
+    source: acm_dl
+    planned: true
+
+  # Systems / IR
+  - id: sigir
+    name: "ACM SIGIR Conference on Information Retrieval"
+    short: SIGIR
+    rank: "A*"
+    area: IR
+    source: acm_dl
+    planned: true
+
+  - id: www
+    name: "ACM Web Conference"
+    short: WWW
+    rank: "A*"
+    area: Web
+    source: acm_dl
+    planned: true
+
+  # arXiv (not a conference)
+  - id: arxiv
+    name: "arXiv preprint server"
+    short: arXiv
+    rank: ""
+    area: all
+    source: arxiv
+
+# Venue name → ID mapping (used to normalise noisy venue strings)
+aliases:
+  "ACL":                        acl
+  "Proceedings of ACL":         acl
+  "EMNLP":                      emnlp
+  "Proceedings of EMNLP":       emnlp
+  "NAACL":                      naacl
+  "Proceedings of NAACL":       naacl
+  "EACL":                       eacl
+  "CoNLL":                      conll
+  "COLING":                     coling
+  "Findings of the Association for Computational Linguistics: ACL": findings_acl
+  "Findings":                   findings_acl
+  "NeurIPS":                    neurips
+  "Neural Information Processing Systems": neurips
+  "ICML":                       icml
+  "ICLR":                       iclr
+  "COLM":                       colm
+  "AAAI":                       aaai
+  "IJCAI":                      ijcai
+  "CVPR":                       cvpr
+  "ICCV":                       iccv
+  "ECCV":                       eccv
+  "CHI":                        chi
+  "SIGIR":                      sigir
+  "WWW":                        www
+  "arXiv":                      arxiv

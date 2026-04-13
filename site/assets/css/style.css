@@ -255,3 +255,90 @@ body {
   color: var(--rs-muted);
 }
 .empty-state svg { margin: 0 auto 1rem; opacity: 0.4; }
+
+/* ── Score bar ───────────────────────────────────── */
+.score-bar-wrap { display: flex; align-items: center; gap: 0.5rem; }
+.score-bar-bg {
+  flex: 1; height: 6px; border-radius: 3px;
+  background: var(--rs-border);
+  overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%; border-radius: 3px;
+  background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  transition: width 0.4s ease;
+}
+.score-bar-label { font-size: 0.72rem; color: var(--rs-muted); min-width: 2.5rem; text-align: right; }
+
+/* ── Difficulty levels ───────────────────────────── */
+.badge-l1 { background: #dcfce7; color: #166534; }
+.badge-l2 { background: #fef9c3; color: #854d0e; }
+.badge-l3 { background: #fee2e2; color: #991b1b; }
+.badge-l4 { background: #fae8ff; color: #701a75; }
+[data-theme="dark"] .badge-l1 { background: #14532d; color: #86efac; }
+[data-theme="dark"] .badge-l2 { background: #713f12; color: #fde68a; }
+[data-theme="dark"] .badge-l3 { background: #7f1d1d; color: #fca5a5; }
+[data-theme="dark"] .badge-l4 { background: #4a044e; color: #e879f9; }
+
+/* ── Paper type badge ────────────────────────────── */
+.badge-type { background: #f0fdf4; color: #166534; }
+[data-theme="dark"] .badge-type { background: #052e16; color: #86efac; }
+
+/* ── Source badge ────────────────────────────────── */
+.badge-arxiv   { background: #fff7ed; color: #9a3412; }
+.badge-acl     { background: #eff6ff; color: #1d4ed8; }
+.badge-conf    { background: #f0fdf4; color: #15803d; }
+[data-theme="dark"] .badge-arxiv { background: #431407; color: #fdba74; }
+[data-theme="dark"] .badge-acl   { background: #1e3a5f; color: #93c5fd; }
+
+/* ── Gap cards ───────────────────────────────────── */
+.gap-card-explicit  { border-left-color: #4f46e5; }
+.gap-card-pattern   { border-left-color: #f59e0b; }
+.gap-card-starter   { border-left-color: #10b981; }
+[data-theme="dark"] .gap-card-explicit  { border-left-color: #818cf8; }
+[data-theme="dark"] .gap-card-pattern   { border-left-color: #fbbf24; }
+[data-theme="dark"] .gap-card-starter   { border-left-color: #34d399; }
+
+/* ── Editorial card ──────────────────────────────── */
+.editorial-card {
+  background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+  border: 1px solid #c7d2fe;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+}
+[data-theme="dark"] .editorial-card {
+  background: linear-gradient(135deg, #1e1b4b 0%, #1a0a2e 100%);
+  border-color: #3730a3;
+}
+
+/* ── Momentum bar ────────────────────────────────── */
+.momentum-bar { height: 4px; border-radius: 2px; background: var(--rs-border); }
+.momentum-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, #06b6d4, #4f46e5); }
+
+/* ── Reading path ────────────────────────────────── */
+.reading-path-step {
+  display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem;
+}
+.path-number {
+  width: 1.75rem; height: 1.75rem;
+  background: var(--rs-primary); color: #fff;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+}
+
+/* ── Conference rank badge ───────────────────────── */
+.rank-astar { background: #fef3c7; color: #92400e; border: 1px solid #fbbf24; }
+.rank-a     { background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd; }
+.rank-b     { background: #f0fdf4; color: #166534; border: 1px solid #86efac; }
+[data-theme="dark"] .rank-astar { background: #451a03; color: #fde68a; }
+[data-theme="dark"] .rank-a     { background: #1e3a5f; color: #93c5fd; }
+
+/* ── Paginator ───────────────────────────────────── */
+.pager-btn {
+  padding: 0.4rem 0.9rem; border-radius: 0.375rem;
+  border: 1px solid var(--rs-border);
+  background: var(--rs-surface); color: var(--rs-text);
+  cursor: pointer; font-size: 0.85rem; transition: background 0.15s;
+}
+.pager-btn:hover, .pager-btn.active { background: var(--rs-primary); color: #fff; border-color: var(--rs-primary); }
+.pager-btn:disabled { opacity: 0.4; cursor: not-allowed; }

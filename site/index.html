@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ResearchScope – Track What Matters in CS Research</title>
+  <title>ResearchScope – CS Research Intelligence Platform</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -13,21 +13,19 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg" style="color:var(--rs-primary)">
         🔭 ResearchScope
       </a>
-      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html"       class="rs-nav-link">Home</a>
-        <a href="papers.html"      class="rs-nav-link">Papers</a>
-        <a href="topics.html"      class="rs-nav-link">Topics</a>
-        <a href="conferences.html" class="rs-nav-link">Conferences</a>
-        <a href="authors.html"     class="rs-nav-link">Authors</a>
-        <a href="labs.html"        class="rs-nav-link">Labs</a>
-        <a href="gaps.html"        class="rs-nav-link">Research Gaps</a>
+      <div class="hidden sm:flex items-center gap-5 text-sm font-medium">
+        <a href="index.html">Home</a>
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
       </div>
-      <button id="theme-toggle" aria-label="Toggle theme">
-        <span id="theme-icon">🌙</span>
-      </button>
+      <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">🌙</span></button>
     </div>
   </div>
 </nav>
@@ -38,190 +36,260 @@
     <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight">
       Track What Matters in CS Research
     </h1>
-    <p class="text-lg sm:text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
-      ResearchScope aggregates papers from arXiv and ACL Anthology, scores them by
-      relevance, detects emerging trends, and surfaces research gaps — updated daily.
+    <p class="text-lg sm:text-xl opacity-90 mb-3 max-w-2xl mx-auto">
+      Research intelligence, not just paper summaries.
+    </p>
+    <p class="text-sm opacity-75 mb-8 max-w-2xl mx-auto">
+      Papers scored by importance and readability · Authors &amp; labs tracked by momentum ·
+      Research gaps surfaced daily · Creator-ready content generated automatically
     </p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="papers.html"
-         class="bg-white text-indigo-700 font-semibold px-6 py-2.5 rounded-lg hover:bg-indigo-50 transition">
-        Browse Papers
-      </a>
-      <a href="gaps.html"
-         class="border border-white text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-white/10 transition">
-        Explore Gaps
-      </a>
+      <a href="papers.html" class="bg-white text-indigo-700 font-semibold px-6 py-2.5 rounded-lg hover:bg-indigo-50 transition">Browse Papers</a>
+      <a href="gaps.html"   class="border border-white text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-white/10 transition">Explore Gaps</a>
+      <a href="topics.html" class="border border-white text-white font-semibold px-6 py-2.5 rounded-lg hover:bg-white/10 transition">Reading Paths</a>
     </div>
+    <p id="stat-generated" class="text-xs opacity-60 mt-6"></p>
   </div>
 </section>
 
 <!-- ── Stats bar ────────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-10">
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-    <div class="stat-card">
-      <div class="stat-value" id="stat-papers">–</div>
-      <div class="stat-label">Papers</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="stat-topics">–</div>
-      <div class="stat-label">Topics</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="stat-authors">–</div>
-      <div class="stat-label">Authors</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="stat-gaps">–</div>
-      <div class="stat-label">Research Gaps</div>
-    </div>
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-10 relative z-10">
+  <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
+    <div class="stat-card"><div class="stat-value" id="stat-papers">–</div><div class="stat-label">Papers</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-authors">–</div><div class="stat-label">Authors</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-labs">–</div><div class="stat-label">Labs</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-unis">–</div><div class="stat-label">Universities</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-topics">–</div><div class="stat-label">Topics</div></div>
+    <div class="stat-card"><div class="stat-value" id="stat-gaps">–</div><div class="stat-label">Research Gaps</div></div>
   </div>
+</section>
+
+<!-- ── Editorial Queue ───────────────────────────────────────────────── -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+  <h2 class="text-xl font-bold mb-4">📋 Today's Research Intelligence Digest</h2>
+  <div id="editorial-container"><div class="spinner"></div></div>
 </section>
 
 <!-- ── Top Papers ────────────────────────────────────────────────────── -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <h2 class="text-xl font-bold mb-4">🏆 Top Papers by Score</h2>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold">🏆 Top Papers</h2>
+    <a href="papers.html" class="text-sm font-medium" style="color:var(--rs-primary)">View all →</a>
+  </div>
   <div id="top-papers-container"><div class="spinner"></div></div>
 </section>
 
 <!-- ── Featured Topics ──────────────────────────────────────────────── -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <h2 class="text-xl font-bold mb-4">🗂 Featured Topics</h2>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold">🗂 Trending Topics</h2>
+    <a href="topics.html" class="text-sm font-medium" style="color:var(--rs-primary)">All topics →</a>
+  </div>
   <div id="topics-container" class="flex flex-wrap gap-2"></div>
-</section>
-
-<!-- ── Recent Papers ────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <h2 class="text-xl font-bold mb-4">🕒 Recent Papers</h2>
-  <div id="recent-papers-container"><div class="spinner"></div></div>
 </section>
 
 <!-- ── Top Authors & Labs ──────────────────────────────────────────── -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <h2 class="text-xl font-bold mb-4">👩‍🔬 Top Authors &amp; Labs</h2>
-  <div id="authors-container"><div class="spinner"></div></div>
-</section>
-
-<!-- ── Reading Paths ─────────────────────────────────────────────────── -->
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-  <h2 class="text-xl font-bold mb-4">🗺 Reading Paths</h2>
-  <div id="paths-container">
-    <!-- Placeholder reading paths; replaced by dynamic data when available -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div class="rs-card p-4">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="topic-chip">NLP</span>
-          <span class="topic-chip" style="background:var(--rs-accent-2,#e0e7ff)">Beginner</span>
-        </div>
-        <h3 class="font-semibold mb-1">Foundations of NLP</h3>
-        <p class="text-sm" style="color:var(--rs-muted)">Start with tokenisation, embeddings, and sequence models before diving into transformers.</p>
-        <a href="topics.html" class="text-sm text-indigo-600 hover:underline mt-2 inline-block">Explore →</a>
-      </div>
-      <div class="rs-card p-4">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="topic-chip">LLMs</span>
-          <span class="topic-chip" style="background:var(--rs-accent-2,#e0e7ff)">Intermediate</span>
-        </div>
-        <h3 class="font-semibold mb-1">Large Language Models</h3>
-        <p class="text-sm" style="color:var(--rs-muted)">Trace the path from BERT and GPT to instruction tuning, RLHF, and efficient fine-tuning.</p>
-        <a href="papers.html" class="text-sm text-indigo-600 hover:underline mt-2 inline-block">Explore →</a>
-      </div>
-      <div class="rs-card p-4">
-        <div class="flex items-center gap-2 mb-2">
-          <span class="topic-chip">Computer Vision</span>
-          <span class="topic-chip" style="background:var(--rs-accent-2,#e0e7ff)">Intermediate</span>
-        </div>
-        <h3 class="font-semibold mb-1">Vision Transformers</h3>
-        <p class="text-sm" style="color:var(--rs-muted)">From CNNs to ViT, CLIP, and multimodal architectures — a curated sequence.</p>
-        <a href="papers.html" class="text-sm text-indigo-600 hover:underline mt-2 inline-block">Explore →</a>
-      </div>
-    </div>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold">👩‍🔬 Rising Researchers</h2>
+    <a href="authors.html" class="text-sm font-medium" style="color:var(--rs-primary)">All authors →</a>
   </div>
+  <div id="authors-container"><div class="spinner"></div></div>
 </section>
 
 <!-- ── Research Gaps ──────────────────────────────────────────────────── -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-  <h2 class="text-xl font-bold mb-4">🔍 Research Gaps</h2>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-xl font-bold">🔍 Featured Research Gaps</h2>
+    <a href="gaps.html" class="text-sm font-medium" style="color:var(--rs-primary)">All gaps →</a>
+  </div>
   <div id="gaps-container"><div class="spinner"></div></div>
 </section>
 
 <!-- ── Footer ────────────────────────────────────────────────────────── -->
-<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  ResearchScope — open-source research intelligence · Updated daily via GitHub Actions
+<footer class="border-t py-8 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  <p class="font-semibold mb-1">🔭 ResearchScope</p>
+  <p>Open-source CS research intelligence · Updated daily via GitHub Actions · Built for researchers and creators</p>
+  <p class="mt-2">
+    <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
+    · <a href="architecture.md" class="hover:underline" style="color:var(--rs-primary)">Architecture</a>
+    · <a href="ROADMAP.md" class="hover:underline" style="color:var(--rs-primary)">Roadmap</a>
+  </p>
 </footer>
 
 <script src="assets/js/app.js"></script>
 <script>
+const GAP_TYPE_LABELS = { explicit: '📌 Explicit', pattern: '📊 Pattern', starter: '💡 Starter' };
+const GAP_TYPE_COLOR  = { explicit: 'gap-card-explicit', pattern: 'gap-card-pattern', starter: 'gap-card-starter' };
+
+function renderEditorial(ed) {
+  if (!ed || !ed.date) return '<p style="color:var(--rs-muted)">Editorial digest not available yet.</p>';
+  let html = `<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">`;
+
+  // Top paper spotlight
+  const p = (ed.top_papers || [])[0];
+  if (p) {
+    html += `<div class="editorial-card col-span-full lg:col-span-1">
+      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">📄 Paper of the Day</p>
+      <a href="${escHtml(p.paper_url || '#')}" target="_blank" class="font-bold text-base hover:underline">${escHtml(p.title)}</a>
+      <div class="flex gap-1 flex-wrap mt-1 mb-2">
+        ${(p.tags || []).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+        ${difficultyBadge(p)}
+        <span class="badge badge-score">⭐ ${(+p.paper_score||0).toFixed(1)}</span>
+      </div>
+      <p class="text-sm" style="color:var(--rs-muted)">${escHtml(p.why_it_matters || p.one_line_takeaway || '')}</p>
+    </div>`;
+  }
+
+  // Breakout author
+  const a = ed.breakout_author;
+  if (a) {
+    html += `<div class="editorial-card">
+      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">🌟 Breakout Author</p>
+      <div class="font-semibold">${escHtml(a.name)}</div>
+      <div class="text-sm" style="color:var(--rs-muted)">${a.paper_count} papers · Momentum ${(+a.momentum_score||0).toFixed(1)}/10</div>
+      <div class="flex flex-wrap gap-1 mt-1">${(a.topics||[]).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}</div>
+      <p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(a.reason||'')}</p>
+    </div>`;
+  }
+
+  // Emerging trend
+  const t = ed.emerging_trend;
+  if (t) {
+    html += `<div class="editorial-card">
+      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">📈 Emerging Trend</p>
+      <div class="font-semibold">${escHtml(t.name)}</div>
+      <div class="text-sm" style="color:var(--rs-muted)">${t.paper_count} papers · Trend score ${(+t.trend_score||0).toFixed(1)}/10</div>
+      <p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(t.gap_summary||'')}</p>
+    </div>`;
+  }
+
+  // Research gap
+  const g = ed.research_gap;
+  if (g) {
+    html += `<div class="editorial-card">
+      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">🔍 Gap to Explore</p>
+      <div class="font-semibold">${escHtml(g.title||g.topic)}</div>
+      <p class="text-sm mt-1" style="color:var(--rs-muted)">${escHtml(truncate(g.description,160))}</p>
+      ${g.starter_idea ? `<p class="text-xs mt-2 font-medium" style="color:#10b981">💡 Starter idea: ${escHtml(g.starter_idea)}</p>` : ''}
+    </div>`;
+  }
+
+  // Underrated paper
+  const u = ed.underrated_paper;
+  if (u) {
+    html += `<div class="editorial-card">
+      <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color:var(--rs-primary)">💎 Underrated Paper</p>
+      <a href="${escHtml(u.paper_url||'#')}" target="_blank" class="font-semibold hover:underline text-sm">${escHtml(u.title)}</a>
+      <p class="text-xs mt-1" style="color:var(--rs-muted)">${escHtml(u.reason||'')}</p>
+    </div>`;
+  }
+
+  html += `</div>`;
+
+  // Top 5 list
+  if ((ed.top_papers||[]).length > 1) {
+    html += `<div class="mt-6">
+      <h3 class="font-bold mb-3">Today's Top 5 Papers</h3>
+      <div class="space-y-2">`;
+    ed.top_papers.slice(0,5).forEach((p,i) => {
+      html += `<div class="rs-card p-3 flex items-center gap-3">
+        <span class="text-2xl font-black" style="color:var(--rs-primary);min-width:2rem">${i+1}</span>
+        <div class="flex-1 min-w-0">
+          <a href="${escHtml(p.paper_url||'#')}" target="_blank" class="font-semibold text-sm hover:underline">${escHtml(p.title)}</a>
+          <div class="flex gap-1 flex-wrap mt-0.5">
+            ${(p.tags||[]).slice(0,2).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+            <span class="badge badge-score">⭐ ${(+p.paper_score||0).toFixed(1)}</span>
+          </div>
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  return html;
+}
+
 (async () => {
   await loadStats();
 
-  // Top papers
-  const papers = await fetchData('data/papers.json');
-  if (!papers || !papers.length) {
-    showEmpty('top-papers-container');
-    showEmpty('recent-papers-container');
-  } else {
-    const sorted = [...papers].sort((a, b) => (b.read_first_score || 0) - (a.read_first_score || 0));
-    document.getElementById('top-papers-container').innerHTML =
-      sorted.slice(0, 5).map(renderPaperCard).join('');
+  const [papers, topics, authors, gaps, editorial] = await Promise.all([
+    fetchData('data/papers.json'),
+    fetchData('data/topics.json'),
+    fetchData('data/authors.json'),
+    fetchData('data/gaps.json'),
+    fetchData('data/editorial.json'),
+  ]);
 
-    const recent = [...papers].sort((a, b) => (b.year || 0) - (a.year || 0));
-    document.getElementById('recent-papers-container').innerHTML =
-      recent.slice(0, 5).map(renderPaperCard).join('');
+  // Editorial
+  document.getElementById('editorial-container').innerHTML = renderEditorial(editorial);
+
+  // Top papers
+  if (!papers || !papers.length) {
+    showEmpty('top-papers-container', 'No papers yet — run the pipeline to populate.');
+  } else {
+    const sorted = [...papers].sort((a,b) => (b.paper_score||0) - (a.paper_score||0));
+    document.getElementById('top-papers-container').innerHTML = sorted.slice(0,5).map(p=>renderPaperCard(p)).join('');
   }
 
-  // Topics
-  const topics = await fetchData('data/topics.json');
+  // Trending topics
   const topicsEl = document.getElementById('topics-container');
   if (topics && topics.length) {
-    topicsEl.innerHTML = topics.slice(0, 20).map(t =>
-      `<a href="topics.html" class="topic-chip">
-         ${escHtml(t.name)}
-         <span class="ml-1 opacity-60 text-xs">${t.paper_ids ? t.paper_ids.length : 0}</span>
-       </a>`
+    const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0));
+    topicsEl.innerHTML = sorted.slice(0,20).map(t =>
+      `<a href="topics.html" class="topic-chip">${escHtml(t.name)}<span class="ml-1 opacity-60 text-xs">${(t.paper_ids||[]).length}</span></a>`
     ).join('');
   } else {
     topicsEl.innerHTML = '<p style="color:var(--rs-muted)">No topics yet.</p>';
   }
 
-  // Top authors
-  const authors = await fetchData('data/authors.json');
+  // Rising researchers
   const authorsEl = document.getElementById('authors-container');
   if (authors && authors.length) {
-    authorsEl.innerHTML =
-      `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">` +
-      authors.slice(0, 6).map(a =>
-        `<div class="rs-card p-4 flex items-start gap-3">
-           <div class="text-3xl">👤</div>
-           <div>
-             <div class="font-semibold">${escHtml(a.name)}</div>
-             <div class="text-sm" style="color:var(--rs-muted)">${a.paper_ids ? a.paper_ids.length : 0} papers</div>
-             <div class="flex flex-wrap gap-1 mt-1">
-               ${(a.top_topics || []).slice(0, 3).map(t => `<span class="topic-chip text-xs">${escHtml(t)}</span>`).join('')}
-             </div>
-           </div>
-         </div>`
-      ).join('') +
+    const sorted = [...authors].sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
+    authorsEl.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">` +
+      sorted.slice(0,6).map(a => `
+        <div class="rs-card p-4">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold" style="background:var(--rs-primary);color:#fff">
+              ${escHtml((a.name||'?')[0].toUpperCase())}
+            </div>
+            <div>
+              <div class="font-semibold text-sm">${escHtml(a.name)}</div>
+              <div class="text-xs" style="color:var(--rs-muted)">${(a.paper_ids||[]).length} papers</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs" style="color:var(--rs-muted)">Momentum</span>
+            <div class="momentum-bar flex-1"><div class="momentum-fill" style="width:${(a.momentum_score||0)*10}%"></div></div>
+            <span class="text-xs font-bold">${(+a.momentum_score||0).toFixed(1)}</span>
+          </div>
+          <div class="flex flex-wrap gap-1">${(a.topics||[]).slice(0,3).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}</div>
+        </div>`).join('') +
       `</div>`;
   } else {
     showEmpty('authors-container');
   }
 
-  // Research gaps
-  const gaps = await fetchData('data/gaps.json');
+  // Research gaps preview
   const gapsEl = document.getElementById('gaps-container');
   if (gaps && gaps.length) {
-    gapsEl.innerHTML =
-      `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">` +
-      gaps.slice(0, 4).map(g =>
-        `<div class="rs-card p-4">
-           <h3 class="font-semibold mb-1">${escHtml(g.title || g.topic || 'Untitled Gap')}</h3>
-           <p class="text-sm" style="color:var(--rs-muted)">${escHtml(g.description || g.summary || '')}</p>
-           <a href="gaps.html" class="text-sm text-indigo-600 hover:underline mt-2 inline-block">View details →</a>
-         </div>`
-      ).join('') +
+    const top = gaps.slice(0,4);
+    gapsEl.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">` +
+      top.map(g => `
+        <div class="gap-card ${GAP_TYPE_COLOR[g.gap_type]||''}">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-xs font-bold">${GAP_TYPE_LABELS[g.gap_type]||g.gap_type}</span>
+            <span class="badge badge-tag">${escHtml(g.topic)}</span>
+            <span class="text-xs" style="color:var(--rs-muted)">${g.frequency} papers</span>
+          </div>
+          <h3 class="font-semibold text-sm mb-1">${escHtml(g.title||g.topic)}</h3>
+          <p class="text-xs" style="color:var(--rs-muted)">${escHtml(truncate(g.description,120))}</p>
+          ${g.starter_idea ? `<p class="text-xs mt-2" style="color:#10b981">💡 ${escHtml(g.starter_idea)}</p>` : ''}
+        </div>`).join('') +
       `</div>`;
   } else {
-    gapsEl.innerHTML = `<p style="color:var(--rs-muted)">No research gaps detected yet. Run the pipeline to populate this section.</p>`;
+    gapsEl.innerHTML = '<p style="color:var(--rs-muted)">No gaps detected yet.</p>';
   }
 })();
 </script>

@@ -12,14 +12,14 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
-      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
+      <a href="index.html" class="font-bold text-lg" style="color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-5 text-sm font-medium">
         <a href="index.html">Home</a>
         <a href="papers.html" class="active">Papers</a>
         <a href="topics.html">Topics</a>
         <a href="conferences.html">Conferences</a>
         <a href="authors.html">Authors</a>
-        <a href="labs.html">Labs</a>
+        <a href="labs.html">Labs &amp; Unis</a>
         <a href="gaps.html">Research Gaps</a>
       </div>
       <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
@@ -28,51 +28,60 @@
 </nav>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-6">📄 Papers</h1>
+  <h1 class="text-2xl font-bold mb-2">📄 Papers</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">Scored by importance, readability, and content potential. Click any row to expand.</p>
 
   <!-- Filters -->
-  <div class="rs-card p-4 mb-6">
-    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-      <input id="search-input" class="rs-input sm:col-span-2" type="text"
-             placeholder="Search title, abstract, author…"/>
-      <select id="filter-tag"        class="rs-select">
-        <option value="">All Tags</option>
-      </select>
+  <div class="rs-card p-4 mb-4">
+    <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+      <input id="search-input" class="rs-input sm:col-span-2" type="text" placeholder="Search title, abstract, author…"/>
+      <select id="filter-tag"        class="rs-select"><option value="">All Tags</option></select>
       <select id="filter-difficulty" class="rs-select">
-        <option value="">All Difficulties</option>
-        <option value="beginner">Beginner</option>
-        <option value="intermediate">Intermediate</option>
-        <option value="advanced">Advanced</option>
+        <option value="">All Levels</option>
+        <option value="L1">L1 Beginner</option>
+        <option value="L2">L2 Intermediate</option>
+        <option value="L3">L3 Advanced</option>
+        <option value="L4">L4 Frontier</option>
       </select>
-      <select id="filter-year" class="rs-select">
-        <option value="">All Years</option>
+      <select id="filter-type" class="rs-select">
+        <option value="">All Types</option>
+        <option value="methods">Methods</option>
+        <option value="survey">Survey</option>
+        <option value="benchmark">Benchmark</option>
+        <option value="dataset">Dataset</option>
+        <option value="theory">Theory</option>
+        <option value="empirical">Empirical</option>
+        <option value="systems">Systems</option>
       </select>
       <select id="filter-source" class="rs-select">
         <option value="">All Sources</option>
         <option value="arxiv">arXiv</option>
         <option value="acl_anthology">ACL Anthology</option>
       </select>
+      <select id="filter-year" class="rs-select"><option value="">All Years</option></select>
       <select id="sort-by" class="rs-select">
-        <option value="score">Sort: Score</option>
-        <option value="year">Sort: Year</option>
+        <option value="paper_score">Sort: Paper Score</option>
+        <option value="read_first">Sort: Read First</option>
+        <option value="content">Sort: Content Potential</option>
+        <option value="year">Sort: Year (newest)</option>
         <option value="citations">Sort: Citations</option>
-        <option value="title">Sort: Title</option>
+        <option value="title">Sort: Title A–Z</option>
       </select>
     </div>
   </div>
 
-  <p id="result-count" class="text-sm mb-3" style="color:var(--rs-muted)"></p>
+  <p id="result-count" class="text-xs mb-3" style="color:var(--rs-muted)"></p>
 
   <!-- Table -->
   <div class="rs-card overflow-hidden">
     <table class="rs-table" id="papers-table">
       <thead>
         <tr>
-          <th>Title</th>
-          <th class="hidden sm:table-cell">Authors</th>
-          <th class="hidden md:table-cell">Venue / Year</th>
-          <th>Tags</th>
-          <th>Difficulty</th>
+          <th>Title / Authors</th>
+          <th class="hidden md:table-cell">Venue · Year</th>
+          <th class="hidden sm:table-cell">Tags</th>
+          <th>Level</th>
+          <th>Type</th>
           <th>Score</th>
         </tr>
       </thead>
@@ -81,6 +90,7 @@
       </tbody>
     </table>
   </div>
+  <div id="paginator"></div>
 </div>
 
 <footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
@@ -90,64 +100,81 @@
 <script src="assets/js/app.js"></script>
 <script>
 let allPapers = [];
+let currentPage = 1;
+const PAGE_SIZE = 25;
 
 function renderRows(papers) {
   const tbody = document.getElementById('papers-body');
-  document.getElementById('result-count').textContent =
-    `Showing ${papers.length} paper${papers.length !== 1 ? 's' : ''}`;
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const page  = papers.slice(start, start + PAGE_SIZE);
 
-  if (!papers.length) {
-    tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No papers match your filters.</p></div></td></tr>`;
+  document.getElementById('result-count').textContent =
+    `${papers.length} paper${papers.length !== 1 ? 's' : ''} · page ${currentPage} of ${Math.max(1, Math.ceil(papers.length / PAGE_SIZE))}`;
+
+  if (!page.length) {
+    tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><p>No papers match your filters.</p></td></tr>`;
     return;
   }
 
-  tbody.innerHTML = papers.map((p, i) => {
+  tbody.innerHTML = page.map((p, i) => {
+    const idx = start + i;
+    const url = p.paper_url || p.url || '#';
     const authors = (p.authors || []).slice(0, 2).join(', ');
-    const moreAuthors = (p.authors || []).length > 2 ? ` +${p.authors.length - 2}` : '';
+    const more = (p.authors||[]).length > 2 ? ` +${p.authors.length - 2}` : '';
+    const typeStr = p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : '–';
+    const scoreVal = p.paper_score || 0;
     return `
-    <tr class="cursor-pointer" onclick="toggleDetail(${i})">
+    <tr class="cursor-pointer" onclick="toggleDetail(${idx})">
       <td>
-        <a href="${escHtml(p.url)}" target="_blank" rel="noopener"
+        <a href="${escHtml(url)}" target="_blank" rel="noopener"
            class="font-medium hover:text-indigo-600 transition-colors"
            onclick="event.stopPropagation()">
           ${escHtml(p.title)}
         </a>
+        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
       </td>
-      <td class="hidden sm:table-cell text-sm" style="color:var(--rs-muted)">
-        ${escHtml(authors)}${escHtml(moreAuthors)}
+      <td class="hidden md:table-cell text-xs" style="color:var(--rs-muted)">
+        ${escHtml(p.venue||'')} ${p.year||''}
+        ${p.conference_rank ? `<br>${rankBadge(p.conference_rank)}` : ''}
       </td>
-      <td class="hidden md:table-cell text-sm" style="color:var(--rs-muted)">
-        ${escHtml(p.venue || '')} ${p.year || ''}
+      <td class="hidden sm:table-cell">${tagChips((p.tags||[]).slice(0,3))}</td>
+      <td>${difficultyBadge(p)}</td>
+      <td>${typeStr}</td>
+      <td>
+        <span class="badge badge-score font-bold">⭐ ${scoreVal.toFixed(1)}</span>
+        <div class="text-xs mt-0.5" style="color:var(--rs-muted)">
+          📖 ${(p.read_first_score||0).toFixed(1)} · 🎙 ${(p.content_potential_score||0).toFixed(1)}
+        </div>
       </td>
-      <td>${tagChips((p.tags || []).slice(0, 3))}</td>
-      <td>${difficultyBadge(p.difficulty)}</td>
-      <td>${scoreBadge(p.read_first_score)}</td>
     </tr>
-    <tr class="detail-row" id="detail-${i}">
+    <tr class="detail-row" id="detail-${idx}">
       <td colspan="6">
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid md:grid-cols-2 gap-6">
           <div>
-            <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Abstract</p>
-            <p class="text-sm leading-relaxed">${escHtml(p.abstract || 'No abstract available.')}</p>
-          </div>
-          <div class="space-y-3">
-            ${p.why_it_matters ? `
-            <div>
-              <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Why It Matters</p>
-              <p class="text-sm leading-relaxed">${escHtml(p.why_it_matters)}</p>
-            </div>` : ''}
+            <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Summary</p>
+            <p class="text-sm leading-relaxed">${escHtml(p.summary || p.abstract || 'No summary available.')}</p>
+            ${p.key_contribution ? `
+            <p class="text-xs font-semibold uppercase mt-3 mb-1" style="color:var(--rs-muted)">Key Contribution</p>
+            <p class="text-sm">${escHtml(p.key_contribution)}</p>` : ''}
             ${p.limitations && p.limitations.length ? `
-            <div>
-              <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Limitations</p>
-              <ul class="text-sm list-disc list-inside space-y-0.5">
-                ${p.limitations.map(l => `<li>${escHtml(l)}</li>`).join('')}
-              </ul>
-            </div>` : ''}
-            ${p.pdf_url ? `
-            <a href="${escHtml(p.pdf_url)}" target="_blank" rel="noopener"
-               class="inline-flex items-center gap-1 text-indigo-600 text-sm font-medium hover:underline">
-              📄 View PDF
-            </a>` : ''}
+            <p class="text-xs font-semibold uppercase mt-3 mb-1" style="color:var(--rs-muted)">Limitations</p>
+            <ul class="text-sm list-disc list-inside space-y-0.5">
+              ${p.limitations.map(l=>`<li>${escHtml(l)}</li>`).join('')}
+            </ul>` : ''}
+          </div>
+          <div>
+            ${p.why_it_matters ? `
+            <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Why It Matters</p>
+            <p class="text-sm mb-3" style="color:var(--rs-primary)">${escHtml(p.why_it_matters)}</p>` : ''}
+            <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Score Breakdown</p>
+            ${scoreBar('Paper Score', p.paper_score)}
+            ${scoreBar('Read First', p.read_first_score)}
+            ${scoreBar('Content Potential', p.content_potential_score)}
+            <div class="mt-3 flex flex-wrap gap-2">
+              ${p.paper_url ? `<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📄 Paper</a>` : ''}
+              ${p.pdf_url   ? `<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📑 PDF</a>` : ''}
+            </div>
+            ${p.read_this_if ? `<p class="text-xs mt-3 italic" style="color:var(--rs-muted)">${escHtml(p.read_this_if)}</p>` : ''}
           </div>
         </div>
       </td>
@@ -155,7 +182,7 @@ function renderRows(papers) {
   }).join('');
 }
 
-let currentFiltered = [];
+let filteredPapers = [];
 function toggleDetail(i) {
   const row = document.getElementById(`detail-${i}`);
   if (row) row.classList.toggle('open');
@@ -165,29 +192,36 @@ function applyFilters() {
   const q      = document.getElementById('search-input').value.toLowerCase();
   const tag    = document.getElementById('filter-tag').value;
   const diff   = document.getElementById('filter-difficulty').value;
+  const type   = document.getElementById('filter-type').value;
   const year   = document.getElementById('filter-year').value;
   const source = document.getElementById('filter-source').value;
   const sort   = document.getElementById('sort-by').value;
 
-  let filtered = allPapers.filter(p => {
-    if (q && !['title','abstract','authors'].some(f => (Array.isArray(p[f]) ? p[f].join(' ') : (p[f]||'')).toLowerCase().includes(q))) return false;
-    if (tag    && !(p.tags || []).includes(tag))        return false;
-    if (diff   && p.difficulty !== diff)                return false;
-    if (year   && String(p.year) !== year)              return false;
-    if (source && p.source !== source)                  return false;
+  filteredPapers = allPapers.filter(p => {
+    if (q && !['title','abstract'].some(f => (p[f]||'').toLowerCase().includes(q)) &&
+        !(p.authors||[]).join(' ').toLowerCase().includes(q)) return false;
+    if (tag    && !(p.tags||[]).includes(tag))              return false;
+    if (diff   && p.difficulty_level !== diff)              return false;
+    if (type   && p.paper_type !== type)                    return false;
+    if (year   && String(p.year) !== year)                  return false;
+    if (source && p.source !== source)                      return false;
     return true;
   });
 
-  filtered.sort((a, b) => {
-    if (sort === 'score')     return (b.read_first_score || 0) - (a.read_first_score || 0);
-    if (sort === 'year')      return (b.year || 0) - (a.year || 0);
-    if (sort === 'citations') return (b.citations || 0) - (a.citations || 0);
-    if (sort === 'title')     return (a.title || '').localeCompare(b.title || '');
+  filteredPapers.sort((a,b) => {
+    if (sort === 'paper_score')  return (b.paper_score||0) - (a.paper_score||0);
+    if (sort === 'read_first')   return (b.read_first_score||0) - (a.read_first_score||0);
+    if (sort === 'content')      return (b.content_potential_score||0) - (a.content_potential_score||0);
+    if (sort === 'year')         return (b.year||0) - (a.year||0);
+    if (sort === 'citations')    return (b.citations||0) - (a.citations||0);
+    if (sort === 'title')        return (a.title||'').localeCompare(b.title||'');
     return 0;
   });
 
-  currentFiltered = filtered;
-  renderRows(filtered);
+  currentPage = 1;
+  renderRows(filteredPapers);
+  renderPaginator('paginator', currentPage, Math.ceil(filteredPapers.length / PAGE_SIZE),
+    `function(p){currentPage=p;renderRows(filteredPapers);}`);
 }
 
 const debouncedFilter = debounce(applyFilters, 200);
@@ -195,34 +229,21 @@ const debouncedFilter = debounce(applyFilters, 200);
 (async () => {
   const papers = await fetchData('data/papers.json');
   if (!papers || !papers.length) {
-    showEmpty('papers-body');
+    document.getElementById('papers-body').innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No papers yet. Run the pipeline.</p></div></td></tr>`;
     return;
   }
   allPapers = papers;
 
-  // Populate tag filter
-  const tagSet = new Set(papers.flatMap(p => p.tags || []));
-  const tagSel = document.getElementById('filter-tag');
-  [...tagSet].sort().forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t; opt.textContent = t;
-    tagSel.appendChild(opt);
-  });
+  const tagSet  = new Set(papers.flatMap(p => p.tags || []));
+  const tagSel  = document.getElementById('filter-tag');
+  [...tagSet].sort().forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; tagSel.appendChild(o); });
 
-  // Populate year filter
   const yearSet = new Set(papers.map(p => p.year).filter(Boolean));
   const yearSel = document.getElementById('filter-year');
-  [...yearSet].sort((a,b) => b - a).forEach(y => {
-    const opt = document.createElement('option');
-    opt.value = y; opt.textContent = y;
-    yearSel.appendChild(opt);
-  });
+  [...yearSet].sort((a,b)=>b-a).forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; yearSel.appendChild(o); });
 
-  ['search-input','filter-tag','filter-difficulty','filter-year','filter-source','sort-by']
-    .forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('input', debouncedFilter);
-    });
+  ['search-input','filter-tag','filter-difficulty','filter-type','filter-year','filter-source','sort-by']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', debouncedFilter); });
 
   applyFilters();
 })();

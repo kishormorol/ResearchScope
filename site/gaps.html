@@ -8,133 +8,132 @@
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
-
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
-      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html">Home</a>
-        <a href="papers.html">Papers</a>
-        <a href="topics.html">Topics</a>
-        <a href="conferences.html">Conferences</a>
-        <a href="authors.html">Authors</a>
-        <a href="labs.html">Labs</a>
-        <a href="gaps.html" class="active">Research Gaps</a>
+      <a href="index.html" class="font-bold text-lg" style="color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-5 text-sm font-medium">
+        <a href="index.html">Home</a><a href="papers.html">Papers</a><a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a><a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a><a href="gaps.html" class="active">Research Gaps</a>
       </div>
       <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
     </div>
   </div>
 </nav>
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-    <div>
-      <h1 class="text-2xl font-bold">🔬 Research Gaps</h1>
-      <p class="text-sm mt-1" style="color:var(--rs-muted)">
-        Automatically extracted from paper abstracts — limitations, open challenges,
-        and future directions waiting to be explored.
-      </p>
-    </div>
-    <div class="flex gap-2">
-      <input id="search-input" class="rs-input" type="text" placeholder="Search gaps…"/>
-      <select id="filter-topic" class="rs-select">
-        <option value="">All Topics</option>
+  <h1 class="text-2xl font-bold mb-2">🔍 Research Gap Explorer</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">
+    Gaps are extracted in three layers: <strong>Explicit</strong> (directly stated limitations),
+    <strong>Pattern</strong> (recurring weaknesses across papers), and
+    <strong>Starter</strong> (beginner-friendly research directions). All are signals, not guarantees.
+  </p>
+
+  <!-- Legend -->
+  <div class="flex flex-wrap gap-3 mb-6">
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#4f46e5"></div><span>📌 Explicit — directly extracted</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#f59e0b"></div><span>📊 Pattern — inferred from repeated signals</span></div>
+    <div class="flex items-center gap-2 text-sm"><div class="w-3 h-3 rounded-sm" style="background:#10b981"></div><span>💡 Starter — beginner-friendly ideas</span></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="rs-card p-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+      <input id="search-gaps" class="rs-input sm:col-span-2" type="text" placeholder="Search gaps…"/>
+      <select id="filter-type" class="rs-select">
+        <option value="">All Types</option>
+        <option value="explicit">Explicit</option>
+        <option value="pattern">Pattern</option>
+        <option value="starter">Starter</option>
       </select>
+      <select id="filter-topic" class="rs-select"><option value="">All Topics</option></select>
     </div>
   </div>
 
-  <p id="result-count" class="text-sm mb-4" style="color:var(--rs-muted)"></p>
-  <div id="gaps-container"></div>
+  <p id="gap-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
+  <div id="gaps-list"><div class="spinner"></div></div>
 </div>
-
-<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  ResearchScope — open-source research intelligence
-</footer>
-
+<footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">ResearchScope — open-source research intelligence</footer>
 <script src="assets/js/app.js"></script>
 <script>
+const TYPE_LABELS = {explicit:'📌 Explicit',pattern:'📊 Pattern',starter:'💡 Starter'};
+const TYPE_CLS    = {explicit:'gap-card-explicit',pattern:'gap-card-pattern',starter:'gap-card-starter'};
+const CONF_LABELS = v => v >= 0.8 ? 'High' : v >= 0.6 ? 'Medium' : 'Low';
+
 let allGaps = [];
 
-function renderGapCard(g) {
-  const projects = (g.suggested_projects || []).slice(0, 3);
-  const freq = g.frequency || 1;
-
+function renderGap(g, papersById) {
+  const cls = TYPE_CLS[g.gap_type] || '';
+  const label = TYPE_LABELS[g.gap_type] || g.gap_type;
+  const conf = CONF_LABELS(g.confidence || 0.5);
+  const evidencePapers = (g.evidence_paper_ids || g.source_paper_ids || []).map(id=>papersById[id]).filter(Boolean);
   return `
-  <div class="gap-card">
-    <div class="flex items-start justify-between flex-wrap gap-2 mb-3">
-      <div>
-        <span class="badge badge-tag mb-1">${escHtml(g.topic)}</span>
-        <h3 class="font-semibold mt-1 leading-snug">${escHtml(g.description)}</h3>
-      </div>
-      <span class="badge badge-score flex-shrink-0">
-        🔁 ${freq} paper${freq !== 1 ? 's' : ''}
-      </span>
+  <div class="gap-card ${cls} mb-4">
+    <div class="flex flex-wrap items-center gap-2 mb-2">
+      <span class="text-xs font-bold">${label}</span>
+      <span class="badge badge-tag">${escHtml(g.topic)}</span>
+      <span class="text-xs" style="color:var(--rs-muted)">${g.frequency} paper${g.frequency!==1?'s':''} · Confidence: ${conf}</span>
     </div>
-    ${projects.length ? `
-    <div>
-      <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">
-        💡 Suggested Beginner Projects
-      </p>
-      <ul class="space-y-1.5">
-        ${projects.map(pr => `
-          <li class="flex items-start gap-2 text-sm">
-            <span class="mt-0.5 flex-shrink-0">▸</span>
-            <span>${escHtml(pr)}</span>
-          </li>`).join('')}
-      </ul>
+    <h3 class="font-semibold mb-2">${escHtml(g.title || g.topic)}</h3>
+    <p class="text-sm mb-3" style="color:var(--rs-muted)">${escHtml(g.description || '')}</p>
+    ${g.starter_idea ? `
+    <div class="p-3 rounded-lg mb-3" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2)">
+      <p class="text-xs font-bold mb-1" style="color:#10b981">💡 Starter Idea</p>
+      <p class="text-sm">${escHtml(g.starter_idea)}</p>
+    </div>` : ''}
+    ${(g.suggested_projects||[]).length ? `
+    <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Project Ideas</p>
+    <ul class="text-sm space-y-1 list-disc list-inside">
+      ${(g.suggested_projects).slice(0,3).map(p=>`<li>${escHtml(p)}</li>`).join('')}
+    </ul>` : ''}
+    ${evidencePapers.length ? `
+    <p class="text-xs font-semibold uppercase mt-3 mb-2" style="color:var(--rs-muted)">Evidence Papers (${evidencePapers.length})</p>
+    <div class="space-y-1">
+      ${evidencePapers.slice(0,3).map(p=>{
+        const url = p.paper_url || p.url || '#';
+        return `<a href="${escHtml(url)}" target="_blank" class="block text-xs hover:underline" style="color:var(--rs-primary)">${escHtml(p.title)}</a>`;
+      }).join('')}
     </div>` : ''}
   </div>`;
 }
 
-function renderGaps(gaps) {
-  const container = document.getElementById('gaps-container');
-  document.getElementById('result-count').textContent =
-    `Showing ${gaps.length} gap${gaps.length !== 1 ? 's' : ''}`;
-  if (!gaps.length) {
-    container.innerHTML = `<div class="empty-state"><p>No gaps match your filters.</p></div>`;
-  } else {
-    container.innerHTML = gaps.map(renderGapCard).join('');
-  }
-}
-
-function applyFilters() {
-  const q     = document.getElementById('search-input').value.toLowerCase();
+function applyFilters(papersById) {
+  const q     = document.getElementById('search-gaps').value.toLowerCase();
+  const type  = document.getElementById('filter-type').value;
   const topic = document.getElementById('filter-topic').value;
-  const filtered = allGaps.filter(g => {
-    if (topic && g.topic !== topic) return false;
-    if (q && !(g.topic + ' ' + g.description).toLowerCase().includes(q)) return false;
+
+  let filtered = allGaps.filter(g => {
+    if (q && !(g.title||'').toLowerCase().includes(q) && !(g.description||'').toLowerCase().includes(q)) return false;
+    if (type  && g.gap_type !== type)   return false;
+    if (topic && g.topic !== topic)     return false;
     return true;
   });
-  renderGaps(filtered);
+
+  document.getElementById('gap-count').textContent = `${filtered.length} gap${filtered.length!==1?'s':''}`;
+  document.getElementById('gaps-list').innerHTML = filtered.length
+    ? filtered.map(g => renderGap(g, papersById)).join('')
+    : '<div class="empty-state"><p>No gaps match your filters.</p></div>';
 }
 
 (async () => {
-  const gaps = await fetchData('data/gaps.json');
-  if (!gaps || !gaps.length) {
-    document.getElementById('gaps-container').innerHTML = `
-      <div class="empty-state">
-        <p class="text-lg font-medium">No research gaps detected yet</p>
-        <p class="text-sm mt-1">Run the pipeline to populate gap data.</p>
-      </div>`;
-    return;
-  }
+  const [gaps, papers] = await Promise.all([fetchData('data/gaps.json'), fetchData('data/papers.json')]);
+  if (!gaps || !gaps.length) { showEmpty('gaps-list','No gaps yet. Run the pipeline.'); return; }
+
   allGaps = gaps;
+  const papersById = {};
+  (papers||[]).forEach(p => { papersById[p.id] = p; });
 
   // Populate topic filter
-  const topics = [...new Set(gaps.map(g => g.topic))].sort();
+  const topics = [...new Set(gaps.map(g=>g.topic).filter(Boolean))].sort();
   const topicSel = document.getElementById('filter-topic');
-  topics.forEach(t => {
-    const opt = document.createElement('option');
-    opt.value = t; opt.textContent = t;
-    topicSel.appendChild(opt);
+  topics.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; topicSel.appendChild(o); });
+
+  ['search-gaps','filter-type','filter-topic'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', debounce(() => applyFilters(papersById), 200));
   });
 
-  renderGaps(gaps);
-
-  ['search-input', 'filter-topic'].forEach(id => {
-    document.getElementById(id).addEventListener('input', debounce(applyFilters, 200));
-  });
+  applyFilters(papersById);
 })();
 </script>
 </body>

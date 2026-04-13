@@ -1,120 +1,223 @@
-"""Main pipeline for ResearchScope."""
+"""
+ResearchScope — main pipeline.
+
+Usage:
+    python src/pipeline.py
+    python src/pipeline.py --max-results 30 --output-dir data
+
+The pipeline runs the following stages in order:
+  1. Fetch   — connectors pull raw papers from sources
+  2. Dedup   — remove near-duplicates
+  3. Tag     — assign topic tags and paper_type
+  4. Assess  — assign difficulty level
+  5. Score   — compute all four score types
+  6. Enrich  — generate content fields
+  7. Cluster — group papers into topic clusters
+  8. Gaps    — extract research gaps (3 layers)
+  9. Aggregate — build author / lab / university objects
+ 10. Editorial — build daily editorial queue
+ 11. Site gen — write JSON for the static frontend
+"""
 from __future__ import annotations
 
-import re
+import argparse
+import logging
 import sys
-from collections import defaultdict
-from datetime import datetime, timezone
+from pathlib import Path
 
+# Make "src" importable when running as a script
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from src.aggregation.aggregator import Aggregator
 from src.clustering.clusterer import TopicClusterer
 from src.connectors.acl_connector import ACLAnthologyConnector
 from src.connectors.arxiv_connector import ArxivConnector
-from src.content.generator import ContentGenerator
+from src.content.generator import ContentGenerator, EditorialQueue
 from src.dedup.deduplicator import Deduplicator
 from src.difficulty.assessor import DifficultyAssessor
 from src.gaps.gap_extractor import GapExtractor
-from src.normalization.schema import Author, Lab, Paper
+from src.normalization.schema import Paper
 from src.scoring.scorer import PaperScorer
 from src.sitegen.generator import SiteGenerator
 from src.tagging.tagger import PaperTagger
 
-
-def _build_authors(papers: list[Paper]) -> list[Author]:
-    """Aggregate per-author stats from papers."""
-    author_map: dict[str, Author] = {}
-    for paper in papers:
-        for name in paper.authors:
-            aid = re.sub(r"\s+", "_", name.lower())
-            if aid not in author_map:
-                author_map[aid] = Author(id=aid, name=name)
-            author = author_map[aid]
-            if paper.id not in author.paper_ids:
-                author.paper_ids.append(paper.id)
-            for tag in paper.tags:
-                if tag not in author.top_topics:
-                    author.top_topics.append(tag)
-
-    # Simple momentum: papers in last 2 years / total papers
-    current_year = datetime.now(timezone.utc).year
-    for author in author_map.values():
-        relevant = [
-            p for p in papers
-            if p.id in author.paper_ids and current_year - p.year <= 2
-        ]
-        total = len(author.paper_ids) or 1
-        author.momentum_score = round(len(relevant) / total, 2)
-        author.top_topics = author.top_topics[:5]
-
-    return sorted(author_map.values(), key=lambda a: -len(a.paper_ids))
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s  %(levelname)-8s  %(message)s",
+    datefmt="%H:%M:%S",
+)
+log = logging.getLogger("pipeline")
 
 
-def _build_labs(papers: list[Paper]) -> list[Lab]:
-    """Placeholder: universities are not reliably in the data for MVP."""
-    return []
+# ── Default queries ───────────────────────────────────────────────────────────
 
+_DEFAULT_QUERIES = [
+    "large language models",
+    "natural language processing",
+    "computer vision transformer",
+    "reinforcement learning",
+    "diffusion models",
+    "retrieval augmented generation",
+    "multimodal AI",
+    "AI safety alignment",
+    "code generation LLM",
+]
+
+
+# ── Pipeline ──────────────────────────────────────────────────────────────────
 
 def run_pipeline(
     queries: list[str] | None = None,
     max_results_per_query: int = 50,
     output_dir: str = "data",
+    skip_acl: bool = False,
 ) -> dict:
-    """Execute the full ResearchScope pipeline and return summary stats."""
+    """Execute the full ResearchScope pipeline. Returns summary stats."""
+
     if queries is None:
-        queries = [
-            "machine learning",
-            "natural language processing",
-            "computer vision",
-            "reinforcement learning",
-        ]
+        queries = _DEFAULT_QUERIES
 
-    connectors = [ArxivConnector(), ACLAnthologyConnector()]
+    # ── Stage 1: Fetch ────────────────────────────────────────────────────────
+    log.info("Stage 1/11 — Fetching papers …")
+    connectors = [ArxivConnector()]
+    if not skip_acl:
+        connectors.append(ACLAnthologyConnector())
+
     all_papers: list[Paper] = []
-
     for connector in connectors:
         for query in queries:
-            print(f"[pipeline] Fetching '{query}' from {connector.source_name} …")
-            fetched = connector.fetch(query, max_results=max_results_per_query)
-            print(f"[pipeline]   → {len(fetched)} papers")
+            log.info("  [%s] '%s' …", connector.source_name, query)
+            try:
+                fetched = connector.fetch(query, max_results=max_results_per_query)
+            except Exception as exc:
+                log.warning("  [%s] fetch failed for '%s': %s", connector.source_name, query, exc)
+                fetched = []
+            log.info("    → %d papers", len(fetched))
             all_papers.extend(fetched)
 
-    print(f"[pipeline] Total before dedup: {len(all_papers)}")
+    log.info("Fetched %d papers total (before dedup)", len(all_papers))
 
+    if not all_papers:
+        log.error("No papers fetched. Check network connectivity.")
+        return {}
+
+    # ── Stage 2: Dedup ────────────────────────────────────────────────────────
+    log.info("Stage 2/11 — Deduplicating …")
     deduplicator = Deduplicator()
     papers = deduplicator.deduplicate(all_papers)
-    print(f"[pipeline] After dedup: {len(papers)}")
+    log.info("  %d papers after dedup", len(papers))
 
-    scorer = PaperScorer()
+    # ── Stage 3: Tag ──────────────────────────────────────────────────────────
+    log.info("Stage 3/11 — Tagging …")
     tagger = PaperTagger()
-    assessor = DifficultyAssessor()
-    content_gen = ContentGenerator()
-
     for paper in papers:
-        paper = tagger.tag(paper)
-        paper = assessor.assess(paper)
-        paper = scorer.score(paper)
-        paper.summary = content_gen.generate_summary(paper)
-        paper.why_it_matters = content_gen.generate_why_it_matters(paper)
+        tagger.tag(paper)
 
-    papers.sort(key=lambda p: -p.read_first_score)
+    # ── Stage 4: Difficulty ────────────────────────────────────────────────────
+    log.info("Stage 4/11 — Assessing difficulty …")
+    assessor = DifficultyAssessor()
+    for paper in papers:
+        assessor.assess(paper)
 
-    authors = _build_authors(papers)
+    # ── Stage 5: Score ────────────────────────────────────────────────────────
+    log.info("Stage 5/11 — Scoring …")
+    scorer = PaperScorer()
+    for paper in papers:
+        scorer.score(paper)
+
+    papers.sort(key=lambda p: -p.paper_score)
+
+    # ── Stage 6: Content enrichment ───────────────────────────────────────────
+    log.info("Stage 6/11 — Generating content …")
+    content_gen = ContentGenerator()
+    for paper in papers:
+        content_gen.enrich(paper)
+
+    # ── Stage 7: Topic clustering ─────────────────────────────────────────────
+    log.info("Stage 7/11 — Clustering topics …")
     clusterer = TopicClusterer()
     topics = clusterer.cluster(papers)
+    log.info("  %d topics", len(topics))
+
+    # ── Stage 8: Research gaps ────────────────────────────────────────────────
+    log.info("Stage 8/11 — Extracting research gaps …")
     gap_extractor = GapExtractor()
     gaps = gap_extractor.extract(papers)
+    log.info("  %d gaps extracted", len(gaps))
 
+    # ── Stage 9: Aggregate authors / labs / universities ─────────────────────
+    log.info("Stage 9/11 — Aggregating authors, labs, universities …")
+    aggregator = Aggregator()
+    authors      = aggregator.build_authors(papers)
+    labs         = aggregator.build_labs(papers)
+    universities = aggregator.build_universities(papers)
+    log.info(
+        "  %d authors, %d labs, %d universities",
+        len(authors), len(labs), len(universities),
+    )
+
+    # ── Stage 10: Editorial queue ──────────────────────────────────────────────
+    log.info("Stage 10/11 — Building editorial queue …")
+    editorial = EditorialQueue().build(papers, authors, labs, topics, gaps)
+
+    # ── Stage 11: Site generation ──────────────────────────────────────────────
+    log.info("Stage 11/11 — Writing site data to '%s/' …", output_dir)
     site_gen = SiteGenerator()
-    site_gen.generate(papers, authors, topics, gaps, output_dir=output_dir)
+    site_gen.generate(
+        papers=papers,
+        authors=authors,
+        topics=topics,
+        gaps=gaps,
+        output_dir=output_dir,
+        labs=labs,
+        universities=universities,
+        editorial=editorial,
+    )
 
     stats = {
-        "total_papers": len(papers),
-        "total_authors": len(authors),
-        "total_topics": len(topics),
-        "total_gaps": len(gaps),
+        "total_papers":       len(papers),
+        "total_authors":      len(authors),
+        "total_labs":         len(labs),
+        "total_universities": len(universities),
+        "total_topics":       len(topics),
+        "total_gaps":         len(gaps),
     }
-    print(f"[pipeline] Done. Stats: {stats}")
+    log.info("Pipeline complete. Stats: %s", stats)
     return stats
 
 
+# ── CLI ───────────────────────────────────────────────────────────────────────
+
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="ResearchScope pipeline — fetch, enrich, and publish CS research data."
+    )
+    parser.add_argument(
+        "--max-results", type=int, default=50,
+        help="Max papers per query per connector (default: 50)",
+    )
+    parser.add_argument(
+        "--output-dir", default="data",
+        help="Directory to write JSON output (default: data/)",
+    )
+    parser.add_argument(
+        "--skip-acl", action="store_true",
+        help="Skip the ACL Anthology connector",
+    )
+    parser.add_argument(
+        "--query", action="append", dest="queries",
+        help="Override default queries (can be repeated)",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    run_pipeline()
+    args = _parse_args()
+    stats = run_pipeline(
+        queries=args.queries,
+        max_results_per_query=args.max_results,
+        output_dir=args.output_dir,
+        skip_acl=args.skip_acl,
+    )
+    if not stats:
+        sys.exit(1)

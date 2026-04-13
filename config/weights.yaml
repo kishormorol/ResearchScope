@@ -1,0 +1,72 @@
+# Score weights for ResearchScope.
+# All component weights within a score sum to 1.0.
+# Scores are all normalised to 0–10.
+
+# ── Paper score ("what matters") ────────────────────────────────────────────
+# Measures how significant / important a paper is to the field.
+paper_score:
+  recency:         0.35   # how recently published
+  novelty:         0.30   # abstract-level novelty signals
+  quality_hint:    0.25   # conference rank + citation proxy
+  completeness:    0.10   # how much metadata we have
+
+# ── Read-first score ("what should I read first") ───────────────────────────
+# Measures how valuable/accessible this paper is to read right now.
+read_first_score:
+  clarity:         0.30   # abstract clarity & length
+  foundational:    0.25   # foundational-keyword density
+  accessibility:   0.25   # inverse difficulty
+  topic_centrality: 0.20  # how central is this topic
+
+# ── Content potential score ("worth discussing publicly") ────────────────────
+# Measures creator / outreach potential.
+content_potential_score:
+  surprise:        0.25   # unexpected or counterintuitive claims
+  practical_value: 0.25   # clear real-world application
+  explainability:  0.20   # can be explained simply
+  broad_relevance: 0.20   # not too niche
+  trend_alignment: 0.10   # aligns with hot topics
+
+# ── Author momentum score ─────────────────────────────────────────────────────
+author_momentum:
+  recent_output:       0.30   # papers in last 2 years
+  avg_quality:         0.25   # avg paper_score of author's papers
+  acceleration:        0.20   # output growth vs. prior 2 years
+  topic_strength:      0.15   # how focused on trending topics
+  conference_strength: 0.10   # ratio of A/A* papers
+
+# ── Lab momentum score ────────────────────────────────────────────────────────
+lab_momentum:
+  recent_output:       0.30
+  avg_quality:         0.25
+  a_star_ratio:        0.25   # proportion of A* papers
+  topic_diversity:     0.10
+  author_count:        0.10
+
+# ── Conference rank → quality_hint score ────────────────────────────────────
+conference_rank_scores:
+  "A*": 10.0
+  "A":   7.5
+  "B":   5.0
+  "C":   3.0
+  "":    0.0
+
+# ── Default queries for arXiv connector ─────────────────────────────────────
+arxiv_queries:
+  - "large language models"
+  - "natural language processing"
+  - "computer vision transformer"
+  - "reinforcement learning"
+  - "diffusion models"
+  - "retrieval augmented generation"
+  - "multimodal learning"
+  - "code generation LLM"
+
+# ── ACL Anthology venues to fetch (short IDs) ───────────────────────────────
+acl_venues:
+  - acl
+  - emnlp
+  - naacl
+  - eacl
+  - coling
+  - conll

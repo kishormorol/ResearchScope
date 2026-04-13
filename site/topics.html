@@ -3,123 +3,105 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Topics – ResearchScope</title>
+  <title>Topics & Reading Paths – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
-
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
-      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html">Home</a>
-        <a href="papers.html">Papers</a>
-        <a href="topics.html" class="active">Topics</a>
-        <a href="conferences.html">Conferences</a>
-        <a href="authors.html">Authors</a>
-        <a href="labs.html">Labs</a>
-        <a href="gaps.html">Research Gaps</a>
+      <a href="index.html" class="font-bold text-lg" style="color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-5 text-sm font-medium">
+        <a href="index.html">Home</a><a href="papers.html">Papers</a>
+        <a href="topics.html" class="active">Topics</a><a href="conferences.html">Conferences</a>
+        <a href="authors.html">Authors</a><a href="labs.html">Labs &amp; Unis</a><a href="gaps.html">Research Gaps</a>
       </div>
       <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
     </div>
   </div>
 </nav>
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold">🗂 Topics Explorer</h1>
-    <input id="search-input" class="rs-input w-64" type="text" placeholder="Search topics…"/>
-  </div>
-
-  <!-- Topic cards grid -->
-  <div id="topics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-    <div class="spinner" style="grid-column:1/-1"></div>
-  </div>
-
-  <!-- Prerequisite tree -->
-  <div id="prereq-section" class="hidden">
-    <h2 class="text-xl font-bold mb-4">🌳 Prerequisite Tree</h2>
-    <div id="prereq-tree" class="rs-card p-6"></div>
-  </div>
+  <h1 class="text-2xl font-bold mb-2">🗂 Topics &amp; Reading Paths</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">Difficulty levels, prerequisites, starter papers (L1–L2), and frontier papers (L3–L4) per topic.</p>
+  <div class="flex flex-wrap gap-2 mb-6" id="topic-nav"></div>
+  <div id="topics-list"><div class="spinner"></div></div>
 </div>
-
-<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  ResearchScope — open-source research intelligence
-</footer>
-
+<footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">ResearchScope — open-source research intelligence</footer>
 <script src="assets/js/app.js"></script>
 <script>
-let allTopics = [];
+const DIFF_LABELS = {L1:'L1 Beginner',L2:'L2 Intermediate',L3:'L3 Advanced',L4:'L4 Frontier',
+  beginner:'L1 Beginner',intermediate:'L2 Intermediate',advanced:'L3 Advanced',frontier:'L4 Frontier'};
+const DIFF_CLS = {L1:'badge-l1',L2:'badge-l2',L3:'badge-l3',L4:'badge-l4',
+  beginner:'badge-l1',intermediate:'badge-l2',advanced:'badge-l3',frontier:'badge-l4'};
 
-const DIFF_ICON = { beginner: '🟢', intermediate: '🟡', advanced: '🔴' };
-
-function renderTopicCard(t) {
-  const icon = DIFF_ICON[t.difficulty] || '⚪';
-  const related = (t.related_topics || []).slice(0, 3).map(r =>
-    `<span class="badge badge-tag">${escHtml(r)}</span>`).join(' ');
-  const prereqs = (t.prerequisites || []).slice(0, 3).map(r =>
-    `<span class="badge" style="background:var(--rs-bg);border:1px solid var(--rs-border)">${escHtml(r)}</span>`
-  ).join(' ');
-
-  return `
-  <div class="rs-card p-5 flex flex-col gap-3">
-    <div class="flex items-start justify-between">
-      <h3 class="font-semibold text-base">${icon} ${escHtml(t.name)}</h3>
-      ${difficultyBadge(t.difficulty)}
+function paperStub(p, icon='⭐') {
+  const url = p.paper_url || p.url || '#';
+  return `<div class="reading-path-step">
+    <div class="path-number">${icon}</div>
+    <div class="flex-1 min-w-0">
+      <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
+      <div class="flex gap-1 flex-wrap mt-0.5">
+        ${difficultyBadge(p)}
+        <span class="badge badge-score">${(+p.read_first_score||0).toFixed(1)}</span>
+        ${p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : ''}
+      </div>
+      ${p.one_line_takeaway ? `<p class="text-xs mt-0.5 italic" style="color:var(--rs-muted)">${escHtml(truncate(p.one_line_takeaway,100))}</p>` : ''}
     </div>
-    <p class="text-sm" style="color:var(--rs-muted)">
-      📄 ${(t.paper_ids || []).length} papers
-    </p>
-    ${prereqs ? `<div><p class="text-xs font-semibold mb-1" style="color:var(--rs-muted)">PREREQUISITES</p><div class="flex flex-wrap gap-1">${prereqs}</div></div>` : ''}
-    ${related ? `<div><p class="text-xs font-semibold mb-1" style="color:var(--rs-muted)">RELATED</p><div class="flex flex-wrap gap-1">${related}</div></div>` : ''}
-    <a href="papers.html" class="text-indigo-600 text-sm font-medium hover:underline mt-auto">
-      View papers →
-    </a>
   </div>`;
 }
 
-function renderPrereqTree(topics) {
-  const section = document.getElementById('prereq-section');
-  const tree    = document.getElementById('prereq-tree');
-  const withPrereqs = topics.filter(t => t.prerequisites && t.prerequisites.length);
-  if (!withPrereqs.length) return;
-  section.classList.remove('hidden');
-  tree.innerHTML = withPrereqs.map(t => `
-    <div class="mb-4">
-      <p class="font-semibold">${escHtml(t.name)}</p>
-      <div class="ml-4 mt-1 flex flex-wrap gap-2 items-center">
-        <span class="text-sm" style="color:var(--rs-muted)">requires →</span>
-        ${t.prerequisites.map(p => `<span class="badge badge-tag">${escHtml(p)}</span>`).join('')}
+function renderTopicCard(t, papersById) {
+  const diff = t.difficulty || 'L2';
+  const starters  = (t.starter_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
+  const frontier  = (t.frontier_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
+  const prereqs   = (t.prerequisites||[]).join(', ') || '—';
+  return `
+  <div class="rs-card p-6 mb-6" id="topic-${escHtml(t.id)}">
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <h2 class="text-xl font-bold">${escHtml(t.name)}</h2>
+      <span class="badge ${DIFF_CLS[diff]||'badge-l2'}">${DIFF_LABELS[diff]||diff}</span>
+      <span class="badge badge-score">📈 Trend ${(+t.trend_score||0).toFixed(1)}</span>
+      <span class="text-sm" style="color:var(--rs-muted)">${(t.paper_ids||[]).length} papers</span>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div>
+        <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Prerequisites</p>
+        <p class="text-sm mb-3">${escHtml(prereqs)}</p>
+        ${(t.related_topics||[]).length ? `
+        <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Related Topics</p>
+        <div class="flex flex-wrap gap-1 mb-3">
+          ${(t.related_topics).map(rt=>`<a href="#topic-${rt.toLowerCase().replace(/[^a-z0-9]+/g,'_')}" class="topic-chip text-xs">${escHtml(rt)}</a>`).join('')}
+        </div>` : ''}
+        ${t.gap_summary ? `
+        <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Gap Signal</p>
+        <p class="text-xs italic" style="color:var(--rs-muted)">${escHtml(t.gap_summary)}</p>` : ''}
+        ${(t.keywords||[]).length ? `
+        <p class="text-xs font-semibold uppercase mt-3 mb-1" style="color:var(--rs-muted)">Keywords</p>
+        <div class="flex flex-wrap gap-1">${(t.keywords).slice(0,8).map(k=>`<span class="badge badge-tag">${escHtml(k)}</span>`).join('')}</div>` : ''}
       </div>
-    </div>`).join('');
-}
-
-function filterTopics(q) {
-  const filtered = q
-    ? allTopics.filter(t => t.name.toLowerCase().includes(q.toLowerCase()))
-    : allTopics;
-  const grid = document.getElementById('topics-grid');
-  if (!filtered.length) {
-    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><p>No topics match.</p></div>`;
-  } else {
-    grid.innerHTML = filtered.map(renderTopicCard).join('');
-  }
+      <div>
+        ${starters.length ? `
+        <p class="text-xs font-semibold uppercase mb-2" style="color:#10b981">📗 Start Here</p>
+        ${starters.slice(0,3).map(p=>paperStub(p,'📗')).join('')}` : ''}
+        ${frontier.length ? `
+        <p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed">🚀 Frontier</p>
+        ${frontier.slice(0,3).map(p=>paperStub(p,'🚀')).join('')}` : ''}
+        ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned to reading paths yet.</p>` : ''}
+      </div>
+    </div>
+  </div>`;
 }
 
 (async () => {
-  const topics = await fetchData('data/topics.json');
-  if (!topics || !topics.length) {
-    showEmpty('topics-grid');
-    return;
-  }
-  allTopics = topics;
-  filterTopics('');
-  renderPrereqTree(topics);
-
-  document.getElementById('search-input').addEventListener('input',
-    debounce(e => filterTopics(e.target.value), 200));
+  const [topics, papers] = await Promise.all([fetchData('data/topics.json'), fetchData('data/papers.json')]);
+  if (!topics || !topics.length) { showEmpty('topics-list','No topics yet. Run the pipeline.'); return; }
+  const papersById = {};
+  (papers||[]).forEach(p => { papersById[p.id] = p; });
+  const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0));
+  document.getElementById('topic-nav').innerHTML = sorted.map(t =>
+    `<a href="#topic-${escHtml(t.id)}" class="topic-chip text-sm">${escHtml(t.name)}</a>`).join('');
+  document.getElementById('topics-list').innerHTML = sorted.map(t => renderTopicCard(t, papersById)).join('');
 })();
 </script>
 </body>

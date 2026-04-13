@@ -8,138 +8,130 @@
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
-
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
-      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html">Home</a>
-        <a href="papers.html">Papers</a>
-        <a href="topics.html">Topics</a>
-        <a href="conferences.html" class="active">Conferences</a>
-        <a href="authors.html">Authors</a>
-        <a href="labs.html">Labs</a>
-        <a href="gaps.html">Research Gaps</a>
+      <a href="index.html" class="font-bold text-lg" style="color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-5 text-sm font-medium">
+        <a href="index.html">Home</a><a href="papers.html">Papers</a><a href="topics.html">Topics</a>
+        <a href="conferences.html" class="active">Conferences</a><a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a><a href="gaps.html">Research Gaps</a>
       </div>
       <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
     </div>
   </div>
 </nav>
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-6">🏛 Conference Explorer</h1>
+  <h1 class="text-2xl font-bold mb-2">🎓 Conference Explorer</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">
+    Top CS venues ranked by paper quality. A* = top-tier (CORE ranking).
+    New connectors for ICLR, NeurIPS, ICML, COLM, CVPR, CHI are planned — see the
+    <a href="ROADMAP.md" style="color:var(--rs-primary)">roadmap</a>.
+  </p>
 
-  <!-- Tabs -->
-  <div class="flex gap-2 mb-6 border-b" style="border-color:var(--rs-border)">
-    <button class="conf-tab px-4 py-2 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600"
-            data-source="arxiv">arXiv</button>
-    <button class="conf-tab px-4 py-2 text-sm font-semibold border-b-2 border-transparent"
-            style="color:var(--rs-muted)" data-source="acl_anthology">ACL Anthology</button>
-    <span class="ml-auto text-xs self-center" style="color:var(--rs-muted)">
-      Future: NeurIPS, ICLR, ICML…
-    </span>
-  </div>
-
-  <div id="conf-content"><div class="spinner"></div></div>
-</div>
-
-<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  ResearchScope — open-source research intelligence
-</footer>
-
-<script src="assets/js/app.js"></script>
-<script>
-let allPapers = [];
-let activeSource = 'arxiv';
-
-function renderConference(source) {
-  const filtered = allPapers.filter(p => p.source === source);
-  const container = document.getElementById('conf-content');
-
-  if (!filtered.length) {
-    container.innerHTML = `<div class="empty-state"><p>No papers from this source yet.</p></div>`;
-    return;
-  }
-
-  // Theme chips
-  const tagCount = {};
-  filtered.forEach(p => (p.tags || []).forEach(t => { tagCount[t] = (tagCount[t] || 0) + 1; }));
-  const topTags = Object.entries(tagCount).sort((a,b) => b[1]-a[1]).slice(0, 10);
-
-  const topPapers = [...filtered]
-    .sort((a,b) => (b.read_first_score || 0) - (a.read_first_score || 0))
-    .slice(0, 10);
-
-  container.innerHTML = `
-    <div class="mb-6">
-      <h3 class="font-semibold mb-2">🔖 Top Themes</h3>
-      <div class="flex flex-wrap gap-2">
-        ${topTags.map(([t,c]) => `
-          <span class="topic-chip">${escHtml(t)} <span class="opacity-60">${c}</span></span>
-        `).join('')}
-      </div>
-    </div>
-    <h3 class="font-semibold mb-3">⭐ Top Papers</h3>
-    <div class="rs-card overflow-hidden">
+  <!-- Planned venues table -->
+  <div class="rs-card p-6 mb-8">
+    <h2 class="font-bold mb-4">📋 Conference Registry</h2>
+    <div class="overflow-x-auto">
       <table class="rs-table">
         <thead>
-          <tr>
-            <th>Title</th>
-            <th class="hidden sm:table-cell">Authors</th>
-            <th class="hidden md:table-cell">Year</th>
-            <th>Tags</th>
-            <th>Score</th>
-          </tr>
+          <tr><th>Conference</th><th>Short</th><th>Area</th><th>Rank</th><th>Status</th></tr>
         </thead>
-        <tbody>
-          ${topPapers.map(p => `
-          <tr>
-            <td>
-              <a href="${escHtml(p.url)}" target="_blank" rel="noopener"
-                 class="font-medium hover:text-indigo-600 transition-colors">
-                ${escHtml(p.title)}
-              </a>
-            </td>
-            <td class="hidden sm:table-cell text-sm" style="color:var(--rs-muted)">
-              ${escHtml((p.authors || []).slice(0,2).join(', '))}
-            </td>
-            <td class="hidden md:table-cell text-sm" style="color:var(--rs-muted)">${p.year || ''}</td>
-            <td>${tagChips((p.tags || []).slice(0,2))}</td>
-            <td>${scoreBadge(p.read_first_score)}</td>
-          </tr>`).join('')}
+        <tbody id="venues-body">
+          <tr><td colspan="5"><div class="spinner"></div></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="text-sm mt-3" style="color:var(--rs-muted)">
-      Showing top 10 of ${filtered.length} papers from this source.
-      <a href="papers.html" class="text-indigo-600 hover:underline">See all →</a>
-    </p>`;
-}
+  </div>
 
-document.querySelectorAll('.conf-tab').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.conf-tab').forEach(b => {
-      b.classList.remove('border-indigo-600', 'text-indigo-600');
-      b.classList.add('border-transparent');
-      b.style.color = 'var(--rs-muted)';
-    });
-    btn.classList.add('border-indigo-600', 'text-indigo-600');
-    btn.classList.remove('border-transparent');
-    btn.style.color = '';
-    activeSource = btn.dataset.source;
-    renderConference(activeSource);
-  });
-});
+  <!-- Papers by conference -->
+  <h2 class="text-xl font-bold mb-4">📄 Papers by Venue</h2>
+  <div id="conf-papers"><div class="spinner"></div></div>
+</div>
+<footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">ResearchScope — open-source research intelligence</footer>
+<script src="assets/js/app.js"></script>
+<script>
+const VENUES = [
+  {name:'ACL',          short:'ACL',     area:'NLP',rank:'A*',active:true},
+  {name:'EMNLP',        short:'EMNLP',   area:'NLP',rank:'A*',active:true},
+  {name:'NAACL',        short:'NAACL',   area:'NLP',rank:'A*',active:true},
+  {name:'EACL',         short:'EACL',    area:'NLP',rank:'A', active:true},
+  {name:'COLING',       short:'COLING',  area:'NLP',rank:'A', active:true},
+  {name:'NeurIPS',      short:'NeurIPS', area:'ML', rank:'A*',active:false},
+  {name:'ICML',         short:'ICML',    area:'ML', rank:'A*',active:false},
+  {name:'ICLR',         short:'ICLR',    area:'ML', rank:'A*',active:false},
+  {name:'COLM',         short:'COLM',    area:'ML', rank:'A*',active:false},
+  {name:'AAAI',         short:'AAAI',    area:'AI', rank:'A*',active:false},
+  {name:'IJCAI',        short:'IJCAI',   area:'AI', rank:'A*',active:false},
+  {name:'CVPR',         short:'CVPR',    area:'CV', rank:'A*',active:false},
+  {name:'ICCV',         short:'ICCV',    area:'CV', rank:'A*',active:false},
+  {name:'ECCV',         short:'ECCV',    area:'CV', rank:'A*',active:false},
+  {name:'CHI',          short:'CHI',     area:'HCI',rank:'A*',active:false},
+  {name:'arXiv',        short:'arXiv',   area:'all',rank:'',  active:true},
+];
+
+document.getElementById('venues-body').innerHTML = VENUES.map(v => `
+  <tr>
+    <td class="font-medium">${escHtml(v.name)}</td>
+    <td><span class="badge badge-tag">${escHtml(v.short)}</span></td>
+    <td class="text-sm" style="color:var(--rs-muted)">${escHtml(v.area)}</td>
+    <td>${v.rank ? rankBadge(v.rank) : '—'}</td>
+    <td>${v.active
+      ? '<span class="badge" style="background:#dcfce7;color:#166534">✓ Active</span>'
+      : '<span class="badge" style="background:#f1f5f9;color:#64748b">Planned</span>'
+    }</td>
+  </tr>`).join('');
 
 (async () => {
   const papers = await fetchData('data/papers.json');
   if (!papers || !papers.length) {
-    showEmpty('conf-content');
+    showEmpty('conf-papers','No papers yet. Run the pipeline.');
     return;
   }
-  allPapers = papers;
-  renderConference(activeSource);
+
+  // Group by venue
+  const byVenue = {};
+  papers.forEach(p => {
+    const v = p.venue || 'Unknown';
+    if (!byVenue[v]) byVenue[v] = [];
+    byVenue[v].push(p);
+  });
+
+  const sorted = Object.entries(byVenue).sort((a,b) => b[1].length - a[1].length);
+  let html = '';
+  for (const [venue, vPapers] of sorted) {
+    const top = [...vPapers].sort((a,b) => (b.paper_score||0) - (a.paper_score||0)).slice(0,3);
+    const rank = top[0]?.conference_rank || '';
+    const tags = [...new Set(vPapers.flatMap(p => p.tags||[]))].slice(0,5);
+    html += `
+    <div class="rs-card p-5 mb-5">
+      <div class="flex flex-wrap items-center gap-3 mb-3">
+        <h3 class="font-bold text-lg">${escHtml(venue)}</h3>
+        ${rankBadge(rank)}
+        <span class="text-sm" style="color:var(--rs-muted)">${vPapers.length} papers</span>
+      </div>
+      <div class="flex flex-wrap gap-1 mb-4">
+        ${tags.map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+      </div>
+      <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Top Papers to Read First</p>
+      <div class="space-y-2">
+        ${top.map(p => {
+          const url = p.paper_url || p.url || '#';
+          return `<div class="flex items-start gap-3">
+            <span class="badge badge-score mt-0.5">⭐ ${(+p.paper_score||0).toFixed(1)}</span>
+            <div class="min-w-0">
+              <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
+              <div class="flex gap-1 mt-0.5">
+                ${difficultyBadge(p)}
+                ${(p.tags||[]).slice(0,2).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
+  }
+  document.getElementById('conf-papers').innerHTML = html || '<div class="empty-state"><p>No conference papers yet.</p></div>';
 })();
 </script>
 </body>

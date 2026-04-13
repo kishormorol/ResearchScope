@@ -3,84 +3,139 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Labs – ResearchScope</title>
+  <title>Labs & Universities – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
 <body>
-
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-14">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg text-indigo-600">🔭 ResearchScope</a>
-      <div class="hidden sm:flex items-center gap-6 text-sm font-medium">
-        <a href="index.html">Home</a>
-        <a href="papers.html">Papers</a>
-        <a href="topics.html">Topics</a>
-        <a href="conferences.html">Conferences</a>
-        <a href="authors.html">Authors</a>
-        <a href="labs.html" class="active">Labs</a>
-        <a href="gaps.html">Research Gaps</a>
+      <a href="index.html" class="font-bold text-lg" style="color:var(--rs-primary)">🔭 ResearchScope</a>
+      <div class="hidden sm:flex items-center gap-5 text-sm font-medium">
+        <a href="index.html">Home</a><a href="papers.html">Papers</a><a href="topics.html">Topics</a>
+        <a href="conferences.html">Conferences</a><a href="authors.html">Authors</a>
+        <a href="labs.html" class="active">Labs &amp; Unis</a><a href="gaps.html">Research Gaps</a>
       </div>
       <button id="theme-toggle"><span id="theme-icon">🌙</span></button>
     </div>
   </div>
 </nav>
-
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-2">🏫 Labs &amp; Universities</h1>
-  <p class="mb-6 text-sm" style="color:var(--rs-muted)">
-    Lab and university data will be automatically populated as author affiliation
-    extraction is added to the pipeline. Shown below are placeholder cards.
-  </p>
+  <h1 class="text-2xl font-bold mb-2">🏛 Labs &amp; Universities</h1>
+  <p class="text-sm mb-6" style="color:var(--rs-muted)">Research organizations ranked by output, momentum, and A* venue count.</p>
 
-  <div id="labs-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    <div class="spinner" style="grid-column:1/-1"></div>
+  <!-- Tab buttons -->
+  <div class="flex gap-2 mb-6">
+    <button id="tab-labs" class="pager-btn active" onclick="switchTab('labs')">🧪 Labs &amp; Industry</button>
+    <button id="tab-unis" class="pager-btn" onclick="switchTab('unis')">🎓 Universities</button>
+  </div>
+
+  <div id="tab-content-labs">
+    <div class="rs-card p-4 mb-4">
+      <input id="search-labs" class="rs-input" type="text" placeholder="Search labs…"/>
+    </div>
+    <p id="lab-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
+    <div id="labs-grid"><div class="spinner"></div></div>
+  </div>
+
+  <div id="tab-content-unis" style="display:none">
+    <div class="rs-card p-4 mb-4">
+      <input id="search-unis" class="rs-input" type="text" placeholder="Search universities…"/>
+    </div>
+    <p id="uni-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
+    <div id="unis-grid"><div class="spinner"></div></div>
   </div>
 </div>
-
-<footer class="border-t py-6 text-center text-sm" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  ResearchScope — open-source research intelligence
-</footer>
-
+<footer class="border-t py-6 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">ResearchScope — open-source research intelligence</footer>
 <script src="assets/js/app.js"></script>
 <script>
-function renderLabCard(lab) {
-  const momentum = ((lab.momentum_score || 0) * 100).toFixed(0);
-  const topics = (lab.top_topics || []).slice(0, 4).map(t =>
-    `<span class="badge badge-tag">${escHtml(t)}</span>`).join(' ');
+let allLabs = [], allUnis = [];
+
+function switchTab(which) {
+  document.getElementById('tab-content-labs').style.display = which==='labs' ? '' : 'none';
+  document.getElementById('tab-content-unis').style.display = which==='unis' ? '' : 'none';
+  document.getElementById('tab-labs').classList.toggle('active', which==='labs');
+  document.getElementById('tab-unis').classList.toggle('active', which==='unis');
+}
+
+function labCard(l) {
+  const momentum = +l.momentum_score || 0;
   return `
-  <div class="rs-card p-5 flex flex-col gap-3">
-    <div class="flex items-start justify-between">
-      <div>
-        <h3 class="font-semibold">${escHtml(lab.name)}</h3>
-        ${lab.university ? `<p class="text-sm mt-0.5" style="color:var(--rs-muted)">${escHtml(lab.university)}</p>` : ''}
+  <div class="rs-card p-4">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0"
+           style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff">
+        ${escHtml((l.name||'?')[0].toUpperCase())}
       </div>
-      <span class="badge badge-score">📈 ${momentum}%</span>
+      <div class="min-w-0">
+        <div class="font-semibold truncate">${escHtml(l.name)}</div>
+        <div class="text-xs" style="color:var(--rs-muted)">${(l.paper_ids||[]).length} papers · A* ${l.a_star_output||0}</div>
+      </div>
     </div>
-    <div class="text-center p-2 rounded" style="background:var(--rs-bg)">
-      <div class="font-bold text-lg text-indigo-600">${(lab.paper_ids || []).length}</div>
-      <div class="text-sm" style="color:var(--rs-muted)">Papers</div>
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-xs" style="color:var(--rs-muted)">Momentum</span>
+      <div class="momentum-bar flex-1"><div class="momentum-fill" style="width:${momentum*10}%"></div></div>
+      <span class="text-xs font-bold">${momentum.toFixed(1)}</span>
     </div>
-    ${topics ? `<div class="flex flex-wrap gap-1">${topics}</div>` : ''}
+    <div class="flex flex-wrap gap-1 mb-2">
+      ${(l.topics||l.top_topics||[]).slice(0,4).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+    </div>
+    ${l.summary_profile ? `<p class="text-xs italic" style="color:var(--rs-muted)">${escHtml(truncate(l.summary_profile,120))}</p>` : ''}
   </div>`;
 }
 
+function uniCard(u) {
+  const momentum = +u.momentum_score || 0;
+  return `
+  <div class="rs-card p-4">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-bold flex-shrink-0"
+           style="background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff">
+        ${escHtml((u.name||'?')[0].toUpperCase())}
+      </div>
+      <div class="min-w-0">
+        <div class="font-semibold truncate">${escHtml(u.name)}</div>
+        <div class="text-xs" style="color:var(--rs-muted)">${(u.papers||[]).length} papers · ${(u.authors||[]).length} authors</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-xs" style="color:var(--rs-muted)">Momentum</span>
+      <div class="momentum-bar flex-1"><div class="momentum-fill" style="width:${momentum*10}%"></div></div>
+      <span class="text-xs font-bold">${momentum.toFixed(1)}</span>
+    </div>
+    <div class="flex flex-wrap gap-1 mb-2">
+      ${(u.topics||[]).slice(0,4).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
+    </div>
+    ${u.summary_profile ? `<p class="text-xs italic" style="color:var(--rs-muted)">${escHtml(truncate(u.summary_profile,120))}</p>` : ''}
+  </div>`;
+}
+
+function filterAndRender(items, query, gridId, countId, cardFn) {
+  const q = query.toLowerCase();
+  const filtered = items.filter(x => !q || (x.name||'').toLowerCase().includes(q));
+  document.getElementById(countId).textContent = `${filtered.length} entries`;
+  document.getElementById(gridId).innerHTML = filtered.length
+    ? `<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">${filtered.slice(0,30).map(cardFn).join('')}</div>`
+    : '<div class="empty-state"><p>No results.</p></div>';
+}
+
 (async () => {
-  const labs = await fetchData('data/labs.json');
-  const grid = document.getElementById('labs-grid');
-  if (!labs || !labs.length) {
-    grid.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <p class="text-lg font-medium">No lab data yet</p>
-        <p class="text-sm mt-1">
-          Lab data will appear here once author affiliation extraction is
-          implemented in the pipeline. Check back after the next update.
-        </p>
-      </div>`;
-    return;
-  }
-  grid.innerHTML = labs.map(renderLabCard).join('');
+  const [labs, unis] = await Promise.all([fetchData('data/labs.json'), fetchData('data/universities.json')]);
+
+  allLabs = (labs||[]).sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
+  allUnis = (unis||[]).sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
+
+  filterAndRender(allLabs,'','labs-grid','lab-count',labCard);
+  filterAndRender(allUnis,'','unis-grid','uni-count',uniCard);
+
+  if (!allLabs.length) showEmpty('labs-grid','No labs detected. Affiliation data is extracted from paper metadata when available.');
+  if (!allUnis.length) showEmpty('unis-grid','No universities detected. Affiliation data is extracted from paper metadata when available.');
+
+  const labSearch = document.getElementById('search-labs');
+  const uniSearch = document.getElementById('search-unis');
+  if (labSearch) labSearch.addEventListener('input', debounce(()=>filterAndRender(allLabs,labSearch.value,'labs-grid','lab-count',labCard),200));
+  if (uniSearch) uniSearch.addEventListener('input', debounce(()=>filterAndRender(allUnis,uniSearch.value,'unis-grid','uni-count',uniCard),200));
 })();
 </script>
 </body>
