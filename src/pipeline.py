@@ -21,8 +21,10 @@ The pipeline runs the following stages in order:
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # Make "src" importable when running as a script
@@ -51,6 +53,41 @@ logging.basicConfig(
 log = logging.getLogger("pipeline")
 
 
+# ── Existing paper accumulation ───────────────────────────────────────────────
+
+_SITE_DATA = Path(__file__).parent.parent / "site" / "data"
+
+
+def _load_existing_papers(max_age_days: int = 180) -> list[Paper]:
+    """Load previously collected papers from site/data/papers.json.
+
+    Only returns papers within the rolling window so the dataset doesn't grow
+    unboundedly.  New papers fetched this run take precedence in dedup.
+    """
+    papers_file = _SITE_DATA / "papers.json"
+    if not papers_file.exists():
+        return []
+    try:
+        with open(papers_file, encoding="utf-8") as fh:
+            raw = json.load(fh)
+        cutoff = (
+            datetime.now(timezone.utc) - timedelta(days=max_age_days)
+        ).strftime("%Y-%m-%d")
+        all_existing = [Paper.from_dict(d) for d in raw]
+        kept = [
+            p for p in all_existing
+            if (p.published_date or "9999-01-01") >= cutoff
+        ]
+        log.info(
+            "Loaded %d existing papers (%d within %d-day window)",
+            len(all_existing), len(kept), max_age_days,
+        )
+        return kept
+    except Exception as exc:
+        log.warning("Could not load existing papers: %s", exc)
+        return []
+
+
 # ── Default queries ───────────────────────────────────────────────────────────
 
 _DEFAULT_QUERIES = [
@@ -76,6 +113,8 @@ def run_pipeline(
     today_mode: bool = False,
     today_max: int = 2000,
     skip_conferences: bool = False,
+    accumulate: bool = True,
+    max_age_days: int = 180,
 ) -> dict:
     """Execute the full ResearchScope pipeline. Returns summary stats."""
 
@@ -151,6 +190,15 @@ def run_pipeline(
     if not all_papers:
         log.error("No papers fetched. Check network connectivity.")
         return {}
+
+    # ── Accumulate existing papers ────────────────────────────────────────────
+    if accumulate:
+        existing = _load_existing_papers(max_age_days=max_age_days)
+        if existing:
+            # New papers first — dedup keeps most complete, so freshly scored
+            # versions of the same paper will naturally win if more complete.
+            all_papers = all_papers + existing
+            log.info("Total with existing: %d papers", len(all_papers))
 
     # ── Stage 2: Dedup ────────────────────────────────────────────────────────
     log.info("Stage 2/11 — Deduplicating …")
@@ -271,6 +319,14 @@ def _parse_args() -> argparse.Namespace:
         "--skip-conferences", action="store_true",
         help="Skip Semantic Scholar + OpenReview conference connectors",
     )
+    parser.add_argument(
+        "--fresh-start", action="store_true",
+        help="Do not load existing papers.json — rebuild from scratch",
+    )
+    parser.add_argument(
+        "--max-age-days", type=int, default=180,
+        help="Rolling window in days for existing papers (default: 180)",
+    )
     return parser.parse_args()
 
 
@@ -284,6 +340,8 @@ if __name__ == "__main__":
         today_mode=args.today,
         today_max=args.today_max,
         skip_conferences=args.skip_conferences,
+        accumulate=not args.fresh_start,
+        max_age_days=args.max_age_days,
     )
     if not stats:
         sys.exit(1)
