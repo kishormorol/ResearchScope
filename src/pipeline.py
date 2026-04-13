@@ -222,7 +222,7 @@ def run_pipeline(
 
             log.info("  [acl] fetching ALL papers from anthology export (2020+) …")
             try:
-                fetched = ACLAnthologyConnector().fetch_all(min_year=2020)
+                fetched = ACLAnthologyConnector().fetch_all(min_year=2015)
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
