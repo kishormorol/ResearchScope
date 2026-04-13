@@ -1,0 +1,96 @@
+name: Research Pipeline + Deploy
+
+on:
+  schedule:
+    # Run daily at 06:00 UTC
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      max_results:
+        description: 'Max papers per query (default 50)'
+        required: false
+        default: '50'
+      skip_acl:
+        description: 'Skip ACL Anthology fetch (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run research pipeline
+        env:
+          SEMANTIC_SCHOLAR_KEY: ${{ secrets.SEMANTIC_SCHOLAR_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          MAX=${{ github.event.inputs.max_results || '50' }}
+          SKIP_ACL=${{ github.event.inputs.skip_acl || 'false' }}
+          SKIP_FLAG=""
+          if [ "$SKIP_ACL" = "true" ]; then SKIP_FLAG="--skip-acl"; fi
+          python src/pipeline.py --max-results "$MAX" $SKIP_FLAG
+
+      - name: Check output was produced
+        run: |
+          test -f site/data/papers.json || (echo "ERROR: papers.json not produced" && exit 1)
+          python -c "
+          import json, sys
+          papers = json.load(open('site/data/papers.json'))
+          print(f'Pipeline produced {len(papers)} papers')
+          if len(papers) == 0:
+            print('WARNING: zero papers — check connector logs above')
+          "
+
+      - name: Commit updated data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/data/
+          if git diff --cached --quiet; then
+            echo "No data changes to commit"
+          else
+            git commit -m "chore: update research data [$(date -u +%Y-%m-%d)]"
+            git push
+          fi
+
+  deploy:
+    needs: pipeline
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main   # pick up the data commit from pipeline job
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
