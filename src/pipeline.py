@@ -219,7 +219,16 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [cvf] fetch_all failed: %s", exc)
 
-            # Semantic Scholar — AAAI, IJCAI, CHI (no good direct proceedings API)
+                # ACL Anthology — full export for all NLP venues
+            log.info("  [acl] fetching ALL papers from anthology export (2020+) …")
+            try:
+                fetched = ACLAnthologyConnector().fetch_all(min_year=2020)
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
+            except Exception as exc:
+                log.warning("  [acl] fetch_all failed: %s", exc)
+
+            # Semantic Scholar — AAAI, IJCAI, CHI (no clean direct proceedings API)
             log.info("  [s2] fetching AAAI, IJCAI, CHI …")
             s2 = SemanticScholarConnector(venues=["AAAI", "IJCAI", "CHI"])
             conf_queries = queries[:3]
