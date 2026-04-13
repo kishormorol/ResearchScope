@@ -118,6 +118,7 @@ def run_pipeline(
     today_mode: bool = False,
     today_max: int = 2000,
     skip_conferences: bool = False,
+    conferences_only: bool = False,
     accumulate: bool = True,
     max_age_days: int = 180,
     backfill_from: str | None = None,
@@ -132,7 +133,11 @@ def run_pipeline(
     arxiv = ArxivConnector()
     all_papers: list[Paper] = []
 
-    if backfill_from:
+    # ── arXiv + ACL (skipped in conferences-only mode) ────────────────────────
+    if conferences_only:
+        log.info("  conferences-only mode: skipping arXiv and ACL")
+
+    if backfill_from and not conferences_only:
         # ── Backfill mode: sweep entire date range from given date to today ──
         try:
             from_date = date.fromisoformat(backfill_from)
@@ -152,7 +157,7 @@ def run_pipeline(
             log.error("  [arxiv] fetch_range failed: %s", exc)
             return {}
 
-    elif today_mode:
+    elif today_mode and not conferences_only:
         log.info("  [arxiv] today-mode: fetching all CS papers from last 2 days …")
         try:
             fetched = arxiv.fetch_today(max_results=today_max)
@@ -162,7 +167,7 @@ def run_pipeline(
             log.warning("  [arxiv] fetch_today failed: %s — falling back to queries", exc)
             today_mode = False  # fall through to keyword queries
 
-    if not today_mode and not backfill_from:
+    if not today_mode and not backfill_from and not conferences_only:
         for query in queries:
             log.info("  [arxiv] '%s' …", query)
             try:
@@ -173,7 +178,7 @@ def run_pipeline(
             log.info("    → %d papers", len(fetched))
             all_papers.extend(fetched)
 
-    if not skip_acl:
+    if not skip_acl and not conferences_only:
         acl = ACLAnthologyConnector()
         for query in queries:
             log.info("  [acl] '%s' …", query)
@@ -185,7 +190,7 @@ def run_pipeline(
             log.info("    → %d papers", len(fetched))
             all_papers.extend(fetched)
 
-    if not skip_conferences:
+    if not skip_conferences or conferences_only:
         # Semantic Scholar — ICLR, NeurIPS, ICML, AAAI, IJCAI, CVPR, ICCV, ECCV, CHI
         s2 = SemanticScholarConnector()
         conf_queries = queries[:4]  # use top 4 queries to keep runtime reasonable
@@ -346,6 +351,10 @@ def _parse_args() -> argparse.Namespace:
         help="Skip Semantic Scholar + OpenReview conference connectors",
     )
     parser.add_argument(
+        "--conferences-only", action="store_true",
+        help="Fetch ONLY from conference sources (S2 + OpenReview). Skip arXiv and ACL.",
+    )
+    parser.add_argument(
         "--backfill-from", metavar="YYYY-MM-DD",
         help="Fetch ALL arXiv CS papers from this date to today (e.g. 2026-01-01)",
     )
@@ -370,6 +379,7 @@ if __name__ == "__main__":
         today_mode=args.today,
         today_max=args.today_max,
         skip_conferences=args.skip_conferences,
+        conferences_only=args.conferences_only,
         accumulate=not args.fresh_start,
         max_age_days=args.max_age_days,
         backfill_from=args.backfill_from,

@@ -1,0 +1,82 @@
+name: Monthly Conference Sync
+
+# Conferences publish once a year — syncing monthly is more than enough.
+# Papers accumulate in papers_db.json and persist across daily arXiv runs.
+
+on:
+  schedule:
+    - cron: '0 8 1 * *'   # 1st of every month at 08:00 UTC
+  workflow_dispatch:
+    inputs:
+      max_results:
+        description: 'Max papers per query per venue (default 100)'
+        required: false
+        default: '100'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  conference-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - run: pip install -r requirements.txt
+
+      - name: Sync conference papers (S2 + OpenReview)
+        env:
+          SEMANTIC_SCHOLAR_KEY: ${{ secrets.SEMANTIC_SCHOLAR_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          MAX="${{ github.event.inputs.max_results || '100' }}"
+          echo "Running: python src/pipeline.py --conferences-only --max-results $MAX"
+          python src/pipeline.py --conferences-only --max-results $MAX
+
+      - name: Report results
+        run: |
+          python -c "
+          import json
+          db = json.load(open('site/data/papers_db.json'))
+          venues = {}
+          for p in db:
+            v = p.get('venue','unknown')
+            venues[v] = venues.get(v, 0) + 1
+          conf_venues = {k:v for k,v in venues.items() if k not in ('arXiv','Unknown')}
+          print('Conference papers in DB:')
+          for v, n in sorted(conf_venues.items(), key=lambda x: -x[1]):
+            print(f'  {v}: {n}')
+          "
+
+      - name: Commit updated data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/data/
+          git diff --cached --quiet || git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]" && git push || true
+
+  deploy:
+    needs: conference-sync
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

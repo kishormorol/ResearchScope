@@ -1,29 +1,21 @@
-name: Research Pipeline + Deploy
+name: Daily arXiv Pipeline
 
 on:
   schedule:
-    # Run daily at 06:00 UTC (after arXiv's nightly announcement ~05:00 UTC)
+    # Run daily at 06:00 UTC — after arXiv's nightly announcement (~05:00 UTC)
     - cron: '0 6 * * *'
   workflow_dispatch:
     inputs:
       today_mode:
-        description: 'Fetch ALL papers published today on arXiv (true/false)'
+        description: 'Fetch ALL CS papers published today on arXiv (true/false)'
         required: false
         default: 'true'
       today_max:
         description: 'Max papers in today-mode (default 2000)'
         required: false
         default: '2000'
-      max_results:
-        description: 'Max papers per query (only used when today_mode=false)'
-        required: false
-        default: '100'
       skip_acl:
         description: 'Skip ACL Anthology fetch (true/false)'
-        required: false
-        default: 'false'
-      skip_conferences:
-        description: 'Skip Semantic Scholar + OpenReview conference connectors (true/false)'
         required: false
         default: 'false'
 
@@ -36,56 +28,44 @@ jobs:
   pipeline:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
-      - name: Run research pipeline
+      - name: Run arXiv + ACL pipeline
         env:
           SEMANTIC_SCHOLAR_KEY: ${{ secrets.SEMANTIC_SCHOLAR_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: |
-          # Resolve inputs (workflow_dispatch values, or schedule defaults)
           TODAY_MODE="${{ github.event.inputs.today_mode || 'true' }}"
           TODAY_MAX="${{ github.event.inputs.today_max || '2000' }}"
-          MAX_RESULTS="${{ github.event.inputs.max_results || '100' }}"
           SKIP_ACL="${{ github.event.inputs.skip_acl || 'false' }}"
 
-          FLAGS=""
+          FLAGS="--skip-conferences"   # conferences are synced separately (monthly)
           if [ "$TODAY_MODE" = "true" ]; then
-            FLAGS="--today --today-max $TODAY_MAX"
-          else
-            FLAGS="--max-results $MAX_RESULTS"
+            FLAGS="$FLAGS --today --today-max $TODAY_MAX"
           fi
           if [ "$SKIP_ACL" = "true" ]; then
             FLAGS="$FLAGS --skip-acl"
-          fi
-          SKIP_CONF="${{ github.event.inputs.skip_conferences || 'false' }}"
-          if [ "$SKIP_CONF" = "true" ]; then
-            FLAGS="$FLAGS --skip-conferences"
           fi
 
           echo "Running: python src/pipeline.py $FLAGS"
           python src/pipeline.py $FLAGS
 
-      - name: Check output was produced
+      - name: Verify output
         run: |
-          test -f site/data/papers.json || (echo "ERROR: papers.json not produced" && exit 1)
           python -c "
           import json
           papers = json.load(open('site/data/papers.json'))
-          print(f'Pipeline produced {len(papers)} papers')
-          if len(papers) == 0:
-            print('WARNING: zero papers — check connector logs above')
+          print(f'{len(papers)} papers in frontend slice')
+          db = json.load(open('site/data/papers_db.json'))
+          print(f'{len(db)} papers in DB')
           "
 
       - name: Commit updated data
@@ -93,12 +73,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add site/data/
-          if git diff --cached --quiet; then
-            echo "No data changes to commit"
-          else
-            git commit -m "chore: update research data [$(date -u +%Y-%m-%d)]"
-            git push
-          fi
+          git diff --cached --quiet || git commit -m "chore: daily arXiv update [$(date -u +%Y-%m-%d)]" && git push || true
 
   deploy:
     needs: pipeline
@@ -107,19 +82,13 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: main
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: site/
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
