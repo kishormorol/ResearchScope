@@ -55,6 +55,68 @@ logging.basicConfig(
 log = logging.getLogger("pipeline")
 
 
+# ── Affiliation enrichment via S2 batch lookup ───────────────────────────────
+
+def _enrich_affiliations_from_s2(papers: list[Paper], batch_size: int = 500) -> None:
+    """Batch-lookup arXiv papers on S2 to fill in affiliations_raw.
+
+    Uses the S2 /paper/batch endpoint — one POST per 500 papers.
+    Mutates papers in place; skips papers without an arXiv ID.
+    """
+    import json as _json
+    import os
+    import time
+    import urllib.request
+
+    key = os.getenv("SEMANTIC_SCHOLAR_KEY", "")
+    headers = {
+        "User-Agent":   "ResearchScope/1.0",
+        "Content-Type": "application/json",
+    }
+    if key:
+        headers["x-api-key"] = key
+
+    # Build arXiv-ID → paper index
+    id_map: dict[str, Paper] = {}
+    for p in papers:
+        arxiv_id = p.id.replace("arxiv:", "").split("v")[0]
+        if arxiv_id:
+            id_map[f"ArXiv:{arxiv_id}"] = p
+
+    if not id_map:
+        return
+
+    ids = list(id_map.keys())
+    for i in range(0, len(ids), batch_size):
+        chunk = ids[i : i + batch_size]
+        body = _json.dumps({"ids": chunk}).encode()
+        url  = "https://api.semanticscholar.org/graph/v1/paper/batch?fields=authors.name,authors.affiliations"
+        req  = urllib.request.Request(url, data=body, headers=headers, method="POST")
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                results = _json.loads(resp.read())
+            for rec in results:
+                if rec is None:
+                    continue
+                ext = (rec.get("externalIds") or {})
+                arxiv_id = ext.get("ArXiv", "")
+                paper = id_map.get(f"ArXiv:{arxiv_id}")
+                if paper is None:
+                    continue
+                affiliations: list[str] = []
+                for a in (rec.get("authors") or []):
+                    for aff in (a.get("affiliations") or []):
+                        aff_str = aff.strip() if isinstance(aff, str) else str(aff)
+                        if aff_str and aff_str not in affiliations:
+                            affiliations.append(aff_str)
+                if affiliations:
+                    paper.affiliations_raw = affiliations
+        except Exception as exc:
+            log.warning("  [s2] batch affiliation lookup failed (chunk %d): %s", i, exc)
+        if i + batch_size < len(ids):
+            time.sleep(0.5 if key else 2.0)
+
+
 # ── Existing paper accumulation ───────────────────────────────────────────────
 
 _SITE_DATA = Path(__file__).parent.parent / "site" / "data"
@@ -273,6 +335,17 @@ def run_pipeline(
             # versions of the same paper will naturally win if more complete.
             all_papers = all_papers + existing
             log.info("Total with existing: %d papers", len(all_papers))
+
+    # ── Stage 1b: Enrich arXiv papers with S2 affiliations ───────────────────
+    arxiv_papers = [p for p in all_papers if p.source == "arxiv" and not p.affiliations_raw]
+    if arxiv_papers:
+        log.info("  [s2] enriching %d arXiv papers with affiliations …", len(arxiv_papers))
+        try:
+            _enrich_affiliations_from_s2(arxiv_papers)
+            enriched = sum(1 for p in arxiv_papers if p.affiliations_raw)
+            log.info("  [s2] affiliation data added to %d papers", enriched)
+        except Exception as exc:
+            log.warning("  [s2] affiliation enrichment failed: %s", exc)
 
     # ── Stage 2: Dedup ────────────────────────────────────────────────────────
     log.info("Stage 2/11 — Deduplicating …")

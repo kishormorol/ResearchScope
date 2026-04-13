@@ -24,8 +24,8 @@ log = logging.getLogger(__name__)
 _API_BASE      = "https://api.semanticscholar.org/graph/v1/paper/search"
 _API_BULK      = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
 _FIELDS        = (
-    "paperId,title,abstract,authors,year,venue,"
-    "externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
+    "paperId,title,abstract,authors.name,authors.affiliations,"
+    "year,venue,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
 )
 
 # Venues to bulk-fetch in fetch_all (OpenReview is down; S2 is the fallback)
@@ -194,11 +194,18 @@ class SemanticScholarConnector(BaseConnector):
         year     = rec.get("year") or 0
         s2_id    = rec.get("paperId", "")
 
-        # Authors
-        authors = [
-            a.get("name", "") for a in (rec.get("authors") or [])
-            if a.get("name")
-        ]
+        # Authors + affiliations (subfield format: {name, affiliations: [...]})
+        raw_authors = rec.get("authors") or []
+        authors: list[str] = []
+        affiliations_raw: list[str] = []
+        for a in raw_authors:
+            name = a.get("name", "").strip()
+            if name:
+                authors.append(name)
+            for aff in (a.get("affiliations") or []):
+                aff_str = aff.strip() if isinstance(aff, str) else str(aff).strip()
+                if aff_str and aff_str not in affiliations_raw:
+                    affiliations_raw.append(aff_str)
 
         # URL — prefer open-access PDF landing page
         ext_ids    = rec.get("externalIds") or {}
@@ -227,6 +234,7 @@ class SemanticScholarConnector(BaseConnector):
             title=title,
             abstract=abstract,
             authors=authors,
+            affiliations_raw=affiliations_raw,
             year=int(year),
             published_date=f"{year}-01-01" if year else "",
             venue=venue_name,
