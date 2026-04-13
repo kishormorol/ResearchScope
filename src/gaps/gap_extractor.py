@@ -12,7 +12,7 @@ _GAP_PATTERNS = re.compile(
     r"remains to be|yet to be|not addressed|unsolved|"
     r"promising direction|future direction|further research|"
     r"our approach does not|we do not|we cannot|"
-    r"cannot handle|fails to|struggle[sd]? with)[^.!?]{0,200}[.!?]",
+    r"cannot handle|fails to|struggles? with)[^.!?]{0,200}[.!?]",
     re.IGNORECASE,
 )
 

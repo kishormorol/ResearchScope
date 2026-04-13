@@ -8,7 +8,7 @@ from src.normalization.schema import Paper
 # (pattern, tag) pairs – ordered from most specific to least specific
 _RULES: list[tuple[str, str]] = [
     (r"large language model|llm\b", "LLMs"),
-    (r"transformer|self\.attention|multi[- ]head attention", "Transformers"),
+    (r"transformer|self[- ]attention|multi[- ]head attention", "Transformers"),
     (r"diffusion model|denoising diffusion|score.based", "Diffusion Models"),
     (r"reinforcement learning|reward model|policy gradient|rlhf", "RL"),
     (r"graph neural|graph convolution|knowledge graph", "GNN"),
