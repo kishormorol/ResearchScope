@@ -48,8 +48,6 @@ class TestPaperScorer:
         assert old.read_first_score < 5.0
 
     def test_score_is_set_on_paper(self, sample_paper):
-        original_score = sample_paper.read_first_score
         result = self.scorer.score(sample_paper)
-        # score method returns the paper and mutates it
         assert result is sample_paper
-        assert result.read_first_score != original_score or original_score == result.read_first_score
+        assert 0.0 <= result.read_first_score <= 10.0
