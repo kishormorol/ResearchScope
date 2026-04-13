@@ -118,7 +118,7 @@ class TestDifficultyAssessor:
 
     def test_sentiment_without_math_is_l1(self):
         p = _paper("We apply BERT to sentiment analysis on product reviews.",
-                   tags=["Sentiment Analysis"])
+                   tags=["Sentiment & Opinion Analysis"])
         self.assessor.assess(p)
         assert p.difficulty_level == "L1"
 

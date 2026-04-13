@@ -108,6 +108,9 @@
     <button class="area-chip" data-area="CV">CV</button>
     <button class="area-chip" data-area="AI">AI</button>
     <button class="area-chip" data-area="HCI">HCI</button>
+    <button class="area-chip" data-area="SE">SE</button>
+    <button class="area-chip" data-area="DM">Data Mining</button>
+    <button class="area-chip" data-area="IR">IR</button>
   </div>
   <div class="flex items-center gap-3 mb-6">
     <label class="flex items-center gap-2 text-sm cursor-pointer">
@@ -229,6 +232,95 @@ const DEADLINES = [
    notification:"2026-04-20", conf_start:"2026-08-01", conf_end:"2026-08-07",
    location:"Melbourne, Australia", website:"https://ijcai.org", confirmed:false,
    note:"Estimated"},
+
+  // ── Data Mining ───────────────────────────────────────────────────────────
+  {name:"KDD 2025",       short:"KDD",    area:"DM", rank:"A*",
+   abstract_deadline:"2025-02-03", paper_deadline:"2025-02-10",
+   notification:"2025-05-07", conf_start:"2025-08-03", conf_end:"2025-08-07",
+   location:"Toronto, Canada", website:"https://kdd2025.kdd.org", confirmed:true},
+
+  {name:"KDD 2026",       short:"KDD",    area:"DM", rank:"A*",
+   abstract_deadline:"2026-02-02", paper_deadline:"2026-02-09",
+   notification:"2026-05-06", conf_start:"2026-08-02", conf_end:"2026-08-06",
+   location:"TBD", website:"https://kdd.org", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  {name:"ICDM 2025",      short:"ICDM",   area:"DM", rank:"A",
+   paper_deadline:"2025-06-09",
+   notification:"2025-08-19", conf_start:"2025-11-12", conf_end:"2025-11-15",
+   location:"Washington, DC", website:"https://icdm2025.org", confirmed:true},
+
+  {name:"ICDM 2026",      short:"ICDM",   area:"DM", rank:"A",
+   paper_deadline:"2026-06-08",
+   notification:"2026-08-18", conf_start:"2026-11-11", conf_end:"2026-11-14",
+   location:"TBD", website:"https://icdm.org", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  {name:"RecSys 2025",    short:"RecSys", area:"DM", rank:"A",
+   paper_deadline:"2025-04-28",
+   notification:"2025-06-24", conf_start:"2025-09-22", conf_end:"2025-09-26",
+   location:"Prague, Czech Republic", website:"https://recsys.acm.org/recsys25", confirmed:true},
+
+  {name:"RecSys 2026",    short:"RecSys", area:"DM", rank:"A",
+   paper_deadline:"2026-04-27",
+   notification:"2026-06-23", conf_start:"2026-09-21", conf_end:"2026-09-25",
+   location:"TBD", website:"https://recsys.acm.org", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  // ── IR ────────────────────────────────────────────────────────────────────
+  {name:"SIGIR 2025",     short:"SIGIR",  area:"IR", rank:"A*",
+   paper_deadline:"2025-01-22",
+   notification:"2025-04-03", conf_start:"2025-07-13", conf_end:"2025-07-17",
+   location:"Padova, Italy", website:"https://sigir2025.dei.unipd.it", confirmed:true},
+
+  {name:"SIGIR 2026",     short:"SIGIR",  area:"IR", rank:"A*",
+   paper_deadline:"2026-01-21",
+   notification:"2026-04-02", conf_start:"2026-07-12", conf_end:"2026-07-16",
+   location:"TBD", website:"https://sigir.org", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  // ── SE ────────────────────────────────────────────────────────────────────
+  {name:"ICSE 2026",      short:"ICSE",   area:"SE", rank:"A*",
+   abstract_deadline:"2025-09-05", paper_deadline:"2025-09-12",
+   notification:"2025-12-12", conf_start:"2026-04-12", conf_end:"2026-04-18",
+   location:"Milan, Italy", website:"https://conf.researchr.org/home/icse-2026", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  // ── AI ────────────────────────────────────────────────────────────────────
+  {name:"AAMAS 2025",     short:"AAMAS",  area:"AI", rank:"A*",
+   paper_deadline:"2024-10-15",
+   notification:"2024-12-20", conf_start:"2025-05-19", conf_end:"2025-05-23",
+   location:"Detroit, MI", website:"https://aamas2025.org", confirmed:true},
+
+  {name:"AAMAS 2026",     short:"AAMAS",  area:"AI", rank:"A*",
+   paper_deadline:"2025-10-14",
+   notification:"2025-12-19", conf_start:"2026-05-18", conf_end:"2026-05-22",
+   location:"TBD", website:"https://aamas2026.org", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  {name:"ICAPS 2025",     short:"ICAPS",  area:"AI", rank:"A",
+   paper_deadline:"2025-01-07",
+   notification:"2025-03-18", conf_start:"2025-11-09", conf_end:"2025-11-14",
+   location:"Melbourne, Australia", website:"https://icaps25.icaps-conference.org", confirmed:true},
+
+  {name:"ICAPS 2026",     short:"ICAPS",  area:"AI", rank:"A",
+   paper_deadline:"2025-12-09",
+   notification:"2026-02-18", conf_start:"2026-11-08", conf_end:"2026-11-13",
+   location:"TBD", website:"https://icaps-conference.org", confirmed:false,
+   note:"Estimated from 2025 schedule"},
+
+  // ── NLP ───────────────────────────────────────────────────────────────────
+  {name:"NAACL 2026",     short:"NAACL",  area:"NLP",rank:"A*",
+   abstract_deadline:"2025-12-07", paper_deadline:"2025-12-14",
+   notification:"2026-03-10", conf_start:"2026-05-03", conf_end:"2026-05-08",
+   location:"TBD", website:"https://naacl.org", confirmed:false,
+   note:"Estimated — NAACL does not run every year"},
+
+  {name:"AACL-IJCNLP 2025", short:"AACL", area:"NLP",rank:"A",
+   paper_deadline:"2025-06-30",
+   notification:"2025-09-01", conf_start:"2025-11-20", conf_end:"2025-11-23",
+   location:"TBD, Asia-Pacific", website:"https://aclweb.org", confirmed:false,
+   note:"Estimated — biennial conference, verify on official site"},
 
   // ── HCI ───────────────────────────────────────────────────────────────────
   {name:"CHI 2026",       short:"CHI",    area:"HCI",rank:"A*",
