@@ -1,0 +1,89 @@
+name: Backfill Historical Papers
+
+on:
+  workflow_dispatch:
+    inputs:
+      from_date:
+        description: 'Start date (YYYY-MM-DD) — e.g. 2026-01-01'
+        required: true
+        default: '2026-01-01'
+      skip_conferences:
+        description: 'Skip Semantic Scholar + OpenReview (true/false)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120   # backfill can take a while
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run backfill pipeline
+        env:
+          SEMANTIC_SCHOLAR_KEY: ${{ secrets.SEMANTIC_SCHOLAR_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          FROM="${{ github.event.inputs.from_date }}"
+          SKIP_CONF="${{ github.event.inputs.skip_conferences }}"
+          FLAGS="--backfill-from $FROM --fresh-start"
+          if [ "$SKIP_CONF" = "true" ]; then FLAGS="$FLAGS --skip-conferences"; fi
+          echo "Running: python src/pipeline.py $FLAGS"
+          python src/pipeline.py $FLAGS
+
+      - name: Check output
+        run: |
+          python -c "
+          import json
+          papers = json.load(open('site/data/papers.json'))
+          print(f'Backfill produced {len(papers)} papers')
+          "
+
+      - name: Commit backfilled data
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/data/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: backfill data from ${{ github.event.inputs.from_date }}"
+            git push
+          fi
+
+  deploy:
+    needs: backfill
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/configure-pages@v4
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

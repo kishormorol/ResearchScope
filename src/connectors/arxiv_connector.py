@@ -78,48 +78,76 @@ class ArxivConnector(BaseConnector):
         max_results: int = 2000,
         lookback_days: int = 2,
     ) -> list[Paper]:
-        """Fetch all papers submitted in the last *lookback_days* across CS/ML categories.
+        """Fetch all papers submitted in the last *lookback_days* across CS/ML categories."""
+        today     = date.today()
+        date_from = today - timedelta(days=lookback_days)
+        return self.fetch_range(date_from, today, categories=categories, max_results=max_results)
 
-        arXiv papers submitted before ~14:00 ET appear the next business day, so a
-        lookback of 2 days reliably captures everything announced today.
+    def fetch_range(
+        self,
+        date_from: date,
+        date_to: date | None = None,
+        categories: list[str] | None = None,
+        max_results: int = 30_000,
+        batch_size: int = 500,
+        delay_seconds: float = 3.0,
+    ) -> list[Paper]:
+        """Fetch ALL papers submitted between *date_from* and *date_to* (inclusive).
+
+        Paginates automatically.  Respects arXiv's recommended 3-second delay
+        between requests.  At ~300 papers/day a 3-month backfill takes ~3 min.
         """
+        import time
+
         cats = categories or _DEFAULT_CATEGORIES
         cat_filter = " OR ".join(f"cat:{c}" for c in cats)
 
-        today     = date.today()
-        date_from = (today - timedelta(days=lookback_days)).strftime("%Y%m%d") + "000000"
-        date_to   = today.strftime("%Y%m%d") + "235959"
+        dt_to   = date_to or date.today()
+        from_str = date_from.strftime("%Y%m%d") + "000000"
+        to_str   = dt_to.strftime("%Y%m%d") + "235959"
 
-        query = f"({cat_filter}) AND submittedDate:[{date_from} TO {date_to}]"
+        query = f"({cat_filter}) AND submittedDate:[{from_str} TO {to_str}]"
         log.info(
-            "fetch_today: categories=%d, window=%s→%s, max=%d",
-            len(cats), date_from[:8], date_to[:8], max_results,
+            "fetch_range: %s → %s  categories=%d  max=%d",
+            date_from, dt_to, len(cats), max_results,
         )
 
-        # Paginate to get everything (arXiv caps at 2000 per request)
         all_papers: list[Paper] = []
-        seen_ids: set[str] = set()
-        batch = 500
+        seen_ids:   set[str]   = set()
         start = 0
 
         while start < max_results:
-            this_batch = min(batch, max_results - start)
+            this_batch = min(batch_size, max_results - start)
             try:
                 papers = self._fetch_via_api_paginated(query, start, this_batch)
             except Exception as exc:
-                log.warning("fetch_today batch start=%d failed: %s", start, exc)
-                break
-            if not papers:
-                break
+                log.warning("fetch_range batch start=%d failed: %s — retrying once", start, exc)
+                time.sleep(delay_seconds * 2)
+                try:
+                    papers = self._fetch_via_api_paginated(query, start, this_batch)
+                except Exception as exc2:
+                    log.error("fetch_range batch start=%d failed again: %s", start, exc2)
+                    break
+
+            new = 0
             for p in papers:
                 if p.id not in seen_ids:
                     seen_ids.add(p.id)
                     all_papers.append(p)
-            log.info("  batch start=%d → %d new (total %d)", start, len(papers), len(all_papers))
-            if len(papers) < this_batch:
-                break   # last page
-            start += this_batch
+                    new += 1
 
+            log.info(
+                "  batch start=%d fetched=%d new=%d total=%d",
+                start, len(papers), new, len(all_papers),
+            )
+
+            if len(papers) < this_batch:
+                break   # reached last page
+
+            start += this_batch
+            time.sleep(delay_seconds)   # be polite to arXiv
+
+        log.info("fetch_range complete: %d papers", len(all_papers))
         return all_papers
 
     # ── Primary: arxiv package ────────────────────────────────────────────────

@@ -24,7 +24,7 @@ import argparse
 import json
 import logging
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 # Make "src" importable when running as a script
@@ -115,6 +115,7 @@ def run_pipeline(
     skip_conferences: bool = False,
     accumulate: bool = True,
     max_age_days: int = 180,
+    backfill_from: str | None = None,
 ) -> dict:
     """Execute the full ResearchScope pipeline. Returns summary stats."""
 
@@ -126,7 +127,27 @@ def run_pipeline(
     arxiv = ArxivConnector()
     all_papers: list[Paper] = []
 
-    if today_mode:
+    if backfill_from:
+        # ── Backfill mode: sweep entire date range from given date to today ──
+        try:
+            from_date = date.fromisoformat(backfill_from)
+        except ValueError:
+            log.error("--backfill-from must be YYYY-MM-DD, got: %s", backfill_from)
+            return {}
+        days = (date.today() - from_date).days
+        log.info(
+            "  [arxiv] backfill-mode: %s → today (%d days) …",
+            backfill_from, days,
+        )
+        try:
+            fetched = arxiv.fetch_range(from_date, max_results=50_000)
+            log.info("    → %d papers", len(fetched))
+            all_papers.extend(fetched)
+        except Exception as exc:
+            log.error("  [arxiv] fetch_range failed: %s", exc)
+            return {}
+
+    elif today_mode:
         log.info("  [arxiv] today-mode: fetching all CS papers from last 2 days …")
         try:
             fetched = arxiv.fetch_today(max_results=today_max)
@@ -136,7 +157,7 @@ def run_pipeline(
             log.warning("  [arxiv] fetch_today failed: %s — falling back to queries", exc)
             today_mode = False  # fall through to keyword queries
 
-    if not today_mode:
+    if not today_mode and not backfill_from:
         for query in queries:
             log.info("  [arxiv] '%s' …", query)
             try:
@@ -320,6 +341,10 @@ def _parse_args() -> argparse.Namespace:
         help="Skip Semantic Scholar + OpenReview conference connectors",
     )
     parser.add_argument(
+        "--backfill-from", metavar="YYYY-MM-DD",
+        help="Fetch ALL arXiv CS papers from this date to today (e.g. 2026-01-01)",
+    )
+    parser.add_argument(
         "--fresh-start", action="store_true",
         help="Do not load existing papers.json — rebuild from scratch",
     )
@@ -342,6 +367,7 @@ if __name__ == "__main__":
         skip_conferences=args.skip_conferences,
         accumulate=not args.fresh_start,
         max_age_days=args.max_age_days,
+        backfill_from=args.backfill_from,
     )
     if not stats:
         sys.exit(1)
