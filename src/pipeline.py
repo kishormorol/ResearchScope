@@ -32,6 +32,8 @@ from src.aggregation.aggregator import Aggregator
 from src.clustering.clusterer import TopicClusterer
 from src.connectors.acl_connector import ACLAnthologyConnector
 from src.connectors.arxiv_connector import ArxivConnector
+from src.connectors.openreview_connector import OpenReviewConnector
+from src.connectors.semantic_scholar_connector import SemanticScholarConnector
 from src.content.generator import ContentGenerator, EditorialQueue
 from src.dedup.deduplicator import Deduplicator
 from src.difficulty.assessor import DifficultyAssessor
@@ -73,6 +75,7 @@ def run_pipeline(
     skip_acl: bool = False,
     today_mode: bool = False,
     today_max: int = 2000,
+    skip_conferences: bool = False,
 ) -> dict:
     """Execute the full ResearchScope pipeline. Returns summary stats."""
 
@@ -113,6 +116,32 @@ def run_pipeline(
                 fetched = acl.fetch(query, max_results=max_results_per_query)
             except Exception as exc:
                 log.warning("  [acl] fetch failed for '%s': %s", query, exc)
+                fetched = []
+            log.info("    → %d papers", len(fetched))
+            all_papers.extend(fetched)
+
+    if not skip_conferences:
+        # Semantic Scholar — ICLR, NeurIPS, ICML, AAAI, IJCAI, CVPR, ICCV, ECCV, CHI
+        s2 = SemanticScholarConnector()
+        conf_queries = queries[:4]  # use top 4 queries to keep runtime reasonable
+        for query in conf_queries:
+            log.info("  [s2-conferences] '%s' …", query)
+            try:
+                fetched = s2.fetch(query, max_results=max_results_per_query)
+            except Exception as exc:
+                log.warning("  [s2-conferences] fetch failed for '%s': %s", query, exc)
+                fetched = []
+            log.info("    → %d papers", len(fetched))
+            all_papers.extend(fetched)
+
+        # OpenReview — COLM
+        or_conn = OpenReviewConnector()
+        for query in conf_queries:
+            log.info("  [openreview] '%s' …", query)
+            try:
+                fetched = or_conn.fetch(query, max_results=max_results_per_query)
+            except Exception as exc:
+                log.warning("  [openreview] fetch failed for '%s': %s", query, exc)
                 fetched = []
             log.info("    → %d papers", len(fetched))
             all_papers.extend(fetched)
@@ -238,6 +267,10 @@ def _parse_args() -> argparse.Namespace:
         "--today-max", type=int, default=2000,
         help="Max papers to fetch in --today mode (default: 2000)",
     )
+    parser.add_argument(
+        "--skip-conferences", action="store_true",
+        help="Skip Semantic Scholar + OpenReview conference connectors",
+    )
     return parser.parse_args()
 
 
@@ -250,6 +283,7 @@ if __name__ == "__main__":
         skip_acl=args.skip_acl,
         today_mode=args.today,
         today_max=args.today_max,
+        skip_conferences=args.skip_conferences,
     )
     if not stats:
         sys.exit(1)

@@ -25,8 +25,8 @@
   <h1 class="text-2xl font-bold mb-2">🎓 Conference Explorer</h1>
   <p class="text-sm mb-6" style="color:var(--rs-muted)">
     Top CS venues ranked by paper quality. A* = top-tier (CORE ranking).
-    New connectors for ICLR, NeurIPS, ICML, COLM, CVPR, CHI are planned — see the
-    <a href="ROADMAP.md" style="color:var(--rs-primary)">roadmap</a>.
+    Papers from ICLR, NeurIPS, ICML, COLM, AAAI, IJCAI, CVPR, ICCV, ECCV, and CHI
+    are fetched via Semantic Scholar and OpenReview.
   </p>
 
   <!-- Planned venues table -->
@@ -57,16 +57,16 @@ const VENUES = [
   {name:'NAACL',        short:'NAACL',   area:'NLP',rank:'A*',active:true},
   {name:'EACL',         short:'EACL',    area:'NLP',rank:'A', active:true},
   {name:'COLING',       short:'COLING',  area:'NLP',rank:'A', active:true},
-  {name:'NeurIPS',      short:'NeurIPS', area:'ML', rank:'A*',active:false},
-  {name:'ICML',         short:'ICML',    area:'ML', rank:'A*',active:false},
-  {name:'ICLR',         short:'ICLR',    area:'ML', rank:'A*',active:false},
-  {name:'COLM',         short:'COLM',    area:'ML', rank:'A*',active:false},
-  {name:'AAAI',         short:'AAAI',    area:'AI', rank:'A*',active:false},
-  {name:'IJCAI',        short:'IJCAI',   area:'AI', rank:'A*',active:false},
-  {name:'CVPR',         short:'CVPR',    area:'CV', rank:'A*',active:false},
-  {name:'ICCV',         short:'ICCV',    area:'CV', rank:'A*',active:false},
-  {name:'ECCV',         short:'ECCV',    area:'CV', rank:'A*',active:false},
-  {name:'CHI',          short:'CHI',     area:'HCI',rank:'A*',active:false},
+  {name:'NeurIPS',      short:'NeurIPS', area:'ML', rank:'A*',active:true},
+  {name:'ICML',         short:'ICML',    area:'ML', rank:'A*',active:true},
+  {name:'ICLR',         short:'ICLR',    area:'ML', rank:'A*',active:true},
+  {name:'COLM',         short:'COLM',    area:'ML', rank:'A*',active:true},
+  {name:'AAAI',         short:'AAAI',    area:'AI', rank:'A*',active:true},
+  {name:'IJCAI',        short:'IJCAI',   area:'AI', rank:'A*',active:true},
+  {name:'CVPR',         short:'CVPR',    area:'CV', rank:'A*',active:true},
+  {name:'ICCV',         short:'ICCV',    area:'CV', rank:'A*',active:true},
+  {name:'ECCV',         short:'ECCV',    area:'CV', rank:'A*',active:true},
+  {name:'CHI',          short:'CHI',     area:'HCI',rank:'A*',active:true},
   {name:'arXiv',        short:'arXiv',   area:'all',rank:'',  active:true},
 ];
 

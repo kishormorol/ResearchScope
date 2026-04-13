@@ -22,6 +22,10 @@ on:
         description: 'Skip ACL Anthology fetch (true/false)'
         required: false
         default: 'false'
+      skip_conferences:
+        description: 'Skip Semantic Scholar + OpenReview conference connectors (true/false)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write
@@ -64,6 +68,10 @@ jobs:
           fi
           if [ "$SKIP_ACL" = "true" ]; then
             FLAGS="$FLAGS --skip-acl"
+          fi
+          SKIP_CONF="${{ github.event.inputs.skip_conferences || 'false' }}"
+          if [ "$SKIP_CONF" = "true" ]; then
+            FLAGS="$FLAGS --skip-conferences"
           fi
 
           echo "Running: python src/pipeline.py $FLAGS"
