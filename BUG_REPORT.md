@@ -1,6 +1,6 @@
 # ResearchScope — Comprehensive Bug & Issue Report
 
-> **Auditor:** Antigravity AI  
+> **Auditor:** Saad
 > **Date:** 2026-04-14  
 > **Scope:** Every file in the repository — Python source, tests, CI/CD workflows, frontend JS, config files.  
 > **Policy:** Bugs are documented only — **no solutions are included**.
