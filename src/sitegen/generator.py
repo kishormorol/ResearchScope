@@ -28,6 +28,10 @@ class SiteGenerator:
     MAX_FRONTEND_CONF  = 500
     # Max papers per type kept in each DB (accumulation store, not browser-served)
     MAX_DB_PAPERS = 10_000
+    # Conference DB cap (slim format, ~5 KB/paper → 10 K ≈ 50 MB, well under GitHub's 100 MB limit)
+    MAX_CONF_DB_PAPERS = 10_000
+    # Conference frontend cap (browser download — keep reasonable)
+    MAX_CONF_FRONTEND_PAPERS = 5_000
 
     def generate(
         self,
@@ -51,9 +55,11 @@ class SiteGenerator:
         # arXiv store — rolling, age-filtered by the pipeline before it arrives here
         self._write(output_dir, "papers_db.json",
                     [p.to_dict() for p in arxiv_papers[: self.MAX_DB_PAPERS]])
-        # Conference store — permanent, never expires
+        # Conference store — permanent, never expires.
+        # Capped at MAX_CONF_DB_PAPERS using slim format to stay under GitHub's 100 MB limit
+        # (~5 KB/paper × 10 000 ≈ 50 MB).  Papers are already sorted by paper_score desc.
         self._write(output_dir, "conferences_db.json",
-                    [p.to_dict() for p in conf_papers])
+                    [self._slim(p) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
 
         # ── Frontend slice — top 500 arXiv + top 500 conference ─────────────────
         frontend_papers = (
@@ -63,12 +69,13 @@ class SiteGenerator:
         self._write(output_dir, "papers.json",
                     [self._slim(p) for p in frontend_papers])
 
-        # ── Conferences page — all conference papers ─────────────────────────────
+        # ── Conferences page — top N conference papers (browser-served) ─────────
         self._write(output_dir, "conferences.json",
-                    [self._slim(p) for p in conf_papers])
+                    [self._slim(p) for p in conf_papers[: self.MAX_CONF_FRONTEND_PAPERS]])
 
-        # ── Search index — all papers (arXiv DB + conference) ───────────────────
-        all_db = arxiv_papers[: self.MAX_DB_PAPERS] + conf_papers
+        # ── Search index — arXiv DB + top conference papers ─────────────────────
+        # _search_entry is ultra-light (~250 B/paper) so 20 K entries ≈ 5 MB — safe.
+        all_db = arxiv_papers[: self.MAX_DB_PAPERS] + conf_papers[: self.MAX_CONF_DB_PAPERS]
         self._write(output_dir, "search_index.json",
                     [self._search_entry(p) for p in all_db])
 
