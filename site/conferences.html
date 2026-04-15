@@ -270,10 +270,12 @@ document.getElementById('venues-body').innerHTML = VENUES.map(v => `
       <div class="space-y-2">
         ${top.map(p => {
           const url = p.paper_url || p.url || '#';
+          const snippet = (p.abstract || '').slice(0, 160).trim();
           return `<div class="flex items-start gap-3">
             <span class="badge badge-score mt-0.5">⭐ ${(+p.paper_score||0).toFixed(1)}</span>
             <div class="min-w-0">
               <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
+              ${snippet ? `<p class="text-xs mt-0.5 mb-1" style="color:var(--rs-muted)">${escHtml(snippet)}…</p>` : ''}
               <div class="flex gap-1 mt-0.5">
                 ${difficultyBadge(p)}
                 ${(p.tags||[]).slice(0,2).map(t=>`<span class="badge badge-tag">${escHtml(t)}</span>`).join('')}
