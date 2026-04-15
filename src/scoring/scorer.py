@@ -96,25 +96,34 @@ _HOT_TAGS = {
 
 
 # ── Renowned author list ──────────────────────────────────────────────────────
-# Full names only — avoids false positives on common surnames (Chen, Wang, Li…).
-# Covers Turing Award winners, lab founders/directors, and seminal paper authors.
-# Score: 10 if ≥1 Tier-1 author, 7 if ≥1 Tier-2 author, 4 if ≥1 Tier-3 author.
+# Names are split into two groups:
+#
+#   UNAMBIGUOUS — globally rare full names; matched on name alone.
+#   AMBIGUOUS   — names common in Chinese/Korean/Vietnamese naming conventions
+#                 (e.g. "Kaiming He", "Danqi Chen"); only credited when the paper
+#                 also comes from a recognised prestigious institution, to avoid
+#                 false positives on different researchers sharing the same name.
+#
+# Score: 10 → Tier-1 match, 7 → Tier-2 match, 4 → Tier-3 match.
 
-_RENOWNED_AUTHORS_T1: frozenset[str] = frozenset({
-    # Turing Award / field founders
+# ── Tier 1: Turing Award winners, lab co-founders, seminal paper authors ──────
+_T1_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Geoffrey Hinton", "Yann LeCun", "Yoshua Bengio",
-    # Lab founders / directors with active research output
     "Ilya Sutskever", "Demis Hassabis", "Shane Legg",
-    # Seminal paper authors
     "Ian Goodfellow", "Andrej Karpathy", "Alex Krizhevsky",
     "Diederik Kingma", "John Schulman", "Alec Radford",
     "Tom B. Brown", "Jacob Devlin", "Ashish Vaswani",
     "Noam Shazeer", "Niki Parmar", "David Silver",
     "Oriol Vinyals", "Jeff Dean", "Andrew Ng",
-    "Fei-Fei Li", "Jürgen Schmidhuber", "Jimmy Lei Ba",
+    "Fei-Fei Li", "Jürgen Schmidhuber",
+})
+_T1_AMBIGUOUS: frozenset[str] = frozenset({
+    # Rare but possible collision in large author pools
+    "Jimmy Lei Ba",
 })
 
-_RENOWNED_AUTHORS_T2: frozenset[str] = frozenset({
+# ── Tier 2: prominent researchers at top labs / universities ──────────────────
+_T2_UNAMBIGUOUS: frozenset[str] = frozenset({
     "Pieter Abbeel", "Sergey Levine", "Chelsea Finn",
     "Percy Liang", "Christopher Manning", "Dan Jurafsky",
     "Michael I. Jordan", "Trevor Darrell", "Jitendra Malik",
@@ -127,23 +136,36 @@ _RENOWNED_AUTHORS_T2: frozenset[str] = frozenset({
     "Jakob Foerster", "Koray Kavukcuoglu", "Raia Hadsell",
     "Nando de Freitas", "Marc Lanctot",
 })
-
-_RENOWNED_AUTHORS_T3: frozenset[str] = frozenset({
-    "Mike Lewis", "Omer Levy", "Veselin Stoyanov",
-    "Kenton Lee", "Ming-Wei Chang", "Tim Salimans",
-    "Alex Graves", "Kaiming He", "Ross Girshick",
-    "Tomas Mikolov", "Quoc V. Le", "Barret Zoph",
-    "Lukasz Kaiser", "Sam Bowman", "Yejin Choi",
-    "Noah A. Smith", "Danqi Chen", "Regina Barzilay",
-    "Tommi Jaakkola", "Ruslan Salakhutdinov", "George Dahl",
-    "Laurent Dinh", "Jimmy Ba", "Vinod Nair",
-    "Dragomir Radev", "Leslie Kaelbling",
+_T2_AMBIGUOUS: frozenset[str] = frozenset({
+    # East Asian names that could realistically collide
+    "Yejin Choi",   # Korean — "Choi" is very common
+    "Quoc V. Le",   # Vietnamese — uncommon but possible
 })
 
-# Lowercased for case-insensitive matching
-_T1_AUTHOR_LOWER = frozenset(n.lower() for n in _RENOWNED_AUTHORS_T1)
-_T2_AUTHOR_LOWER = frozenset(n.lower() for n in _RENOWNED_AUTHORS_T2)
-_T3_AUTHOR_LOWER = frozenset(n.lower() for n in _RENOWNED_AUTHORS_T3)
+# ── Tier 3: well-known contributors ──────────────────────────────────────────
+_T3_UNAMBIGUOUS: frozenset[str] = frozenset({
+    "Mike Lewis", "Omer Levy", "Veselin Stoyanov",
+    "Kenton Lee", "Ming-Wei Chang", "Tim Salimans",
+    "Alex Graves", "Ross Girshick", "Tomas Mikolov",
+    "Barret Zoph", "Lukasz Kaiser", "Sam Bowman",
+    "Noah A. Smith", "Regina Barzilay", "Tommi Jaakkola",
+    "Ruslan Salakhutdinov", "George Dahl", "Laurent Dinh",
+    "Vinod Nair", "Dragomir Radev", "Leslie Kaelbling",
+})
+_T3_AMBIGUOUS: frozenset[str] = frozenset({
+    # Chinese names — highly collision-prone even as full names
+    "Kaiming He",   # "He" + "Kaiming" both occur independently
+    "Danqi Chen",   # "Chen" is among the most common Chinese surnames
+    "Jimmy Ba",     # "Ba" is uncommon but "Jimmy Ba" could recur
+})
+
+# ── Lowercased lookup sets ────────────────────────────────────────────────────
+_T1_UNAMB_LOWER = frozenset(n.lower() for n in _T1_UNAMBIGUOUS)
+_T1_AMB_LOWER   = frozenset(n.lower() for n in _T1_AMBIGUOUS)
+_T2_UNAMB_LOWER = frozenset(n.lower() for n in _T2_UNAMBIGUOUS)
+_T2_AMB_LOWER   = frozenset(n.lower() for n in _T2_AMBIGUOUS)
+_T3_UNAMB_LOWER = frozenset(n.lower() for n in _T3_UNAMBIGUOUS)
+_T3_AMB_LOWER   = frozenset(n.lower() for n in _T3_AMBIGUOUS)
 
 
 # ── Institution prestige tiers ────────────────────────────────────────────────
@@ -371,20 +393,37 @@ class PaperScorer:
             return round(cite_s, 2)
         return round(rank_s * 0.7 + cite_s * 0.3, 2)
 
-    @staticmethod
-    def _author_prestige(paper: Paper) -> float:
+    @classmethod
+    def _author_prestige(cls, paper: Paper) -> float:
         """
         Score 0–10 based on whether any author is in the curated renowned-author list.
-        Uses full-name matching (case-insensitive) to avoid false positives on
-        common surnames like Chen, Wang, Li.
+
+        Unambiguous names (globally rare) are matched on name alone.
+        Ambiguous names (common in Chinese/Korean/Vietnamese naming conventions)
+        require the paper to also pass the institution prestige check — this
+        prevents a random researcher named "Kaiming He" from getting free credit.
         """
         authors_lower = {a.lower() for a in (paper.authors or [])}
-        if authors_lower & _T1_AUTHOR_LOWER:
+        inst_ok = cls._institution_prestige(paper) > 0
+
+        # Tier 1
+        if authors_lower & _T1_UNAMB_LOWER:
             return 10.0
-        if authors_lower & _T2_AUTHOR_LOWER:
+        if inst_ok and (authors_lower & _T1_AMB_LOWER):
+            return 10.0
+
+        # Tier 2
+        if authors_lower & _T2_UNAMB_LOWER:
             return 7.0
-        if authors_lower & _T3_AUTHOR_LOWER:
+        if inst_ok and (authors_lower & _T2_AMB_LOWER):
+            return 7.0
+
+        # Tier 3
+        if authors_lower & _T3_UNAMB_LOWER:
             return 4.0
+        if inst_ok and (authors_lower & _T3_AMB_LOWER):
+            return 4.0
+
         return 0.0
 
     @staticmethod
