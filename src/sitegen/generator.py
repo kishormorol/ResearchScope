@@ -26,13 +26,18 @@ class SiteGenerator:
     # Frontend slice sizes — 500 arXiv + 500 conference = 1 000 total
     MAX_FRONTEND_ARXIV = 500
     MAX_FRONTEND_CONF  = 500
-    # Max papers per type kept in each DB (accumulation store, not browser-served)
-    MAX_DB_PAPERS = 10_000
-    # Conference DB cap (slim format, ~5 KB/paper → 10 K ≈ 50 MB, well under GitHub's 100 MB limit)
+
+    # ── GitHub hard limit: 100 MB per file ────────────────────────────────────
+    # papers_db.json  — full format with AI enrichment ~9.2 KB/paper
+    #   7,500 × 9.2 KB = 69 MB  (worst-case 12 KB/paper → 90 MB)  ✓ safe
+    MAX_DB_PAPERS = 7_500
+    # conferences_db.json — slim format ~3.9 KB/paper
+    #   10,000 × 3.9 KB = 39 MB  ✓ safe
     MAX_CONF_DB_PAPERS = 10_000
-    # Conference frontend cap (browser download — keep reasonable)
+    # conferences.json — slim, browser-served
     MAX_CONF_FRONTEND_PAPERS = 5_000
-    # Author cap — slim author records are ~10 KB each; 5 K ≈ 50 MB, safely under GitHub's 100 MB limit
+    # authors.json — slim, no paper_ids; ~0.4 KB/author
+    #   5,000 × 0.4 KB = 2 MB  ✓ safe
     MAX_AUTHORS = 5_000
 
     def generate(
@@ -142,11 +147,25 @@ class SiteGenerator:
             "tags":        paper.tags[:5],
         }
 
-    @staticmethod
-    def _write(directory: str, filename: str, data: object) -> None:
+    _GITHUB_FILE_LIMIT = 100 * 1024 * 1024   # 100 MB hard limit
+
+    @classmethod
+    def _write(cls, directory: str, filename: str, data: object) -> None:
+        import logging
+        log = logging.getLogger(__name__)
         path = os.path.join(directory, filename)
+        serialized = json.dumps(data, indent=2, ensure_ascii=False, default=str)
+        size = len(serialized.encode("utf-8"))
+        mb = size / 1048576
+        if size >= cls._GITHUB_FILE_LIMIT:
+            raise RuntimeError(
+                f"{filename} would be {mb:.1f} MB — exceeds GitHub's 100 MB limit. "
+                "Reduce the cap constants in SiteGenerator."
+            )
+        if size >= cls._GITHUB_FILE_LIMIT * 0.85:
+            log.warning("%s is %.1f MB — approaching GitHub's 100 MB limit!", filename, mb)
         with open(path, "w", encoding="utf-8") as fh:
-            json.dump(data, fh, indent=2, ensure_ascii=False, default=str)
+            fh.write(serialized)
 
     # Files kept in the pipeline output dir but NOT served to the browser
     _DB_ONLY_FILES = {"papers_db.json", "conferences_db.json"}
