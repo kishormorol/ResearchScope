@@ -67,8 +67,20 @@
 </nav>
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   <h1 class="text-2xl font-bold mb-2">🗂 Topics &amp; Reading Paths</h1>
-  <p class="text-sm mb-6" style="color:var(--rs-muted)">Difficulty levels, prerequisites, starter papers (L1–L2), and frontier papers (L3–L4) per topic.</p>
-  <div class="flex flex-wrap gap-2 mb-6" id="topic-nav"></div>
+  <p class="text-sm mb-4" style="color:var(--rs-muted)">Click any topic to expand its reading path, prerequisites, and papers.</p>
+
+  <!-- Filter bar -->
+  <div class="flex flex-wrap items-center gap-2 mb-6">
+    <input id="topic-search" type="search" placeholder="Filter topics…"
+      class="search-input" style="max-width:220px"/>
+    <button class="topic-filter-btn active" data-diff="all">All</button>
+    <button class="topic-filter-btn" data-diff="L1">L1 Beginner</button>
+    <button class="topic-filter-btn" data-diff="L2">Intermediate</button>
+    <button class="topic-filter-btn" data-diff="L3">Advanced</button>
+    <button class="topic-filter-btn" data-diff="L4">Frontier</button>
+    <span id="topic-count" class="text-sm ml-auto" style="color:var(--rs-muted)"></span>
+  </div>
+
   <div id="topics-list"><div class="spinner"></div></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
@@ -88,6 +100,26 @@
   </p>
 </footer>
 <script src="assets/js/app.js"></script>
+<style>
+.topic-filter-btn {
+  padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+  border: 1px solid var(--rs-border); background: var(--rs-surface); color: var(--rs-muted);
+  cursor: pointer; transition: all .15s;
+}
+.topic-filter-btn.active, .topic-filter-btn:hover {
+  background: var(--rs-primary); color: #fff; border-color: var(--rs-primary);
+}
+.topic-accordion { border: 1px solid var(--rs-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; background: var(--rs-surface); }
+.topic-accordion-header {
+  display: flex; align-items: center; gap: 10px; padding: 14px 18px;
+  cursor: pointer; user-select: none; flex-wrap: wrap;
+}
+.topic-accordion-header:hover { background: var(--rs-hover, rgba(0,0,0,.03)); }
+.topic-accordion-chevron { margin-left: auto; transition: transform .2s; font-size: 0.8rem; color: var(--rs-muted); }
+.topic-accordion.open .topic-accordion-chevron { transform: rotate(180deg); }
+.topic-accordion-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--rs-border); }
+.topic-accordion.open .topic-accordion-body { display: block; }
+</style>
 <script>
 const DIFF_LABELS = {L1:'L1 Beginner',L2:'L2 Intermediate',L3:'L3 Advanced',L4:'L4 Frontier',
   beginner:'L1 Beginner',intermediate:'L2 Intermediate',advanced:'L3 Advanced',frontier:'L4 Frontier'};
@@ -110,46 +142,78 @@ function paperStub(p, icon='⭐') {
   </div>`;
 }
 
-function renderTopicCard(t, papersById) {
+function renderTopicAccordion(t, papersById) {
   const diff = t.difficulty || 'L2';
-  const starters  = (t.starter_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
-  const frontier  = (t.frontier_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
-  const prereqs   = (t.prerequisites||[]).join(', ') || '—';
+  const starters = (t.starter_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
+  const frontier = (t.frontier_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
+  const prereqs  = (t.prerequisites||[]).join(', ') || '—';
+  const paperCount = (t.paper_ids||[]).length;
+
   return `
-  <div class="rs-card p-6 mb-6" id="topic-${escHtml(t.id)}">
-    <div class="flex flex-wrap items-center gap-3 mb-4">
-      <h2 class="text-xl font-bold">${escHtml(t.name)}</h2>
-      <span class="badge ${DIFF_CLS[diff]||'badge-l2'}">${DIFF_LABELS[diff]||diff}</span>
-      <span class="badge badge-score">📈 Trend ${(+t.trend_score||0).toFixed(1)}</span>
-      <span class="text-sm" style="color:var(--rs-muted)">${(t.paper_ids||[]).length} papers</span>
+  <div class="topic-accordion" id="topic-${escHtml(t.id)}" data-diff="${escHtml(diff)}" data-name="${escHtml(t.name.toLowerCase())}">
+    <div class="topic-accordion-header" onclick="toggleAccordion(this.closest('.topic-accordion'))">
+      <span class="font-semibold text-sm">${escHtml(t.name)}</span>
+      <span class="badge ${DIFF_CLS[diff]||'badge-l2'} text-xs">${DIFF_LABELS[diff]||diff}</span>
+      <span class="badge badge-score text-xs">📈 ${(+t.trend_score||0).toFixed(1)}</span>
+      ${paperCount ? `<span class="text-xs" style="color:var(--rs-muted)">${paperCount} papers</span>` : ''}
+      <span class="topic-accordion-chevron">▼</span>
     </div>
-    <div class="grid md:grid-cols-2 gap-6">
-      <div>
-        <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Prerequisites</p>
-        <p class="text-sm mb-3">${escHtml(prereqs)}</p>
-        ${(t.related_topics||[]).length ? `
-        <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Related Topics</p>
-        <div class="flex flex-wrap gap-1 mb-3">
-          ${(t.related_topics).map(rt=>`<a href="#topic-${rt.toLowerCase().replace(/[^a-z0-9]+/g,'_')}" class="topic-chip text-xs">${escHtml(rt)}</a>`).join('')}
-        </div>` : ''}
-        ${t.gap_summary ? `
-        <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Gap Signal</p>
-        <p class="text-xs italic" style="color:var(--rs-muted)">${escHtml(t.gap_summary)}</p>` : ''}
-        ${(t.keywords||[]).length ? `
-        <p class="text-xs font-semibold uppercase mt-3 mb-1" style="color:var(--rs-muted)">Keywords</p>
-        <div class="flex flex-wrap gap-1">${(t.keywords).slice(0,8).map(k=>`<span class="badge badge-tag">${escHtml(k)}</span>`).join('')}</div>` : ''}
-      </div>
-      <div>
-        ${starters.length ? `
-        <p class="text-xs font-semibold uppercase mb-2" style="color:#10b981">📗 Start Here</p>
-        ${starters.slice(0,3).map(p=>paperStub(p,'📗')).join('')}` : ''}
-        ${frontier.length ? `
-        <p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed">🚀 Frontier</p>
-        ${frontier.slice(0,3).map(p=>paperStub(p,'🚀')).join('')}` : ''}
-        ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned to reading paths yet.</p>` : ''}
+    <div class="topic-accordion-body">
+      <div class="grid md:grid-cols-2 gap-6 pt-4">
+        <div>
+          <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Prerequisites</p>
+          <p class="text-sm mb-3">${escHtml(prereqs)}</p>
+          ${(t.related_topics||[]).length ? `
+          <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Related Topics</p>
+          <div class="flex flex-wrap gap-1 mb-3">
+            ${t.related_topics.map(rt=>`<a href="#topic-${rt.toLowerCase().replace(/[^a-z0-9]+/g,'_')}" class="topic-chip text-xs" onclick="openAccordionById('topic-${rt.toLowerCase().replace(/[^a-z0-9]+/g,'_')}')">${escHtml(rt)}</a>`).join('')}
+          </div>` : ''}
+          ${t.gap_summary ? `
+          <p class="text-xs font-semibold uppercase mb-1" style="color:var(--rs-muted)">Gap Signal</p>
+          <p class="text-xs italic" style="color:var(--rs-muted)">${escHtml(t.gap_summary)}</p>` : ''}
+          ${(t.keywords||[]).length ? `
+          <p class="text-xs font-semibold uppercase mt-3 mb-1" style="color:var(--rs-muted)">Keywords</p>
+          <div class="flex flex-wrap gap-1">${t.keywords.slice(0,8).map(k=>`<span class="badge badge-tag">${escHtml(k)}</span>`).join('')}</div>` : ''}
+        </div>
+        <div>
+          ${starters.length ? `<p class="text-xs font-semibold uppercase mb-2" style="color:#10b981">📗 Start Here</p>${starters.slice(0,3).map(p=>paperStub(p,'📗')).join('')}` : ''}
+          ${frontier.length ? `<p class="text-xs font-semibold uppercase mb-2 mt-4" style="color:#7c3aed">🚀 Frontier</p>${frontier.slice(0,3).map(p=>paperStub(p,'🚀')).join('')}` : ''}
+          ${!starters.length && !frontier.length ? `<p class="text-sm" style="color:var(--rs-muted)">No papers assigned yet.</p>` : ''}
+        </div>
       </div>
     </div>
   </div>`;
+}
+
+function toggleAccordion(el) {
+  el.classList.toggle('open');
+}
+function openAccordionById(id) {
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('open'); el.scrollIntoView({behavior:'smooth',block:'start'}); }
+}
+
+// Open accordion if URL hash targets it
+window.addEventListener('hashchange', () => {
+  const id = location.hash.slice(1);
+  if (id) openAccordionById(id);
+});
+
+let _allTopics = [];
+
+function applyFilters() {
+  const q    = (document.getElementById('topic-search')?.value || '').toLowerCase();
+  const diff = document.querySelector('.topic-filter-btn.active')?.dataset.diff || 'all';
+  let visible = 0;
+  _allTopics.forEach(el => {
+    const matchDiff = diff === 'all' || el.dataset.diff === diff;
+    const matchQ    = !q || el.dataset.name.includes(q);
+    const show      = matchDiff && matchQ;
+    el.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const countEl = document.getElementById('topic-count');
+  if (countEl) countEl.textContent = `${visible} topic${visible !== 1 ? 's' : ''}`;
 }
 
 (async () => {
@@ -158,9 +222,25 @@ function renderTopicCard(t, papersById) {
   const papersById = {};
   (papers||[]).forEach(p => { papersById[p.id] = p; });
   const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0));
-  document.getElementById('topic-nav').innerHTML = sorted.map(t =>
-    `<a href="#topic-${escHtml(t.id)}" class="topic-chip text-sm">${escHtml(t.name)}</a>`).join('');
-  document.getElementById('topics-list').innerHTML = sorted.map(t => renderTopicCard(t, papersById)).join('');
+
+  document.getElementById('topics-list').innerHTML = sorted.map(t => renderTopicAccordion(t, papersById)).join('');
+  _allTopics = Array.from(document.querySelectorAll('.topic-accordion'));
+  applyFilters();
+
+  // Open if URL has hash
+  if (location.hash) openAccordionById(location.hash.slice(1));
+
+  // Filter buttons
+  document.querySelectorAll('.topic-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.topic-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  // Search
+  document.getElementById('topic-search')?.addEventListener('input', applyFilters);
 })();
 </script>
 </body>
