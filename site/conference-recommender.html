@@ -117,9 +117,30 @@
 <script>
 let recommenderIndex = null;
 const STOP_WORDS = new Set(['a','an','and','are','as','at','be','by','can','for','from','has','have','in','into','is','it','its','may','method','model','models','of','on','or','our','paper','propose','show','study','that','the','their','these','this','to','use','using','via','we','with','which','new','novel','methods','task','tasks','achieve','achieves','approach','approaches','based','different','first','however','results']);
+const PLACEHOLDER_WORDS = new Set(['lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','eiusmod','tempor','incididunt','labore','dolore','magna','aliqua','enim','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','aliquip','commodo','consequat','duis','aute','irure','reprehenderit','voluptate','velit','esse','cillum','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat','proident','sunt','culpa','officia','deserunt','mollit','anim','laborum','todo','tbd','placeholder','dummy','sample']);
 
 function tokenize(text) {
   return (text || '').toLowerCase().match(/[a-z][a-z0-9+-]{2,}/g)?.filter(w => !STOP_WORDS.has(w) && w.length <= 32) || [];
+}
+
+function draftQuality(title, abstract) {
+  const text = `${title || ''} ${abstract || ''}`.trim();
+  const tokens = tokenize(text);
+  const informative = tokens.filter(token => !PLACEHOLDER_WORDS.has(token));
+  const uniqueInformative = new Set(informative);
+  const placeholderHits = tokens.filter(token => PLACEHOLDER_WORDS.has(token)).length;
+  const placeholderRatio = tokens.length ? placeholderHits / tokens.length : 0;
+
+  if (text.length < 80) {
+    return { ok: false, reason: 'Add a title and at least a short abstract before matching.' };
+  }
+  if (/\blorem\s+ipsum\b/i.test(text) || placeholderRatio >= 0.35) {
+    return { ok: false, reason: 'Enter a real draft summary with the research problem, method, evaluation details, and main contribution before matching.' };
+  }
+  if (informative.length < 35 || uniqueInformative.size < 18) {
+    return { ok: false, reason: 'Add more specific research details before matching: problem, method, datasets, evaluation, and contribution.' };
+  }
+  return { ok: true, tokens: informative, uniqueTokens: uniqueInformative };
 }
 
 function weightedKeywordScore(queryTokens, weightedKeywords, fallbackKeywords) {
@@ -197,13 +218,14 @@ function recommendVenues() {
     status.textContent = 'Recommender data is not loaded yet.';
     return;
   }
-  if ((title + ' ' + abstract).trim().length < 80) {
-    status.textContent = 'Add a title and at least a short abstract before matching.';
+  const quality = draftQuality(title, abstract);
+  if (!quality.ok) {
+    status.textContent = quality.reason;
     resultsEl.innerHTML = '';
     return;
   }
 
-  const queryTokens = new Set(tokenize(`${title} ${abstract}`));
+  const queryTokens = quality.uniqueTokens;
   const ranked = recommenderIndex.venues.map(venue => {
     const overlap = weightedKeywordScore(queryTokens, venue.weighted_keywords || [], venue.keywords || []);
     const fieldBonus = field === 'any' ? 0 : (venue.field === field ? 8 : -4);
@@ -218,7 +240,16 @@ function recommendVenues() {
       deadline: deadlineInfo(venue.deadline),
       similar: similarPapers(venue, queryTokens),
     };
-  }).sort((a, b) => b.score - a.score).slice(0, 8);
+  })
+    .filter(item => item.matched.length || item.score >= 14)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+
+  if (!ranked.length || ranked[0].matched.length === 0) {
+    status.textContent = 'No reliable venue match yet. Add field-specific terms and concrete evidence from the actual draft before matching.';
+    resultsEl.innerHTML = '';
+    return;
+  }
 
   status.innerHTML = `
     <div class="font-semibold" style="color:var(--rs-text)">Top static recommendations</div>

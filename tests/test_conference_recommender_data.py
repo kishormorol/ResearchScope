@@ -10,6 +10,7 @@ from src.sitegen import conference_recommender
 ROOT = Path(__file__).resolve().parents[1]
 RECOMMENDER_INDEX = ROOT / "data" / "conference_recommender.json"
 SITE_RECOMMENDER_INDEX = ROOT / "site" / "data" / "conference_recommender.json"
+RECOMMENDER_PAGE = ROOT / "site" / "conference-recommender.html"
 
 
 def test_conference_recommender_uses_standard_data_outputs():
@@ -53,3 +54,12 @@ def test_conference_recommender_has_generated_venues_and_deadlines():
     assert venues["ICLR"]["deadline"]["paper_deadline"]
     assert venues["NeurIPS"]["keywords"]
     assert "TfidfVectorizer" in data["source"]["method"]
+
+
+def test_conference_recommender_blocks_placeholder_drafts():
+    page = RECOMMENDER_PAGE.read_text(encoding="utf-8")
+
+    assert "function draftQuality(title, abstract)" in page
+    assert "PLACEHOLDER_WORDS" in page
+    assert "lorem\\s+ipsum" in page
+    assert "No reliable venue match yet" in page
