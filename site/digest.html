@@ -312,11 +312,14 @@ function buildTweetBtn(weekLabel) {
     return;
   }
 
-  const sorted = [...papers].sort((a,b) => (b.paper_score||0) - (a.paper_score||0));
+  // Digest is arXiv-only — conference papers are historical proceedings, not "new this week"
+  const ARXIV_VENUES = new Set(['arXiv', 'Unknown', '', null, undefined]);
+  const arxivOnly = papers.filter(p => ARXIV_VENUES.has(p.venue));
+  const sorted = [...arxivOnly].sort((a,b) => (b.paper_score||0) - (a.paper_score||0));
   allPapers = sorted;
   allTopics = topics;
 
-  document.getElementById('digest-total').textContent = papers.length.toLocaleString();
+  document.getElementById('digest-total').textContent = arxivOnly.length.toLocaleString();
 
   buildFilters(topics);
   render(sorted, topics, 'all');

@@ -214,6 +214,10 @@ class ContentGenerator:
 class EditorialQueue:
     """Build the daily editorial queue from processed data."""
 
+    # Paper of the Day and Weekly Digest are arXiv-only —
+    # conference papers are historical proceedings, not "new" discoveries.
+    _ARXIV_VENUES = {"arXiv", "Unknown", "", None}
+
     def build(
         self,
         papers: list[Paper],
@@ -224,13 +228,17 @@ class EditorialQueue:
     ) -> dict:
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
+        # Only arXiv papers for editorial — conference papers are historical proceedings
+        arxiv_papers = [p for p in papers if p.venue in self._ARXIV_VENUES]
+        pool = arxiv_papers if arxiv_papers else papers  # fallback if empty
+
         # Sort for selection
-        by_score    = sorted(papers, key=lambda p: -p.paper_score)
-        by_content  = sorted(papers, key=lambda p: -p.content_potential_score)
-        by_surprise = sorted(papers, key=lambda p: -(p.score_breakdown.get("content_potential", {}).get("surprise", 0)))
+        by_score    = sorted(pool, key=lambda p: -p.paper_score)
+        by_content  = sorted(pool, key=lambda p: -p.content_potential_score)
+        by_surprise = sorted(pool, key=lambda p: -(p.score_breakdown.get("content_potential", {}).get("surprise", 0)))
 
         top5 = [self._paper_stub(p) for p in by_score[:5]]
-        underrated = self._pick_underrated(papers)
+        underrated = self._pick_underrated(pool)
         breakout_author = self._pick_breakout_author(authors)
         rising_lab = self._pick_rising_lab(labs)
         emerging_trend = self._pick_emerging_trend(topics)
