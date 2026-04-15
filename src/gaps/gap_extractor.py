@@ -110,11 +110,24 @@ _STARTER_TEMPLATES: dict[str, list[str]] = {
     ],
 }
 
+# Aliases — short tag forms point to the same templates as their full names
+_STARTER_ALIASES: dict[str, str] = {
+    "LLMs":           "Large Language Models",
+    "Transformers":   "Transformer Architectures",
+    "RL":             "Reinforcement Learning",
+    "RAG":            "Retrieval-Augmented Generation",
+    "Multimodal":     "Multimodal Learning",
+    "AI Agents":      "AI Agents & Tool Use",
+    "Code Generation":"Code Generation & Synthesis",
+}
+
 def _starter_projects(tags: list[str]) -> list[str]:
     for tag in tags:
-        if tag in _STARTER_TEMPLATES:
-            return _STARTER_TEMPLATES[tag]
+        resolved = _STARTER_ALIASES.get(tag, tag)
+        if resolved in _STARTER_TEMPLATES:
+            return _STARTER_TEMPLATES[resolved]
     return _STARTER_TEMPLATES["_default"]
+
 
 
 # ── GapExtractor ─────────────────────────────────────────────────────────────
@@ -230,9 +243,10 @@ class GapExtractor:
 
         gaps = []
         for tag, paper_ids in sorted(tag_count.items(), key=lambda x: -len(x[1])):
-            if tag not in _STARTER_TEMPLATES:
+            resolved = _STARTER_ALIASES.get(tag, tag)
+            if resolved not in _STARTER_TEMPLATES:
                 continue
-            ideas = _STARTER_TEMPLATES[tag]
+            ideas = _STARTER_TEMPLATES[resolved]
             for i, idea in enumerate(ideas[:2]):
                 gaps.append(ResearchGap(
                     gap_id=str(uuid.uuid4()),
