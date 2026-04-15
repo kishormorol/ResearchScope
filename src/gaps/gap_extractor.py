@@ -177,6 +177,9 @@ class GapExtractor:
 
         gaps = []
         for topic, bucket in topic_buckets.items():
+            freq = len(bucket["paper_ids"])
+            if freq < 3:          # require at least 3 papers for an explicit gap
+                continue
             desc = bucket["descs"][0] if bucket["descs"] else f"Open challenges in {topic}"
             title = self._make_title(desc, topic)
             gaps.append(ResearchGap(
@@ -188,7 +191,7 @@ class GapExtractor:
                 gap_type="explicit",
                 confidence=0.8,
                 starter_idea=_starter_projects(bucket["tags"])[0],
-                frequency=len(bucket["paper_ids"]),
+                frequency=freq,
                 suggested_projects=_starter_projects(bucket["tags"]),
             ))
         return gaps

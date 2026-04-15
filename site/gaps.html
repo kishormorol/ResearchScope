@@ -105,6 +105,7 @@
 
   <p id="gap-count" class="text-xs mb-4" style="color:var(--rs-muted)"></p>
   <div id="gaps-list"><div class="spinner"></div></div>
+  <div id="gaps-paginator" class="mt-6"></div>
 </div>
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
   <p class="font-semibold mb-2">🔭 ResearchScope</p>
@@ -130,6 +131,8 @@ const CONF_LABELS = v => v >= 0.8 ? 'High' : v >= 0.6 ? 'Medium' : 'Low';
 
 let allGaps = [];
 let currentSort = 'frequency';
+let currentPage = 1;
+const PAGE_SIZE  = 20;
 
 function renderGap(g, papersById) {
   const cls = TYPE_CLS[g.gap_type] || '';
@@ -184,10 +187,20 @@ function applyFilters(papersById) {
   else if (currentSort === 'type')       filtered.sort((a,b) => (TYPE_ORDER[a.gap_type]||0)-(TYPE_ORDER[b.gap_type]||0));
   else if (currentSort === 'topic')      filtered.sort((a,b) => (a.topic||'').localeCompare(b.topic||''));
 
-  document.getElementById('gap-count').textContent = `${filtered.length} gap${filtered.length!==1?'s':''}`;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  currentPage = Math.min(currentPage, totalPages);
+  const pageItems = filtered.slice((currentPage-1)*PAGE_SIZE, currentPage*PAGE_SIZE);
+
+  document.getElementById('gap-count').textContent =
+    `${filtered.length} gap${filtered.length!==1?'s':''} · page ${currentPage} of ${totalPages}`;
+
   document.getElementById('gaps-list').innerHTML = filtered.length
-    ? filtered.map(g => renderGap(g, papersById)).join('')
+    ? pageItems.map(g => renderGap(g, papersById)).join('')
     : '<div class="empty-state"><p>No gaps match your filters.</p></div>';
+
+  renderPaginator('gaps-paginator', currentPage, totalPages,
+    `function(p){currentPage=p;applyFilters(window._papersById);}`);
+  window._papersById = papersById;
 }
 
 (async () => {
@@ -205,12 +218,13 @@ function applyFilters(papersById) {
 
   ['search-gaps','filter-type','filter-topic'].forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.addEventListener('input', debounce(() => applyFilters(papersById), 200));
+    if (el) el.addEventListener('input', debounce(() => { currentPage=1; applyFilters(papersById); }, 200));
   });
 
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       currentSort = btn.dataset.sort;
+      currentPage = 1;
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       applyFilters(papersById);

@@ -39,6 +39,9 @@ class SiteGenerator:
     # authors.json — slim, no paper_ids; ~0.4 KB/author
     #   5,000 × 0.4 KB = 2 MB  ✓ safe
     MAX_AUTHORS = 5_000
+    # Topics/gaps caps — prevents raw tag explosion from bloating these lists
+    MAX_TOPICS  = 150
+    MAX_GAPS    = 100
 
     def generate(
         self,
@@ -91,8 +94,11 @@ class SiteGenerator:
         top_authors = sorted(authors, key=lambda a: (-a.momentum_score, -a.avg_paper_score))
         self._write(output_dir, "authors.json",
                     [self._slim_author(a) for a in top_authors[: self.MAX_AUTHORS]])
-        self._write(output_dir, "topics.json",      [t.to_dict() for t in topics])
-        self._write(output_dir, "gaps.json",        [g.to_dict() for g in gaps])
+        # Cap topics and gaps — raw OpenReview keywords can explode these counts
+        top_topics = sorted(topics, key=lambda t: (-t.trend_score, -len(t.paper_ids)))
+        self._write(output_dir, "topics.json",      [t.to_dict() for t in top_topics[: self.MAX_TOPICS]])
+        top_gaps = sorted(gaps, key=lambda g: (-g.frequency, -g.confidence))
+        self._write(output_dir, "gaps.json",        [g.to_dict() for g in top_gaps[: self.MAX_GAPS]])
         self._write(output_dir, "labs.json",        [l.to_dict() for l in (labs or [])])
         self._write(output_dir, "universities.json",[u.to_dict() for u in (universities or [])])
         self._write(output_dir, "editorial.json",   editorial or {})
