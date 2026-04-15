@@ -18,24 +18,38 @@ class TestGapExtractorLayer1:
         self.extractor = GapExtractor()
 
     def test_limitation_produces_explicit_gap(self):
-        p = _paper(
-            "Our method works well but a limitation of our approach is the "
-            "inability to handle long documents."
-        )
-        gaps = self.extractor.extract([p])
+        # Layer 1 requires >= 3 papers per topic to produce an explicit gap
+        papers = [
+            _paper(
+                "Our method works well but a limitation of our approach is the "
+                "inability to handle long documents.",
+                pid=f"lim{i}",
+            )
+            for i in range(3)
+        ]
+        gaps = self.extractor.extract(papers)
         explicit = [g for g in gaps if g.gap_type == "explicit"]
         assert len(explicit) >= 1
 
     def test_future_work_produces_gap(self):
-        p = _paper(
-            "Future work should explore multilingual settings and better evaluation metrics."
-        )
-        gaps = self.extractor.extract([p])
+        # Layer 1 requires >= 3 papers per topic to produce an explicit gap
+        papers = [
+            _paper(
+                "Future work should explore multilingual settings and better evaluation metrics.",
+                pid=f"fw{i}",
+            )
+            for i in range(3)
+        ]
+        gaps = self.extractor.extract(papers)
         assert len(gaps) >= 1
 
     def test_gap_has_title(self):
-        p = _paper("A limitation of our approach is the quadratic complexity.", tags=["LLMs"])
-        gaps = self.extractor.extract([p])
+        # Layer 1 requires >= 3 papers per topic
+        papers = [
+            _paper("A limitation of our approach is the quadratic complexity.", pid=f"qt{i}", tags=["LLMs"])
+            for i in range(3)
+        ]
+        gaps = self.extractor.extract(papers)
         explicit = [g for g in gaps if g.gap_type == "explicit"]
         assert explicit[0].title  # non-empty title
 
@@ -51,8 +65,12 @@ class TestGapExtractorLayer1:
         assert len(explicit) == 0
 
     def test_gap_topic_from_first_tag(self):
-        p = _paper("Remains to be solved: cross-lingual transfer.", tags=["NLP", "Transformers"])
-        gaps = [g for g in self.extractor.extract([p]) if g.gap_type == "explicit"]
+        # Layer 1 requires >= 3 papers per topic
+        papers = [
+            _paper("Remains to be solved: cross-lingual transfer.", pid=f"cl{i}", tags=["NLP", "Transformers"])
+            for i in range(3)
+        ]
+        gaps = [g for g in self.extractor.extract(papers) if g.gap_type == "explicit"]
         assert gaps[0].topic == "NLP"
 
     def test_confidence_explicit_is_high(self):
