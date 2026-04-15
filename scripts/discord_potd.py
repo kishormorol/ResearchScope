@@ -81,7 +81,10 @@ def post_to_discord(webhook_url: str, payload: dict) -> None:
     req = urllib.request.Request(
         webhook_url,
         data=data,
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "User-Agent": "ResearchScopeBot/1.0 (https://github.com/kishormorol/ResearchScope)",
+        },
         method="POST",
     )
     try:
