@@ -38,7 +38,7 @@ jobs:
 
       - name: Run pipeline
         run: |
-          python src/pipeline.py --skip-conferences
+          python src/pipeline.py --skip-conferences --skip-acl
         env:
           PYTHONPATH: ${{ github.workspace }}
 
