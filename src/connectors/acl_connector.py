@@ -82,7 +82,7 @@ class ACLAnthologyConnector(BaseConnector):
 
     # ── Conference-sync mode: fetch everything ────────────────────────────────
 
-    def fetch_all(self, min_year: int = 2015) -> list[Paper]:
+    def fetch_all(self, min_year: int = 2020) -> list[Paper]:
         """Download anthology+abstracts.bib.gz and return ALL papers for target venues.
 
         The export is ~37 MB compressed and includes titles, abstracts, authors,
