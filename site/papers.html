@@ -117,7 +117,11 @@
       <select id="filter-source" class="rs-select">
         <option value="">All Sources</option>
         <option value="arxiv">arXiv</option>
+        <option value="openreview">OpenReview (ICLR/NeurIPS)</option>
         <option value="acl_anthology">ACL Anthology</option>
+        <option value="pmlr">PMLR (ICML)</option>
+        <option value="cvf">CVF (CVPR/ICCV)</option>
+        <option value="semantic_scholar">Semantic Scholar</option>
       </select>
       <select id="filter-year" class="rs-select"><option value="">All Years</option></select>
       <select id="sort-by" class="rs-select">
@@ -308,9 +312,12 @@ const debouncedFilter = debounce(applyFilters, 200);
   }
   allPapers = papers;
 
-  const tagSet  = new Set(papers.flatMap(p => p.tags || []));
-  const tagSel  = document.getElementById('filter-tag');
-  [...tagSet].sort().forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = t; tagSel.appendChild(o); });
+  // Only show tags that appear in ≥3 papers — filters junk/noise tags
+  const tagCount = {};
+  papers.forEach(p => (p.tags||[]).forEach(t => { tagCount[t] = (tagCount[t]||0) + 1; }));
+  const tagSel = document.getElementById('filter-tag');
+  Object.keys(tagCount).filter(t => tagCount[t] >= 3).sort()
+    .forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = `${t} (${tagCount[t]})`; tagSel.appendChild(o); });
 
   const yearSet = new Set(papers.map(p => p.year).filter(Boolean));
   const yearSel = document.getElementById('filter-year');
