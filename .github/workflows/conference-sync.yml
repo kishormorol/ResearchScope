@@ -52,15 +52,16 @@ jobs:
         run: |
           python -c "
           import json
-          db = json.load(open('site/data/papers_db.json'))
+          cdb = json.load(open('site/data/conferences_db.json'))
           venues = {}
-          for p in db:
-            v = p.get('venue','unknown')
+          for p in cdb:
+            v = p.get('venue', 'unknown')
             venues[v] = venues.get(v, 0) + 1
-          conf_venues = {k:v for k,v in venues.items() if k not in ('arXiv','Unknown')}
-          print('Conference papers in DB:')
-          for v, n in sorted(conf_venues.items(), key=lambda x: -x[1]):
+          print(f'Conference papers in conferences_db.json: {len(cdb)}')
+          for v, n in sorted(venues.items(), key=lambda x: -x[1]):
             print(f'  {v}: {n}')
+          arxiv_db = json.load(open('site/data/papers_db.json'))
+          print(f'arXiv papers in papers_db.json: {len(arxiv_db)}')
           "
 
       - name: Commit updated data
@@ -75,8 +76,10 @@ jobs:
             git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]"
             for i in 1 2 3; do
               git push origin main && break
-              echo "Push attempt $i failed, retrying with rebase…"
-              git pull --rebase --autostash origin main
+              echo "Push attempt $i failed, retrying with rebase (theirs)…"
+              # Use -X theirs so the conference sync data wins over any
+              # concurrent daily arXiv commit — conference data is the superset.
+              git pull --rebase --autostash -X theirs origin main
               sleep 5
             done
           fi
