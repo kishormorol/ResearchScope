@@ -18,38 +18,51 @@ from src.normalization.schema import Paper
 log = logging.getLogger(__name__)
 
 # arXiv category → human-readable tag
+# Only cs.* categories — these are CoRR (Computing Research Repository) papers.
+# stat.ML / eess.* are intentionally excluded: they live outside CoRR and many
+# stat.ML papers also appear under cs.LG, so there is minimal loss.
 CATEGORY_TAG_MAP: dict[str, str] = {
-    "cs.AI":   "Artificial Intelligence",
-    "cs.CL":   "NLP",
-    "cs.CV":   "Computer Vision",
-    "cs.LG":   "Machine Learning",
-    "cs.NE":   "Neural Networks",
-    "cs.RO":   "Robotics",
-    "cs.IR":   "Information Retrieval",
-    "cs.SE":   "Software Engineering",
-    "cs.DB":   "Databases",
-    "cs.CR":   "Cryptography & Security",
-    "cs.HC":   "Human-Computer Interaction",
-    "cs.MA":   "Multi-Agent Systems",
-    "stat.ML": "Machine Learning",
-    "math.OC": "Optimization",
-    "eess.AS": "Speech",
-    "eess.IV": "Computer Vision",
+    "cs.AI":  "Artificial Intelligence",
+    "cs.CL":  "NLP",
+    "cs.CV":  "Computer Vision",
+    "cs.LG":  "Machine Learning",
+    "cs.NE":  "Neural Networks",
+    "cs.RO":  "Robotics",
+    "cs.IR":  "Information Retrieval",
+    "cs.SE":  "Software Engineering",
+    "cs.DB":  "Databases",
+    "cs.CR":  "Cryptography & Security",
+    "cs.HC":  "Human-Computer Interaction",
+    "cs.MA":  "Multi-Agent Systems",
+    "cs.GR":  "Computer Graphics",
+    "cs.MM":  "Multimedia",
+    "cs.SY":  "Systems & Control",
+    "cs.DC":  "Distributed Computing",
+    "cs.PL":  "Programming Languages",
+    "cs.GT":  "Game Theory",
+    "cs.DS":  "Data Structures & Algorithms",
 }
 
 _ARXIV_NS = "http://www.w3.org/2005/Atom"
 _API_BASE  = "https://export.arxiv.org/api/query"
 
-# CS + ML categories to sweep when fetching by date
+# CoRR (cs.*) categories fetched on every daily run.
+# All entries start with "cs." — this is what defines a CoRR paper.
 _DEFAULT_CATEGORIES = [
     "cs.AI", "cs.CL", "cs.LG", "cs.CV", "cs.NE",
     "cs.IR", "cs.MA", "cs.RO", "cs.SE", "cs.HC",
-    "cs.CR", "cs.DB", "stat.ML", "eess.AS", "eess.IV",
+    "cs.CR", "cs.DB", "cs.GR", "cs.MM", "cs.SY",
+    "cs.DC", "cs.PL", "cs.GT", "cs.DS",
 ]
 
 
 def _ns(name: str) -> str:
     return f"{{{_ARXIV_NS}}}{name}"
+
+
+def _is_corr_categories(categories: list[str]) -> bool:
+    """Return True only if the category list contains at least one cs.* category (CoRR)."""
+    return any(c.startswith("cs.") for c in categories)
 
 
 class ArxivConnector(BaseConnector):
@@ -161,13 +174,15 @@ class ArxivConnector(BaseConnector):
             max_results=max_results,
             sort_by=arxiv.SortCriterion.SubmittedDate,
         )
-        return [self._result_to_paper(r) for r in client.results(search)]
+        return [p for r in client.results(search) if (p := self._result_to_paper(r)) is not None]
 
-    def _result_to_paper(self, result: object) -> Paper:
+    def _result_to_paper(self, result: object) -> Paper | None:
         entry_id: str = getattr(result, "entry_id", "") or ""
         arxiv_id = entry_id.split("/abs/")[-1] if "/abs/" in entry_id else entry_id
 
         categories: list[str] = list(getattr(result, "categories", []) or [])
+        if not _is_corr_categories(categories):
+            return None   # skip non-CoRR papers (physics, math, bio, etc.)
         tags = list({CATEGORY_TAG_MAP[c] for c in categories if c in CATEGORY_TAG_MAP})
 
         published = getattr(result, "published", None)
@@ -211,9 +226,9 @@ class ArxivConnector(BaseConnector):
         with urllib.request.urlopen(req, timeout=60) as resp:  # noqa: S310
             data = resp.read()
         root = ET.fromstring(data)
-        return [self._entry_to_paper(e) for e in root.findall(_ns("entry"))]
+        return [p for e in root.findall(_ns("entry")) if (p := self._entry_to_paper(e)) is not None]
 
-    def _entry_to_paper(self, entry: ET.Element) -> Paper:
+    def _entry_to_paper(self, entry: ET.Element) -> Paper | None:
         def text(tag: str) -> str:
             el = entry.find(_ns(tag))
             return (el.text or "").strip() if el is not None else ""
@@ -234,6 +249,8 @@ class ArxivConnector(BaseConnector):
             term = el.get("term", "")
             if term:
                 categories.append(term)
+        if not _is_corr_categories(categories):
+            return None   # skip non-CoRR papers (physics, math, bio, etc.)
         tags = list({CATEGORY_TAG_MAP[c] for c in categories if c in CATEGORY_TAG_MAP})
 
         published_str = text("published")
