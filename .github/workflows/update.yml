@@ -42,6 +42,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}
 
+      - name: Build conference recommender data
+        run: |
+          python src/sitegen/conference_recommender.py
+
       - name: Check for data changes
         id: check
         run: |
