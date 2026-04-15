@@ -94,6 +94,36 @@ _HOT_TAGS = {
     "Code Generation & Synthesis", "AI Safety & Alignment", "AI Agents & Tool Use",
 }
 
+# ── Institution prestige tiers ────────────────────────────────────────────────
+# Tier 1 (score 10): frontier AI labs and top-3 CS universities
+# Tier 2 (score 7):  major industry research + elite universities
+# Tier 3 (score 4):  strong universities and known research orgs
+# Detection: checked against affiliations_raw first; falls back to abstract scan.
+
+_TIER1_INSTITUTIONS = re.compile(
+    r"\b(openai|deepmind|google\s*(?:brain|research|deepmind)?|anthropic|"
+    r"meta\s*(?:ai|research|fair)?|microsoft\s*research|mit\b|"
+    r"stanford|carnegie\s*mellon|cmu\b)\b",
+    re.IGNORECASE,
+)
+_TIER2_INSTITUTIONS = re.compile(
+    r"\b(berkeley|caltech|cambridge|oxford|princeton|harvard|"
+    r"toronto|montreal|mila\b|vector\s*institute|"
+    r"nvidia\s*research|apple\s*(?:ml|research)?|amazon\s*(?:science|research)?|"
+    r"ibm\s*research|samsung\s*research|adobe\s*research|"
+    r"eth\s*zurich|epfl|tsinghua|peking\s*university|pku\b|"
+    r"national\s*university\s*of\s*singapore|nus\b)\b",
+    re.IGNORECASE,
+)
+_TIER3_INSTITUTIONS = re.compile(
+    r"\b(yale|columbia|cornell|michigan|ucsd|ucla|usc|georgia\s*tech|"
+    r"university\s*of\s*washington|uw\b|edinburgh|imperial\s*college|"
+    r"bytedance|tencent\s*(?:ai|research)?|baidu\s*(?:research)?|"
+    r"huawei\s*(?:noah|research)?|alibaba\s*(?:damo)?|jd\.ai|"
+    r"kakao|naver|kaist\b|postech|technion|inria\b|max\s*planck)\b",
+    re.IGNORECASE,
+)
+
 
 # ── PaperScorer ───────────────────────────────────────────────────────────────
 
@@ -118,13 +148,16 @@ class PaperScorer:
         novelty    = self._novelty(text)
         quality    = self._quality_hint(paper)
         completeness = self._completeness(paper)
+        prestige   = self._institution_prestige(paper)
 
-        w_r = _w("paper_score", "recency",      0.35)
-        w_n = _w("paper_score", "novelty",       0.30)
-        w_q = _w("paper_score", "quality_hint",  0.25)
-        w_c = _w("paper_score", "completeness",  0.10)
+        w_r = _w("paper_score", "recency",            0.30)
+        w_n = _w("paper_score", "novelty",             0.25)
+        w_q = _w("paper_score", "quality_hint",        0.20)
+        w_c = _w("paper_score", "completeness",        0.10)
+        w_p = _w("paper_score", "institution_prestige", 0.15)
 
-        raw = recency * w_r + novelty * w_n + quality * w_q + completeness * w_c
+        raw = (recency * w_r + novelty * w_n + quality * w_q
+               + completeness * w_c + prestige * w_p)
         score = round(min(max(raw, 0.0), 10.0), 2)
 
         paper.score_breakdown["paper_score"] = {
@@ -133,12 +166,13 @@ class PaperScorer:
             "novelty": round(novelty, 2),
             "quality_hint": round(quality, 2),
             "completeness": round(completeness, 2),
-            "reason": self._paper_reason(score, recency, novelty, quality),
+            "institution_prestige": round(prestige, 2),
+            "reason": self._paper_reason(score, recency, novelty, quality, prestige),
         }
         return score
 
     @staticmethod
-    def _paper_reason(score: float, recency: float, novelty: float, quality: float) -> str:
+    def _paper_reason(score: float, recency: float, novelty: float, quality: float, prestige: float = 0.0) -> str:
         parts = []
         if recency >= 7:
             parts.append("recently published")
@@ -150,6 +184,10 @@ class PaperScorer:
             parts.append("limited novelty language")
         if quality >= 7:
             parts.append("high-quality venue / citation count")
+        if prestige >= 8:
+            parts.append("top-tier lab or university")
+        elif prestige >= 5:
+            parts.append("reputable institution")
         if not parts:
             parts.append("average on all dimensions")
         return f"Paper scores {score:.1f}/10 — {', '.join(parts)}."
@@ -272,6 +310,28 @@ class PaperScorer:
         if rank_s == 0:
             return round(cite_s, 2)
         return round(rank_s * 0.7 + cite_s * 0.3, 2)
+
+    @staticmethod
+    def _institution_prestige(paper: Paper) -> float:
+        """
+        Score 0–10 based on author affiliations or abstract mentions of known
+        high-prestige institutions.  Checks affiliations_raw first (populated
+        when Semantic Scholar returns affiliation data); falls back to scanning
+        the abstract so papers that mention their lab still get credit.
+        """
+        # Build a single string to search: affiliations > abstract fallback
+        sources = list(paper.affiliations_raw or [])
+        if not sources:
+            sources = [paper.abstract or ""]
+
+        combined = " ".join(sources)
+        if _TIER1_INSTITUTIONS.search(combined):
+            return 10.0
+        if _TIER2_INSTITUTIONS.search(combined):
+            return 7.0
+        if _TIER3_INSTITUTIONS.search(combined):
+            return 4.0
+        return 0.0
 
     @staticmethod
     def _completeness(paper: Paper) -> float:
