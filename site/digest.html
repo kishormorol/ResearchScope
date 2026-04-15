@@ -160,7 +160,7 @@ function renderDigestPaperCard(paper) {
   const venue = [paper.venue, paper.year].filter(Boolean).join(' · ');
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
-  const abstract = (paper.abstract || paper.summary || '').slice(0, 220);
+  const abstract = (paper.abstract || paper.summary || '').slice(0, 120);
 
   return `
   <div class="digest-paper-card">
@@ -235,6 +235,14 @@ function papersByTopic(papers, topicName, topics) {
     .slice(0, 3);
 }
 
+function toggleDigestSection(id) {
+  const body = document.getElementById('digest-body-' + id);
+  const arrow = document.getElementById('digest-arrow-' + id);
+  if (!body) return;
+  const open = body.classList.toggle('hidden');
+  arrow.textContent = open ? '▶' : '▼';
+}
+
 function render(papers, topics, filter) {
   const sections = DIGEST_TOPICS.filter(name =>
     filter === 'all' || name === filter
@@ -247,13 +255,19 @@ function render(papers, topics, filter) {
     const topicPapers = papersByTopic(papers, topicName, topics);
     if (!topicPapers.length) continue;
 
+    const id = rendered;
+    const collapsed = rendered > 0; // first section open, rest collapsed
+
     html += `
     <div class="digest-section" data-topic="${escHtml(topicName)}">
-      <div class="digest-section-title">
+      <div class="digest-section-title" onclick="toggleDigestSection(${id})" style="cursor:pointer;user-select:none">
         <span>${topicIcon(topicName)} ${escHtml(topicName)}</span>
-        <span class="text-xs font-normal" style="color:var(--rs-muted)">${topicPapers.length} paper${topicPapers.length !== 1 ? 's' : ''}</span>
+        <span class="flex items-center gap-2">
+          <span class="text-xs font-normal" style="color:var(--rs-muted)">${topicPapers.length} paper${topicPapers.length !== 1 ? 's' : ''}</span>
+          <span id="digest-arrow-${id}" class="text-xs" style="color:var(--rs-muted)">${collapsed ? '▶' : '▼'}</span>
+        </span>
       </div>
-      <div class="flex flex-col gap-3">
+      <div id="digest-body-${id}" class="flex flex-col gap-3${collapsed ? ' hidden' : ''}">
         ${topicPapers.map(renderDigestPaperCard).join('')}
       </div>
     </div>`;
