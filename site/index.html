@@ -120,6 +120,119 @@
   </div>
 </section>
 
+<!-- ── How It Works ───────────────────────────────────────────────────── -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+  <div class="rs-card p-6 sm:p-8">
+    <div class="flex items-center justify-between mb-1">
+      <h2 class="text-xl font-bold">⚙️ How ResearchScope Picks Your 1,000 Papers</h2>
+      <button onclick="this.closest('section').querySelector('.how-body').classList.toggle('hidden');this.textContent=this.textContent==='Hide'?'Details':'Hide'" class="text-xs font-medium px-3 py-1 rounded-full border" style="color:var(--rs-muted);border-color:var(--rs-border)">Details</button>
+    </div>
+    <p class="text-sm mb-6" style="color:var(--rs-muted)">Every day we scan <strong>50,000+ papers</strong> across arXiv CoRR and 15+ top conference proceedings. Here's how we narrow it down to the 1,000 worth your time.</p>
+
+    <!-- Pipeline steps -->
+    <div class="grid sm:grid-cols-4 gap-4 mb-8">
+      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
+        <div class="text-3xl mb-2">🌐</div>
+        <div class="font-bold text-sm mb-1">Step 1 — Collect</div>
+        <div class="text-xs" style="color:var(--rs-muted)">Pull every new CS paper from <strong>arXiv CoRR</strong> (19 categories) + proceedings from <strong>NeurIPS, ICML, ICLR, CVPR, ACL</strong> and 10+ more venues</div>
+      </div>
+      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
+        <div class="text-3xl mb-2">🏆</div>
+        <div class="font-bold text-sm mb-1">Step 2 — Score</div>
+        <div class="text-xs" style="color:var(--rs-muted)">Each paper gets a <strong>Paper Score 0–10</strong> based on 6 signals: recency, novelty, citation quality, institution prestige, author reputation, and completeness</div>
+      </div>
+      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
+        <div class="text-3xl mb-2">✂️</div>
+        <div class="font-bold text-sm mb-1">Step 3 — Curate</div>
+        <div class="text-xs" style="color:var(--rs-muted)">Take the <strong>top 500 arXiv</strong> papers and <strong>top 500 conference</strong> papers by score — ensuring you always get both fresh preprints and peer-reviewed work</div>
+      </div>
+      <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
+        <div class="text-3xl mb-2">🔄</div>
+        <div class="font-bold text-sm mb-1">Step 4 — Refresh</div>
+        <div class="text-xs" style="color:var(--rs-muted)">arXiv papers update <strong>daily (Mon–Fri)</strong>. Conference papers are permanent — added once per proceedings cycle, never expire</div>
+      </div>
+    </div>
+
+    <!-- Scoring breakdown — hidden by default -->
+    <div class="how-body hidden">
+      <hr class="mb-6" style="border-color:var(--rs-border)"/>
+      <h3 class="font-bold mb-4">📊 The Scoring System — Plain English</h3>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-lg">📅</span>
+            <span class="font-semibold text-sm">Recency <span style="color:var(--rs-muted)">(28%)</span></span>
+          </div>
+          <p class="text-xs" style="color:var(--rs-muted)">A paper published this year scores 10/10. One from 10+ years ago scores 0. CS moves fast — freshness matters.</p>
+        </div>
+
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-lg">💡</span>
+            <span class="font-semibold text-sm">Novelty <span style="color:var(--rs-muted)">(22%)</span></span>
+          </div>
+          <p class="text-xs" style="color:var(--rs-muted)">We scan the title and abstract for words like "we propose", "outperforms", "state-of-the-art". Surveys and replications score lower.</p>
+        </div>
+
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-lg">📈</span>
+            <span class="font-semibold text-sm">Citation Quality <span style="color:var(--rs-muted)">(18%)</span></span>
+          </div>
+          <p class="text-xs" style="color:var(--rs-muted)">Uses log-scaled citation count + conference rank (A* = top-tier). A paper at NeurIPS with 500 citations scores near 10.</p>
+        </div>
+
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-lg">🏛️</span>
+            <span class="font-semibold text-sm">Institution Prestige <span style="color:var(--rs-muted)">(15%)</span></span>
+          </div>
+          <p class="text-xs" style="color:var(--rs-muted)">Papers from OpenAI, DeepMind, Google Research, MIT, Stanford, CMU etc. get a boost. Detected from affiliations or abstract text.</p>
+        </div>
+
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-lg">👤</span>
+            <span class="font-semibold text-sm">Author Reputation <span style="color:var(--rs-muted)">(10%)</span></span>
+          </div>
+          <p class="text-xs" style="color:var(--rs-muted)">Papers co-authored by Turing Award winners, lab founders, or well-known researchers (Hinton, LeCun, Vaswani, Karpathy…) score higher.</p>
+        </div>
+
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-lg">✅</span>
+            <span class="font-semibold text-sm">Completeness <span style="color:var(--rs-muted)">(7%)</span></span>
+          </div>
+          <p class="text-xs" style="color:var(--rs-muted)">Has the paper got an abstract, author list, PDF link, and topic tags? Well-documented papers surface above poorly indexed ones.</p>
+        </div>
+      </div>
+
+      <h3 class="font-bold mb-4">🚀 Author Momentum — Who's on a Hot Streak?</h3>
+      <div class="grid sm:grid-cols-2 gap-4 mb-6">
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <p class="text-xs" style="color:var(--rs-muted)">Author momentum measures how <strong>productive and impactful</strong> a researcher has been recently — not just their all-time record. It combines:</p>
+          <ul class="text-xs mt-2 space-y-1" style="color:var(--rs-muted)">
+            <li>📝 <strong>Recent output (30%)</strong> — papers published in the last 2 years</li>
+            <li>⭐ <strong>Avg paper quality (25%)</strong> — mean Paper Score across all their work</li>
+            <li>📈 <strong>Acceleration (20%)</strong> — publishing faster than their prior 2-year window?</li>
+            <li>🔥 <strong>Topic strength (15%)</strong> — are they working in trending areas (LLMs, diffusion, etc.)?</li>
+            <li>🏆 <strong>Conference strength (10%)</strong> — what % of their papers are at A* venues?</li>
+          </ul>
+        </div>
+        <div class="p-4 rounded-xl border" style="border-color:var(--rs-border)">
+          <p class="text-xs mb-2" style="color:var(--rs-muted)"><strong>Why momentum, not just citations?</strong></p>
+          <p class="text-xs" style="color:var(--rs-muted)">A senior professor with 10,000 citations but no papers in 3 years scores low. A PhD student publishing 4 strong LLM papers this year at NeurIPS scores high. Momentum finds who's <em>actively pushing the frontier right now</em> — which is what matters if you want to follow the cutting edge.</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl text-xs" style="background:var(--rs-hover,rgba(99,102,241,0.06));color:var(--rs-muted)">
+        💬 <strong>Why not just use citation count?</strong> Citation counts lag reality by 1–2 years, heavily favour older papers, and ignore emerging researchers entirely. Our multi-signal scoring surfaces important new work <em>before</em> the citation wave hits.
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Paper of the Day ──────────────────────────────────────────────── -->
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
   <div id="potd-container"></div>
