@@ -94,6 +94,58 @@ _HOT_TAGS = {
     "Code Generation & Synthesis", "AI Safety & Alignment", "AI Agents & Tool Use",
 }
 
+
+# ── Renowned author list ──────────────────────────────────────────────────────
+# Full names only — avoids false positives on common surnames (Chen, Wang, Li…).
+# Covers Turing Award winners, lab founders/directors, and seminal paper authors.
+# Score: 10 if ≥1 Tier-1 author, 7 if ≥1 Tier-2 author, 4 if ≥1 Tier-3 author.
+
+_RENOWNED_AUTHORS_T1: frozenset[str] = frozenset({
+    # Turing Award / field founders
+    "Geoffrey Hinton", "Yann LeCun", "Yoshua Bengio",
+    # Lab founders / directors with active research output
+    "Ilya Sutskever", "Demis Hassabis", "Shane Legg",
+    # Seminal paper authors
+    "Ian Goodfellow", "Andrej Karpathy", "Alex Krizhevsky",
+    "Diederik Kingma", "John Schulman", "Alec Radford",
+    "Tom B. Brown", "Jacob Devlin", "Ashish Vaswani",
+    "Noam Shazeer", "Niki Parmar", "David Silver",
+    "Oriol Vinyals", "Jeff Dean", "Andrew Ng",
+    "Fei-Fei Li", "Jürgen Schmidhuber", "Jimmy Lei Ba",
+})
+
+_RENOWNED_AUTHORS_T2: frozenset[str] = frozenset({
+    "Pieter Abbeel", "Sergey Levine", "Chelsea Finn",
+    "Percy Liang", "Christopher Manning", "Dan Jurafsky",
+    "Michael I. Jordan", "Trevor Darrell", "Jitendra Malik",
+    "Stuart Russell", "Daphne Koller", "Bernhard Schölkopf",
+    "Zoubin Ghahramani", "Max Welling", "Hugo Larochelle",
+    "Aaron Courville", "Graham Neubig", "Luke Zettlemoyer",
+    "Jason Weston", "Kyunghyun Cho", "Richard Socher",
+    "Thomas Wolf", "Sebastian Ruder", "Roger Grosse",
+    "Prafulla Dhariwal", "Samy Bengio", "Noam Brown",
+    "Jakob Foerster", "Koray Kavukcuoglu", "Raia Hadsell",
+    "Nando de Freitas", "Marc Lanctot",
+})
+
+_RENOWNED_AUTHORS_T3: frozenset[str] = frozenset({
+    "Mike Lewis", "Omer Levy", "Veselin Stoyanov",
+    "Kenton Lee", "Ming-Wei Chang", "Tim Salimans",
+    "Alex Graves", "Kaiming He", "Ross Girshick",
+    "Tomas Mikolov", "Quoc V. Le", "Barret Zoph",
+    "Lukasz Kaiser", "Sam Bowman", "Yejin Choi",
+    "Noah A. Smith", "Danqi Chen", "Regina Barzilay",
+    "Tommi Jaakkola", "Ruslan Salakhutdinov", "George Dahl",
+    "Laurent Dinh", "Jimmy Ba", "Vinod Nair",
+    "Dragomir Radev", "Leslie Kaelbling",
+})
+
+# Lowercased for case-insensitive matching
+_T1_AUTHOR_LOWER = frozenset(n.lower() for n in _RENOWNED_AUTHORS_T1)
+_T2_AUTHOR_LOWER = frozenset(n.lower() for n in _RENOWNED_AUTHORS_T2)
+_T3_AUTHOR_LOWER = frozenset(n.lower() for n in _RENOWNED_AUTHORS_T3)
+
+
 # ── Institution prestige tiers ────────────────────────────────────────────────
 # Tier 1 (score 10): frontier AI labs and top-3 CS universities
 # Tier 2 (score 7):  major industry research + elite universities
@@ -144,20 +196,22 @@ class PaperScorer:
     def _paper_score(self, paper: Paper) -> float:
         text = f"{paper.title} {paper.abstract}"
 
-        recency    = self._recency(paper.year)
-        novelty    = self._novelty(text)
-        quality    = self._quality_hint(paper)
+        recency      = self._recency(paper.year)
+        novelty      = self._novelty(text)
+        quality      = self._quality_hint(paper)
         completeness = self._completeness(paper)
-        prestige   = self._institution_prestige(paper)
+        inst_prestige   = self._institution_prestige(paper)
+        author_prestige = self._author_prestige(paper)
 
-        w_r = _w("paper_score", "recency",            0.30)
-        w_n = _w("paper_score", "novelty",             0.25)
-        w_q = _w("paper_score", "quality_hint",        0.20)
-        w_c = _w("paper_score", "completeness",        0.10)
-        w_p = _w("paper_score", "institution_prestige", 0.15)
+        w_r  = _w("paper_score", "recency",            0.28)
+        w_n  = _w("paper_score", "novelty",             0.22)
+        w_q  = _w("paper_score", "quality_hint",        0.18)
+        w_c  = _w("paper_score", "completeness",        0.07)
+        w_ip = _w("paper_score", "institution_prestige", 0.15)
+        w_ap = _w("paper_score", "author_prestige",      0.10)
 
         raw = (recency * w_r + novelty * w_n + quality * w_q
-               + completeness * w_c + prestige * w_p)
+               + completeness * w_c + inst_prestige * w_ip + author_prestige * w_ap)
         score = round(min(max(raw, 0.0), 10.0), 2)
 
         paper.score_breakdown["paper_score"] = {
@@ -166,13 +220,17 @@ class PaperScorer:
             "novelty": round(novelty, 2),
             "quality_hint": round(quality, 2),
             "completeness": round(completeness, 2),
-            "institution_prestige": round(prestige, 2),
-            "reason": self._paper_reason(score, recency, novelty, quality, prestige),
+            "institution_prestige": round(inst_prestige, 2),
+            "author_prestige": round(author_prestige, 2),
+            "reason": self._paper_reason(score, recency, novelty, quality, inst_prestige, author_prestige),
         }
         return score
 
     @staticmethod
-    def _paper_reason(score: float, recency: float, novelty: float, quality: float, prestige: float = 0.0) -> str:
+    def _paper_reason(
+        score: float, recency: float, novelty: float, quality: float,
+        inst_prestige: float = 0.0, author_prestige: float = 0.0,
+    ) -> str:
         parts = []
         if recency >= 7:
             parts.append("recently published")
@@ -184,9 +242,11 @@ class PaperScorer:
             parts.append("limited novelty language")
         if quality >= 7:
             parts.append("high-quality venue / citation count")
-        if prestige >= 8:
+        if author_prestige >= 8:
+            parts.append("renowned author")
+        elif inst_prestige >= 8:
             parts.append("top-tier lab or university")
-        elif prestige >= 5:
+        elif inst_prestige >= 5 or author_prestige >= 5:
             parts.append("reputable institution")
         if not parts:
             parts.append("average on all dimensions")
@@ -310,6 +370,22 @@ class PaperScorer:
         if rank_s == 0:
             return round(cite_s, 2)
         return round(rank_s * 0.7 + cite_s * 0.3, 2)
+
+    @staticmethod
+    def _author_prestige(paper: Paper) -> float:
+        """
+        Score 0–10 based on whether any author is in the curated renowned-author list.
+        Uses full-name matching (case-insensitive) to avoid false positives on
+        common surnames like Chen, Wang, Li.
+        """
+        authors_lower = {a.lower() for a in (paper.authors or [])}
+        if authors_lower & _T1_AUTHOR_LOWER:
+            return 10.0
+        if authors_lower & _T2_AUTHOR_LOWER:
+            return 7.0
+        if authors_lower & _T3_AUTHOR_LOWER:
+            return 4.0
+        return 0.0
 
     @staticmethod
     def _institution_prestige(paper: Paper) -> float:
