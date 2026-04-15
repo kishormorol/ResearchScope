@@ -142,8 +142,10 @@ function paperStub(p, icon='⭐') {
   </div>`;
 }
 
+const DIFF_NORM = {beginner:'L1',intermediate:'L2',advanced:'L3',frontier:'L4',L1:'L1',L2:'L2',L3:'L3',L4:'L4'};
+
 function renderTopicAccordion(t, papersById) {
-  const diff = t.difficulty || 'L2';
+  const diff = DIFF_NORM[t.difficulty] || 'L2';
   const starters = (t.starter_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
   const frontier = (t.frontier_pack_ids||[]).map(id=>papersById[id]).filter(Boolean);
   const prereqs  = (t.prerequisites||[]).join(', ') || '—';
