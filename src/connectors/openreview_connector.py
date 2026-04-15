@@ -193,12 +193,10 @@ class OpenReviewConnector(BaseConnector):
             else [str(authors_raw)]
         )
 
-        keywords_raw = val("keywords") or []
-        tags = (
-            [str(k) for k in keywords_raw[:5]]
-            if isinstance(keywords_raw, list)
-            else []
-        )
+        # Do NOT pass raw OpenReview author keywords as tags — they are free-form
+        # and would create thousands of junk topics. The tagger (Stage 3) assigns
+        # normalized taxonomy tags from title+abstract instead.
+        tags: list[str] = []
 
         note_id   = note.get("id", "")
         paper_url = f"https://openreview.net/forum?id={note_id}" if note_id else ""
