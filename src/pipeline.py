@@ -276,14 +276,14 @@ def run_pipeline(
     if not skip_conferences or conferences_only:
         if conferences_only:
             # ── Conference-sync mode: fetch ALL papers directly from proceedings ──
-            # S2 bulk — ICLR, NeurIPS, COLM (replaces OpenReview which returns 403)
-            log.info("  [s2] bulk-fetching ALL papers (ICLR, NeurIPS, COLM) …")
+            # OpenReview — ICLR, NeurIPS, COLM (authenticates via env credentials)
+            log.info("  [openreview] fetching ALL papers (ICLR 2023-25, NeurIPS 2023-24, COLM 2024) …")
             try:
-                fetched = SemanticScholarConnector().fetch_all()
+                fetched = OpenReviewConnector().fetch_all()
                 log.info("    → %d papers", len(fetched))
                 all_papers.extend(fetched)
             except Exception as exc:
-                log.warning("  [s2] fetch_all failed: %s", exc)
+                log.warning("  [openreview] fetch_all failed: %s", exc)
 
             log.info("  [pmlr] fetching ALL papers (ICML 2022-2025) …")
             try:

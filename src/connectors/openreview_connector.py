@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import time
 import urllib.parse
 import urllib.request
@@ -43,6 +44,12 @@ class OpenReviewConnector(BaseConnector):
 
     def __init__(self, venues: list[str] | None = None) -> None:
         self._venues = venues or list(_VENUES.keys())
+        self._token: str | None = None
+        # Authenticate if credentials are available in environment
+        email = os.environ.get("OPENREVIEW_EMAIL", "")
+        password = os.environ.get("OPENREVIEW_PASSWORD", "")
+        if email and password:
+            self._token = self._login(email, password)
 
     @property
     def source_name(self) -> str:
@@ -133,8 +140,30 @@ class OpenReviewConnector(BaseConnector):
         ]
 
     @staticmethod
-    def _get(url: str) -> dict:
-        req = urllib.request.Request(url, headers={"User-Agent": "ResearchScope/1.0"})
+    def _login(email: str, password: str) -> str | None:
+        """Authenticate and return a bearer token."""
+        payload = json.dumps({"id": email, "password": password}).encode()
+        req = urllib.request.Request(
+            f"{_API_BASE}/login",
+            data=payload,
+            headers={"Content-Type": "application/json", "User-Agent": "ResearchScope/1.0"},
+            method="POST",
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                token = json.loads(resp.read()).get("token", "")
+                if token:
+                    log.info("[openreview] authenticated successfully")
+                return token or None
+        except Exception as exc:
+            log.warning("[openreview] login failed: %s", exc)
+            return None
+
+    def _get(self, url: str) -> dict:
+        headers = {"User-Agent": "ResearchScope/1.0"}
+        if self._token:
+            headers["Authorization"] = f"Bearer {self._token}"
+        req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=30) as resp:
             return json.loads(resp.read())
 
