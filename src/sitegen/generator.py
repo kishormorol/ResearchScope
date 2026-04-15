@@ -32,6 +32,8 @@ class SiteGenerator:
     MAX_CONF_DB_PAPERS = 10_000
     # Conference frontend cap (browser download — keep reasonable)
     MAX_CONF_FRONTEND_PAPERS = 5_000
+    # Author cap — slim author records are ~10 KB each; 5 K ≈ 50 MB, safely under GitHub's 100 MB limit
+    MAX_AUTHORS = 5_000
 
     def generate(
         self,
@@ -79,7 +81,11 @@ class SiteGenerator:
         self._write(output_dir, "search_index.json",
                     [self._search_entry(p) for p in all_db])
 
-        self._write(output_dir, "authors.json",     [a.to_dict() for a in authors])
+        # Cap + slim authors — full paper_ids list bloats fast with conference data.
+        # Sort by momentum_score desc; top MAX_AUTHORS only, paper_ids stripped.
+        top_authors = sorted(authors, key=lambda a: (-a.momentum_score, -a.avg_paper_score))
+        self._write(output_dir, "authors.json",
+                    [self._slim_author(a) for a in top_authors[: self.MAX_AUTHORS]])
         self._write(output_dir, "topics.json",      [t.to_dict() for t in topics])
         self._write(output_dir, "gaps.json",        [g.to_dict() for g in gaps])
         self._write(output_dir, "labs.json",        [l.to_dict() for l in (labs or [])])
@@ -100,6 +106,18 @@ class SiteGenerator:
         "canonical_id", "author_ids", "affiliations_raw", "lab_ids", "university_ids",
         "cluster_id", "prerequisites", "fetched_at",
     }
+
+    @staticmethod
+    def _slim_author(author: Author) -> dict:
+        """Return a browser-friendly author dict — drops bulky paper_id lists."""
+        d = author.to_dict()
+        # paper_ids can be thousands of strings for prolific authors — drop it.
+        # The frontend only needs the count and recent subset.
+        d.pop("paper_ids", None)
+        d.pop("momentum_breakdown", None)
+        d.pop("summary_profile", None)
+        d["paper_count"] = len(author.paper_ids)
+        return d
 
     @classmethod
     def _slim(cls, paper: Paper) -> dict:
