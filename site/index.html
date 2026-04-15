@@ -360,6 +360,11 @@ function renderEditorial(ed) {
   if (!ed || !ed.date) return '<p style="color:var(--rs-muted)">Editorial digest not available yet.</p>';
   let html = `<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">`;
 
+  // Filter top_papers to arXiv only — conference papers are historical proceedings
+  const ARXIV_VENUES = new Set(['arXiv', 'Unknown', '', null, undefined]);
+  const arxivTopPapers = (ed.top_papers || []).filter(p => ARXIV_VENUES.has(p.venue));
+  ed = {...ed, top_papers: arxivTopPapers};
+
   // Top paper spotlight
   const p = (ed.top_papers || [])[0];
   if (p) {
