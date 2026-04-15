@@ -223,7 +223,7 @@ function applyFilters() {
   if (!topics || !topics.length) { showEmpty('topics-list','No topics yet. Run the pipeline.'); return; }
   const papersById = {};
   (papers||[]).forEach(p => { papersById[p.id] = p; });
-  const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0));
+  const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0)).slice(0, 1000);
 
   document.getElementById('topics-list').innerHTML = sorted.map(t => renderTopicAccordion(t, papersById)).join('');
   _allTopics = Array.from(document.querySelectorAll('.topic-accordion'));
