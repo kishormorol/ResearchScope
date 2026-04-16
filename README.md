@@ -28,6 +28,7 @@ The site then renders everything from those JSON files in the browser — no ser
 | 👩‍🔬 **Author / lab intelligence** | Track prolific authors and their recent output |
 | 🗺 **Learning paths** | Curated reading paths tagged by topic and difficulty level |
 | 🔍 **Research gap explorer** | Surface under-explored areas and emerging directions |
+| 🎯 **Conference recommender** | Paste a title and abstract to get ranked venue matches, deadlines, reviewer expectations, and similar accepted papers |
 | 🖥 **Static dashboard** | Zero-backend site hosted on GitHub Pages, updated daily |
 
 ---
@@ -84,6 +85,7 @@ src/
 site/
   index.html                   # homepage (published to GitHub Pages)
   papers.html / authors.html … # sub-pages
+  conference-recommender.html  # venue recommender (static, JS-powered)
   assets/css/ assets/js/       # static assets
 data/                          # generated JSON (committed by CI)
 tests/                         # pytest test suite
