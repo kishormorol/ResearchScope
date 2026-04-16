@@ -29,6 +29,7 @@
         <a href="topics.html">Topics</a>
         <a href="digest.html">📬 Digest</a>
         <a href="conferences.html">Conferences</a>
+        
         <a href="authors.html">Authors</a>
         <a href="labs.html">Labs &amp; Unis</a>
         <a href="gaps.html">Research Gaps</a>
@@ -68,6 +69,7 @@
       <a href="topics.html" class="mobile-nav-link">Topics</a>
       <a href="digest.html" class="mobile-nav-link">📬 Weekly Digest</a>
       <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      
       <a href="authors.html" class="mobile-nav-link">Authors</a>
       <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
       <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
@@ -117,6 +119,32 @@
     <div class="stat-card"><div class="stat-value" id="stat-unis">–</div><div class="stat-label">Universities</div></div>
     <div class="stat-card"><div class="stat-value" id="stat-topics">–</div><div class="stat-label">Topics</div></div>
     <div class="stat-card"><div class="stat-value" id="stat-gaps">–</div><div class="stat-label">Research Gaps</div></div>
+  </div>
+</section>
+
+<!-- Conference recommender -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+  <div class="rs-card p-6 sm:p-8">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-start gap-4">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(79,70,229,0.12);color:var(--rs-primary)">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 4H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-4"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6M9 16h4M14 4h6v6"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="m20 4-8 8"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-2">Conference Recommender</h2>
+          <p class="text-sm max-w-2xl" style="color:var(--rs-muted)">
+            Paste a paper title and abstract to find matching conferences, deadlines, reviewer expectations, and similar accepted papers.
+          </p>
+        </div>
+      </div>
+      <a href="conference-recommender.html" class="inline-flex justify-center font-semibold px-5 py-2.5 rounded-lg text-white" style="background:var(--rs-primary)">
+        Try conference recommender
+      </a>
+    </div>
   </div>
 </section>
 
@@ -545,3 +573,5 @@ function renderEditorial(ed) {
 </script>
 </body>
 </html>
+
+

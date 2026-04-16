@@ -1,0 +1,140 @@
+.recommender-shell {
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.recommender-column {
+  min-width: 0;
+  width: 100%;
+}
+
+.recommender-panel,
+.recommender-result {
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-border);
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  padding: 1.25rem;
+  width: 100%;
+}
+
+.recommender-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.recommender-control-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+}
+
+.recommender-panel label {
+  line-height: 1.25;
+}
+
+.recommender-panel .rs-input,
+.recommender-panel .rs-select {
+  box-sizing: border-box;
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.recommender-panel .rs-select {
+  height: 2.625rem;
+}
+
+.recommender-textarea {
+  min-height: 14rem;
+  resize: vertical;
+}
+
+.recommender-fit-strong {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.recommender-fit-moderate {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.recommender-fit-stretch {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+[data-theme="dark"] .recommender-fit-strong {
+  background: #14532d;
+  color: #86efac;
+}
+
+[data-theme="dark"] .recommender-fit-moderate {
+  background: #713f12;
+  color: #fde68a;
+}
+
+[data-theme="dark"] .recommender-fit-stretch {
+  background: #7f1d1d;
+  color: #fca5a5;
+}
+
+.recommender-meter {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--rs-border);
+  overflow: hidden;
+}
+
+.recommender-meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #06b6d4, #4f46e5);
+}
+
+.recommender-paper {
+  border-left: 3px solid var(--rs-border);
+  padding-left: 0.75rem;
+}
+
+.recommender-result-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.recommender-result-title {
+  min-width: 0;
+}
+
+.recommender-score {
+  min-width: 7.5rem;
+  text-align: right;
+}
+
+@media (max-width: 900px) {
+  .recommender-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .recommender-control-grid,
+  .recommender-result-head {
+    grid-template-columns: 1fr;
+  }
+
+  .recommender-score {
+    min-width: 0;
+    text-align: left;
+  }
+
+  .recommender-panel,
+  .recommender-result {
+    padding: 1rem;
+  }
+}
