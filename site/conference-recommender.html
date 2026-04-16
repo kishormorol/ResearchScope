@@ -12,17 +12,17 @@
 <nav class="rs-nav">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center h-14 gap-2">
-      <a href="index.html" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">ResearchScope</a>
+      <a href="index.html" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-primary)">&#128301; ResearchScope</a>
       <div class="hidden lg:flex items-center justify-center gap-3 text-sm font-medium whitespace-nowrap flex-1">
         <a href="papers.html">Papers</a>
         <a href="topics.html">Topics</a>
-        <a href="digest.html">📬 Digest</a>
+        <a href="digest.html">&#128236; Digest</a>
         <a href="conferences.html">Conferences</a>
-        <a href="conference-recommender.html">Recommender</a>
+        
         <a href="authors.html">Authors</a>
         <a href="labs.html">Labs &amp; Unis</a>
         <a href="gaps.html">Research Gaps</a>
-        <a href="deadlines.html">📅 Upcoming</a>
+        <a href="deadlines.html">&#128197; Upcoming</a>
       </div>
       <div class="flex items-center gap-2 justify-end" style="flex:1">
         <div class="search-wrap hidden lg:block">
@@ -37,7 +37,7 @@
           Star
           <span class="github-star-count">-</span>
         </a>
-        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">Moon</span></button>
+        <button id="theme-toggle" aria-label="Toggle theme"><span id="theme-icon">&#127769;</span></button>
         <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
           <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -54,13 +54,13 @@
       <a href="index.html" class="mobile-nav-link">Home</a>
       <a href="papers.html" class="mobile-nav-link">Papers</a>
       <a href="topics.html" class="mobile-nav-link">Topics</a>
-      <a href="digest.html" class="mobile-nav-link">📬 Weekly Digest</a>
+      <a href="digest.html" class="mobile-nav-link">&#128236; Weekly Digest</a>
       <a href="conferences.html" class="mobile-nav-link">Conferences</a>
-      <a href="conference-recommender.html" class="mobile-nav-link">Conference Recommender</a>
+      
       <a href="authors.html" class="mobile-nav-link">Authors</a>
       <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
       <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
-      <a href="deadlines.html" class="mobile-nav-link">📅 Upcoming Conferences</a>
+      <a href="deadlines.html" class="mobile-nav-link">&#128197; Upcoming Conferences</a>
     </div>
   </div>
 </nav>
@@ -109,8 +109,20 @@
 </main>
 
 <footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
-  <p class="font-semibold mb-2">ResearchScope</p>
-  <p>Open-source CS research intelligence. Conference recommendations are static, heuristic, and advisory.</p>
+  <p class="font-semibold mb-2">&#128301; ResearchScope</p>
+  <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
+  <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
+  <p class="mt-1">
+    <a href="https://arxiv.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">arXiv</a> (metadata CC0) &middot;
+    <a href="https://aclanthology.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">ACL Anthology</a> (CC BY 4.0 / CC BY-NC-SA 3.0) &middot;
+    <a href="https://proceedings.mlr.press" target="_blank" class="hover:underline" style="color:var(--rs-primary)">PMLR</a> (CC BY 4.0) &middot;
+    <a href="https://www.semanticscholar.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">Semantic Scholar</a>
+  </p>
+  <p class="mt-2">
+    <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
+    &middot; <a href="https://github.com/kishormorol/ResearchScope/blob/main/ROADMAP.md" class="hover:underline" style="color:var(--rs-primary)">Roadmap</a>
+    &middot; MIT License &copy; 2026 Md Kishor Morol
+  </p>
 </footer>
 
 <script src="assets/js/app.js"></script>
@@ -335,3 +347,6 @@ function populateControls(index) {
 </script>
 </body>
 </html>
+
+
+

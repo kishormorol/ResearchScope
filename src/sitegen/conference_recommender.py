@@ -10,7 +10,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 import re
+import os
+import subprocess
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,8 +23,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_OUTPUT = ROOT / "data" / "conference_recommender.json"
-SITE_OUTPUT = ROOT / "site" / "data" / "conference_recommender.json"
+LEGACY_OUTPUT = ROOT / "data" / "conference_recommender.json"
+DEFAULT_OUTPUT = ROOT / "site" / "data" / "conference_recommender.json"
+SITE_OUTPUT = DEFAULT_OUTPUT
 DEADLINES_PAGE = ROOT / "site" / "deadlines.html"
 
 STOP_WORDS = {
@@ -192,14 +196,18 @@ def _paper_text(paper: dict[str, Any]) -> str:
 
 
 def _extract_deadlines(path: Path) -> dict[str, dict[str, Any]]:
+    log = logging.getLogger(__name__)
     if not path.exists():
+        log.warning("Conference recommender: deadlines source not found at %s", path)
         return {}
     text = path.read_text(encoding="utf-8")
     start = text.find("const DEADLINES")
     if start < 0:
+        log.warning("Conference recommender: DEADLINES constant not found in %s", path)
         return {}
     array_start = text.find("[", start)
     if array_start < 0:
+        log.warning("Conference recommender: DEADLINES array start not found in %s", path)
         return {}
 
     body_chars: list[str] = []
@@ -281,6 +289,8 @@ def _extract_deadlines(path: Path) -> dict[str, dict[str, Any]]:
         short = str(row.get("short", "")).strip()
         if short:
             deadlines[short.lower()] = row
+    if not deadlines:
+        log.warning("Conference recommender: extracted zero deadlines from %s", path)
     return deadlines
 
 
@@ -534,7 +544,7 @@ def build_index() -> dict[str, Any]:
         "schema_version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "source": {
-            "papers": "data/site conference paper JSON",
+            "papers": "site/data conference paper JSON",
             "deadlines": "site/deadlines.html",
             "method": "generated from venue paper aggregates, TfidfVectorizer weighted keywords, and deadline metadata",
         },
@@ -586,6 +596,21 @@ def write_json(path: Path, data: dict[str, Any]) -> None:
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def maybe_stage_output(path: Path) -> None:
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return
+    try:
+        subprocess.run(
+            ["git", "add", str(path.relative_to(ROOT))],
+            cwd=ROOT,
+            check=True,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+    except (OSError, subprocess.CalledProcessError, ValueError):
+        pass
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build Conference Recommender static JSON.")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
@@ -600,10 +625,11 @@ def main() -> None:
 
     write_json(args.output, data)
     print(f"wrote {args.output}")
+    maybe_stage_output(args.output)
 
-    if args.output == DEFAULT_OUTPUT:
-        write_json(SITE_OUTPUT, data)
-        print(f"wrote {SITE_OUTPUT}")
+    if args.output == DEFAULT_OUTPUT and LEGACY_OUTPUT.is_file():
+        LEGACY_OUTPUT.unlink()
+        print(f"removed stale {LEGACY_OUTPUT}")
 
 
 if __name__ == "__main__":

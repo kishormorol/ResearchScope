@@ -4,26 +4,38 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from src.sitegen import conference_recommender
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RECOMMENDER_INDEX = ROOT / "data" / "conference_recommender.json"
 SITE_RECOMMENDER_INDEX = ROOT / "site" / "data" / "conference_recommender.json"
 RECOMMENDER_PAGE = ROOT / "site" / "conference-recommender.html"
 
 
+@pytest.fixture(scope="module")
+def generated_index() -> dict:
+    data = conference_recommender.build_index()
+    conference_recommender.validate_index(data)
+    return data
+
+
 def test_conference_recommender_uses_standard_data_outputs():
-    assert conference_recommender.DEFAULT_OUTPUT == RECOMMENDER_INDEX
+    assert conference_recommender.DEFAULT_OUTPUT == SITE_RECOMMENDER_INDEX
     assert conference_recommender.SITE_OUTPUT == SITE_RECOMMENDER_INDEX
 
 
-def test_conference_recommender_site_copy_exists_for_static_pages():
-    assert SITE_RECOMMENDER_INDEX.exists()
+def test_conference_recommender_can_write_output(tmp_path: Path, generated_index: dict):
+    output = tmp_path / "conference_recommender.json"
+    conference_recommender.write_json(output, generated_index)
+    assert output.exists()
+    saved = json.loads(output.read_text(encoding="utf-8"))
+    assert saved["schema_version"] == 1
 
 
-def test_conference_recommender_index_schema():
-    data = json.loads(RECOMMENDER_INDEX.read_text(encoding="utf-8"))
+def test_conference_recommender_index_schema(generated_index: dict):
+    data = generated_index
     assert data["schema_version"] == 1
     assert len(data["venues"]) >= 10
     assert {f["id"] for f in data["fields"]} >= {"any", "ML", "NLP", "CV"}
@@ -44,8 +56,8 @@ def test_conference_recommender_index_schema():
         assert isinstance(venue["accepted_papers"], list)
 
 
-def test_conference_recommender_has_generated_venues_and_deadlines():
-    data = json.loads(RECOMMENDER_INDEX.read_text(encoding="utf-8"))
+def test_conference_recommender_has_generated_venues_and_deadlines(generated_index: dict):
+    data = generated_index
     venues = {v["short"]: v for v in data["venues"]}
     for short in ["ICLR", "NeurIPS", "ACL", "CVPR"]:
         assert short in venues
