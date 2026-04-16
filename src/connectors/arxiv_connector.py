@@ -102,45 +102,65 @@ class ArxivConnector(BaseConnector):
         date_to: date | None = None,
         categories: list[str] | None = None,
         max_results: int = 30_000,
-        batch_size: int = 500,
+        batch_size: int = 300,
         delay_seconds: float = 3.0,
     ) -> list[Paper]:
         """Fetch ALL papers submitted between *date_from* and *date_to* (inclusive).
 
-        Paginates automatically.  Respects arXiv's recommended 3-second delay
-        between requests.  At ~300 papers/day a 3-month backfill takes ~3 min.
+        Tries the arxiv package first (has built-in rate-limit handling), then
+        falls back to the raw Atom API.  Paginates automatically.
         """
-        import time
-
         cats = categories or _DEFAULT_CATEGORIES
         cat_filter = " OR ".join(f"cat:{c}" for c in cats)
 
-        dt_to   = date_to or date.today()
+        dt_to    = date_to or date.today()
         from_str = date_from.strftime("%Y%m%d") + "000000"
         to_str   = dt_to.strftime("%Y%m%d") + "235959"
+        query    = f"({cat_filter}) AND submittedDate:[{from_str} TO {to_str}]"
 
-        query = f"({cat_filter}) AND submittedDate:[{from_str} TO {to_str}]"
         log.info(
             "fetch_range: %s → %s  categories=%d  max=%d",
             date_from, dt_to, len(cats), max_results,
         )
 
+        # ── Try arxiv package first (handles rate-limiting/retries internally) ──
+        try:
+            papers = self._fetch_via_package(query, max_results)
+            log.info("fetch_range complete via package: %d papers", len(papers))
+            return papers
+        except ImportError:
+            log.debug("arxiv package not installed — using Atom API for fetch_range")
+        except Exception as exc:
+            log.warning("fetch_range via package failed: %s — falling back to Atom API", exc)
+
+        # ── Fallback: raw Atom API with pagination ────────────────────────────
+        import time
+
         all_papers: list[Paper] = []
         seen_ids:   set[str]   = set()
         start = 0
+        _delays = [delay_seconds * 2, delay_seconds * 4, delay_seconds * 8]  # backoff steps
 
         while start < max_results:
             this_batch = min(batch_size, max_results - start)
-            try:
-                papers = self._fetch_via_api_paginated(query, start, this_batch)
-            except Exception as exc:
-                log.warning("fetch_range batch start=%d failed: %s — retrying once", start, exc)
-                time.sleep(delay_seconds * 2)
+            papers: list[Paper] = []
+            last_exc: Exception | None = None
+
+            for attempt, wait in enumerate([0.0] + _delays):
+                if wait:
+                    log.warning("fetch_range batch start=%d attempt %d — waiting %.0fs", start, attempt, wait)
+                    time.sleep(wait)
                 try:
                     papers = self._fetch_via_api_paginated(query, start, this_batch)
-                except Exception as exc2:
-                    log.error("fetch_range batch start=%d failed again: %s", start, exc2)
+                    last_exc = None
                     break
+                except Exception as exc:
+                    last_exc = exc
+                    log.warning("fetch_range batch start=%d attempt %d failed: %s", start, attempt, exc)
+
+            if last_exc is not None:
+                log.error("fetch_range batch start=%d failed after all retries — stopping", start)
+                break
 
             new = 0
             for p in papers:
