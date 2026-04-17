@@ -20,6 +20,16 @@ The site then renders everything from those JSON files in the browser — no ser
 
 ---
 
+## What's New in ResearchScope
+
+| Version | Highlight |
+|---|---|
+| 🆕 **My Library** | Save papers to a personal library stored in your browser (localStorage). Access saved papers anytime from the Papers page — no account or backend required. |
+| **Conference Recommender** | Paste a title and abstract to get ranked venue matches with deadlines and reviewer expectations. |
+| **Daily arXiv fetch** | Pipeline now fetches from all arXiv sources and surfaces the top 500 papers by score daily. |
+
+---
+
 ## Features
 
 | Feature | Description |
@@ -29,6 +39,7 @@ The site then renders everything from those JSON files in the browser — no ser
 | 🗺 **Learning paths** | Curated reading paths tagged by topic and difficulty level |
 | 🔍 **Research gap explorer** | Surface under-explored areas and emerging directions |
 | 🎯 **Conference recommender** | Paste a title and abstract to get ranked venue matches, deadlines, reviewer expectations, and similar accepted papers |
+| 📚 **My Library** | Save papers to a personal browser-local library with FIFO ordering and persistent state across reloads |
 | 🖥 **Static dashboard** | Zero-backend site hosted on GitHub Pages, updated daily |
 
 ---
@@ -86,6 +97,7 @@ site/
   index.html                   # homepage (published to GitHub Pages)
   papers.html / authors.html … # sub-pages
   conference-recommender.html  # venue recommender (static, JS-powered)
+  library.html                 # My Library page (localStorage-backed)
   assets/css/ assets/js/       # static assets
 data/                          # generated JSON (committed by CI)
 tests/                         # pytest test suite
