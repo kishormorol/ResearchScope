@@ -39,7 +39,7 @@ jobs:
 
       - name: Run pipeline
         run: |
-          python src/pipeline.py --today --skip-conferences --skip-acl
+          python src/pipeline.py --today
         env:
           PYTHONPATH: ${{ github.workspace }}
 
@@ -50,7 +50,7 @@ jobs:
       - name: Check for data changes
         id: check
         run: |
-          git add data/
+          git add data/ site/data/
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
