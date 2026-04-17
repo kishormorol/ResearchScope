@@ -1,0 +1,116 @@
+.library-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.library-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--rs-border);
+  border-radius: 9999px;
+  background: var(--rs-surface);
+  color: var(--rs-text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, transform 0.15s;
+}
+
+.library-link:hover {
+  border-color: var(--rs-primary);
+  color: var(--rs-primary);
+  transform: translateY(-1px);
+}
+
+.library-column,
+.library-cell {
+  width: 5.25rem;
+  text-align: center;
+}
+
+.library-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 1px solid var(--rs-border);
+  border-radius: 9999px;
+  background: var(--rs-surface);
+  color: var(--rs-muted);
+  transition: border-color 0.15s, color 0.15s, background-color 0.15s, transform 0.15s;
+}
+
+.library-toggle:hover {
+  border-color: #e11d48;
+  color: #e11d48;
+  transform: translateY(-1px);
+}
+
+.library-toggle.is-active {
+  border-color: rgba(225, 29, 72, 0.25);
+  background: rgba(225, 29, 72, 0.08);
+  color: #e11d48;
+}
+
+.library-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.18);
+}
+
+.library-toggle__icon {
+  font-size: 1rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.library-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.library-card__actions {
+  flex-shrink: 0;
+}
+
+.library-card__eyebrow {
+  margin-bottom: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rs-muted);
+}
+
+@media (max-width: 640px) {
+  .library-toolbar,
+  .library-card__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .library-link {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .library-card__actions .library-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .library-column,
+  .library-cell {
+    width: 4.25rem;
+  }
+}

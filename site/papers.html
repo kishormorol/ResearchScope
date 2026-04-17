@@ -6,6 +6,7 @@
   <title>Papers – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="assets/css/style.css"/>
+  <link rel="stylesheet" href="assets/css/library.css"/>
 </head>
 <body>
 
@@ -70,11 +71,16 @@
 </nav>
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <h1 class="text-2xl font-bold mb-2">📄 Papers</h1>
-  <p class="text-sm mb-4" style="color:var(--rs-muted)">Scored by importance, readability, and content potential. Click any row to expand.
-    <button onclick="document.getElementById('scoring-explainer').classList.toggle('hidden')"
-      class="ml-2 text-xs font-semibold underline" style="color:var(--rs-primary)">How scoring works ↓</button>
-  </p>
+  <div class="library-toolbar">
+    <div>
+      <h1 class="text-2xl font-bold mb-2">📄 Papers</h1>
+      <p class="text-sm mb-4" style="color:var(--rs-muted)">Scored by importance, readability, and content potential. Click any row to expand.
+        <button onclick="document.getElementById('scoring-explainer').classList.toggle('hidden')"
+          class="ml-2 text-xs font-semibold underline" style="color:var(--rs-primary)">How scoring works ↓</button>
+      </p>
+    </div>
+    <a href="library.html" class="library-link">My Library</a>
+  </div>
   <div id="scoring-explainer" class="hidden rs-card p-4 mb-4 text-sm" style="color:var(--rs-text)">
     <p class="font-bold mb-2">📊 How Papers Are Scored (0–10)</p>
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -150,10 +156,11 @@
           <th>Level</th>
           <th>Type</th>
           <th>Score</th>
+          <th class="library-column">Add to library</th>
         </tr>
       </thead>
       <tbody id="papers-body">
-        <tr><td colspan="6"><div class="spinner"></div></td></tr>
+        <tr><td colspan="7"><div class="spinner"></div></td></tr>
       </tbody>
     </table>
   </div>
@@ -178,10 +185,21 @@
 </footer>
 
 <script src="assets/js/app.js"></script>
+<script src="assets/js/library.js"></script>
 <script>
 let allPapers = [];
 let currentPage = 1;
 const PAGE_SIZE = 25;
+const libraryApi = window.ResearchScopeLibrary;
+let libraryLookup = new Set(libraryApi ? libraryApi.readLibraryIds() : []);
+const libraryButtons = libraryApi
+  ? libraryApi.initializeLibraryButtons({
+      root: document.getElementById('papers-table'),
+      onChange(result) {
+        libraryLookup = new Set(result.ids);
+      },
+    })
+  : null;
 
 // ── Tag normalisation map — merges duplicates/variants into canonical form ──
 const TAG_NORMALIZE = {
@@ -250,17 +268,22 @@ function renderRows(papers) {
     `${papers.length} paper${papers.length !== 1 ? 's' : ''} · page ${currentPage} of ${Math.max(1, Math.ceil(papers.length / PAGE_SIZE))}`;
 
   if (!page.length) {
-    tbody.innerHTML = `<tr><td colspan="6" class="empty-state"><p>No papers match your filters.</p></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><p>No papers match your filters.</p></td></tr>`;
     return;
   }
 
   tbody.innerHTML = page.map((p, i) => {
     const idx = start + i;
     const url = p.paper_url || p.url || '#';
+    const paperId = libraryApi ? libraryApi.getPaperLibraryId(p) : '';
+    const inLibrary = paperId ? libraryLookup.has(paperId) : false;
     const authors = (p.authors || []).slice(0, 2).join(', ');
     const more = (p.authors||[]).length > 2 ? ` +${p.authors.length - 2}` : '';
     const typeStr = p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : '–';
     const scoreVal = p.paper_score || 0;
+    const libraryButton = paperId
+      ? libraryApi.renderLibraryButton(paperId, { inLibrary })
+      : '';
     return `
     <tr class="cursor-pointer" onclick="toggleDetail(${idx})">
       <td>
@@ -284,9 +307,10 @@ function renderRows(papers) {
           📖 ${(p.read_first_score||0).toFixed(1)} · 🎙 ${(p.content_potential_score||0).toFixed(1)}
         </div>
       </td>
+      <td class="library-cell">${libraryButton}</td>
     </tr>
     <tr class="detail-row" id="detail-${idx}">
-      <td colspan="6">
+      <td colspan="7">
         <div class="grid md:grid-cols-2 gap-6">
           <div>
             <p class="text-xs font-semibold uppercase mb-2" style="color:var(--rs-muted)">Summary</p>
@@ -318,6 +342,10 @@ function renderRows(papers) {
       </td>
     </tr>`;
   }).join('');
+
+  if (libraryButtons) {
+    libraryButtons.refresh();
+  }
 }
 
 let filteredPapers = [];
@@ -374,7 +402,7 @@ const debouncedFilter = debounce(applyFilters, 200);
 (async () => {
   const papers = await fetchData('data/papers.json');
   if (!papers || !papers.length) {
-    document.getElementById('papers-body').innerHTML = `<tr><td colspan="6"><div class="empty-state"><p>No papers yet. Run the pipeline.</p></div></td></tr>`;
+    document.getElementById('papers-body').innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>No papers yet. Run the pipeline.</p></div></td></tr>`;
     return;
   }
 
@@ -398,6 +426,12 @@ const debouncedFilter = debounce(applyFilters, 200);
 
   applyFilters();
 })();
+
+window.addEventListener('storage', event => {
+  if (!libraryApi || event.key !== libraryApi.STORAGE_KEY) return;
+  libraryLookup = new Set(libraryApi.readLibraryIds());
+  renderRows(filteredPapers);
+});
 </script>
 </body>
 </html>
