@@ -71,11 +71,11 @@ class SiteGenerator:
         self._write(output_dir, "conferences_db.json",
                     [self._slim(p) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
 
-        # ── Frontend slice — top 500 overall by score ───────────────────────────
-        frontend_papers = sorted(
-            arxiv_papers + conf_papers,
-            key=lambda p: -(p.paper_score or 0),
-        )[: self.MAX_FRONTEND_ARXIV]  # MAX_FRONTEND_ARXIV repurposed as total cap (500)
+        # ── Frontend slice — top 500 arXiv + top 500 conference ─────────────────
+        frontend_papers = (
+            arxiv_papers[: self.MAX_FRONTEND_ARXIV]
+            + conf_papers[: self.MAX_FRONTEND_CONF]
+        )
         self._write(output_dir, "papers.json",
                     [self._slim(p) for p in frontend_papers])
 
