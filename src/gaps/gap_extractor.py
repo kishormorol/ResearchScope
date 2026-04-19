@@ -254,7 +254,7 @@ class GapExtractor:
                 gaps.append(ResearchGap(
                     gap_id=str(uuid.uuid4()),
                     topic=tag,
-                    title=f"Starter idea: {idea[:60]}…" if len(idea) > 60 else f"Starter idea: {idea}",
+                    title=f"Starter idea: {idea}",
                     description=(
                         f"Beginner-friendly research direction in {tag}. "
                         f"Based on {len(paper_ids)} tracked papers in this area. "
