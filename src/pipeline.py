@@ -315,7 +315,7 @@ def run_pipeline(
 
             # S2 keyword queries — AAAI, IJCAI, CHI (no clean direct proceedings API)
             log.info("  [s2] fetching AAAI, IJCAI, CHI …")
-            s2_kw = SemanticScholarConnector(venues=["AAAI", "IJCAI", "CHI"])
+            s2_kw = SemanticScholarConnector(venues=["AAAI", "IJCAI", "CHI", "SIGMOD"])
             for query in queries[:3]:
                 try:
                     fetched = s2_kw.fetch(query, max_results=max_results_per_query)
@@ -330,7 +330,7 @@ def run_pipeline(
             for query in conf_queries:
                 for connector, name in [
                     (OpenReviewConnector(), "openreview"),
-                    (SemanticScholarConnector(venues=["AAAI","IJCAI","CHI"]), "s2"),
+                    (SemanticScholarConnector(venues=["AAAI","IJCAI","CHI","SIGMOD"]), "s2"),
                 ]:
                     log.info("  [%s] '%s' …", name, query)
                     try:

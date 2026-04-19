@@ -47,6 +47,7 @@ _VENUES: dict[str, tuple[str, str]] = {
     "ICCV":   ("ICCV",  "A*"),
     "ECCV":   ("ECCV",  "A*"),
     "CHI":    ("CHI",   "A*"),
+    "SIGMOD": ("SIGMOD","A*"),
 }
 
 # Throttle: unauthenticated = ~1 req/s; with key = 10 req/s
