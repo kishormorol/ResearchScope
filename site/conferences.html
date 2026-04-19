@@ -72,7 +72,7 @@
   <p class="text-sm mb-6" style="color:var(--rs-muted)">
     Top CS venues ranked by paper quality. A* = top-tier (CORE ranking).
     Papers from ICLR, NeurIPS, ICML, COLM, AAAI, IJCAI, AAMAS, ICAPS, CVPR, ICCV, ECCV,
-    ACL, EMNLP, NAACL, COLING, AACL-IJCNLP, CHI, ICSE, KDD, ICDM, RecSys, and SIGIR
+    ACL, EMNLP, NAACL, COLING, AACL-IJCNLP, CHI, ICSE, KDD, ICDM, RecSys, SIGIR, and SIGMOD
     are fetched via Semantic Scholar, OpenReview, PMLR, CVF, and ACL Anthology.
   </p>
 
@@ -158,6 +158,8 @@ const VENUES = [
   {name:'ICDM',         short:'ICDM',         area:'DM', rank:'A', active:true},
   {name:'RecSys',       short:'RecSys',       area:'DM', rank:'A', active:true},
   {name:'SIGIR',        short:'SIGIR',        area:'IR', rank:'A*',active:true},
+  // DB
+  {name:'SIGMOD',       short:'SIGMOD',       area:'DB', rank:'A*',active:true},
   // arXiv
   {name:'arXiv',        short:'arXiv',        area:'all',rank:'',  active:true},
 ];
@@ -196,6 +198,10 @@ const CONF_DEADLINES = [
   {short:'ICSE',    name:'ICSE 2026',       abstract_deadline:'2025-09-05', paper_deadline:'2025-09-12', notification:'2025-12-12', conf_start:'2026-04-12', conf_end:'2026-04-18'},
   {short:'CHI',     name:'CHI 2026',        abstract_deadline:'2025-09-12', paper_deadline:'2025-09-19', notification:'2025-12-11', conf_start:'2026-04-25', conf_end:'2026-04-30'},
   {short:'CHI',     name:'CHI 2027',        abstract_deadline:'2026-09-11', paper_deadline:'2026-09-18', notification:'2026-12-10', conf_start:'2027-05-10', conf_end:'2027-05-14'},
+  {short:'SIGMOD',  name:'SIGMOD 2027 R1',  abstract_deadline:'2026-01-10', paper_deadline:'2026-01-17', notification:'2026-06-12', conf_start:'2027-06-13', conf_end:'2027-06-19'},
+  {short:'SIGMOD',  name:'SIGMOD 2027 R2',  abstract_deadline:'2026-04-10', paper_deadline:'2026-04-17', notification:'2026-09-12', conf_start:'2027-06-13', conf_end:'2027-06-19'},
+  {short:'SIGMOD',  name:'SIGMOD 2027 R3',  abstract_deadline:'2026-07-10', paper_deadline:'2026-07-17', notification:'2026-12-12', conf_start:'2027-06-13', conf_end:'2027-06-19'},
+  {short:'SIGMOD',  name:'SIGMOD 2027 R4',  abstract_deadline:'2026-10-10', paper_deadline:'2026-10-17', notification:'2027-03-12', conf_start:'2027-06-13', conf_end:'2027-06-19'},
 ];
 
 function nextEvent(short) {
