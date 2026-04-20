@@ -175,7 +175,6 @@ Thanks to everyone who has contributed to ResearchScope!
 | Contributor | GitHub | Commits |
 |---|---|---|
 | Md Kishor Morol | [@kishormorol](https://github.com/kishormorol) | Project lead · architecture · pipeline |
-| inexplainableai | [@inexplainableai](https://github.com/inexplainableai) | Core development |
 | Shadril Hassan | [@shadril238](https://github.com/shadril238) | Contributor |
 | Saad Chowdhury | [@0Sa-ad0](https://github.com/0Sa-ad0) | Contributor |
 
