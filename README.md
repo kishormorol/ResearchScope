@@ -6,6 +6,8 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![GitHub Pages](https://img.shields.io/badge/site-GitHub%20Pages-blue)](https://kishormorol.github.io/ResearchScope/)
 
+![ResearchScope screenshot](docs/screenshot.png)
+
 ---
 
 ## What is ResearchScope?
