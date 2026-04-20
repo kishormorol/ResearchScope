@@ -1,12 +1,22 @@
+<div align="center">
+
 # ResearchScope
 
-> A static-first research intelligence platform for CS papers — track what matters, who drives it, what to read first, and where the research gaps are.
+**Research intelligence for CS papers — track what matters, who drives it, what to read first.**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![GitHub Pages](https://img.shields.io/badge/site-GitHub%20Pages-blue)](https://kishormorol.github.io/ResearchScope/)
+Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers that actually move your field.
+
+[![Live Site](https://img.shields.io/badge/Live%20Site-kishormorol.github.io%2FResearchScope-7c3aed?style=for-the-badge&logo=github)](https://kishormorol.github.io/ResearchScope/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
+[![Python](https://img.shields.io/badge/Pipeline-Python%203.10%2B-3b82f6?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-f59e0b?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows)
+[![arXiv](https://img.shields.io/badge/Data-arXiv%20%2B%20ACL-b91c1c?style=for-the-badge)](https://arxiv.org)
+
+<br/>
 
 ![ResearchScope screenshot](docs/screenshot.png)
+
+</div>
 
 ---
 
