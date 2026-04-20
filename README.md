@@ -166,6 +166,23 @@ ResearchScope stores only bibliographic metadata (titles, abstracts, authors, af
 
 If you are a publisher and have concerns about how your content is represented, please [open an issue](https://github.com/kishormorol/ResearchScope/issues).
 
+## Contributors
+
+Thanks to everyone who has contributed to ResearchScope!
+
+[![Contributors](https://contrib.rocks/image?repo=kishormorol/ResearchScope)](https://github.com/kishormorol/ResearchScope/graphs/contributors)
+
+| Contributor | GitHub | Commits |
+|---|---|---|
+| Md Kishor Morol | [@kishormorol](https://github.com/kishormorol) | Project lead · architecture · pipeline |
+| inexplainableai | [@inexplainableai](https://github.com/inexplainableai) | Core development |
+| Shadril Hassan | [@shadril238](https://github.com/shadril238) | Contributor |
+| Saad Chowdhury | [@0Sa-ad0](https://github.com/0Sa-ad0) | Contributor |
+
+Want to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+---
+
 ## License
 
 MIT © 2026 Md Kishor Morol
