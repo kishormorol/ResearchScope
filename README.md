@@ -147,6 +147,23 @@ The workflow in `.github/workflows/update.yml`:
 To enable Pages for a fork: go to **Settings → Pages** and set the source to
 **GitHub Actions**.
 
+## Alternatives comparison
+
+If you're evaluating ResearchScope against other tools:
+
+| Tool | Free | Open source | Daily updates | Research gaps | Conference deadlines | No sign-up |
+|---|---|---|---|---|---|---|
+| **ResearchScope** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| [Arxiv Sanity](https://arxiv-sanity-lite.com) | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ |
+| [Papers With Code](https://paperswithcode.com) | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
+| [Semantic Scholar](https://semanticscholar.org) | ✅ | ❌ | ✅ | ❌ | ❌ | ✅ |
+| [Elicit](https://elicit.com) | Partial | ❌ | ❌ | ❌ | ❌ | ❌ |
+| [Consensus](https://consensus.app) | Partial | ❌ | ❌ | ❌ | ❌ | ❌ |
+
+ResearchScope is the only fully free, open-source dashboard that combines **daily paper rankings, research gap detection, and conference deadlines** in one place — with zero backend.
+
+---
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.

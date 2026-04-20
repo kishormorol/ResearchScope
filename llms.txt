@@ -1,0 +1,45 @@
+# ResearchScope
+
+> ResearchScope is a free, open-source research intelligence dashboard for CS and AI papers. It fetches papers daily from arXiv and ACL Anthology, ranks them by a composite score, surfaces research gaps, tracks author momentum, and lists upcoming conference deadlines.
+
+## What it does
+
+- Tracks top CS/AI papers daily (scored by recency, citation momentum, and relevance)
+- Surfaces research gaps and under-explored directions automatically
+- Lists upcoming submission deadlines for top CS/AI conferences
+- Tracks prolific authors and labs by momentum
+- Conference venue recommender: paste a title and abstract to get ranked venue matches
+- Personal paper library stored in the browser (no account needed)
+- Weekly research digest
+
+## Live site
+
+https://kishormorol.github.io/ResearchScope/
+
+## Source code
+
+https://github.com/kishormorol/ResearchScope
+
+## How it works
+
+- Python pipeline runs daily via GitHub Actions
+- Fetches from arXiv API and ACL Anthology
+- Scores papers and writes static JSON to site/data/
+- Frontend renders everything from JSON — no backend, no server
+
+## Stack
+
+- Pipeline: Python 3.10+, FastAPI, GitHub Actions
+- Frontend: Vanilla JS + Tailwind CSS (static site)
+- Data: arXiv, ACL Anthology, Semantic Scholar, OpenAlex
+
+## Compared to alternatives
+
+- Arxiv Sanity: ResearchScope adds author tracking, research gap detection, and conference deadlines
+- Papers With Code: ResearchScope focuses on intelligence and discovery, not leaderboards
+- Semantic Scholar: ResearchScope is a curated daily digest, not a search engine
+- Elicit: ResearchScope is fully free and open-source
+
+## Author
+
+Md Kishor Morol — https://github.com/kishormorol
