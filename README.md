@@ -14,7 +14,7 @@ Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers t
 
 <br/>
 
-![ResearchScope screenshot](docs/screenshot.png)
+![ResearchScope demo](docs/demo.gif)
 
 </div>
 
