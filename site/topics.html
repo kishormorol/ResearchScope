@@ -72,6 +72,12 @@
   <h1 class="text-2xl font-bold mb-2">🗂 Topics &amp; Reading Paths</h1>
   <p class="text-sm mb-4" style="color:var(--rs-muted)">Click any topic to expand its reading path, prerequisites, and papers.</p>
 
+  <div class="topic-view-switch mb-4" role="group" aria-label="Topic view">
+    <button type="button" class="topic-view-btn active" data-topic-view="list">List</button>
+    <button type="button" class="topic-view-btn" data-topic-view="graph">Graph</button>
+    <button type="button" class="topic-view-btn" data-topic-view="split">Split</button>
+  </div>
+
   <!-- Filter bar -->
   <div class="flex flex-wrap items-center gap-2 mb-6">
     <input id="topic-search" type="search" placeholder="Filter topics…"
@@ -83,6 +89,84 @@
     <button class="topic-filter-btn" data-diff="L4">Frontier</button>
     <span id="topic-count" class="text-sm ml-auto" style="color:var(--rs-muted)"></span>
   </div>
+
+  <section id="topic-graph-section" class="topic-graph-shell hidden" aria-label="Topic paper network graph">
+    <div class="topic-graph-toolbar">
+      <div class="topic-graph-control">
+        <label for="graph-paper-search">Paper search</label>
+        <input id="graph-paper-search" type="search" placeholder="Title, author, tag, venue"/>
+      </div>
+      <div class="topic-graph-control compact">
+        <label for="graph-source">Source</label>
+        <select id="graph-source">
+          <option value="all">All</option>
+          <option value="arxiv">arXiv</option>
+          <option value="acl">ACL</option>
+          <option value="openreview">OpenReview</option>
+          <option value="cvf">CVF</option>
+          <option value="pmlr">PMLR</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="topic-graph-control compact">
+        <label for="graph-paper-type">Type</label>
+        <select id="graph-paper-type">
+          <option value="all">All</option>
+        </select>
+      </div>
+      <div class="topic-graph-control tiny">
+        <label for="graph-year-min">From</label>
+        <input id="graph-year-min" type="number" inputmode="numeric" placeholder="Year"/>
+      </div>
+      <div class="topic-graph-control tiny">
+        <label for="graph-year-max">To</label>
+        <input id="graph-year-max" type="number" inputmode="numeric" placeholder="Year"/>
+      </div>
+      <div class="topic-graph-control tiny">
+        <label for="graph-min-score">Score</label>
+        <input id="graph-min-score" type="number" min="0" max="10" step="0.5" value="0"/>
+      </div>
+      <div class="topic-graph-control compact">
+        <label for="graph-density">Density</label>
+        <select id="graph-density">
+          <option value="focused">Focused</option>
+          <option value="balanced" selected>Balanced</option>
+          <option value="dense">Dense</option>
+        </select>
+      </div>
+      <div class="topic-graph-control compact">
+        <label for="graph-paper-limit">Papers</label>
+        <select id="graph-paper-limit">
+          <option value="25">Top 25</option>
+          <option value="50">Top 50</option>
+          <option value="75" selected>Top 75</option>
+          <option value="100">Top 100</option>
+          <option value="250">Top 250</option>
+        </select>
+      </div>
+      <div class="topic-graph-relations" aria-label="Graph relationship filters">
+        <label><input type="checkbox" id="graph-rel-topic-paper" checked/> Topic-paper</label>
+        <label><input type="checkbox" id="graph-rel-topic-topic" checked/> Topic-topic</label>
+        <label><input type="checkbox" id="graph-rel-paper-paper" checked/> Paper-paper</label>
+        <label><input type="checkbox" id="graph-rel-prereq" checked/> Prerequisites</label>
+      </div>
+      <div class="topic-graph-actions">
+        <button type="button" id="graph-reset">Reset</button>
+        <button type="button" id="graph-zoom-out" aria-label="Zoom out">-</button>
+        <button type="button" id="graph-zoom-in" aria-label="Zoom in">+</button>
+        <button type="button" id="graph-fit">Fit</button>
+        <button type="button" id="graph-layout">Layout</button>
+        <button type="button" id="graph-toggle-papers" aria-pressed="false">Hide papers</button>
+      </div>
+    </div>
+    <div id="topic-graph-stats" class="topic-graph-stats"></div>
+    <div class="topic-graph-layout">
+      <div id="topic-graph-canvas" class="topic-graph-canvas">
+        <div class="spinner"></div>
+      </div>
+      <aside id="topic-graph-panel" class="topic-graph-panel"></aside>
+    </div>
+  </section>
 
   <div id="topics-list"><div class="spinner"></div></div>
 </div>
@@ -103,6 +187,7 @@
   </p>
 </footer>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/topic-graph.js"></script>
 <style>
 .topic-filter-btn {
   padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
@@ -205,6 +290,12 @@ window.addEventListener('hashchange', () => {
 });
 
 let _allTopics = [];
+let _allTopicData = [];
+let _allPaperData = [];
+let _sortedTopics = [];
+let _activeTopicView = 'list';
+let _graphApi = null;
+let _showGraphPapers = true;
 
 function applyFilters() {
   const q    = (document.getElementById('topic-search')?.value || '').toLowerCase();
@@ -221,19 +312,140 @@ function applyFilters() {
   if (countEl) countEl.textContent = `${visible} topic${visible !== 1 ? 's' : ''}`;
 }
 
+function currentTopicDiff() {
+  return document.querySelector('.topic-filter-btn.active')?.dataset.diff || 'all';
+}
+
+function graphValue(id, fallback = '') {
+  const el = document.getElementById(id);
+  return el ? el.value : fallback;
+}
+
+function graphChecked(id, fallback = true) {
+  const el = document.getElementById(id);
+  return el ? el.checked : fallback;
+}
+
+function graphFilters() {
+  return {
+    topicQuery: document.getElementById('topic-search')?.value || '',
+    paperQuery: graphValue('graph-paper-search'),
+    difficulty: currentTopicDiff(),
+    source: graphValue('graph-source', 'all'),
+    paperType: graphValue('graph-paper-type', 'all'),
+    yearMin: graphValue('graph-year-min'),
+    yearMax: graphValue('graph-year-max'),
+    minPaperScore: graphValue('graph-min-score', 0),
+    density: graphValue('graph-density', 'balanced'),
+    maxTopics: 30,
+    maxPapers: graphValue('graph-paper-limit', 75),
+    showPapers: _showGraphPapers,
+    relations: {
+      topicPaper: graphChecked('graph-rel-topic-paper'),
+      topicTopic: graphChecked('graph-rel-topic-topic'),
+      paperPaper: graphChecked('graph-rel-paper-paper'),
+      prerequisite: graphChecked('graph-rel-prereq'),
+    },
+  };
+}
+
+function renderGraphView() {
+  const graphLib = window.ResearchScopeTopicGraph;
+  const canvas = document.getElementById('topic-graph-canvas');
+  const panel = document.getElementById('topic-graph-panel');
+  const statsEl = document.getElementById('topic-graph-stats');
+  if (!graphLib || !canvas) return;
+
+  const graph = graphLib.buildTopicGraph(_allTopicData, _allPaperData, graphFilters());
+  if (statsEl) {
+    statsEl.innerHTML = `
+      <span class="topic-graph-stat"><strong>${graph.stats.topicCount}</strong> topics</span>
+      <span class="topic-graph-stat"><strong>${graph.stats.paperCount}</strong> papers</span>
+      <span class="topic-graph-stat"><strong>${graph.stats.edgeCount}</strong> edges</span>
+      ${graph.stats.hiddenPaperCount ? `<span class="topic-graph-stat muted">${graph.stats.hiddenPaperCount} hidden papers</span>` : ''}
+      ${graph.stats.hiddenEdgeCount ? `<span class="topic-graph-stat muted">${graph.stats.hiddenEdgeCount} capped edges</span>` : ''}`;
+  }
+
+  _graphApi = graphLib.renderGraph(canvas, graph, { panel });
+
+  if (location.hash && _graphApi) {
+    const hashId = location.hash.slice(1).replace(/^topic-/, '');
+    _graphApi.focusNode(`topic:${hashId}`);
+  }
+}
+
+const renderGraphDebounced = debounce(() => {
+  if (_activeTopicView !== 'list') renderGraphView();
+}, 180);
+
+function setTopicView(view) {
+  _activeTopicView = view;
+  document.querySelectorAll('.topic-view-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.topicView === view);
+  });
+  const graphSection = document.getElementById('topic-graph-section');
+  const list = document.getElementById('topics-list');
+  if (graphSection) graphSection.classList.toggle('hidden', view === 'list');
+  if (list) list.classList.toggle('hidden', view === 'graph');
+  if (view !== 'list') renderGraphView();
+}
+
+function populateGraphTypeOptions(papers) {
+  const select = document.getElementById('graph-paper-type');
+  if (!select) return;
+  const types = Array.from(new Set((papers || []).map(p => p.paper_type).filter(Boolean))).sort();
+  select.innerHTML = '<option value="all">All</option>' + types.map(type =>
+    `<option value="${escHtml(type.toLowerCase())}">${escHtml(type)}</option>`
+  ).join('');
+}
+
+function resetGraphFilters() {
+  const ids = ['graph-paper-search', 'graph-year-min', 'graph-year-max'];
+  ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const minScore = document.getElementById('graph-min-score');
+  if (minScore) minScore.value = '0';
+  const source = document.getElementById('graph-source');
+  if (source) source.value = 'all';
+  const type = document.getElementById('graph-paper-type');
+  if (type) type.value = 'all';
+  const density = document.getElementById('graph-density');
+  if (density) density.value = 'balanced';
+  const limit = document.getElementById('graph-paper-limit');
+  if (limit) limit.value = '75';
+  ['graph-rel-topic-paper','graph-rel-topic-topic','graph-rel-paper-paper','graph-rel-prereq'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.checked = true;
+  });
+  _showGraphPapers = true;
+  const toggle = document.getElementById('graph-toggle-papers');
+  if (toggle) {
+    toggle.textContent = 'Hide papers';
+    toggle.setAttribute('aria-pressed', 'false');
+  }
+  renderGraphView();
+}
+
 (async () => {
   const [topics, papers] = await Promise.all([fetchData('data/topics.json'), fetchData('data/papers.json')]);
   if (!topics || !topics.length) { showEmpty('topics-list','No topics yet. Run the pipeline.'); return; }
+  _allTopicData = topics || [];
+  _allPaperData = papers || [];
   const papersById = {};
   (papers||[]).forEach(p => { papersById[p.id] = p; });
   const sorted = [...topics].sort((a,b) => (b.trend_score||0) - (a.trend_score||0)).slice(0, 1000);
+  _sortedTopics = sorted;
 
   document.getElementById('topics-list').innerHTML = sorted.map(t => renderTopicAccordion(t, papersById)).join('');
   _allTopics = Array.from(document.querySelectorAll('.topic-accordion'));
+  populateGraphTypeOptions(papers || []);
   applyFilters();
 
   // Open if URL has hash
   if (location.hash) openAccordionById(location.hash.slice(1));
+
+  document.querySelectorAll('.topic-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => setTopicView(btn.dataset.topicView || 'list'));
+  });
 
   // Filter buttons
   document.querySelectorAll('.topic-filter-btn').forEach(btn => {
@@ -241,11 +453,43 @@ function applyFilters() {
       document.querySelectorAll('.topic-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       applyFilters();
+      renderGraphDebounced();
     });
   });
 
   // Search
-  document.getElementById('topic-search')?.addEventListener('input', applyFilters);
+  document.getElementById('topic-search')?.addEventListener('input', () => {
+    applyFilters();
+    renderGraphDebounced();
+  });
+
+  [
+    'graph-paper-search','graph-source','graph-paper-type','graph-year-min','graph-year-max',
+    'graph-min-score','graph-density','graph-paper-limit','graph-rel-topic-paper',
+    'graph-rel-topic-topic','graph-rel-paper-paper','graph-rel-prereq'
+  ].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', renderGraphDebounced);
+    document.getElementById(id)?.addEventListener('change', renderGraphDebounced);
+  });
+
+  document.getElementById('graph-reset')?.addEventListener('click', resetGraphFilters);
+  document.getElementById('graph-fit')?.addEventListener('click', () => _graphApi?.fit());
+  document.getElementById('graph-zoom-in')?.addEventListener('click', () => _graphApi?.zoomIn());
+  document.getElementById('graph-zoom-out')?.addEventListener('click', () => _graphApi?.zoomOut());
+  document.getElementById('graph-layout')?.addEventListener('click', renderGraphView);
+  document.getElementById('graph-toggle-papers')?.addEventListener('click', (event) => {
+    _showGraphPapers = !_showGraphPapers;
+    event.currentTarget.textContent = _showGraphPapers ? 'Hide papers' : 'Show papers';
+    event.currentTarget.setAttribute('aria-pressed', String(!_showGraphPapers));
+    renderGraphView();
+  });
+  document.getElementById('topic-graph-panel')?.addEventListener('click', (event) => {
+    const target = event.target.closest('[data-topic-open]');
+    if (!target) return;
+    const topicId = target.dataset.topicOpen;
+    setTopicView(_activeTopicView === 'graph' ? 'split' : _activeTopicView);
+    openAccordionById(`topic-${topicId}`);
+  });
 })();
 </script>
 </body>
