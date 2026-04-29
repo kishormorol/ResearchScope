@@ -114,7 +114,7 @@ function scoreBar(label, score, max = 10) {
 // ── Extract arXiv ID from a paper URL ──────────────────────────────────
 function extractArxivId(url) {
   if (!url) return null;
-  const m = url.match(/arxiv\.org\/(?:abs|pdf)\/([0-9]{4}\.[0-9]{4,5}(?:v\d+)?)/);
+  const m = url.match(/arxiv\.org\/(?:abs|pdf)\/([0-9]{4}\.[0-9]{4,5}(?:v\d+)?)(?![0-9])/);
   return m ? m[1] : null;
 }
 
