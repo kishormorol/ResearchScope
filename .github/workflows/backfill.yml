@@ -50,7 +50,7 @@ jobs:
           python src/pipeline.py --backfill-from "${{ github.event.inputs.from_date }}" $SKIP_FLAG
         env:
           PYTHONPATH: ${{ github.workspace }}
-          SEMANTIC_SCHOLAR_KEY: ${{ secrets.SEMANTIC_SCHOLAR_KEY }}
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
 
       - name: Commit backfilled data
         run: |

@@ -2,7 +2,7 @@
 Semantic Scholar connector.
 
 Covers ICLR, NeurIPS, ICML, AAAI, IJCAI, CVPR, ICCV, ECCV, CHI via the
-public S2 paper-search API.  An API key (SEMANTIC_SCHOLAR_KEY env var) raises
+public S2 paper-search API.  An API key (SEMANTIC_SCHOLAR_API_KEY env var) raises
 the rate limit from ~1 req/s to 10 req/s but is not required.
 """
 from __future__ import annotations
@@ -59,7 +59,7 @@ class SemanticScholarConnector(BaseConnector):
     """Fetches papers from top CS conferences via the Semantic Scholar API."""
 
     def __init__(self, venues: list[str] | None = None) -> None:
-        self._key    = os.getenv("SEMANTIC_SCHOLAR_KEY", "")
+        self._key    = os.getenv("SEMANTIC_SCHOLAR_API_KEY", "")
         self._venues = venues or list(_VENUES.keys())
         self._sleep  = _SLEEP_WITH_KEY if self._key else _SLEEP_NO_KEY
 

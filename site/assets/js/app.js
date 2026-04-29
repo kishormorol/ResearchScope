@@ -111,6 +111,26 @@ function scoreBar(label, score, max = 10) {
   </div>`;
 }
 
+// ── Extract arXiv ID from a paper URL ──────────────────────────────────
+function extractArxivId(url) {
+  if (!url) return null;
+  const m = url.match(/arxiv\.org\/(?:abs|pdf)\/([0-9]{4}\.[0-9]{4,5}(?:v\d+)?)/);
+  return m ? m[1] : null;
+}
+
+// ── CiteLens link for a paper (only when arXiv ID is available) ─────────
+function citelensBtn(paper) {
+  const arxivId = extractArxivId(paper.paper_url || paper.url || '');
+  if (!arxivId) return '';
+  const href = `https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(arxivId)}`;
+  return `<a href="${escHtml(href)}" target="_blank" rel="noopener"
+    class="mt-3 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-md border"
+    style="color:var(--rs-primary);border-color:var(--rs-primary);opacity:0.85"
+    title="See who cited this paper — powered by CiteLens">
+    🔍 Analyze citations
+  </a>`;
+}
+
 // ── Paper card (used in homepage & topics) ─────────────────────────────
 function renderPaperCard(paper, opts = {}) {
   const url = paper.paper_url || paper.url || '#';
@@ -153,6 +173,7 @@ function renderPaperCard(paper, opts = {}) {
       ${scoreBar('Read First', paper.read_first_score)}
       ${scoreBar('Content Potential', paper.content_potential_score)}
     </div>` : ''}
+    ${citelensBtn(paper)}
   </div>`;
 }
 
@@ -419,6 +440,7 @@ function renderPotdCard(paper) {
     <p class="potd-abstract">${escHtml((paper.abstract || paper.summary || '').slice(0, 300))}</p>
     <div class="potd-actions">
       <a href="${escHtml(url)}" target="_blank" rel="noopener" class="potd-btn potd-btn-primary">Read Paper →</a>
+      ${(() => { const aid = extractArxivId(url); return aid ? `<a href="https://kishormorol.github.io/CiteLens/?q=${encodeURIComponent(aid)}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost" title="See who cited this paper">🔍 Analyze citations</a>` : ''; })()}
       <a href="${escHtml(tweetPaperUrl(paper))}" target="_blank" rel="noopener" class="potd-btn potd-btn-ghost">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Share
