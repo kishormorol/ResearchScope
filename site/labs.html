@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Labs & Universities – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -111,6 +112,7 @@
   </p>
 </footer>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
 let allLabs = [], allUnis = [];
 
@@ -183,7 +185,10 @@ function filterAndRender(items, query, gridId, countId, cardFn) {
 }
 
 (async () => {
-  const [labs, unis] = await Promise.all([fetchData('data/labs.json'), fetchData('data/universities.json')]);
+  const [labs, unis] = await Promise.all([
+    window._rs_supabase.fetchAllLabs(),
+    fetchData('data/universities.json'),
+  ]);
 
   allLabs = (labs||[]).sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
   allUnis = (unis||[]).sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));

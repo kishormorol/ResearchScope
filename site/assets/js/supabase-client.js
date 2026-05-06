@@ -22,10 +22,8 @@ const SORT_MAP = {
   title:       { col: 'title',                   asc: true  },
 };
 
-/**
- * Given a canonical tag name (e.g. "LLMs"), return all raw variants that
- * normalise to it so we can match any of them in Supabase.
- */
+// ── Tag helpers ────────────────────────────────────────────────────────────────
+
 function _rawTagVariants(canonical, normalizeMap) {
   const variants = new Set([canonical]);
   for (const [raw, canon] of Object.entries(normalizeMap || {})) {
@@ -34,11 +32,10 @@ function _rawTagVariants(canonical, normalizeMap) {
   return [...variants];
 }
 
+// ── Papers ────────────────────────────────────────────────────────────────────
+
 /**
- * Query papers from Supabase with server-side filtering & pagination.
- *
- * @param {object} opts
- * @returns {Promise<{data: object[], count: number, error: any}>}
+ * Paginated, filtered paper query for the papers browser page.
  */
 async function queryPapers({
   page       = 1,
@@ -60,44 +57,120 @@ async function queryPapers({
   let q = db.from('papers').select('*', { count: 'exact' });
 
   if (search) {
-    // escape single quotes to prevent PostgREST injection
     const s = search.replace(/'/g, "''");
     q = q.or(`title.ilike.%${s}%,abstract.ilike.%${s}%`);
   }
-
   if (tag) {
-    // Build OR of @> (contains) checks for all raw variants of the tag
     const variants = _rawTagVariants(tag, tagNormalizeMap);
     const orClause = variants.map(v => `tags.cs.${JSON.stringify([v])}`).join(',');
     q = q.or(orClause);
   }
-
   if (difficulty) q = q.eq('difficulty_level', difficulty);
   if (type)       q = q.eq('paper_type', type);
   if (source)     q = q.eq('source', source);
   if (year)       q = q.eq('year', parseInt(year, 10));
 
   q = q.order(sort.col, { ascending: sort.asc }).range(start, end);
-
   const { data, count, error } = await q;
   return { data: data || [], count: count || 0, error };
 }
 
 /**
- * Lightweight search for the global nav dropdown — returns up to `limit`
- * papers matching the query by title or abstract.
+ * Top N papers by paper_score (homepage, digest, gaps evidence, topic stubs).
+ */
+async function fetchTopPapers(limit = 500) {
+  const { data } = await getDb()
+    .from('papers')
+    .select('*')
+    .order('paper_score', { ascending: false })
+    .limit(limit);
+  return data || [];
+}
+
+/**
+ * Conference papers only (source_type != preprint) for the conferences page.
+ */
+async function fetchConferencePapers(limit = 5000) {
+  const { data } = await getDb()
+    .from('papers')
+    .select('*')
+    .not('source', 'eq', 'arxiv')
+    .order('paper_score', { ascending: false })
+    .limit(limit);
+  return data || [];
+}
+
+// ── Authors ───────────────────────────────────────────────────────────────────
+
+async function fetchAllAuthors(limit = 5000) {
+  const { data } = await getDb()
+    .from('authors')
+    .select('*')
+    .order('momentum_score', { ascending: false })
+    .limit(limit);
+  return data || [];
+}
+
+// ── Topics ────────────────────────────────────────────────────────────────────
+
+async function fetchAllTopics(limit = 200) {
+  const { data } = await getDb()
+    .from('topics')
+    .select('*')
+    .order('trend_score', { ascending: false })
+    .limit(limit);
+  return data || [];
+}
+
+// ── Gaps ──────────────────────────────────────────────────────────────────────
+
+async function fetchAllGaps(limit = 200) {
+  const { data } = await getDb()
+    .from('gaps')
+    .select('*')
+    .order('frequency', { ascending: false })
+    .limit(limit);
+  return data || [];
+}
+
+// ── Labs ──────────────────────────────────────────────────────────────────────
+
+async function fetchAllLabs(limit = 500) {
+  const { data } = await getDb()
+    .from('labs')
+    .select('*')
+    .order('momentum_score', { ascending: false })
+    .limit(limit);
+  return data || [];
+}
+
+// ── Search (nav dropdown) ─────────────────────────────────────────────────────
+
+/**
+ * Lightweight search for the global nav dropdown.
  */
 async function searchPapersQuick(query, limit = 5) {
   if (!query || query.trim().length < 2) return [];
-  const db = getDb();
-  const q  = query.trim().replace(/'/g, "''");
-  const { data } = await db
+  const q = query.trim().replace(/'/g, "''");
+  const { data } = await getDb()
     .from('papers')
-    .select('id,title,venue,year,paper_score,paper_url,tags,authors')
+    .select('id,title,venue,year,paper_score,paper_url,tags,authors,abstract')
     .or(`title.ilike.%${q}%,abstract.ilike.%${q}%`)
     .order('paper_score', { ascending: false })
     .limit(limit);
   return data || [];
 }
 
-window._rs_supabase = { queryPapers, searchPapersQuick, getDb };
+// ── Export ────────────────────────────────────────────────────────────────────
+
+window._rs_supabase = {
+  queryPapers,
+  fetchTopPapers,
+  fetchConferencePapers,
+  fetchAllAuthors,
+  fetchAllTopics,
+  fetchAllGaps,
+  fetchAllLabs,
+  searchPapersQuick,
+  getDb,
+};

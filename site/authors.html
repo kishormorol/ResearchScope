@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Authors – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -105,6 +106,7 @@
   </p>
 </footer>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
 let allAuthors = [];
 let filtered = [];
@@ -176,7 +178,7 @@ function applyFilters() {
 }
 
 (async () => {
-  const authors = await fetchData('data/authors.json');
+  const authors = await window._rs_supabase.fetchAllAuthors();
   if (!authors || !authors.length) { showEmpty('authors-grid','No authors yet. Run the pipeline.'); return; }
   allAuthors = authors;
   ['search-authors','sort-authors'].forEach(id => {

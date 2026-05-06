@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Search – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -135,6 +136,7 @@
 </footer>
 
 <script src="assets/js/app.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
 (async () => {
   const input   = document.getElementById('search-page-input');
@@ -192,8 +194,8 @@
   const q = params.get('q') || '';
   if (q) {
     input.value = q;
-    const data = await loadSearchData();  // uses search_index.json
-    renderResults(runSearch(q, data, 20), q);
+    const data = await loadSearchData();
+    renderResults(await runSearch(q, data, 20), q);
   }
 
   // Live search on the page
@@ -212,7 +214,7 @@
     }
     debounce = setTimeout(async () => {
       const data = await loadSearchData();
-      renderResults(runSearch(query, data, 20), query);
+      renderResults(await runSearch(query, data, 20), query);
       // Update URL without navigation
       history.replaceState(null, '', `?q=${encodeURIComponent(query)}`);
     }, 200);

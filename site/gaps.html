@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Research Gaps – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -127,6 +128,7 @@
   </p>
 </footer>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
 const TYPE_LABELS = {explicit:'📌 Explicit',pattern:'📊 Pattern',starter:'💡 Starter'};
 const TYPE_CLS    = {explicit:'gap-card-explicit',pattern:'gap-card-pattern',starter:'gap-card-starter'};
@@ -207,7 +209,10 @@ function applyFilters(papersById) {
 }
 
 (async () => {
-  const [gaps, papers] = await Promise.all([fetchData('data/gaps.json'), fetchData('data/papers.json')]);
+  const [gaps, papers] = await Promise.all([
+    window._rs_supabase.fetchAllGaps(),
+    window._rs_supabase.fetchTopPapers(1000),
+  ]);
   if (!gaps || !gaps.length) { showEmpty('gaps-list','No gaps yet. Run the pipeline.'); return; }
 
   allGaps = gaps;

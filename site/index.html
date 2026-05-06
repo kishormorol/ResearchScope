@@ -53,6 +53,7 @@
   }
   </script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
 </head>
@@ -429,6 +430,7 @@
 </footer>
 
 <script src="assets/js/app.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
 const GAP_TYPE_LABELS = { explicit: '📌 Explicit', pattern: '📊 Pattern', starter: '💡 Starter' };
 const GAP_TYPE_COLOR  = { explicit: 'gap-card-explicit', pattern: 'gap-card-pattern', starter: 'gap-card-starter' };
@@ -531,9 +533,9 @@ function renderEditorial(ed) {
 
   // Load critical data first — render immediately without blocking on authors (18MB+)
   const [papers, topics, gaps, editorial] = await Promise.all([
-    fetchData('data/papers.json'),
-    fetchData('data/topics.json'),
-    fetchData('data/gaps.json'),
+    window._rs_supabase.fetchTopPapers(500),
+    window._rs_supabase.fetchAllTopics(),
+    window._rs_supabase.fetchAllGaps(),
     fetchData('data/editorial.json'),
   ]);
 
@@ -590,7 +592,7 @@ function renderEditorial(ed) {
   }
 
   // Rising researchers — load separately so it never blocks the page
-  fetchData('data/authors.json').then(authors => {
+  window._rs_supabase.fetchAllAuthors(50).then(authors => {
     const authorsEl = document.getElementById('authors-container');
     if (authors && authors.length) {
       const sorted = [...authors].sort((a,b)=>(b.momentum_score||0)-(a.momentum_score||0));
