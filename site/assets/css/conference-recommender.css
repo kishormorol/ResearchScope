@@ -138,3 +138,54 @@
     padding: 1rem;
   }
 }
+
+/* Deadline urgency colors */
+.dl-urgent   { color: #dc2626; font-weight: 600; }
+.dl-soon     { color: #d97706; font-weight: 600; }
+.dl-ok       { color: #16a34a; font-weight: 600; }
+.dl-passed   { color: var(--rs-muted); }
+.dl-unknown  { color: var(--rs-muted); }
+
+[data-theme="dark"] .dl-urgent  { color: #f87171; }
+[data-theme="dark"] .dl-soon    { color: #fbbf24; }
+[data-theme="dark"] .dl-ok      { color: #4ade80; }
+
+/* Score breakdown bars */
+.breakdown-bar {
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--rs-border);
+  overflow: hidden;
+  flex: 1;
+}
+.breakdown-fill-overlap  { height: 100%; border-radius: inherit; background: linear-gradient(90deg,#06b6d4,#4f46e5); }
+.breakdown-fill-field    { height: 100%; border-radius: inherit; background: #8b5cf6; }
+.breakdown-fill-maturity { height: 100%; border-radius: inherit; background: #10b981; }
+.breakdown-fill-rank     { height: 100%; border-radius: inherit; background: #f59e0b; }
+
+/* Abstract counter */
+.abstract-counter {
+  font-size: 0.7rem;
+  text-align: right;
+  color: var(--rs-muted);
+  margin-top: 0.25rem;
+}
+
+/* Auto-detect badge shown in results */
+.field-detected-badge {
+  font-size: 0.65rem;
+  background: rgba(79,70,229,0.12);
+  color: var(--rs-primary);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  font-weight: 600;
+  margin-left: 0.35rem;
+}
+
+/* Paper abstract snippet */
+.paper-abstract-snippet {
+  font-size: 0.7rem;
+  line-height: 1.45;
+  color: var(--rs-muted);
+  margin-top: 0.2rem;
+}

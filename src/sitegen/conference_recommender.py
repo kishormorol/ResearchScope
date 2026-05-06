@@ -40,6 +40,30 @@ STOP_WORDS = {
 
 IGNORED_VENUES = {"", "arxiv", "corr", "unknown", "openreview", "jmlr", "tacl", "tpami"}
 
+# Static metadata enrichment: acceptance rate and official website per venue.
+# Acceptance rates are approximate recent-cycle figures; update yearly.
+VENUE_METADATA: dict[str, dict[str, str | float]] = {
+    "NeurIPS":  {"website": "https://neurips.cc",              "acceptance_rate": 25.8},
+    "ICML":     {"website": "https://icml.cc",                 "acceptance_rate": 27.5},
+    "ICLR":     {"website": "https://iclr.cc",                 "acceptance_rate": 31.0},
+    "CVPR":     {"website": "https://cvpr.thecvf.com",         "acceptance_rate": 23.6},
+    "ICCV":     {"website": "https://iccv.thecvf.com",         "acceptance_rate": 26.2},
+    "ECCV":     {"website": "https://eccv.ecva.net",           "acceptance_rate": 27.9},
+    "ACL":      {"website": "https://aclanthology.org",        "acceptance_rate": 22.5},
+    "EMNLP":    {"website": "https://aclanthology.org",        "acceptance_rate": 22.0},
+    "NAACL":    {"website": "https://aclanthology.org",        "acceptance_rate": 25.0},
+    "EACL":     {"website": "https://aclanthology.org",        "acceptance_rate": 28.0},
+    "COLING":   {"website": "https://aclanthology.org",        "acceptance_rate": 30.0},
+    "AAAI":     {"website": "https://aaai.org",                "acceptance_rate": 23.8},
+    "IJCAI":    {"website": "https://www.ijcai.org",           "acceptance_rate": 14.8},
+    "CHI":      {"website": "https://chi.acm.org",             "acceptance_rate": 25.0},
+    "SIGIR":    {"website": "https://sigir.org",               "acceptance_rate": 20.0},
+    "WWW":      {"website": "https://thewebconf.org",          "acceptance_rate": 19.0},
+    "KDD":      {"website": "https://kdd.org",                 "acceptance_rate": 18.0},
+    "SIGMOD":   {"website": "https://sigmod.org",              "acceptance_rate": 20.0},
+    "COLM":     {"website": "https://colmweb.org",             "acceptance_rate": 30.0},
+}
+
 FIELD_LABELS = {
     "any": "Any field",
     "ML": "Machine Learning",
@@ -529,6 +553,7 @@ def build_index() -> dict[str, Any]:
     venue_rows = []
     for venue in prepared_venues:
         weighted_keywords = weighted_profiles.get(venue["short"], [])
+        meta = VENUE_METADATA.get(venue["short"], {})
         venue_rows.append({
             key: value
             for key, value in venue.items()
@@ -536,6 +561,8 @@ def build_index() -> dict[str, Any]:
         } | {
             "keywords": [item["term"] for item in weighted_keywords],
             "weighted_keywords": weighted_keywords,
+            "website": meta.get("website", ""),
+            "acceptance_rate": meta.get("acceptance_rate"),
         })
 
     venue_rows.sort(key=lambda v: (1 if v["deadline"].get("paper_deadline") else 0, v["paper_count"]), reverse=True)
