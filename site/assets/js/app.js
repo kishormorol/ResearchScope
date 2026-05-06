@@ -249,30 +249,38 @@ let _searchData = null;
 
 async function loadSearchData() {
   if (_searchData) return _searchData;
-  const [papers, authors, topics] = await Promise.all([
-    fetch('data/search_index.json').then(r => r.json()).catch(() => []),
+  // Authors and topics are small — always load from JSON.
+  // Papers: use Supabase if available (covers all 17 K+ papers), else fall back
+  // to the static search index.
+  const [authors, topics] = await Promise.all([
     fetch('data/authors.json').then(r => r.json()).catch(() => []),
     fetch('data/topics.json').then(r => r.json()).catch(() => []),
   ]);
-  _searchData = { papers, authors, topics };
+  _searchData = { papers: [], authors, topics, _useSupabase: !!window._rs_supabase };
   return _searchData;
 }
 
-function runSearch(query, data, limit = 5) {
+async function runSearch(query, data, limit = 5) {
   const q = query.toLowerCase().trim();
   if (!q) return { papers: [], authors: [], topics: [] };
 
-  const papers = data.papers
-    .filter(p => p.title?.toLowerCase().includes(q) ||
-                 p.abstract?.toLowerCase().includes(q) ||
-                 p.authors?.some(a => a.toLowerCase().includes(q)))
-    .slice(0, limit);
+  // Papers — prefer Supabase (live, full dataset) over the static JSON index
+  let papers = [];
+  if (data._useSupabase) {
+    papers = await window._rs_supabase.searchPapersQuick(q, limit);
+  } else {
+    papers = (data.papers || [])
+      .filter(p => p.title?.toLowerCase().includes(q) ||
+                   p.abstract?.toLowerCase().includes(q) ||
+                   p.authors?.some(a => a.toLowerCase().includes(q)))
+      .slice(0, limit);
+  }
 
-  const authors = data.authors
+  const authors = (data.authors || [])
     .filter(a => a.name?.toLowerCase().includes(q))
     .slice(0, limit);
 
-  const topics = data.topics
+  const topics = (data.topics || [])
     .filter(t => t.name?.toLowerCase().includes(q) ||
                  t.keywords?.some(k => k.toLowerCase().includes(q)))
     .slice(0, limit);
@@ -340,8 +348,8 @@ function initSearch() {
     if (!q) { dropdown.classList.add('hidden'); return; }
 
     debounce = setTimeout(async () => {
-      const data = await loadSearchData();
-      const results = runSearch(q, data, 4);
+      const data    = await loadSearchData();
+      const results = await runSearch(q, data, 4);
       renderDropdown(results, q, dropdown);
       dropdown.classList.remove('hidden');
     }, 180);

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Papers – ResearchScope</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css"/>
   <link rel="stylesheet" href="assets/css/library.css"/>
@@ -187,119 +188,90 @@
 
 <script src="assets/js/app.js"></script>
 <script src="assets/js/library.js"></script>
+<script src="assets/js/supabase-client.js"></script>
 <script>
-let allPapers = [];
-let currentPage = 1;
-const PAGE_SIZE = 25;
-const libraryApi = window.ResearchScopeLibrary;
-let libraryLookup = new Set(libraryApi ? libraryApi.readLibraryIds() : []);
+// ── State ─────────────────────────────────────────────────────────────────────
+let currentPage  = 1;
+let totalCount   = 0;
+const PAGE_SIZE  = 25;
+let currentFilters = {};
+
+const libraryApi     = window.ResearchScopeLibrary;
+let libraryLookup    = new Set(libraryApi ? libraryApi.readLibraryIds() : []);
 const libraryButtons = libraryApi
   ? libraryApi.initializeLibraryButtons({
       root: document.getElementById('papers-table'),
-      onChange(result) {
-        libraryLookup = new Set(result.ids);
-      },
+      onChange(result) { libraryLookup = new Set(result.ids); },
     })
   : null;
 
-// ── Tag normalisation map — merges duplicates/variants into canonical form ──
+// ── Tag normalisation map ─────────────────────────────────────────────────────
 const TAG_NORMALIZE = {
-  'Large Language Models': 'LLMs',
-  'large language models': 'LLMs',
-  'Benchmarking & Evaluation': 'Evaluation',
-  'Diffusion Models': 'Diffusion',
-  'diffusion models': 'Diffusion',
-  'Reasoning & Chain-of-Thought': 'Reasoning',
-  'Transformer Architectures': 'Transformers',
-  'AI Agents & Tool Use': 'AI Agents',
-  'AI Safety & Alignment': 'AI Safety',
-  'Adversarial Robustness': 'Adversarial',
-  '3D Vision & Scene Understanding': '3D Vision',
-  'Biomedical & Clinical AI': 'Biomedical AI',
-  'Code Generation & Synthesis': 'Code Generation',
-  'Dialogue Systems': 'Dialogue',
-  'Bias, Fairness & Ethics': 'Fairness & Ethics',
-  'Fine-Tuning & PEFT': 'Fine-Tuning',
-  'GNN': 'GNNs',
-  'Graph Neural Networks': 'GNNs',
-  'Information Extraction': 'Info Extraction',
-  'Interpretability & Explainability': 'Interpretability',
-  'Knowledge Graphs & Representation': 'Knowledge Graphs',
-  'meta learning': 'Meta Learning',
-  'Model Compression & Efficiency': 'Model Compression',
-  'Multimodal Learning': 'Multimodal',
-  'Object Detection & Segmentation': 'Object Detection',
-  'Prompting & In-Context Learning': 'Prompting',
-  'Retrieval-Augmented Generation': 'RAG',
-  'Reinforcement Learning': 'RL',
-  'reinforcement learning': 'RL',
-  'deep reinforcement learning': 'RL',
-  'RLHF & Preference Alignment': 'RLHF',
-  'Robotics & Embodied AI': 'Robotics',
-  'Self-Supervised & Contrastive Learning': 'Self-Supervised',
-  'Speech Recognition': 'Speech',
-  'ASR': 'Speech',
-  'State Space Models': 'SSMs',
-  'Text-to-Image Generation': 'Text-to-Image',
-  'transfer learning': 'Transfer Learning',
-  'Vision-Language Models': 'VLMs',
-  'Video Understanding & Generation': 'Video AI',
-  'IR': 'Information Retrieval',
-  'NLG': 'Natural Language Generation',
+  'Large Language Models': 'LLMs',          'large language models': 'LLMs',
+  'Benchmarking & Evaluation': 'Evaluation', 'Diffusion Models': 'Diffusion',
+  'diffusion models': 'Diffusion',           'Reasoning & Chain-of-Thought': 'Reasoning',
+  'Transformer Architectures': 'Transformers','AI Agents & Tool Use': 'AI Agents',
+  'AI Safety & Alignment': 'AI Safety',      'Adversarial Robustness': 'Adversarial',
+  '3D Vision & Scene Understanding': '3D Vision', 'Biomedical & Clinical AI': 'Biomedical AI',
+  'Code Generation & Synthesis': 'Code Generation', 'Dialogue Systems': 'Dialogue',
+  'Bias, Fairness & Ethics': 'Fairness & Ethics', 'Fine-Tuning & PEFT': 'Fine-Tuning',
+  'GNN': 'GNNs',                             'Graph Neural Networks': 'GNNs',
+  'Information Extraction': 'Info Extraction','Interpretability & Explainability': 'Interpretability',
+  'Knowledge Graphs & Representation': 'Knowledge Graphs', 'meta learning': 'Meta Learning',
+  'Model Compression & Efficiency': 'Model Compression', 'Multimodal Learning': 'Multimodal',
+  'Object Detection & Segmentation': 'Object Detection', 'Prompting & In-Context Learning': 'Prompting',
+  'Retrieval-Augmented Generation': 'RAG',   'Reinforcement Learning': 'RL',
+  'reinforcement learning': 'RL',            'deep reinforcement learning': 'RL',
+  'RLHF & Preference Alignment': 'RLHF',    'Robotics & Embodied AI': 'Robotics',
+  'Self-Supervised & Contrastive Learning': 'Self-Supervised', 'Speech Recognition': 'Speech',
+  'ASR': 'Speech',                           'State Space Models': 'SSMs',
+  'Text-to-Image Generation': 'Text-to-Image','transfer learning': 'Transfer Learning',
+  'Vision-Language Models': 'VLMs',          'Video Understanding & Generation': 'Video AI',
+  'IR': 'Information Retrieval',             'NLG': 'Natural Language Generation',
   'Federated & Privacy-Preserving Learning': 'Federated Learning',
   'Text Embeddings & Semantic Similarity': 'Embeddings',
 };
 
 function normalizeTags(tags) {
-  const seen = new Set();
-  const result = [];
+  const seen = new Set(), result = [];
   for (const t of (tags || [])) {
-    const canonical = TAG_NORMALIZE[t] || t;
-    if (!seen.has(canonical)) { seen.add(canonical); result.push(canonical); }
+    const c = TAG_NORMALIZE[t] || t;
+    if (!seen.has(c)) { seen.add(c); result.push(c); }
   }
   return result;
 }
 
-function renderRows(papers) {
+// ── Render ────────────────────────────────────────────────────────────────────
+function renderRows(papers, startIdx = 0) {
   const tbody = document.getElementById('papers-body');
-  const start = (currentPage - 1) * PAGE_SIZE;
-  const page  = papers.slice(start, start + PAGE_SIZE);
-
-  document.getElementById('result-count').textContent =
-    `${papers.length} paper${papers.length !== 1 ? 's' : ''} · page ${currentPage} of ${Math.max(1, Math.ceil(papers.length / PAGE_SIZE))}`;
-
-  if (!page.length) {
+  if (!papers.length) {
     tbody.innerHTML = `<tr><td colspan="7" class="empty-state"><p>No papers match your filters.</p></td></tr>`;
     return;
   }
-
-  tbody.innerHTML = page.map((p, i) => {
-    const idx = start + i;
+  tbody.innerHTML = papers.map((p, i) => {
+    const idx = startIdx + i;
     const url = p.paper_url || p.url || '#';
-    const paperId = libraryApi ? libraryApi.getPaperLibraryId(p) : '';
+    const paperId   = libraryApi ? libraryApi.getPaperLibraryId(p) : '';
     const inLibrary = paperId ? libraryLookup.has(paperId) : false;
-    const authors = (p.authors || []).slice(0, 2).join(', ');
-    const more = (p.authors||[]).length > 2 ? ` +${p.authors.length - 2}` : '';
-    const typeStr = p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : '–';
-    const scoreVal = p.paper_score || 0;
-    const libraryButton = paperId
-      ? libraryApi.renderLibraryButton(paperId, { inLibrary })
-      : '';
+    const authors   = (p.authors || []).slice(0, 2).join(', ');
+    const more      = (p.authors||[]).length > 2 ? ` +${p.authors.length - 2}` : '';
+    const typeStr   = p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : '–';
+    const scoreVal  = p.paper_score || 0;
+    const libBtn    = paperId ? libraryApi.renderLibraryButton(paperId, { inLibrary }) : '';
+    const tags      = normalizeTags(p.tags);
     return `
     <tr class="cursor-pointer" onclick="toggleDetail(${idx})">
       <td>
         <a href="${escHtml(url)}" target="_blank" rel="noopener"
            class="font-medium hover:text-indigo-600 transition-colors"
-           onclick="event.stopPropagation()">
-          ${escHtml(p.title)}
-        </a>
+           onclick="event.stopPropagation()">${escHtml(p.title)}</a>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
       </td>
       <td class="hidden md:table-cell text-xs" style="color:var(--rs-muted)">
         ${escHtml(p.venue||'')} ${p.year||''}
         ${p.conference_rank ? `<br>${rankBadge(p.conference_rank)}` : ''}
       </td>
-      <td class="hidden sm:table-cell">${tagChips((p.tags||[]).slice(0,3))}</td>
+      <td class="hidden sm:table-cell">${tagChips(tags.slice(0,3))}</td>
       <td>${difficultyBadge(p)}</td>
       <td>${typeStr}</td>
       <td>
@@ -308,7 +280,7 @@ function renderRows(papers) {
           📖 ${(p.read_first_score||0).toFixed(1)} · 🎙 ${(p.content_potential_score||0).toFixed(1)}
         </div>
       </td>
-      <td class="library-cell">${libraryButton}</td>
+      <td class="library-cell">${libBtn}</td>
     </tr>
     <tr class="detail-row" id="detail-${idx}">
       <td colspan="7">
@@ -335,7 +307,7 @@ function renderRows(papers) {
             ${scoreBar('Content Potential', p.content_potential_score)}
             <div class="mt-3 flex flex-wrap gap-2">
               ${p.paper_url ? `<a href="${escHtml(p.paper_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📄 Paper</a>` : ''}
-              ${p.pdf_url   ? `<a href="${escHtml(p.pdf_url)}" target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📑 PDF</a>` : ''}
+              ${p.pdf_url   ? `<a href="${escHtml(p.pdf_url)}"   target="_blank" class="text-sm font-medium hover:underline" style="color:var(--rs-primary)">📑 PDF</a>`   : ''}
             </div>
             ${p.read_this_if ? `<p class="text-xs mt-3 italic" style="color:var(--rs-muted)">${escHtml(p.read_this_if)}</p>` : ''}
           </div>
@@ -344,94 +316,107 @@ function renderRows(papers) {
     </tr>`;
   }).join('');
 
-  if (libraryButtons) {
-    libraryButtons.refresh();
-  }
+  if (libraryButtons) libraryButtons.refresh();
 }
 
-let filteredPapers = [];
 function toggleDetail(i) {
   const row = document.getElementById(`detail-${i}`);
   if (row) row.classList.toggle('open');
 }
 
-// ── Pagination ────────────────────────────────────────────────────────────
+// ── Load from Supabase ────────────────────────────────────────────────────────
+async function loadAndRender() {
+  document.getElementById('papers-body').innerHTML =
+    `<tr><td colspan="7"><div class="spinner"></div></td></tr>`;
+
+  const { data, count, error } = await window._rs_supabase.queryPapers({
+    page: currentPage,
+    pageSize: PAGE_SIZE,
+    tagNormalizeMap: TAG_NORMALIZE,
+    ...currentFilters,
+  });
+
+  if (error) {
+    console.error('Supabase error:', error);
+    document.getElementById('papers-body').innerHTML =
+      `<tr><td colspan="7"><div class="empty-state"><p>Error loading papers. Please try again.</p></div></td></tr>`;
+    return;
+  }
+
+  totalCount = count;
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  const startIdx   = (currentPage - 1) * PAGE_SIZE;
+
+  document.getElementById('result-count').textContent =
+    `${totalCount.toLocaleString()} paper${totalCount !== 1 ? 's' : ''} · page ${currentPage} of ${Math.max(1, totalPages)}`;
+
+  renderRows(data, startIdx);
+  renderPaginator('paginator', currentPage, totalPages, 'goToPage');
+}
+
 function goToPage(p) {
   currentPage = p;
-  renderRows(filteredPapers);
-  renderPaginator('paginator', currentPage, Math.ceil(filteredPapers.length / PAGE_SIZE), 'goToPage');
+  loadAndRender();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function applyFilters() {
-  const q      = document.getElementById('search-input').value.toLowerCase();
-  const tag    = document.getElementById('filter-tag').value;
-  const diff   = document.getElementById('filter-difficulty').value;
-  const type   = document.getElementById('filter-type').value;
-  const year   = document.getElementById('filter-year').value;
-  const source = document.getElementById('filter-source').value;
-  const sort   = document.getElementById('sort-by').value;
-
-  filteredPapers = allPapers.filter(p => {
-    if (q && !['title','abstract'].some(f => (p[f]||'').toLowerCase().includes(q)) &&
-        !(p.authors||[]).join(' ').toLowerCase().includes(q)) return false;
-    if (tag    && !(p.tags||[]).includes(tag))              return false;
-    if (diff   && p.difficulty_level !== diff)              return false;
-    if (type   && p.paper_type !== type)                    return false;
-    if (year   && String(p.year) !== year)                  return false;
-    if (source && p.source !== source)                      return false;
-    return true;
-  });
-
-  filteredPapers.sort((a,b) => {
-    if (sort === 'paper_score')  return (b.paper_score||0) - (a.paper_score||0);
-    if (sort === 'read_first')   return (b.read_first_score||0) - (a.read_first_score||0);
-    if (sort === 'content')      return (b.content_potential_score||0) - (a.content_potential_score||0);
-    if (sort === 'year')         return (b.year||0) - (a.year||0);
-    if (sort === 'citations')    return (b.citations||0) - (a.citations||0);
-    if (sort === 'title')        return (a.title||'').localeCompare(b.title||'');
-    return 0;
-  });
-
+  currentFilters = {
+    search:     document.getElementById('search-input').value.trim(),
+    tag:        document.getElementById('filter-tag').value,
+    difficulty: document.getElementById('filter-difficulty').value,
+    type:       document.getElementById('filter-type').value,
+    year:       document.getElementById('filter-year').value,
+    source:     document.getElementById('filter-source').value,
+    sortBy:     document.getElementById('sort-by').value,
+  };
   currentPage = 1;
-  renderRows(filteredPapers);
-  renderPaginator('paginator', currentPage, Math.ceil(filteredPapers.length / PAGE_SIZE), 'goToPage');
+  loadAndRender();
 }
 
-const debouncedFilter = debounce(applyFilters, 200);
+const debouncedFilter = debounce(applyFilters, 300);
 
+// ── Boot ──────────────────────────────────────────────────────────────────────
 (async () => {
-  const papers = await fetchData('data/papers.json');
-  if (!papers || !papers.length) {
-    document.getElementById('papers-body').innerHTML = `<tr><td colspan="7"><div class="empty-state"><p>No papers yet. Run the pipeline.</p></div></td></tr>`;
-    return;
+  // Tag dropdown — canonical names from normalize map, sorted
+  const canonicalTags = [...new Set(Object.values(TAG_NORMALIZE))].sort();
+  const tagSel = document.getElementById('filter-tag');
+  canonicalTags.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t;
+    tagSel.appendChild(o);
+  });
+
+  // Year dropdown — 2019 to current year
+  const yearSel     = document.getElementById('filter-year');
+  const currentYear = new Date().getFullYear();
+  for (let y = currentYear; y >= 2019; y--) {
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    yearSel.appendChild(o);
   }
 
-  // Normalise tags on every paper in-place before any rendering or filtering
-  papers.forEach(p => { p.tags = normalizeTags(p.tags); });
-  allPapers = papers;
+  // Attach filter listeners
+  ['search-input','filter-tag','filter-difficulty','filter-type',
+   'filter-year','filter-source','sort-by'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', debouncedFilter);
+  });
 
-  // Build tag filter — count after normalisation so merged tags accumulate correctly
-  const tagCount = {};
-  papers.forEach(p => p.tags.forEach(t => { tagCount[t] = (tagCount[t]||0) + 1; }));
-  const tagSel = document.getElementById('filter-tag');
-  Object.keys(tagCount).filter(t => tagCount[t] >= 3).sort()
-    .forEach(t => { const o = document.createElement('option'); o.value = t; o.textContent = `${t} (${tagCount[t]})`; tagSel.appendChild(o); });
+  // Handle ?q= pre-fill from global search
+  const urlQ = new URLSearchParams(window.location.search).get('q');
+  if (urlQ) {
+    const inp = document.getElementById('search-input');
+    if (inp) inp.value = urlQ;
+  }
 
-  const yearSet = new Set(papers.map(p => p.year).filter(Boolean));
-  const yearSel = document.getElementById('filter-year');
-  [...yearSet].sort((a,b)=>b-a).forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; yearSel.appendChild(o); });
-
-  ['search-input','filter-tag','filter-difficulty','filter-type','filter-year','filter-source','sort-by']
-    .forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('input', debouncedFilter); });
-
-  applyFilters();
+  // Initial load
+  await loadAndRender();
 })();
 
 window.addEventListener('storage', event => {
   if (!libraryApi || event.key !== libraryApi.STORAGE_KEY) return;
   libraryLookup = new Set(libraryApi.readLibraryIds());
-  renderRows(filteredPapers);
 });
 </script>
 </body>
