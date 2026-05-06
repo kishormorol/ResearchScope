@@ -73,7 +73,6 @@ def build_payload(paper: dict) -> dict:
     return {
         "username": "ResearchScope",
         "content": (
-            "@everyone\n"
             "📬 **Paper of the Day** is here! Read it and explore more at "
             "👉 https://kishormorol.github.io/ResearchScope/"
         ),
