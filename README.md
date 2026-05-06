@@ -11,6 +11,7 @@ Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers t
 [![Python](https://img.shields.io/badge/Pipeline-Python%203.10%2B-3b82f6?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-f59e0b?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows)
 [![arXiv](https://img.shields.io/badge/Data-arXiv%20%2B%20Conferences-b91c1c?style=for-the-badge)](https://arxiv.org)
+[![Supabase](https://img.shields.io/badge/Database-Supabase-3ecf8e?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
 
 <br/>
 
@@ -22,9 +23,7 @@ Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers t
 
 ## What is ResearchScope?
 
-ResearchScope is an **open, static research intelligence dashboard** for computer science and AI papers. It is a website rebuilt daily by a GitHub Actions pipeline and published to GitHub Pages — no server, no sign-up, no cost.
-
-The pipeline fetches papers from **arXiv** (all 19 cs.* categories) and **major conferences** (NeurIPS, ICML, ICLR, CVPR, ACL, and more), enriches them with multi-signal scores, detects research gaps, and writes the results as static JSON to the `site/` folder. Everything renders in the browser from those JSON files.
+ResearchScope is an **open research intelligence dashboard** for computer science and AI papers. A GitHub Actions pipeline runs daily, fetches papers from **arXiv** (all 19 cs.* categories) and **major conferences** (NeurIPS, ICML, ICLR, CVPR, ACL, and more), enriches them with multi-signal scores, detects research gaps, and persists everything to a **Supabase PostgreSQL database**. The frontend is hosted on GitHub Pages and queries Supabase directly — no file-size caps, no rolling windows, no limits.
 
 👉 **[Open ResearchScope](https://kishormorol.github.io/ResearchScope/)**
 
@@ -34,11 +33,12 @@ The pipeline fetches papers from **arXiv** (all 19 cs.* categories) and **major 
 
 | Date | Highlight |
 |---|---|
+| **May 2026** | **Supabase Backend** — All 17,500+ papers, authors, topics, gaps, and labs now live in a Supabase PostgreSQL database. Every page queries Supabase directly — no file-size caps, no rolling windows. The full dataset is always browsable. |
+| **May 2026** | **Full Dataset Access** — The papers browser now shows all papers with server-side filtering and pagination (previously capped at 1,000). Search covers the entire database live. |
 | **Apr 2026** | **CiteLens Integration** — Every arXiv paper card now has an "🔍 Analyze citations" button that opens [CiteLens](https://kishormorol.github.io/CiteLens/) with the paper pre-loaded to see who cited it and why it mattered. |
 | **Apr 2026** | **Topic Network Graph** — Interactive force-directed graph on the Topics page visualising relationships between 80+ research areas. |
 | **Apr 2026** | **Institution & Author Prestige Scoring** — Papers from top labs (OpenAI, DeepMind, Google Research, MIT, Stanford…) and renowned researchers get a scoring boost. |
-| **Apr 2026** | **Conference Papers Database (50K+)** — Permanent store covering NeurIPS, ICML, ICLR, CVPR, ICCV, ECCV, ACL, EMNLP, NAACL and more. Conference papers never expire. |
-| **Apr 2026** | **CoRR-only arXiv Feed** — Daily arXiv updates now restricted to all 19 cs.* categories via OAI-PMH bulk fetch. Non-CS papers filtered out. |
+| **Apr 2026** | **Conference Papers Database** — Permanent store covering NeurIPS, ICML, ICLR, CVPR, ICCV, ECCV, ACL, EMNLP, NAACL and more. Conference papers never expire. |
 | **Mar 2026** | **My Library** — Save papers to a browser-local personal library (localStorage). No account required. |
 | **Mar 2026** | **Conference Recommender** — Paste a title and abstract to get ranked venue matches with deadlines and reviewer expectations. |
 
@@ -48,14 +48,15 @@ The pipeline fetches papers from **arXiv** (all 19 cs.* categories) and **major 
 
 | Feature | Description |
 |---|---|
-| 📄 **Paper intelligence** | arXiv + 50K+ conference papers scored by recency, venue rank, author prestige, and novelty |
+| 📄 **Paper intelligence** | 17,500+ arXiv + conference papers scored by recency, venue rank, author prestige, and novelty |
+| 🗄 **Supabase backend** | Full dataset stored in PostgreSQL — no caps, no rolling windows, server-side filtering and search |
 | 🔍 **Analyze citations** | One-click handoff to [CiteLens](https://kishormorol.github.io/CiteLens/) to see who cited any arXiv paper, ranked by impact |
-| 👩‍🔬 **Author & lab intelligence** | Track prolific authors and their momentum scores; lab and university output profiles |
+| 👩‍🔬 **Author & lab intelligence** | Track 5,000+ prolific authors and their momentum scores; lab and university output profiles |
 | 🗺 **Topic network graph** | Interactive graph of 80+ research areas with reading packs by difficulty |
 | 🕳 **Research gap explorer** | Surface under-explored areas across 3 gap types: explicit, pattern-detected, and starter ideas |
 | 🎯 **Conference recommender** | Paste title + abstract → ranked venue matches with acceptance context |
 | 📚 **My Library** | Personal browser-local paper saves with FIFO ordering, persistent across reloads |
-| 🖥 **Static dashboard** | Zero-backend site hosted on GitHub Pages, updated every weekday |
+| ⚡ **Live search** | Global search queries Supabase directly — results from the full 17,500+ paper dataset |
 
 ---
 
@@ -102,7 +103,7 @@ Both tools share the same `SEMANTIC_SCHOLAR_API_KEY` secret — one key covers b
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    GitHub Actions                        │
-│              (daily weekday cron schedule)               │
+│         (daily weekdays + monthly conference sync)       │
 │                                                          │
 │  src/pipeline.py  — 11 sequential stages                 │
 │    ├── connectors/    arXiv · ACL · OpenReview · PMLR   │
@@ -115,23 +116,23 @@ Both tools share the same `SEMANTIC_SCHOLAR_API_KEY` secret — one key covers b
 │    ├── clustering/    topic grouping                     │
 │    ├── gaps/          3-layer research gap extraction    │
 │    ├── aggregation/   author, lab, university profiles   │
-│    └── sitegen/       → data/*.json + site/data/*.json  │
-└──────────────────────────┬──────────────────────────────┘
-                           │ commits data/ + deploys site/
-                           ▼
-                  site/  (GitHub Pages)
-                    index.html          – homepage + Paper of the Day
-                    papers.html         – full paper list
-                    topics.html         – 80-topic browser + network graph
-                    authors.html        – author profiles
-                    labs.html           – lab + university profiles
-                    gaps.html           – research gap explorer
-                    conferences.html    – conference paper browser
-                    deadlines.html      – upcoming submission deadlines
-                    digest.html         – weekly curated digest
-                    library.html        – My Library (localStorage)
-                    conference-recommender.html
-                    search.html         – full-text search
+│    └── sitegen/       → data/*.json + Supabase upsert   │
+└───────────────┬──────────────────────┬──────────────────┘
+                │ commits + deploys    │ upserts all data
+                ▼                      ▼
+       site/ (GitHub Pages)     Supabase PostgreSQL
+         index.html               papers       (17,500+, no cap)
+         papers.html              authors      (5,000+)
+         topics.html              topics       (150+)
+         authors.html             gaps         (100+)
+         labs.html                labs         (unlimited)
+         gaps.html
+         conferences.html                ▲
+         deadlines.html                  │ REST API (anon key)
+         digest.html                     │
+         library.html            Frontend queries Supabase
+         search.html             directly for all live data
+         conference-recommender.html
 ```
 
 ---
@@ -156,19 +157,30 @@ src/
   gaps/                   # 3-layer gap extractor
   aggregation/            # author, lab, university builder
   sitegen/                # JSON writer + conference recommender
+  storage/
+    supabase_store.py     # upserts all data to Supabase after each run
+supabase/
+  schema.sql              # PostgreSQL schema (run once in Supabase dashboard)
+scripts/
+  discord_potd.py         # Paper of the Day → Discord webhook
+  migrate_to_supabase.py  # one-time migration of existing JSON data
 site/
   index.html              # homepage
-  papers.html             # paper list with score breakdowns
+  papers.html             # paper browser — queries Supabase (all papers)
   topics.html             # topic browser + interactive network graph
   authors.html / labs.html / gaps.html / conferences.html
   deadlines.html / digest.html / library.html / search.html
   conference-recommender.html
-  assets/css/ assets/js/
+  assets/css/
+  assets/js/
+    app.js                # shared utilities
+    supabase-client.js    # Supabase query helpers (anon key, public)
+    library.js / library-page.js / topic-graph.js
 config/
-  topics.yaml             # 24-entry topic taxonomy
+  topics.yaml             # topic taxonomy
   weights.yaml            # tuneable score weights
   venues.yaml             # conference registry with ranks
-data/                     # generated JSON (committed by CI)
+data/                     # generated JSON (committed by CI, fast fallback)
 tests/                    # pytest suite (110+ tests)
 ```
 
@@ -197,9 +209,28 @@ cd site && python -m http.server 8080
 
 ### Environment variables
 
-| Variable | Description |
-|---|---|
-| `SEMANTIC_SCHOLAR_API_KEY` | Optional. Raises S2 rate limit from 1 req/s to 10 req/s. Add as a GitHub Actions secret. |
+| Variable | Required | Description |
+|---|---|---|
+| `SUPABASE_URL` | Yes | Your Supabase project URL (e.g. `https://xxx.supabase.co`). Add as a GitHub Actions secret. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Supabase service role key — grants write access for the pipeline. Add as a GitHub Actions secret. |
+| `SUPABASE_ANON_KEY` | Frontend only | Public anon key used by the browser. Already embedded in `supabase-client.js`. |
+| `SEMANTIC_SCHOLAR_API_KEY` | Optional | Raises S2 rate limit from 1 req/s to 10 req/s. Add as a GitHub Actions secret. |
+| `OPENAI_API_KEY` | Optional | Enables AI-generated summaries and content fields. |
+| `ANTHROPIC_API_KEY` | Optional | Alternative to OpenAI for content generation. |
+| `DISCORD_WEBHOOK_URL` | Optional | Enables daily Paper of the Day posts to a Discord channel. |
+
+### Setting up Supabase
+
+1. Create a free project at [supabase.com](https://supabase.com).
+2. Go to **SQL Editor** and run the contents of `supabase/schema.sql` to create all tables.
+3. Add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as GitHub Actions secrets.
+4. Run the one-time migration to populate existing data:
+   ```bash
+   pip install supabase
+   export SUPABASE_URL=https://xxx.supabase.co
+   export SUPABASE_SERVICE_ROLE_KEY=eyJ...
+   python scripts/migrate_to_supabase.py
+   ```
 
 ---
 
@@ -226,7 +257,7 @@ To enable Pages for a fork: go to **Settings → Pages** and set the source to *
 | [Elicit](https://elicit.com) | Partial | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [Consensus](https://consensus.app) | Partial | ❌ | ❌ | ❌ | ❌ | ❌ |
 
-ResearchScope is the only fully free, open-source dashboard that combines **daily paper rankings, research gap detection, conference deadlines, and citation analysis** in one place — with zero backend.
+ResearchScope is the only fully free, open-source dashboard that combines **daily paper rankings, research gap detection, conference deadlines, and citation analysis** in one place — backed by a real database with no paper caps.
 
 ---
 
