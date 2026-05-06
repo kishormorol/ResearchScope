@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from src.normalization.schema import Author, Lab, Paper, ResearchGap, Topic, University
+from src import storage
 
 
 class SiteGenerator:
@@ -106,6 +107,16 @@ class SiteGenerator:
 
         # Mirror into site/data/ so Pages always has the latest data
         self._mirror_to_site(output_dir)
+
+        # Sync ALL papers (no cap) to Supabase when credentials are available
+        from src.storage import supabase_store
+        supabase_store.sync(
+            papers=[p.to_dict() for p in papers],
+            authors=[a.to_dict() for a in authors],
+            topics=[t.to_dict() for t in topics],
+            gaps=[g.to_dict() for g in gaps],
+            labs=[l.to_dict() for l in (labs or [])],
+        )
 
     # ── Helpers ───────────────────────────────────────────────────────────────
 
