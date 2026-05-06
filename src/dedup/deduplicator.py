@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from collections import defaultdict
 
 from src.normalization.schema import Paper
 
@@ -115,23 +116,45 @@ class Deduplicator:
             if aid:
                 arxiv_index[aid] = idx
 
-        # ── Pass 2: title Jaccard similarity ──────────────────────────────────
+        # ── Pass 2: title Jaccard similarity via bigram inverted index ────────
+        # O(n²) linear scan is too slow at >10k papers.  Instead, build an
+        # inverted index: title-bigram → [kept paper indices].  For each new
+        # paper we only compare against kept papers that share ≥1 bigram with
+        # it — typically ≪1% of the corpus, giving near-O(n) performance.
         normalised = [_normalise_title(p.title) for p in result]
+
+        # bigram → list of indices already in `kept`
+        bigram_idx: dict[tuple[str, str], list[int]] = defaultdict(list)
         kept: list[int] = []
 
-        for i, paper in enumerate(result):
-            merged_into: int | None = None
-            for j in kept:
+        for i in range(len(result)):
+            words = normalised[i].split()
+            # Build bigrams; fall back to unigrams for very short titles
+            bigrams: list[tuple[str, str]] = (
+                [(words[k], words[k + 1]) for k in range(len(words) - 1)]
+                if len(words) >= 2
+                else [(w, "") for w in words]
+            )
+
+            # Gather candidate kept-paper indices sharing ≥1 bigram
+            candidates: set[int] = set()
+            for bg in bigrams:
+                candidates.update(bigram_idx.get(bg, []))
+
+            # Check Jaccard only against candidates
+            best_match: int | None = None
+            for j in candidates:
                 if _similarity(normalised[i], normalised[j]) >= self.threshold:
-                    merged_into = j
+                    best_match = j
                     break
 
-            if merged_into is None:
+            if best_match is None:
                 kept.append(i)
+                for bg in set(bigrams):
+                    bigram_idx[bg].append(i)
             else:
-                existing = result[merged_into]
-                if _completeness(paper) > _completeness(existing):
-                    result[merged_into] = _merge(paper, existing)
-                    kept[kept.index(merged_into)] = merged_into  # keep same slot
+                existing = result[best_match]
+                if _completeness(result[i]) > _completeness(existing):
+                    result[best_match] = _merge(result[i], existing)
 
         return [result[i] for i in kept]
