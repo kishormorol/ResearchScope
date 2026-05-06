@@ -23,7 +23,7 @@ Stop skimming paper lists. ResearchScope scores, tags, and surfaces the papers t
 
 ## What is ResearchScope?
 
-ResearchScope is an **open research intelligence dashboard** for computer science and AI papers. A GitHub Actions pipeline runs daily, fetches papers from **arXiv** (all 19 cs.* categories) and **major conferences** (NeurIPS, ICML, ICLR, CVPR, ACL, and more), enriches them with multi-signal scores, detects research gaps, and persists everything to a **Supabase PostgreSQL database**. The frontend is hosted on GitHub Pages and queries Supabase directly — no file-size caps, no rolling windows, no limits.
+ResearchScope is an **open research intelligence dashboard** for computer science and AI papers. A GitHub Actions pipeline runs daily, fetches papers from **arXiv** (all 19 cs.* categories) and **20+ major conferences** (NeurIPS, ICML, ICLR, CVPR, ACL, KDD, AAAI, SIGIR, and more), enriches them with multi-signal scores, detects research gaps, and persists everything to a **Supabase PostgreSQL database**. The frontend is hosted on GitHub Pages and queries Supabase directly — no file-size caps, no rolling windows, no limits.
 
 👉 **[Open ResearchScope](https://kishormorol.github.io/ResearchScope/)**
 
@@ -33,8 +33,9 @@ ResearchScope is an **open research intelligence dashboard** for computer scienc
 
 | Date | Highlight |
 |---|---|
-| **May 2026** | **Supabase Backend** — All 17,500+ papers, authors, topics, gaps, and labs now live in a Supabase PostgreSQL database. Every page queries Supabase directly — no file-size caps, no rolling windows. The full dataset is always browsable. |
-| **May 2026** | **Full Dataset Access** — The papers browser now shows all papers with server-side filtering and pagination (previously capped at 1,000). Search covers the entire database live. |
+| **May 2026** | **60,000+ Papers** — Expanded conference coverage: ICML (2020–25), AISTATS, UAI, CVPR (2021–25), ICCV, ECCV, ICLR/NeurIPS (2022+), plus S2 bulk fetch for AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE. Conference JSON cap raised to 20,000; Supabase stores all. |
+| **May 2026** | **Supabase Backend** — All papers, authors, topics, gaps, and labs live in a Supabase PostgreSQL database. Every page queries Supabase directly — no file-size caps, no rolling windows. The full dataset is always browsable. |
+| **May 2026** | **Full Dataset Access** — The papers browser now shows all papers with server-side filtering and pagination. Search covers the entire database live. |
 | **Apr 2026** | **CiteLens Integration** — Every arXiv paper card now has an "🔍 Analyze citations" button that opens [CiteLens](https://kishormorol.github.io/CiteLens/) with the paper pre-loaded to see who cited it and why it mattered. |
 | **Apr 2026** | **Topic Network Graph** — Interactive force-directed graph on the Topics page visualising relationships between 80+ research areas. |
 | **Apr 2026** | **Institution & Author Prestige Scoring** — Papers from top labs (OpenAI, DeepMind, Google Research, MIT, Stanford…) and renowned researchers get a scoring boost. |
@@ -48,7 +49,7 @@ ResearchScope is an **open research intelligence dashboard** for computer scienc
 
 | Feature | Description |
 |---|---|
-| 📄 **Paper intelligence** | 17,500+ arXiv + conference papers scored by recency, venue rank, author prestige, and novelty |
+| 📄 **Paper intelligence** | 60,000+ arXiv + conference papers scored by recency, venue rank, author prestige, and novelty |
 | 🗄 **Supabase backend** | Full dataset stored in PostgreSQL — no caps, no rolling windows, server-side filtering and search |
 | 🔍 **Analyze citations** | One-click handoff to [CiteLens](https://kishormorol.github.io/CiteLens/) to see who cited any arXiv paper, ranked by impact |
 | 👩‍🔬 **Author & lab intelligence** | Track 5,000+ prolific authors and their momentum scores; lab and university output profiles |
@@ -56,7 +57,7 @@ ResearchScope is an **open research intelligence dashboard** for computer scienc
 | 🕳 **Research gap explorer** | Surface under-explored areas across 3 gap types: explicit, pattern-detected, and starter ideas |
 | 🎯 **Conference recommender** | Paste title + abstract → ranked venue matches with acceptance context |
 | 📚 **My Library** | Personal browser-local paper saves with FIFO ordering, persistent across reloads |
-| ⚡ **Live search** | Global search queries Supabase directly — results from the full 17,500+ paper dataset |
+| ⚡ **Live search** | Global search queries Supabase directly — results from the full 60,000+ paper dataset |
 
 ---
 
@@ -121,7 +122,7 @@ Both tools share the same `SEMANTIC_SCHOLAR_API_KEY` secret — one key covers b
                 │ commits + deploys    │ upserts all data
                 ▼                      ▼
        site/ (GitHub Pages)     Supabase PostgreSQL
-         index.html               papers       (17,500+, no cap)
+         index.html               papers       (60,000+, no cap)
          papers.html              authors      (5,000+)
          topics.html              topics       (150+)
          authors.html             gaps         (100+)

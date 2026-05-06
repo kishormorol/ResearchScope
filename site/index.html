@@ -194,17 +194,17 @@
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
   <div class="rs-card p-6 sm:p-8">
     <div class="flex items-center justify-between mb-1">
-      <h2 class="text-xl font-bold">⚙️ How ResearchScope Picks Your 1,000 Papers</h2>
+      <h2 class="text-xl font-bold">⚙️ How ResearchScope Works</h2>
       <button onclick="this.closest('section').querySelector('.how-body').classList.toggle('hidden');this.textContent=this.textContent==='Hide'?'Details':'Hide'" class="text-xs font-medium px-3 py-1 rounded-full border" style="color:var(--rs-muted);border-color:var(--rs-border)">Details</button>
     </div>
-    <p class="text-sm mb-6" style="color:var(--rs-muted)">Every day we scan <strong>50,000+ papers</strong> across arXiv CoRR and 15+ top conference proceedings. Here's how we narrow it down to the 1,000 worth your time.</p>
+    <p class="text-sm mb-6" style="color:var(--rs-muted)">We index <strong>60,000+ papers</strong> from arXiv CoRR and 20+ major conference proceedings — all stored in Supabase so you can browse and search the full dataset with no caps.</p>
 
     <!-- Pipeline steps -->
     <div class="grid sm:grid-cols-4 gap-4 mb-8">
       <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
         <div class="text-3xl mb-2">🌐</div>
         <div class="font-bold text-sm mb-1">Step 1 — Collect</div>
-        <div class="text-xs" style="color:var(--rs-muted)">Pull every new CS paper from <strong>arXiv CoRR</strong> (19 categories) + proceedings from <strong>NeurIPS, ICML, ICLR, CVPR, ACL</strong> and 10+ more venues</div>
+        <div class="text-xs" style="color:var(--rs-muted)">Pull every new CS paper from <strong>arXiv CoRR</strong> (19 categories) + proceedings from <strong>NeurIPS, ICML, ICLR, CVPR, ACL, KDD, AAAI</strong> and 15+ more venues</div>
       </div>
       <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
         <div class="text-3xl mb-2">🏆</div>
@@ -212,9 +212,9 @@
         <div class="text-xs" style="color:var(--rs-muted)">Each paper gets a <strong>Paper Score 0–10</strong> based on 6 signals: recency, novelty, citation quality, institution prestige, author reputation, and completeness</div>
       </div>
       <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
-        <div class="text-3xl mb-2">✂️</div>
-        <div class="font-bold text-sm mb-1">Step 3 — Curate</div>
-        <div class="text-xs" style="color:var(--rs-muted)">Take the <strong>top 500 arXiv</strong> papers and <strong>top 500 conference</strong> papers by score — ensuring you always get both fresh preprints and peer-reviewed work</div>
+        <div class="text-3xl mb-2">🗄️</div>
+        <div class="font-bold text-sm mb-1">Step 3 — Store</div>
+        <div class="text-xs" style="color:var(--rs-muted)"><strong>All 60,000+ papers</strong> go into Supabase PostgreSQL — fully browsable and searchable with server-side filtering and pagination, no caps</div>
       </div>
       <div class="text-center p-4 rounded-xl" style="background:var(--rs-hover,rgba(99,102,241,0.06))">
         <div class="text-3xl mb-2">🔄</div>
