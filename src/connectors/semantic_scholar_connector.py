@@ -28,26 +28,39 @@ _FIELDS        = (
     "year,venue,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
 )
 
-# Venues to bulk-fetch in fetch_all (OpenReview is down; S2 is the fallback)
-# Each entry: venue_key → years to fetch
+# Venues to bulk-fetch in fetch_all using the S2 bulk cursor endpoint.
+# Each entry: venue_key → years to fetch.
+# These are used in conference-sync mode — primary source for venues without
+# a clean proceedings API (AAAI, KDD, WWW, SIGIR, WSDM, CHI, ICSE).
 _BULK_VENUES: dict[str, list[int]] = {
-    "ICLR":    [2023, 2024, 2025],
-    "NeurIPS": [2023, 2024],
-    "COLM":    [2024],
+    "AAAI":   [2021, 2022, 2023, 2024],
+    "IJCAI":  [2021, 2022, 2023, 2024],
+    "KDD":    [2022, 2023, 2024],
+    "WWW":    [2022, 2023, 2024],
+    "SIGIR":  [2022, 2023, 2024],
+    "WSDM":   [2023, 2024],
+    "CHI":    [2022, 2023, 2024],
+    "SIGMOD": [2022, 2023, 2024],
+    "ICSE":   [2022, 2023, 2024],
 }
 
 # Short venue names accepted by the S2 ?venue= filter → (canonical, rank)
 _VENUES: dict[str, tuple[str, str]] = {
-    "ICLR":   ("ICLR",  "A*"),
-    "NeurIPS":("NeurIPS","A*"),
-    "ICML":   ("ICML",  "A*"),
-    "AAAI":   ("AAAI",  "A*"),
-    "IJCAI":  ("IJCAI", "A*"),
-    "CVPR":   ("CVPR",  "A*"),
-    "ICCV":   ("ICCV",  "A*"),
-    "ECCV":   ("ECCV",  "A*"),
-    "CHI":    ("CHI",   "A*"),
-    "SIGMOD": ("SIGMOD","A*"),
+    "ICLR":   ("ICLR",    "A*"),
+    "NeurIPS":("NeurIPS",  "A*"),
+    "ICML":   ("ICML",    "A*"),
+    "AAAI":   ("AAAI",    "A*"),
+    "IJCAI":  ("IJCAI",   "A*"),
+    "CVPR":   ("CVPR",    "A*"),
+    "ICCV":   ("ICCV",    "A*"),
+    "ECCV":   ("ECCV",    "A*"),
+    "CHI":    ("CHI",     "A*"),
+    "SIGMOD": ("SIGMOD",  "A*"),
+    "KDD":    ("KDD",     "A*"),
+    "WWW":    ("WWW",     "A"),
+    "SIGIR":  ("SIGIR",   "A"),
+    "WSDM":   ("WSDM",    "A"),
+    "ICSE":   ("ICSE",    "A"),
 }
 
 # Throttle: unauthenticated = ~1 req/s; with key = 10 req/s

@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       max_results:
-        description: 'Max papers per query for S2 only (AAAI/IJCAI/CHI). OpenReview/PMLR/CVF/ACL always fetch ALL papers regardless of this value.'
+        description: 'Max papers per S2 keyword query (fallback only). Bulk S2 and OpenReview/PMLR/CVF/ACL always fetch ALL papers.'
         required: false
         default: '500'
 
@@ -39,7 +39,7 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Sync conference papers (S2 + OpenReview)
+      - name: Sync conference papers (OpenReview + PMLR + CVF + ACL + S2 bulk)
         env:
           SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -51,6 +51,11 @@ jobs:
         run: |
           MAX="${{ github.event.inputs.max_results || '500' }}"
           echo "Running: python src/pipeline.py --conferences-only --max-results $MAX"
+          echo "Sources: OpenReview (ICLR 2022-25, NeurIPS 2022-24, COLM)"
+          echo "         PMLR (ICML 2020-25, AISTATS 2021-25, UAI 2021-24)"
+          echo "         CVF  (CVPR 2021-25, ICCV 2021+23, ECCV 2020+22+24)"
+          echo "         ACL  (2020+)"
+          echo "         S2   (AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE)"
           python src/pipeline.py --conferences-only --max-results $MAX
 
       - name: Report results

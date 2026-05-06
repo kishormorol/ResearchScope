@@ -281,7 +281,7 @@ def run_pipeline(
         if conferences_only:
             # ── Conference-sync mode: fetch ALL papers directly from proceedings ──
             # OpenReview — ICLR, NeurIPS, COLM (authenticates via env credentials)
-            log.info("  [openreview] fetching ALL papers (ICLR 2023-25, NeurIPS 2023-24, COLM 2024) …")
+            log.info("  [openreview] fetching ALL papers (ICLR 2022-25, NeurIPS 2022-24, COLM 2024-25) …")
             try:
                 fetched = OpenReviewConnector().fetch_all()
                 log.info("    → %d papers", len(fetched))
@@ -289,7 +289,7 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [openreview] fetch_all failed: %s", exc)
 
-            log.info("  [pmlr] fetching ALL papers (ICML 2022-2025) …")
+            log.info("  [pmlr] fetching ALL papers (ICML 2020-25, AISTATS 2021-25, UAI 2021-24) …")
             try:
                 fetched = PMLRConnector().fetch_all()
                 log.info("    → %d papers", len(fetched))
@@ -297,7 +297,7 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [pmlr] fetch_all failed: %s", exc)
 
-            log.info("  [cvf] fetching ALL papers (CVPR, ICCV, ECCV) …")
+            log.info("  [cvf] fetching ALL papers (CVPR 2021-25, ICCV 2021+23, ECCV 2020+22+24) …")
             try:
                 fetched = CVFConnector().fetch_all()
                 log.info("    → %d papers", len(fetched))
@@ -313,16 +313,15 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [acl] fetch_all failed: %s", exc)
 
-            # S2 keyword queries — AAAI, IJCAI, CHI (no clean direct proceedings API)
-            log.info("  [s2] fetching AAAI, IJCAI, CHI …")
-            s2_kw = SemanticScholarConnector(venues=["AAAI", "IJCAI", "CHI", "SIGMOD"])
-            for query in queries[:3]:
-                try:
-                    fetched = s2_kw.fetch(query, max_results=max_results_per_query)
-                    log.info("    [s2] '%s' → %d papers", query, len(fetched))
-                    all_papers.extend(fetched)
-                except Exception as exc:
-                    log.warning("  [s2] '%s' failed: %s", query, exc)
+            # S2 bulk fetch — AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE
+            log.info("  [s2] bulk-fetching AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE …")
+            s2 = SemanticScholarConnector()
+            try:
+                fetched = s2.fetch_all()
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
+            except Exception as exc:
+                log.warning("  [s2] bulk fetch_all failed: %s", exc)
 
         else:
             # ── Keyword-query mode (used in daily pipeline if skip_conferences=False) ──

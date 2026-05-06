@@ -90,11 +90,11 @@ Both tools share the same `SEMANTIC_SCHOLAR_API_KEY` secret — one key covers b
 | Source | Content | Update frequency |
 |---|---|---|
 | **arXiv (OAI-PMH)** | All cs.* preprints — 19 CoRR categories | Daily |
-| **ACL Anthology** | NLP/CL papers from ACL, EMNLP, NAACL, and more | Monthly |
-| **OpenReview** | ICLR, NeurIPS, COLM accepted papers | Monthly |
-| **PMLR** | ICML proceedings | Monthly |
-| **CVF** | CVPR, ICCV, ECCV proceedings | Monthly |
-| **Semantic Scholar** | AAAI, IJCAI, CHI, SIGMOD + affiliation enrichment | Monthly |
+| **ACL Anthology** | ACL, EMNLP, NAACL, EACL, COLING, TACL (2020+) | Monthly |
+| **OpenReview** | ICLR (2022–25), NeurIPS (2022–24), COLM (2024–25) | Monthly |
+| **PMLR** | ICML (2020–25), AISTATS (2021–25), UAI (2021–24) | Monthly |
+| **CVF** | CVPR (2021–25), ICCV (2021+23), ECCV (2020+22+24) | Monthly |
+| **Semantic Scholar** | AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE (2021–24) + affiliation enrichment | Monthly |
 
 ---
 

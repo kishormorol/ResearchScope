@@ -30,9 +30,12 @@ _VENUES: dict[str, tuple[str, str, int]] = {
     "ICLR.cc/2025/Conference":          ("ICLR",    "A*", 2025),
     "ICLR.cc/2024/Conference":          ("ICLR",    "A*", 2024),
     "ICLR.cc/2023/Conference":          ("ICLR",    "A*", 2023),
+    "ICLR.cc/2022/Conference":          ("ICLR",    "A*", 2022),
     "NeurIPS.cc/2024/Conference":       ("NeurIPS", "A*", 2024),
     "NeurIPS.cc/2023/Conference":       ("NeurIPS", "A*", 2023),
+    "NeurIPS.cc/2022/Conference":       ("NeurIPS", "A*", 2022),
     "colmweb.org/COLM/2024/Conference": ("COLM",    "A*", 2024),
+    "colmweb.org/COLM/2025/Conference": ("COLM",    "A*", 2025),
 }
 
 _BATCH = 1000

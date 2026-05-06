@@ -1,0 +1,114 @@
+name: Conference Backfill
+
+# One-time (or on-demand) deep sync of all historical conference papers.
+# Fetches everything: PMLR (ICML, AISTATS, UAI), OpenReview (ICLR, NeurIPS,
+# COLM), CVF (CVPR, ICCV, ECCV), ACL Anthology, and S2 bulk
+# (AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE).
+# Takes ~30-60 min.  Run manually after adding new venue years.
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run — fetch and count papers without committing'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: push-to-main
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements.txt
+
+      - run: pip install -r requirements.txt
+
+      - name: Full conference backfill
+        env:
+          SEMANTIC_SCHOLAR_API_KEY: ${{ secrets.SEMANTIC_SCHOLAR_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENREVIEW_EMAIL: ${{ secrets.OPENREVIEW_EMAIL }}
+          OPENREVIEW_PASSWORD: ${{ secrets.OPENREVIEW_PASSWORD }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          echo "Running full conference backfill..."
+          python src/pipeline.py --conferences-only --max-results 1000
+
+      - name: Report results
+        run: |
+          python -c "
+          import json, os
+          from collections import Counter
+          cdb_path = 'site/data/conferences_db.json'
+          if os.path.exists(cdb_path):
+              cdb = json.load(open(cdb_path, encoding='utf-8'))
+              venues = Counter(p.get('venue','unknown') for p in cdb)
+              print(f'Total conference papers in JSON: {len(cdb)}')
+              for v, n in sorted(venues.items(), key=lambda x: -x[1]):
+                  print(f'  {v}: {n}')
+          else:
+              print('conferences_db.json not found')
+          "
+
+      - name: Build conference recommender data
+        run: python src/sitegen/conference_recommender.py
+
+      - name: Commit updated data
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add site/data/ data/ || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: conference backfill — ICML, AISTATS, UAI, CVF, S2 bulk [$(date -u +%Y-%m-%d)]"
+            for i in 1 2 3; do
+              git push origin main && break
+              echo "Push attempt $i failed, retrying…"
+              git pull --rebase --autostash -X theirs origin main
+              sleep $((i * 5))
+            done
+          fi
+
+  deploy:
+    needs: backfill
+    if: ${{ github.event.inputs.dry_run != 'true' }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/configure-pages@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

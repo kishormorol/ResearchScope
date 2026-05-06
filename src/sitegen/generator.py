@@ -33,8 +33,8 @@ class SiteGenerator:
     #   7,500 × 9.2 KB = 69 MB  (worst-case 12 KB/paper → 90 MB)  ✓ safe
     MAX_DB_PAPERS = 7_500
     # conferences_db.json — slim format ~3.9 KB/paper
-    #   10,000 × 3.9 KB = 39 MB  ✓ safe
-    MAX_CONF_DB_PAPERS = 10_000
+    #   20,000 × 3.9 KB = 78 MB  ✓ safe (Supabase holds all, JSON is fallback)
+    MAX_CONF_DB_PAPERS = 20_000
     # conferences.json — slim, browser-served
     MAX_CONF_FRONTEND_PAPERS = 5_000
     # authors.json — slim, no paper_ids; ~0.4 KB/author
