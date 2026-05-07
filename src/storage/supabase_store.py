@@ -144,12 +144,12 @@ def sync(
 
     if gaps:
         log.info("Syncing %d gaps…", len(gaps))
-        gap_rows = [{k: v for k, v in g.items() if k != "id"} for g in gaps]
+        gap_rows = [{k: v for k, v in g.items() if k not in ("id", "source_paper_ids")} for g in gaps]
         _upsert(client, "gaps", gap_rows, conflict_col="gap_id")
 
     if labs:
         log.info("Syncing %d labs…", len(labs))
-        lab_rows = [{k: v for k, v in l.items() if k != "id"} for l in labs]
+        lab_rows = [{k: v for k, v in l.items() if k not in ("id", "top_topics")} for l in labs]
         _upsert(client, "labs", lab_rows, conflict_col="lab_id")
 
     log.info("Supabase sync complete.")
