@@ -16,7 +16,7 @@ from typing import Any
 
 log = logging.getLogger(__name__)
 
-_BATCH_SIZE = 500   # rows per upsert call (well within Supabase limits)
+_BATCH_SIZE = 100   # rows per upsert call — kept small to avoid statement timeouts on large tables
 
 
 def _client():

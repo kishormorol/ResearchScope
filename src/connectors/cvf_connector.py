@@ -14,6 +14,7 @@ import logging
 import re
 import time
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from typing import Any
@@ -24,7 +25,9 @@ from src.normalization.schema import Paper
 log = logging.getLogger(__name__)
 
 _BASE = "https://openaccess.thecvf.com"
-_MAX_ABSTRACT_FETCH = 200   # fetch individual pages for top N papers
+_MAX_ABSTRACT_FETCH = 200   # fetch individual pages for top N papers per conference
+_ABSTRACT_WORKERS = 20      # concurrent requests for abstract enrichment
+_ABSTRACT_TIMEOUT = 10      # seconds per individual abstract request
 _DELAY = 1.5
 
 # conference key → (url_path, venue name, rank, year)
@@ -212,24 +215,30 @@ class CVFConnector(BaseConnector):
 
     @staticmethod
     def _enrich_abstracts(papers: list[Paper]) -> None:
-        """Fetch individual paper pages to get abstracts."""
-        for p in papers:
+        """Fetch individual paper pages to get abstracts (concurrent)."""
+        def _fetch_one(p: Paper) -> tuple[Paper, str]:
             if not p.paper_url:
-                continue
+                return p, ""
             try:
                 req = urllib.request.Request(
                     p.paper_url,
                     headers={"User-Agent": "ResearchScope/1.0"},
                 )
-                with urllib.request.urlopen(req, timeout=15) as resp:
+                with urllib.request.urlopen(req, timeout=_ABSTRACT_TIMEOUT) as resp:
                     html = resp.read().decode("utf-8", errors="replace")
-                # Extract abstract: <div id="abstract">...</div>
                 m = re.search(r'<div[^>]+id=["\']abstract["\'][^>]*>(.*?)</div>', html, re.S)
                 if m:
-                    p.abstract = re.sub(r'<[^>]+>', '', m.group(1)).strip()
+                    return p, re.sub(r'<[^>]+>', '', m.group(1)).strip()
             except Exception:
                 pass
-            time.sleep(0.5)
+            return p, ""
+
+        with ThreadPoolExecutor(max_workers=_ABSTRACT_WORKERS) as executor:
+            futures = {executor.submit(_fetch_one, p): p for p in papers}
+            for future in as_completed(futures):
+                paper, abstract = future.result()
+                if abstract:
+                    paper.abstract = abstract
 
     @staticmethod
     def _record_to_paper(rec: dict[str, Any], venue: str, rank: str, year: int) -> Paper | None:
