@@ -12,11 +12,13 @@ from __future__ import annotations
 
 import logging
 import os
+import time
 from typing import Any
 
 log = logging.getLogger(__name__)
 
 _BATCH_SIZE = 100   # rows per upsert call — kept small to avoid statement timeouts on large tables
+_RETRY_DELAYS = [5, 15, 30]  # seconds between retries on timeout
 
 
 def _client():
@@ -34,13 +36,23 @@ def _client():
 
 
 def _upsert(client, table: str, rows: list[dict], conflict_col: str = "id") -> None:
-    """Upsert rows in batches, logging progress."""
+    """Upsert rows in batches with retries on statement timeout."""
     total = len(rows)
     if not total:
         return
     for i in range(0, total, _BATCH_SIZE):
         batch = rows[i: i + _BATCH_SIZE]
-        client.table(table).upsert(batch, on_conflict=conflict_col).execute()
+        for attempt, delay in enumerate([0] + _RETRY_DELAYS):
+            if delay:
+                log.warning("  %s: timeout on batch %d/%d, retrying in %ds…", table, i, total, delay)
+                time.sleep(delay)
+            try:
+                client.table(table).upsert(batch, on_conflict=conflict_col).execute()
+                break
+            except Exception as exc:
+                if "57014" in str(exc) and attempt < len(_RETRY_DELAYS):
+                    continue
+                raise
         log.info("  %s: upserted %d/%d", table, min(i + _BATCH_SIZE, total), total)
 
 
@@ -88,7 +100,9 @@ def sync(
 
     if authors:
         log.info("Syncing %d authors…", len(authors))
-        _upsert(client, "authors", authors, conflict_col="author_id")
+        # Strip UI-only aliases not present in the DB schema
+        author_rows = [{k: v for k, v in a.items() if k not in ("id", "top_topics")} for a in authors]
+        _upsert(client, "authors", author_rows, conflict_col="author_id")
 
     if topics:
         log.info("Syncing %d topics…", len(topics))
