@@ -131,7 +131,6 @@ def sync(
         author_rows = []
         for a in authors:
             row = {k: v for k, v in a.items() if k not in ("id", "top_topics")}
-            # Cap paper_ids arrays to avoid bloating the authors table
             if isinstance(row.get("paper_ids"), list):
                 row["paper_ids"] = row["paper_ids"][:100]
             if isinstance(row.get("recent_paper_ids"), list):
@@ -145,11 +144,13 @@ def sync(
 
     if gaps:
         log.info("Syncing %d gaps…", len(gaps))
-        _upsert(client, "gaps", gaps, conflict_col="gap_id")
+        gap_rows = [{k: v for k, v in g.items() if k != "id"} for g in gaps]
+        _upsert(client, "gaps", gap_rows, conflict_col="gap_id")
 
     if labs:
         log.info("Syncing %d labs…", len(labs))
-        _upsert(client, "labs", labs, conflict_col="lab_id")
+        lab_rows = [{k: v for k, v in l.items() if k != "id"} for l in labs]
+        _upsert(client, "labs", lab_rows, conflict_col="lab_id")
 
     log.info("Supabase sync complete.")
     return True
