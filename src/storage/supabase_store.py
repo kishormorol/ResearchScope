@@ -20,6 +20,26 @@ log = logging.getLogger(__name__)
 _BATCH_SIZE = 100   # rows per upsert call — kept small to avoid statement timeouts on large tables
 _RETRY_DELAYS = [5, 15, 30]  # seconds between retries on timeout
 
+# Heavy content-generation columns not rendered anywhere in the frontend UI.
+# Excluded from Supabase to stay within the 500 MB free-tier limit.
+# The full data is preserved in site/data/*.json for static pages.
+_PAPER_EXCLUDE_COLS: frozenset[str] = frozenset({
+    "tweet_thread",
+    "video_script_outline",
+    "linkedin_post",
+    "newsletter_blurb",
+    "plain_english_explanation",
+    "technical_summary",
+    "score_breakdown",
+    "content_hook",
+    "biggest_caveat",
+    "difficulty_reason",
+    "affiliations_raw",   # raw string, superseded by author_ids
+    "canonical_id",       # internal dedup field
+    "cluster_id",         # internal clustering field
+    "fetched_at",         # pipeline metadata, not used in UI
+})
+
 
 def _client():
     """Return a Supabase client, or None if env vars are missing."""
@@ -69,20 +89,16 @@ def _upsert(client, table: str, rows: list[dict], conflict_col: str = "id") -> N
 
 
 def _paper_row(p: dict[str, Any]) -> dict[str, Any]:
-    """Ensure all JSONB fields are proper Python objects (not strings)."""
+    """Slim a paper dict for Supabase: fix JSONB types and drop excluded columns."""
     list_fields = {
-        "authors", "author_ids", "affiliations_raw", "lab_ids", "university_ids",
+        "authors", "author_ids", "lab_ids", "university_ids",
         "topics", "tags", "prerequisites", "limitations", "future_work",
         "research_gap_signals",
     }
-    dict_fields = {"score_breakdown"}
-    row = dict(p)
+    row = {k: v for k, v in p.items() if k not in _PAPER_EXCLUDE_COLS}
     for f in list_fields:
         if isinstance(row.get(f), str):
             row[f] = []
-    for f in dict_fields:
-        if isinstance(row.get(f), str):
-            row[f] = {}
     # remove computed-only properties that aren't real columns
     row.pop("url", None)
     row.pop("difficulty", None)
@@ -112,8 +128,15 @@ def sync(
 
     if authors:
         log.info("Syncing %d authors…", len(authors))
-        # Strip UI-only aliases not present in the DB schema
-        author_rows = [{k: v for k, v in a.items() if k not in ("id", "top_topics")} for a in authors]
+        author_rows = []
+        for a in authors:
+            row = {k: v for k, v in a.items() if k not in ("id", "top_topics")}
+            # Cap paper_ids arrays to avoid bloating the authors table
+            if isinstance(row.get("paper_ids"), list):
+                row["paper_ids"] = row["paper_ids"][:100]
+            if isinstance(row.get("recent_paper_ids"), list):
+                row["recent_paper_ids"] = row["recent_paper_ids"][:20]
+            author_rows.append(row)
         _upsert(client, "authors", author_rows, conflict_col="author_id")
 
     if topics:
