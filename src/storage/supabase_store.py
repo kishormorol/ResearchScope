@@ -37,6 +37,18 @@ def _client():
 
 def _upsert(client, table: str, rows: list[dict], conflict_col: str = "id") -> None:
     """Upsert rows in batches with retries on statement timeout."""
+    # Deduplicate by conflict key — Postgres rejects a batch that touches the same row twice
+    seen: set = set()
+    deduped = []
+    for row in rows:
+        key = row.get(conflict_col)
+        if key not in seen:
+            seen.add(key)
+            deduped.append(row)
+    if len(deduped) < len(rows):
+        log.warning("  %s: dropped %d duplicate rows before upsert", table, len(rows) - len(deduped))
+    rows = deduped
+
     total = len(rows)
     if not total:
         return
