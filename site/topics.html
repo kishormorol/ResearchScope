@@ -186,7 +186,7 @@
   </p>
 </footer>
 <script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
 <script src="assets/js/topic-graph.js?v=ui-integrity-18"></script>
 <style>
 .topic-filter-btn {
@@ -220,7 +220,7 @@ function paperStub(p, icon='') {
   return `<div class="reading-path-step">
     ${icon ? `<div class="path-number">${icon}</div>` : ''}
     <div class="flex-1 min-w-0">
-      <a href="${escHtml(url)}" target="_blank" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
+      <a href="${escHtml(url)}" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-0.5">
         ${difficultyBadge(p)}
         <span class="badge badge-score">${(+p.read_first_score||0).toFixed(1)}</span>

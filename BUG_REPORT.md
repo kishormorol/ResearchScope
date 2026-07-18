@@ -483,9 +483,9 @@ The pipeline requires `sys.path.insert(0, ...)` at the top of `pipeline.py` to m
 
 ---
 
-### 6.6 `conference-sync.yml` references `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` secrets that are never used
-**File:** `.github/workflows/conference-sync.yml` — Lines 44–45  
-These secrets are passed as environment variables but no code in the conference-sync mode reads or uses them. The keys are exposed in the environment unnecessarily.
+### 6.6 `conference-sync.yml` references an `OPENAI_API_KEY` secret that is never used
+**File:** `.github/workflows/conference-sync.yml` — Line 43
+This secret is passed as an environment variable but no code in the conference-sync mode reads or uses it. The key is exposed in the environment unnecessarily.
 
 ---
 
@@ -705,7 +705,7 @@ Contributors following the guide will run into import errors for `pydantic`, `ti
 
 ### 12.4 `architecture.md` describes a system that includes LLM-powered enrichment, but no LLM integration exists
 **File:** `architecture.md`  
-The architecture document describes AI-powered content generation and LLM enrichment as current features. In the actual codebase, `ContentGenerator` uses string templates and regex — no LLM API calls exist anywhere. `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` are wired into CI but never read by any production code.
+The architecture document describes AI-powered content generation and LLM enrichment as current features. In the enrichment pipeline, `ContentGenerator` uses string templates and regex rather than an LLM API. `OPENAI_API_KEY` is wired into pipeline CI but is not read by the enrichment code.
 
 ---
 

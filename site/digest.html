@@ -134,7 +134,7 @@
 </footer>
 
 <script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
 <script>
 // Topic group icons
 const TOPIC_ICONS = {
@@ -207,7 +207,8 @@ function digestTopicLabel(name, short = false) {
 }
 
 function renderDigestPaperCard(paper) {
-  const url = paper.paper_url || paper.url || '#';
+  const url = paperWorkspaceUrl(paper);
+  const externalUrl = paper.paper_url || paper.url || '#';
   const venue = [paper.venue, paper.year].filter(Boolean).join(' · ');
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
@@ -217,7 +218,7 @@ function renderDigestPaperCard(paper) {
   <div class="digest-paper-card">
     <div class="flex items-start justify-between gap-3 flex-wrap">
       <div class="flex-1 min-w-0">
-        <a href="${escHtml(url)}" target="_blank" rel="noopener"
+        <a href="${escHtml(url)}"
            class="font-bold text-sm hover:underline" style="color:var(--rs-primary)">${escHtml(paper.title)}</a>
         <p class="text-xs mt-0.5" style="color:var(--rs-muted)">
           ${escHtml(authors)}${escHtml(extra)}${venue ? ' · ' + escHtml(venue) : ''}
@@ -230,8 +231,9 @@ function renderDigestPaperCard(paper) {
     </div>
     ${abstract ? `<p class="text-xs leading-relaxed" style="color:var(--rs-muted)">${escHtml(abstract)}…</p>` : ''}
     <div class="flex gap-2 flex-wrap mt-1">
-      <a href="${escHtml(url)}" target="_blank" rel="noopener"
-         class="text-xs font-semibold hover:underline" style="color:var(--rs-primary)">Read →</a>
+      <a href="${escHtml(url)}" class="text-xs font-semibold hover:underline" style="color:var(--rs-primary)">Chat →</a>
+      <a href="${escHtml(externalUrl)}" target="_blank" rel="noopener"
+         class="text-xs font-semibold hover:underline" style="color:var(--rs-muted)">Paper ↗</a>
       <a href="${escHtml(tweetPaperUrl(paper))}" target="_blank" rel="noopener" class="tweet-btn">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.738-8.835L1.254 2.25H8.08l4.259 5.631zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         Share

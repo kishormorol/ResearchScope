@@ -135,6 +135,10 @@
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
           My Favourites
         </a>
+        <a href="chat-paper" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
+           style="background:var(--rs-bg);border:1px solid var(--rs-border)">
+          <span>💬</span> My Paper Chats
+        </a>
         <a href="papers.html" class="flex items-center gap-2 p-3 rounded-lg text-sm font-medium transition"
            style="background:var(--rs-bg);border:1px solid var(--rs-border)">
           <span></span> Browse Papers
@@ -163,7 +167,7 @@
 </main>
 
 <script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
 <script>
 (async () => {
   const loading = document.getElementById('profile-loading');
@@ -182,10 +186,7 @@
     [user, favs] = await Promise.all([
       window._rs_api.auth.isLoggedIn() ? (async () => {
         const u = window._rs_api.auth.currentUser();
-        return u?.email ? u : await fetch(
-          'https://researchscope-production.up.railway.app/auth/me',
-          { headers: { Authorization: `Bearer ${localStorage.getItem('rs_jwt')}` } }
-        ).then(r => r.json());
+        return u?.email ? u : await window._rs_api.auth.me();
       })() : Promise.resolve(null),
       window._rs_api.favourites.list().catch(() => []),
     ]);

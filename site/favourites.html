@@ -143,7 +143,7 @@
 </footer>
 
 <script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
 <script>
 let _favData = [];
 
@@ -163,7 +163,7 @@ function renderFavs(favs) {
   show('fav-list');
   document.getElementById('fav-list').innerHTML = favs.map(fav => {
     const p = fav.paper || {};
-    const url = p.paper_url || '#';
+    const url = paperWorkspaceUrl(p);
     const tags = (p.tags || []).slice(0, 3).map(t =>
       `<span class="badge badge-tag" style="font-size:.62rem">${escHtml(t)}</span>`).join(' ');
     const scoreHtml = p.paper_score
@@ -175,7 +175,7 @@ function renderFavs(favs) {
     <div class="rs-card p-4" id="fav-${escHtml(fav.paper_id)}">
       <div class="flex items-start gap-3">
         <div class="flex-1 min-w-0">
-          <a href="${escHtml(url)}" target="_blank" rel="noopener"
+          <a href="${escHtml(url)}"
              class="font-semibold text-sm hover:underline" style="color:var(--rs-primary)">${escHtml(p.title || 'Untitled')}</a>
           <p class="text-xs mt-0.5" style="color:var(--rs-muted)">
             ${escHtml((p.authors || []).slice(0, 3).join(', '))}

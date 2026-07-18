@@ -8,7 +8,8 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.routers import auth, favourites, papers, pipeline, search
+from app.routers import auth, chat, favourites, paper_documents, papers, pipeline, search
+from app.services.provider_service import chat_enabled, provider_configured
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +43,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=_allowed_origins,
     allow_methods=["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-    allow_headers=["Authorization", "Content-Type"],
+    allow_headers=["Authorization", "Content-Type", "Idempotency-Key"],
     allow_credentials=True,
 )
 
@@ -52,9 +53,11 @@ async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
 app.include_router(papers.router)
+app.include_router(paper_documents.router)
 app.include_router(search.router)
 app.include_router(auth.router)
 app.include_router(favourites.router)
+app.include_router(chat.router)
 app.include_router(pipeline.router)
 
 
@@ -75,7 +78,11 @@ async def health():
     except Exception:
         pass
 
-    return {"status": "ok", "db_configured": via != "none", "db_live": db_live, "via": via}
+    return {
+        "status": "ok", "db_configured": via != "none", "db_live": db_live,
+        "via": via, "chat_enabled": chat_enabled(),
+        "chat_provider_configured": provider_configured(),
+    }
 
 
 @app.get("/")
@@ -83,5 +90,7 @@ async def root():
     return {
         "name": "ResearchScope API",
         "docs": "/docs",
-        "endpoints": ["/papers", "/search", "/auth", "/favourites", "/pipeline"],
+        "endpoints": [
+            "/papers", "/search", "/auth", "/favourites", "/chat", "/pipeline"
+        ],
     }

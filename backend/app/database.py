@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 import os
 
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
 
 log = logging.getLogger(__name__)
@@ -25,16 +25,19 @@ def _database_url() -> str:
     # 2. Individual PG* variables (Railway injects these too)
     host = os.environ.get("PGHOST", "").strip()
     if host:
-        port     = os.environ.get("PGPORT", "5432").strip()
-        user     = os.environ.get("PGUSER", "postgres").strip()
+        port = os.environ.get("PGPORT", "5432").strip()
+        user = os.environ.get("PGUSER", "postgres").strip()
         password = os.environ.get("PGPASSWORD", "").strip()
-        dbname   = os.environ.get("PGDATABASE", "railway").strip()
+        dbname = os.environ.get("PGDATABASE", "railway").strip()
         url = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{dbname}"
-        log.info("Using database URL built from PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE")
+        log.info(
+            "Using database URL built from PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE"
+        )
         return url
 
     raise RuntimeError(
-        "No database connection found. Set DATABASE_URL or PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE."
+        "No database connection found. Set DATABASE_URL or the "
+        "PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE variables."
     )
 
 
@@ -84,12 +87,71 @@ async def get_db():
 async def init_db() -> None:
     try:
         from sqlalchemy import text
+
         async with get_engine().begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
             # Idempotent migration: add notes column if not present
-            await conn.execute(text(
-                "ALTER TABLE favourites ADD COLUMN IF NOT EXISTS notes TEXT"
-            ))
+            await conn.execute(
+                text("ALTER TABLE favourites ADD COLUMN IF NOT EXISTS notes TEXT")
+            )
+            await conn.execute(
+                text("""
+                ALTER TABLE paper_documents
+                    ADD COLUMN IF NOT EXISTS embedding_model TEXT,
+                    ADD COLUMN IF NOT EXISTS embedding_dimensions INTEGER
+                        NOT NULL DEFAULT 0
+            """)
+            )
+            await conn.execute(
+                text("""
+                ALTER TABLE paper_chunks
+                    ADD COLUMN IF NOT EXISTS token_count INTEGER NOT NULL DEFAULT 0,
+                    ADD COLUMN IF NOT EXISTS parent_chunk_index INTEGER,
+                    ADD COLUMN IF NOT EXISTS content_type TEXT
+                        NOT NULL DEFAULT 'paragraph',
+                    ADD COLUMN IF NOT EXISTS embedding REAL[],
+                    ADD COLUMN IF NOT EXISTS embedding_model TEXT,
+                    ADD COLUMN IF NOT EXISTS bounding_box JSONB
+            """)
+            )
+            await conn.execute(
+                text("""
+                CREATE INDEX IF NOT EXISTS ix_paper_chunks_parent
+                ON paper_chunks (paper_id, parent_chunk_index)
+            """)
+            )
+            await conn.execute(
+                text("""
+                CREATE INDEX IF NOT EXISTS ix_paper_chunks_type
+                ON paper_chunks (paper_id, content_type)
+            """)
+            )
+            await conn.execute(
+                text("""
+                CREATE OR REPLACE FUNCTION paper_chunks_search_vector_update()
+                RETURNS trigger AS $$
+                BEGIN
+                    NEW.search_vector := to_tsvector(
+                        'english', coalesce(NEW.content, '')
+                    );
+                    RETURN NEW;
+                END;
+                $$ LANGUAGE plpgsql
+            """)
+            )
+            await conn.execute(
+                text("""
+                DROP TRIGGER IF EXISTS paper_chunks_search_vector_trigger
+                ON paper_chunks
+            """)
+            )
+            await conn.execute(
+                text("""
+                CREATE TRIGGER paper_chunks_search_vector_trigger
+                BEFORE INSERT OR UPDATE OF content ON paper_chunks
+                FOR EACH ROW EXECUTE FUNCTION paper_chunks_search_vector_update()
+            """)
+            )
         log.info("Database tables initialised.")
     except Exception as exc:
         log.error("Database init failed: %s", exc)

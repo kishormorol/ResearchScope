@@ -111,6 +111,7 @@ researchscope gaps --top-n 25
 | ⏰ **Deadline tracker** | Live countdowns to A*/A conference deadlines across 10 CS areas — abstract, paper, and notification dates |
 | 🔍 **Full-text search** | PostgreSQL `tsvector` search across 100K+ papers via Railway API |
 | 👤 **User accounts** | JWT auth, favourites synced across devices via Railway backend |
+| 💬 **Chat with Paper** | Authenticated split-screen PDF chat with page citations and cross-device history (provider-configured) |
 | 🕳 **Research gaps** | 3-layer extraction: explicit, pattern-detected, and starter ideas |
 | 👩‍🔬 **Author intelligence** | 5,000+ researchers ranked by momentum score |
 | 🤗 **LLM training data** | `papers.jsonl` + `instruct.jsonl` on HuggingFace Hub |
@@ -179,6 +180,9 @@ The REST API is live at **`https://researchscope-production.up.railway.app`**.
 | `GET` | `/favourites` | Saved papers (auth required) |
 | `POST` | `/favourites/{id}` | Save paper |
 | `DELETE` | `/favourites/{id}` | Remove saved paper |
+| `GET/POST` | `/papers/{id}/document-status`, `/prepare` | Inspect or prepare a PDF for grounded chat |
+| `GET/POST` | `/chat/sessions` | List or create user-owned paper chats |
+| `POST` | `/chat/sessions/{id}/messages` | Stream a cited answer with server-sent events |
 | `POST` | `/pipeline/trigger` | Trigger pipeline via GitHub Actions |
 
 Interactive docs: **[/docs](https://researchscope-production.up.railway.app/docs)**
@@ -302,11 +306,20 @@ python -m pytest tests/ -v
 # Serve the frontend
 cd site && python -m http.server 8080
 
+# Serve the frontend with production-style extensionless routes (from the repository root)
+cd .. && python scripts/serve_site.py --port 8080
+
 # Run the API locally
 cd backend
 pip install -r requirements.txt
 DATABASE_URL=postgresql://... uvicorn app.main:app --reload
+
+# Alternatively, use DATABASE_URL from the repository-root .env
+uvicorn app.main:app --reload
 ```
+
+The local API loads the repository-root `.env` without overriding variables
+already supplied by the shell or deployment environment.
 
 ### Environment variables
 
@@ -322,6 +335,10 @@ DATABASE_URL=postgresql://... uvicorn app.main:app --reload
 | `DISCORD_WEBHOOK_URL` | GH Secret | Paper of the Day → Discord |
 | `PIPELINE_SECRET` | Both | Shared secret for `/pipeline/trigger` endpoint |
 | `GITHUB_TOKEN` | Railway Env | Fine-grained PAT for triggering workflows |
+| `CHAT_ENABLED` | Railway Env | Feature flag; defaults to `false` |
+| `OPENAI_API_KEY` | Railway Env | Server-side key for Chat with arXiv; never expose it to the browser |
+| `OPENAI_CHAT_MODEL` | Railway Env | Optional model override; defaults to `gpt-5.6-terra` |
+| `OPENAI_REASONING_EFFORT` | Railway Env | Optional reasoning level; defaults to `low` for lower cost and latency |
 
 ---
 
@@ -368,6 +385,8 @@ ResearchScope ──── "Discover more papers on this topic"
 | [CVF](https://openaccess.thecvf.com) | Public access |
 
 ResearchScope stores only bibliographic metadata — no full text or PDFs.
+
+The statement above describes the public dataset. When Chat with Paper is enabled, the authenticated backend may fetch an allowlisted PDF, discard the PDF bytes after processing, and persist page-aware extracted text chunks for grounded answers. User conversations remain private to their account until deleted.
 
 ---
 

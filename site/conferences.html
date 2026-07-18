@@ -174,7 +174,7 @@
 </footer>
 <script src="assets/js/app.js?v=ui-integrity-18"></script>
 <script src="assets/js/library.js"></script>
-<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentPage = 1, totalCount = 0;
@@ -213,7 +213,7 @@ function renderRows(papers, startIdx=0) {
     return;
   }
   tbody.innerHTML = papers.map((p,i) => {
-    const idx = startIdx+i, url = p.paper_url||p.url||'#';
+    const idx = startIdx+i, url = paperWorkspaceUrl(p);
     const paperId = libraryApi ? libraryApi.getPaperLibraryId(p) : '';
     const inLib   = paperId ? libraryLookup.has(paperId) : false;
     const authors = (p.authors||[]).slice(0,2).join(', ');

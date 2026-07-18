@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
-  <link rel="stylesheet" href="assets/css/library.css?v=ui-integrity-18"/>
+  <link rel="stylesheet" href="assets/css/library.css?v=20260718-paper-chat"/>
   <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
@@ -184,7 +184,8 @@
 
 <script src="assets/js/app.js?v=ui-integrity-18"></script>
 <script src="assets/js/library.js"></script>
-<script src="assets/js/railway-api.js?v=ui-integrity-18"></script>
+<script src="assets/js/chat-arxiv-core.js?v=20260718-paper-chat"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
 <script>
 // ── State ─────────────────────────────────────────────────────────────────────
 let currentPage  = 1;
@@ -193,6 +194,7 @@ const PAGE_SIZE  = 25;
 let currentFilters = {};
 
 const libraryApi     = window.ResearchScopeLibrary;
+const arxivCore      = window.ResearchScopeArxivCore;
 let libraryLookup    = new Set(libraryApi ? libraryApi.readLibraryIds() : []);
 const libraryButtons = libraryApi
   ? libraryApi.initializeLibraryButtons({
@@ -246,7 +248,7 @@ function renderRows(papers, startIdx = 0) {
   }
   tbody.innerHTML = papers.map((p, i) => {
     const idx = startIdx + i;
-    const url = p.paper_url || p.url || '#';
+    const url = p.paper_url || p.url || p.pdf_url || '#';
     const paperId   = libraryApi ? libraryApi.getPaperLibraryId(p) : '';
     const inLibrary = paperId ? libraryLookup.has(paperId) : false;
     const authors   = (p.authors || []).slice(0, 2).join(', ');
@@ -254,6 +256,15 @@ function renderRows(papers, startIdx = 0) {
     const typeStr   = p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : '–';
     const scoreVal  = p.paper_score || 0;
     const libBtn    = paperId ? libraryApi.renderLibraryButton(paperId, { inLibrary }) : '';
+    const chatUrl   = arxivCore ? arxivCore.workspaceUrl(p.id || p.paper_url || '') : '';
+    const chatBtn   = chatUrl ? `
+      <a href="${escHtml(chatUrl)}" class="paper-chat-link"
+         title="Chat with paper" aria-label="Chat with ${escHtml(p.title)}"
+         onclick="event.stopPropagation()">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M8 9.5h8M8 13.5h5M20.5 12a8.5 8.5 0 0 1-8.5 8.5 9.1 9.1 0 0 1-3.9-.9L3.5 20.5l.9-4.6A8.5 8.5 0 1 1 20.5 12Z"/>
+        </svg>
+      </a>` : '';
     const tags      = normalizeTags(p.tags);
     return `
     <tr class="cursor-pointer" onclick="if(!event.target.closest('a,button'))toggleDetail(${idx})">
@@ -262,7 +273,10 @@ function renderRows(papers, startIdx = 0) {
            class="font-medium rs-table-title-link"
            onclick="event.stopPropagation()">${escHtml(p.title)}</a>
          <div class="text-xs mt-0.5" style="color:var(--rs-muted)">${escHtml(authors)}${escHtml(more)}</div>
-         <button id="paper-detail-btn-${idx}" type="button" class="rs-table-detail-btn text-xs mt-1 underline" style="color:var(--rs-primary)" aria-expanded="false" aria-controls="detail-${idx}" onclick="event.stopPropagation();toggleDetail(${idx})">Details</button>
+         <div class="paper-title-actions">
+           <button id="paper-detail-btn-${idx}" type="button" class="rs-table-detail-btn text-xs underline" style="color:var(--rs-primary)" aria-expanded="false" aria-controls="detail-${idx}" onclick="event.stopPropagation();toggleDetail(${idx})">Details</button>
+           ${chatBtn}
+         </div>
       </td>
       <td class="hidden md:table-cell text-xs" style="color:var(--rs-muted)">
         ${escHtml(p.venue||'')} ${p.year||''}

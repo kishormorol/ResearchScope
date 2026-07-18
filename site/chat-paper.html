@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chat with Paper – ResearchScope</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+  <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
+  <link rel="stylesheet" href="assets/css/chat-paper.css?v=20260714-paper-loading"/>
+  <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
+</head>
+<body>
+<nav class="rs-nav">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center h-14 gap-2">
+      <a href="./" class="flex items-center gap-2 font-bold text-lg shrink-0" style="min-width:0;flex:1;color:var(--rs-ink);font-family:var(--rs-font-display);letter-spacing:-0.02em">
+        <span style="font-family:var(--rs-font-italic);font-style:italic;font-weight:500;color:var(--rs-coral)">Ø</span>
+        <span>ResearchScope<span class="rs-dot">.</span></span>
+      </a>
+      <div id="rs-nav-links" class="hidden lg:flex items-center justify-center gap-2 text-sm font-medium flex-1">
+        <a href="papers.html">Papers</a>
+        <a href="topics.html">Topics</a>
+        <a href="digest.html">Digest</a>
+        <a href="conferences.html">Conferences</a>
+        <a href="journals.html">Journals</a>
+        <a href="authors.html">Authors</a>
+        <a href="labs.html">Labs &amp; Unis</a>
+        <a href="gaps.html">Research Gaps</a>
+        <a href="deadlines.html">Upcoming</a>
+      </div>
+      <div id="rs-nav-actions" class="flex items-center gap-2 justify-end" style="flex:1">
+        <div class="search-wrap hidden lg:block">
+          <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+          </svg>
+          <input id="global-search" class="search-input" type="search" placeholder="Search papers, authors…" autocomplete="off"/>
+          <div id="search-dropdown" class="search-dropdown hidden"></div>
+        </div>
+        <a href="https://github.com/kishormorol/ResearchScope" target="_blank" rel="noopener" class="github-star-btn hidden lg:inline-flex" aria-label="Star on GitHub">
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>
+          Star
+          <span class="github-star-count">–</span>
+        </a>
+        <button id="mobile-menu-btn" class="lg:hidden p-1 rounded" aria-label="Open menu" aria-expanded="false">
+          <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden border-t" style="border-color:var(--rs-rule);background:var(--rs-bone)">
+    <div id="rs-mob-links" class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
+      <a href="./" class="mobile-nav-link">Home</a>
+      <a href="papers.html" class="mobile-nav-link">Papers</a>
+      <a href="topics.html" class="mobile-nav-link">Topics</a>
+      <a href="digest.html" class="mobile-nav-link">Weekly Digest</a>
+      <a href="conferences.html" class="mobile-nav-link">Conferences</a>
+      <a href="journals.html" class="mobile-nav-link">Journals</a>
+      <a href="authors.html" class="mobile-nav-link">Authors</a>
+      <a href="labs.html" class="mobile-nav-link">Labs &amp; Unis</a>
+      <a href="gaps.html" class="mobile-nav-link">Research Gaps</a>
+      <a href="deadlines.html" class="mobile-nav-link">Upcoming Conferences</a>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-pane-tabs" role="tablist" aria-label="Workspace panes">
+  <button class="mobile-pane-tab active" data-pane="paper" role="tab">Paper</button>
+  <button class="mobile-pane-tab" data-pane="assistant" role="tab">Assistant</button>
+</div>
+
+<main class="chat-workspace">
+  <section id="paper-pane" class="paper-pane" aria-label="Paper viewer">
+    <div class="paper-toolbar">
+      <div class="paper-mode" aria-label="Active document view">
+        <span class="paper-mode-icon" aria-hidden="true">▤</span>
+        <span>Paper</span>
+      </div>
+      <div class="paper-heading">
+        <h1 id="paper-title">Select a paper</h1>
+        <p id="paper-meta">Open a paper from ResearchScope to begin.</p>
+      </div>
+      <span id="document-state" class="document-state">Not prepared</span>
+      <button id="retry-prepare" class="chat-action hidden">Retry</button>
+      <a id="external-pdf" class="chat-action hidden" target="_blank" rel="noopener">Open PDF</a>
+    </div>
+    <div id="pdf-toolbar" class="pdf-toolbar" aria-label="PDF controls">
+      <div class="pdf-toolbar-group">
+        <button id="pdf-prev" class="pdf-tool-button" type="button" aria-label="Previous page">‹</button>
+        <label class="pdf-page-control" aria-label="Current PDF page">
+          <input id="pdf-page-number" type="number" min="1" value="1" inputmode="numeric"/>
+          <span>/</span>
+          <span id="pdf-page-count">—</span>
+        </label>
+        <button id="pdf-next" class="pdf-tool-button" type="button" aria-label="Next page">›</button>
+      </div>
+      <div class="pdf-toolbar-title" id="pdf-toolbar-title">Paper reader</div>
+      <div class="pdf-toolbar-group">
+        <button id="pdf-zoom-out" class="pdf-tool-button" type="button" aria-label="Zoom out">−</button>
+        <span id="pdf-zoom-value" class="pdf-zoom-value">100%</span>
+        <button id="pdf-zoom-in" class="pdf-tool-button" type="button" aria-label="Zoom in">＋</button>
+        <button id="pdf-fit-width" class="pdf-fit-button" type="button">Fit width</button>
+      </div>
+    </div>
+    <div class="paper-frame-wrap">
+      <div id="pdf-scroll" class="pdf-scroll" tabindex="0" aria-label="PDF document">
+        <div id="pdf-pages" class="pdf-pages"></div>
+      </div>
+      <iframe id="paper-frame" title="Paper PDF fallback"></iframe>
+      <div id="paper-placeholder" class="paper-placeholder"><div><h2 class="font-bold mb-2">Paper viewer</h2><p>Choose a paper to open its PDF and chat history.</p></div></div>
+      <div id="paper-loading" class="paper-loading-overlay hidden" role="status" aria-live="polite">
+        <div class="paper-loading-card">
+          <div class="paper-loading-spinner" aria-hidden="true"></div>
+          <h2 id="paper-loading-title">Loading paper and context</h2>
+          <p id="paper-loading-phase">Starting the paper workspace…</p>
+          <div class="paper-loading-progress-row">
+            <div class="paper-loading-track" aria-hidden="true">
+              <span id="paper-loading-bar"></span>
+            </div>
+            <strong id="paper-loading-percent">0%</strong>
+          </div>
+          <p id="paper-loading-detail" class="paper-loading-detail">Downloading the PDF and preparing grounded chat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <aside id="assistant-pane" class="assistant-pane mobile-hidden" aria-label="Paper assistant">
+    <div class="assistant-toolbar">
+      <div class="assistant-tabs" role="tablist">
+        <button class="assistant-tab active" data-view="assistant" role="tab">Assistant</button>
+        <button class="assistant-tab" data-view="history" role="tab">History</button>
+      </div>
+      <button id="new-chat" class="chat-action">＋ New chat</button>
+    </div>
+
+    <section id="assistant-view" class="assistant-view">
+      <div id="messages" class="messages" aria-live="polite">
+        <div id="chat-empty" class="chat-empty">
+          <div>
+            <div class="text-3xl mb-2">✦</div>
+            <h2>Chat with this paper</h2>
+            <p id="empty-copy">Open a prepared paper and ask a grounded question.</p>
+            <div class="suggestions">
+              <button class="suggestion">Summarize the paper's main argument with page references.</button>
+              <button class="suggestion">What evidence supports the main contribution?</button>
+              <button class="suggestion">Explain the methodology using only the paper.</button>
+              <button class="suggestion">What limitations do the authors explicitly state?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea id="chat-input" rows="1" maxlength="4000" placeholder="Ask anything about this paper…" disabled></textarea>
+          <button id="send-message" class="send-btn" aria-label="Send message" disabled>↑</button>
+        </div>
+        <div id="composer-note" class="composer-note"></div>
+      </div>
+    </section>
+
+    <section id="history-view" class="assistant-view hidden-view">
+      <div id="history-list" class="history-list"></div>
+      <div class="history-footer"><button id="delete-all-chats" class="chat-action history-danger">Delete all chats</button></div>
+    </section>
+  </aside>
+</main>
+
+<footer class="border-t py-8 text-center text-sm mt-8" style="border-color:var(--rs-border);color:var(--rs-muted)">
+  <p class="font-semibold mb-2"> ResearchScope</p>
+  <p>Open-source CS research intelligence &middot; Updated daily via GitHub Actions &middot; Built for researchers and creators</p>
+  <p class="mt-3 font-medium" style="color:var(--rs-text)">Data Sources</p>
+  <p class="mt-1">
+    <a href="https://arxiv.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">arXiv</a> (metadata CC0) &middot;
+    <a href="https://aclanthology.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">ACL Anthology</a> (CC BY 4.0 / CC BY-NC-SA 3.0) &middot;
+    <a href="https://proceedings.mlr.press" target="_blank" class="hover:underline" style="color:var(--rs-primary)">PMLR</a> (CC BY 4.0) &middot;
+    <a href="https://www.semanticscholar.org" target="_blank" class="hover:underline" style="color:var(--rs-primary)">Semantic Scholar</a>
+  </p>
+  <p class="mt-2">
+    <a href="https://github.com/kishormorol/ResearchScope" target="_blank" class="hover:underline" style="color:var(--rs-primary)">GitHub</a>
+    &middot; <a href="https://github.com/kishormorol/ResearchScope/blob/main/ROADMAP.md" class="hover:underline" style="color:var(--rs-primary)">Roadmap</a>
+    &middot; MIT License &copy; 2026 Md Kishor Morol
+  </p>
+</footer>
+
+<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
+<script src="assets/js/chat-paper-core.js?v=20260714-paper-loading"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="assets/js/paper-pdf-viewer.js?v=20260714-paper-loading"></script>
+<script src="assets/js/chat-paper.js?v=20260714-paper-loading"></script>
+</body>
+</html>

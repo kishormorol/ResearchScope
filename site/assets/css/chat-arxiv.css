@@ -1,0 +1,166 @@
+.arxiv-chat-page {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 4.5rem 0 5rem;
+}
+
+.arxiv-chat-hero {
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.arxiv-only-badge {
+  display: inline-flex;
+  padding: 0.3rem 0.75rem;
+  border: 1px solid rgba(79, 70, 229, 0.28);
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.08);
+  color: var(--rs-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arxiv-chat-hero h1 {
+  margin-top: 1.15rem;
+  font-size: clamp(2.3rem, 6vw, 4.35rem);
+  font-weight: 850;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.arxiv-chat-hero > p {
+  max-width: 620px;
+  margin: 1rem auto 0;
+  color: var(--rs-muted);
+  font-size: 1.02rem;
+}
+
+.arxiv-open-form {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 2rem;
+  padding: 0.48rem;
+  border: 1px solid var(--rs-border);
+  border-radius: 1rem;
+  background: var(--rs-surface);
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.1);
+}
+
+.arxiv-input-icon { padding-left: 0.75rem; color: var(--rs-muted); font-size: 1.25rem; }
+.arxiv-open-form input { min-width: 0; padding: 0.7rem 0.2rem; background: transparent; outline: none; color: var(--rs-text); }
+.arxiv-open-form button {
+  min-height: 2.75rem;
+  padding: 0.65rem 1rem;
+  border-radius: 0.7rem;
+  background: var(--rs-primary);
+  color: white;
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+.arxiv-input-error { min-height: 1.25rem; margin-top: 0.55rem !important; color: #dc2626 !important; font-size: 0.8rem !important; }
+.arxiv-example { margin-top: 0.25rem !important; font-size: 0.78rem !important; }
+.arxiv-example button { color: var(--rs-primary); text-decoration: underline; text-underline-offset: 2px; }
+
+.arxiv-search-results {
+  max-width: 820px;
+  margin: 0.55rem auto 0;
+  overflow: hidden;
+  border: 1px solid var(--rs-border);
+  border-radius: 0.85rem;
+  background: var(--rs-surface);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.14);
+  text-align: left;
+}
+
+.arxiv-search-state {
+  padding: 1rem;
+  color: var(--rs-muted);
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.arxiv-search-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--rs-border);
+  transition: background 0.12s;
+}
+
+.arxiv-search-result:last-child { border-bottom: 0; }
+.arxiv-search-result:hover,
+.arxiv-search-result.active { background: rgba(79, 70, 229, 0.09); }
+.arxiv-search-result:focus-visible { outline: 2px solid var(--rs-primary); outline-offset: -2px; }
+.arxiv-search-result h3 { overflow: hidden; font-size: 0.82rem; font-weight: 750; text-overflow: ellipsis; white-space: nowrap; }
+.arxiv-search-result p { overflow: hidden; margin-top: 0.2rem; color: var(--rs-muted); font-size: 0.7rem; text-overflow: ellipsis; white-space: nowrap; }
+.arxiv-search-action { color: var(--rs-primary); font-size: 0.72rem; font-weight: 800; white-space: nowrap; }
+
+.arxiv-how {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin: 4rem 0;
+}
+
+.arxiv-how article {
+  display: flex;
+  gap: 0.8rem;
+  padding: 1.15rem;
+  border: 1px solid var(--rs-border);
+  border-radius: 0.85rem;
+  background: var(--rs-surface);
+}
+
+.arxiv-how article > span {
+  display: grid;
+  flex: 0 0 1.8rem;
+  height: 1.8rem;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(79, 70, 229, 0.12);
+  color: var(--rs-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.arxiv-how h2 { font-size: 0.88rem; font-weight: 750; }
+.arxiv-how p { margin-top: 0.2rem; color: var(--rs-muted); font-size: 0.76rem; line-height: 1.5; }
+.arxiv-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.1rem; }
+.arxiv-section-heading p { color: var(--rs-primary); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.arxiv-section-heading h2 { margin-top: 0.2rem; font-size: 1.45rem; font-weight: 800; }
+.arxiv-section-heading a { color: var(--rs-primary); font-size: 0.82rem; font-weight: 700; }
+
+.arxiv-paper-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
+.arxiv-paper-card { display: flex; min-height: 240px; flex-direction: column; padding: 1.1rem; border: 1px solid var(--rs-border); border-radius: 0.9rem; background: var(--rs-surface); transition: transform 0.16s, border-color 0.16s, box-shadow 0.16s; }
+.arxiv-paper-card:hover { transform: translateY(-2px); border-color: rgba(79, 70, 229, 0.4); box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08); }
+.arxiv-card-kicker { display: flex; align-items: center; justify-content: space-between; color: var(--rs-muted); font-size: 0.7rem; }
+.arxiv-card-kicker span:first-child { color: #b91c1c; font-weight: 800; }
+.arxiv-paper-card h3 { margin-top: 0.8rem; font-size: 0.94rem; font-weight: 750; line-height: 1.38; }
+.arxiv-paper-card h3 a:hover { color: var(--rs-primary); }
+.arxiv-card-authors { margin-top: 0.45rem; color: var(--rs-muted); font-size: 0.75rem; }
+.arxiv-card-summary { display: -webkit-box; overflow: hidden; margin-top: 0.75rem; color: var(--rs-muted); font-size: 0.76rem; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.arxiv-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; margin-top: auto; padding-top: 1rem; }
+.arxiv-score { color: var(--rs-muted); font-size: 0.7rem; }
+.arxiv-chat-button { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.48rem 0.72rem; border-radius: 0.6rem; background: var(--rs-primary); color: white; font-size: 0.75rem; font-weight: 750; }
+.arxiv-loading { grid-column: 1 / -1; padding: 3rem; border: 1px dashed var(--rs-border); border-radius: 0.9rem; color: var(--rs-muted); text-align: center; }
+
+@media (max-width: 900px) { .arxiv-paper-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 700px) {
+  .arxiv-chat-page { padding-top: 2.5rem; }
+  .arxiv-open-form { grid-template-columns: auto minmax(0, 1fr); }
+  .arxiv-open-form button { grid-column: 1 / -1; width: 100%; }
+  .arxiv-search-result { align-items: start; }
+  .arxiv-search-result h3 { white-space: normal; }
+  .arxiv-search-action { font-size: 0; }
+  .arxiv-search-action::after { content: '→'; font-size: 0.9rem; }
+  .arxiv-how, .arxiv-paper-grid { grid-template-columns: 1fr; }
+  .arxiv-how { margin: 2.5rem 0; }
+}

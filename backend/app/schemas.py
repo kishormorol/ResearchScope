@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
-from pydantic import BaseModel, EmailStr
 
+from pydantic import BaseModel, EmailStr
 
 # ── Paper ─────────────────────────────────────────────────────────────────────
 
@@ -39,6 +38,11 @@ class PaperList(BaseModel):
     page: int
     page_size: int
     results: list[PaperOut]
+
+
+class PaperViewerOut(BaseModel):
+    viewer_url: str | None = None
+    external_url: str | None = None
 
 
 # ── Auth ──────────────────────────────────────────────────────────────────────

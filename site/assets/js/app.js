@@ -50,6 +50,11 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function paperWorkspaceUrl(paper) {
+  return paper?.paper_url || paper?.url || paper?.pdf_url || '#';
+}
+window.paperWorkspaceUrl = paperWorkspaceUrl;
+
 function toggleDisclosure(button, targetId) {
   const target = document.getElementById(targetId);
   if (!target) return;
@@ -130,7 +135,7 @@ function citelensBtn(paper) {
 
 // ── Paper card (used in homepage & topics) ─────────────────────────────
 function renderPaperCard(paper, opts = {}) {
-  const url = paper.paper_url || paper.url || '#';
+  const url = paperWorkspaceUrl(paper);
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra   = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
   const typeStr = paper.paper_type ? `<span class="badge badge-type">${escHtml(paper.paper_type)}</span>` : '';
@@ -497,7 +502,8 @@ function tweetPaperUrl(paper) {
 
 function renderPotdCard(paper) {
   if (!paper) return '';
-  const url     = paper.paper_url || paper.url || '#';
+  const url     = paperWorkspaceUrl(paper);
+  const externalUrl = paper.paper_url || paper.url || '#';
   const venue   = [paper.venue, paper.year].filter(Boolean).join(' · ');
   const authors = (paper.authors || []).slice(0, 3).join(', ');
   const extra   = (paper.authors || []).length > 3 ? ` +${paper.authors.length - 3}` : '';
@@ -517,7 +523,7 @@ function renderPotdCard(paper) {
       <span style="font-size:0.65rem;font-weight:400">${new Date().toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}</span>
     </div>
     <div class="potd-title">
-      <a href="${escHtml(url)}" target="_blank" rel="noopener">${escHtml(paper.title)}</a>
+      <a href="${escHtml(url)}">${escHtml(paper.title)}</a>
     </div>
     <div class="potd-meta">
       ${venue ? escHtml(venue) + (authors ? ' · ' : '') : ''}${escHtml(authors)}${escHtml(extra)}
@@ -554,8 +560,9 @@ function buildDropdownNav() {
 
   const page = window.location.pathname.split('/').pop() || './';
 
-  function navLink(href, label) {
-    const cls = 'rs-nav-top-link' + (href === page ? ' active' : '');
+  function navLink(href, label, aliases = []) {
+    const isActive = href === page || aliases.includes(page);
+    const cls = 'rs-nav-top-link' + (isActive ? ' active' : '');
     return `<a href="${href}" class="${cls}">${label}</a>`;
   }
 
@@ -575,6 +582,7 @@ function buildDropdownNav() {
   if (linksDiv) {
     linksDiv.innerHTML =
       navLink('papers.html', 'Papers') +
+      navLink('chat-arxiv', '✦ Chat arXiv', ['chat-paper']) +
       dropdown('Venues', [
         ['conferences.html', 'Conferences'],
         ['journals.html',    'Journals'],
@@ -595,12 +603,13 @@ function buildDropdownNav() {
   }
 
   if (mobLinks) {
-    const ml = (href, lbl) =>
-      `<a href="${href}" class="mobile-nav-link${href === page ? ' active' : ''}">${lbl}</a>`;
+    const ml = (href, lbl, aliases = []) =>
+      `<a href="${href}" class="mobile-nav-link${href === page || aliases.includes(page) ? ' active' : ''}">${lbl}</a>`;
     const sec = t => `<p class="mobile-nav-section">${t}</p>`;
     mobLinks.innerHTML =
       ml('./',  'Home') +
       ml('papers.html', 'Papers') +
+      ml('chat-arxiv', '✦ Chat with arXiv', ['chat-paper']) +
       sec('Venues') +
       ml('conferences.html',           'Conferences') +
       ml('journals.html',              'Journals') +

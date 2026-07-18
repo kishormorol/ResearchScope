@@ -4,7 +4,7 @@
   }
 
   function renderLibraryCard(paper, index, libraryApi) {
-    const url = paper.paper_url || paper.url || '#';
+    const url = paperWorkspaceUrl(paper);
     const authors = (paper.authors || []).slice(0, 3).join(', ');
     const extra = (paper.authors || []).length > 3
       ? ` +${paper.authors.length - 3}`
