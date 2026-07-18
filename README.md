@@ -340,6 +340,11 @@ already supplied by the shell or deployment environment.
 | `OPENAI_CHAT_MODEL` | Railway Env | Optional model override; defaults to `gpt-5.6-terra` |
 | `OPENAI_REASONING_EFFORT` | Railway Env | Optional reasoning level; defaults to `low` for lower cost and latency |
 
+Chat semantic ranking runs inside PostgreSQL. Standard Railway PostgreSQL uses
+the compatible `REAL[]` cosine query; a Railway pgvector database automatically
+adds an HNSW index for the default 256-dimension embeddings without rewriting or
+deleting existing embedding data.
+
 ---
 
 ## Works with CiteLens

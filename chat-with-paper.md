@@ -135,7 +135,11 @@ When `CHAT_EMBEDDINGS_ENABLED=true`, child chunks are embedded in batches throug
 - dimensions: `256`;
 - batch size: `32`.
 
-Vectors are stored as PostgreSQL `REAL[]`, so Railway does not need the `pgvector` extension. PostgreSQL also maintains an English `tsvector` search index for every chunk.
+Vectors remain stored as PostgreSQL `REAL[]` for zero-data-loss compatibility.
+Cosine ranking runs inside PostgreSQL instead of loading every embedding into
+Python. When pgvector is available, startup also creates an HNSW expression index
+for the default 256-dimension embeddings. PostgreSQL maintains an English
+`tsvector` search index for every chunk as well.
 
 ### 5. Persistence and PDF disposal
 
@@ -178,7 +182,7 @@ Global questions use ordered parent chunks from across the prepared paper, up to
 Local retrieval combines:
 
 1. PostgreSQL full-text ranking;
-2. cosine similarity over stored OpenAI embeddings when enabled;
+2. PostgreSQL cosine similarity over stored OpenAI embeddings when enabled;
 3. Reciprocal Rank Fusion;
 4. small section-intent bonuses;
 5. parent expansion for the strongest hits;
@@ -241,7 +245,9 @@ The OpenAI API key is read only by the backend. It must never be placed in front
 The additive schema is defined in:
 
 - `backend/migrations/001_chat_with_paper.sql`;
-- `backend/migrations/002_hybrid_paper_retrieval.sql`.
+- `backend/migrations/002_hybrid_paper_retrieval.sql`;
+- `backend/migrations/003_chat_abuse_controls.sql`;
+- `backend/migrations/004_optional_pgvector_search.sql`.
 
 Tables:
 
@@ -380,9 +386,8 @@ The feature fits the existing Railway boundary and does not require a vector dat
 Deployment requirements:
 
 1. Use the existing PostgreSQL service.
-2. Apply `001_chat_with_paper.sql`, `002_hybrid_paper_retrieval.sql`, and
-   `003_chat_abuse_controls.sql` in order, or allow startup initialization to
-   create the additive schema.
+2. Apply migrations `001` through `004` in order, or allow startup
+   initialization to create the additive schema and optional vector index.
 3. Configure the required backend environment variables.
 4. Confirm `/health` reports `db_live: true`, `chat_enabled: true`, and `chat_provider_configured: true`.
 5. Add the deployed frontend and intended localhost origins to `ALLOWED_ORIGINS`.
@@ -391,7 +396,9 @@ Deployment requirements:
    boundary, so `request.client` contains the originating client IP used by the
    IP limits. Do not trust arbitrary client-supplied forwarded headers.
 
-Because vectors are stored as `REAL[]`, standard Railway PostgreSQL is sufficient.
+Because vectors remain stored as `REAL[]`, standard Railway PostgreSQL is
+sufficient and performs cosine ranking in SQL. Railway's pgvector template is
+optional; when present, startup enables the extension and creates the HNSW index.
 Rate-limit counters and the global circuit breaker are PostgreSQL-backed, so they
 remain correct across multiple app replicas. Stale rate-limit windows are cleaned
 automatically. Set a limit to `0` only when that specific protection should be
@@ -415,7 +422,8 @@ Integration testing must use a disposable PostgreSQL database, not the productio
 
 - The discovery search covers papers indexed by ResearchScope; it is not a complete live arXiv.org search.
 - Text-inaccessible scanned PDFs are not OCRed.
-- Embedding similarity is computed in the application over PostgreSQL arrays, which is acceptable for one-paper retrieval but is not an approximate-nearest-neighbor index.
+- Standard PostgreSQL performs exact embedding ranking in SQL. The optional
+  pgvector HNSW index accelerates the default 256-dimension configuration.
 - Context-preparation percentage is phase-based rather than a backend byte/chunk progress metric.
 - Visual questions may require another temporary PDF download.
 - Conversation sharing, exports, cross-paper chat, and Highlight & Ask are not implemented.

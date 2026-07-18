@@ -74,6 +74,8 @@ from app.services.provider_service import (  # noqa: E402
 from app.services.quota_service import _window_start  # noqa: E402
 from app.services.retrieval_service import (  # noqa: E402
     RetrievedChunk,
+    _embedding_literal,
+    _semantic_search_statement,
     classify_query,
     cosine_similarity,
     reciprocal_rank_fusion,
@@ -313,6 +315,36 @@ def test_adaptive_query_classifier_and_cosine_similarity():
     assert cosine_similarity([1.0, 0.0], [0.0, 1.0]) == pytest.approx(0.0)
     fused = reciprocal_rank_fusion([[1, 2, 3], [2, 3, 4], [2, 5]])
     assert max(fused, key=fused.get) == 2
+
+
+def test_semantic_search_is_limited_and_ranked_inside_postgresql():
+    vector_sql = str(
+        _semantic_search_statement(
+            dimensions=256, pgvector=True, filter_model=True
+        )
+    )
+    assert "embedding::vector(256)" in vector_sql
+    assert "<=> CAST(:query_embedding AS vector(256))" in vector_sql
+    assert "ORDER BY" in vector_sql
+    assert "LIMIT :semantic_limit" in vector_sql
+    assert "embedding_model = :embedding_model" in vector_sql
+
+    array_sql = str(
+        _semantic_search_statement(
+            dimensions=256, pgvector=False, filter_model=False
+        )
+    )
+    assert "unnest(" in array_sql
+    assert "similarity.score DESC" in array_sql
+    assert "LIMIT :semantic_limit" in array_sql
+    assert "embedding_model = :embedding_model" not in array_sql
+
+
+def test_embedding_literals_are_bound_data_not_sql_fragments():
+    assert _embedding_literal([1, 0.5], pgvector=True) == "[1.0,0.5]"
+    assert _embedding_literal([1, 0.5], pgvector=False) == [1.0, 0.5]
+    with pytest.raises(ValueError):
+        _embedding_literal([float("nan")], pgvector=True)
 
 
 def test_pymupdf_extraction_and_visual_rendering_stay_page_aware():

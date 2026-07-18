@@ -8,6 +8,8 @@ from sqlalchemy.orm import DeclarativeBase
 
 log = logging.getLogger(__name__)
 
+_PGVECTOR_INDEX_DIMENSIONS = 256
+
 
 def _database_url() -> str:
     """
@@ -84,6 +86,40 @@ async def get_db():
         yield session
 
 
+async def _enable_pgvector_index(conn) -> bool:
+    """Enable optional HNSW acceleration without requiring pgvector in prod."""
+    from sqlalchemy import text
+
+    available = await conn.scalar(
+        text(
+            """
+            SELECT EXISTS (
+                SELECT 1 FROM pg_available_extensions WHERE name = 'vector'
+            )
+            """
+        )
+    )
+    if not available:
+        log.info("pgvector is unavailable; using PostgreSQL array cosine search.")
+        return False
+
+    await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
+    await conn.execute(
+        text(
+            f"""
+            CREATE INDEX IF NOT EXISTS ix_paper_chunks_embedding_hnsw_256
+            ON paper_chunks USING hnsw (
+                (embedding::vector({_PGVECTOR_INDEX_DIMENSIONS}))
+                vector_cosine_ops
+            )
+            WHERE embedding IS NOT NULL
+              AND array_length(embedding, 1) = {_PGVECTOR_INDEX_DIMENSIONS}
+            """
+        )
+    )
+    return True
+
+
 async def init_db() -> None:
     try:
         from sqlalchemy import text
@@ -126,6 +162,7 @@ async def init_db() -> None:
                 ON paper_chunks (paper_id, content_type)
             """)
             )
+            await _enable_pgvector_index(conn)
             await conn.execute(
                 text("""
                 CREATE OR REPLACE FUNCTION paper_chunks_search_vector_update()

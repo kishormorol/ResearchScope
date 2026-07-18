@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+import json
 import math
 import os
 import re
 from dataclasses import dataclass
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import PaperChunk
@@ -62,6 +63,74 @@ def cosine_similarity(left: list[float], right: list[float]) -> float:
     if not left_norm or not right_norm:
         return -1.0
     return dot / (left_norm * right_norm)
+
+
+def _embedding_literal(
+    values: list[float], *, pgvector: bool
+) -> str | list[float]:
+    normalized = [float(value) for value in values]
+    if not all(math.isfinite(value) for value in normalized):
+        raise ValueError("embedding values must be finite")
+    if pgvector:
+        return json.dumps(normalized, allow_nan=False, separators=(",", ":"))
+    return normalized
+
+
+def _semantic_search_statement(
+    *, dimensions: int, pgvector: bool, filter_model: bool
+):
+    model_filter = "AND pc.embedding_model = :embedding_model" if filter_model else ""
+    if pgvector:
+        vector_type = f"vector({dimensions})" if dimensions == 256 else "vector"
+        distance = (
+            f"(pc.embedding::{vector_type}) <=> "
+            f"CAST(:query_embedding AS {vector_type})"
+        )
+        sql = f"""
+            SELECT pc.*
+            FROM paper_chunks AS pc
+            WHERE pc.paper_id = :paper_id
+              AND pc.content_type != 'parent'
+              AND pc.embedding IS NOT NULL
+              AND array_length(pc.embedding, 1) = :dimensions
+              {model_filter}
+            ORDER BY {distance}, pc.id
+            LIMIT :semantic_limit
+        """
+    else:
+        sql = f"""
+            SELECT pc.*
+            FROM paper_chunks AS pc
+            CROSS JOIN LATERAL (
+                SELECT
+                    SUM(pair.chunk_value * pair.query_value) /
+                    NULLIF(
+                        SQRT(SUM(pair.chunk_value * pair.chunk_value)) *
+                        SQRT(SUM(pair.query_value * pair.query_value)),
+                        0
+                    ) AS score
+                FROM unnest(
+                    pc.embedding,
+                    CAST(:query_embedding AS REAL[])
+                ) AS pair(chunk_value, query_value)
+            ) AS similarity
+            WHERE pc.paper_id = :paper_id
+              AND pc.content_type != 'parent'
+              AND pc.embedding IS NOT NULL
+              AND array_length(pc.embedding, 1) = :dimensions
+              {model_filter}
+            ORDER BY similarity.score DESC NULLS LAST, pc.id
+            LIMIT :semantic_limit
+        """
+    return select(PaperChunk).from_statement(text(sql))
+
+
+async def _pgvector_available(db: AsyncSession) -> bool:
+    return bool(
+        (
+            await db.execute(text("SELECT to_regtype('vector') IS NOT NULL"))
+        ).scalar_one()
+    )
 
 
 def reciprocal_rank_fusion(
@@ -165,24 +234,25 @@ async def retrieve_chunks(
 
     semantic: list[PaperChunk] = []
     if query_embedding:
-        semantic_stmt = select(PaperChunk).where(
-            PaperChunk.paper_id == paper_id,
-            PaperChunk.content_type != "parent",
-            PaperChunk.embedding.is_not(None),
+        use_pgvector = await _pgvector_available(db)
+        semantic_stmt = _semantic_search_statement(
+            dimensions=len(query_embedding),
+            pgvector=use_pgvector,
+            filter_model=bool(query_embedding_model),
         )
+        parameters = {
+            "paper_id": paper_id,
+            "dimensions": len(query_embedding),
+            "query_embedding": _embedding_literal(
+                query_embedding, pgvector=use_pgvector
+            ),
+            "semantic_limit": semantic_limit,
+        }
         if query_embedding_model:
-            semantic_stmt = semantic_stmt.where(
-                PaperChunk.embedding_model == query_embedding_model
-            )
-        embedded = list((await db.execute(semantic_stmt)).scalars().all())
-        embedded = [
-            row for row in embedded if len(row.embedding or []) == len(query_embedding)
-        ]
-        semantic = sorted(
-            embedded,
-            key=lambda row: cosine_similarity(query_embedding, row.embedding or []),
-            reverse=True,
-        )[:semantic_limit]
+            parameters["embedding_model"] = query_embedding_model
+        semantic = list(
+            (await db.execute(semantic_stmt, parameters)).scalars().all()
+        )
 
     rows_by_id: dict[int, PaperChunk] = {}
     for row in lexical + semantic:
