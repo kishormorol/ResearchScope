@@ -259,7 +259,9 @@ class ACLAnthologyConnector(BaseConnector):
         src_type = "journal" if venue_key in _JOURNAL_VENUES else "conference"
 
         paper_url = record.get("url") or f"https://aclanthology.org/{paper_id}"
-        pdf_url   = record.get("pdf", "") or f"{paper_url}.pdf"
+        # The Anthology's landing URL ends in a slash; appending ".pdf" to it
+        # yields "<key>/.pdf", which 404s. The PDF lives at "<key>.pdf".
+        pdf_url   = record.get("pdf", "") or f"{paper_url.rstrip('/')}.pdf"
 
         return Paper(
             id=f"acl:{paper_id}",
@@ -292,7 +294,8 @@ class ACLAnthologyConnector(BaseConnector):
         venue_name, rank = _VENUE_META.get(venue_key, (venue_raw or "ACL Anthology", ""))
 
         paper_url = f"https://aclanthology.org/{acl_id}" if acl_id else ""
-        pdf_url   = item.get("pdf", "") or (f"{paper_url}.pdf" if paper_url else "")
+        pdf_url   = (item.get("pdf", "")
+                     or (f"{paper_url.rstrip('/')}.pdf" if paper_url else ""))
 
         return Paper(
             id=f"acl:{acl_id}" if acl_id else f"acl:{abs(hash(title))}",
