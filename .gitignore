@@ -213,3 +213,9 @@ __marimo__/
 data/*.json
 # Section fine-tuning dataset — lives on the HF Hub, not in git (can be large)
 data/sections.jsonl
+
+# Benchmark corpus snapshots and cached feature matrices (regenerate with
+# scripts/benchmark_snapshot.py / benchmark_featurize.py). The fitted
+# references_*.json are small and ARE tracked — they are the published artifact.
+data/benchmark/*.jsonl
+data/benchmark/*.npz
