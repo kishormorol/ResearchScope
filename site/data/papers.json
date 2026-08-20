@@ -191,9 +191,9 @@
     "tags": [
       "Diffusion",
       "Info Extraction",
-      "Artificial Intelligence",
+      "Machine Learning",
       "Computer Vision",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -241,8 +241,8 @@
     "tags": [
       "Reasoning",
       "Code Generation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -515,8 +515,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -557,8 +557,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Cryptography & Security",
-      "Programming Languages"
+      "Programming Languages",
+      "Cryptography & Security"
     ],
     "paper_type": "theory",
     "difficulty_level": "L1",
@@ -573,10 +573,10 @@
     "summary": "We present the first machine-checked correctness proof of the OpenZeppelin reentrancy-guard pattern against a Lean 4 state-machine model of production-deployed Solidity source. All thirteen theorems are machine-checked with zero sorry, zero user-introduced axioms, and an axiom footprint bounded by [propext] (a standard mathlib4 axiom), gated under continuous integration.",
     "key_contribution": "We present the first machine-checked correctness proof of the OpenZeppelin reentrancy-guard pattern against a Lean 4 state-machine model of production-deployed Solidity source.",
     "why_it_matters": "Tridirectional Discriminating-Power Formal Verification of Smart Contract Reentrancy Defense Against Production-Deployed Solidity Source represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Programming Languages.",
     "one_line_takeaway": "We present the first machine-checked correctness proof of the OpenZeppelin reentrancy-guard pattern against a Lean 4…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Programming Languages.",
     "url": "https://arxiv.org/abs/2606.01794",
     "difficulty": "beginner"
   },
@@ -908,8 +908,8 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -972,9 +972,9 @@
     "tags": [
       "RL",
       "Evaluation",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -1068,8 +1068,8 @@
     "topics": [],
     "tags": [
       "Continual Learning",
-      "Machine Learning",
-      "Neural Networks"
+      "Neural Networks",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -1163,9 +1163,9 @@
     "topics": [],
     "tags": [
       "Transformers",
+      "Transformer Architectures",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Transformer Architectures"
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -1186,6 +1186,53 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Transformers.",
     "url": "http://arxiv.org/abs/2604.11272v1",
     "difficulty": "advanced"
+  },
+  {
+    "id": "arxiv:2602.01115",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "KAN We Flow? Advancing Robotic Manipulation with 3D Flow Matching via KAN & RWKV",
+    "abstract": "Diffusion-based visuomotor policies excel at modeling action distributions but are inference-inefficient, since recursively denoising from noise to policy requires many steps and heavy UNet backbones, which hinders deployment on resource-constrained robots. Flow matching alleviates the sampling burden by learning a one-step vector field, yet prior implementations still inherit large UNet-style architectures. In this work, we present KAN-We-Flow, a flow-matching policy that draws on recent advances in Receptance Weighted Key Value (RWKV) and Kolmogorov-Arnold Networks (KAN) from vision to build a lightweight and highly expressive backbone for 3D manipulation. Concretely, we introduce an RWKV-KAN block: an RWKV first performs efficient time/channel mixing to propagate task context, and a subsequent GroupKAN layer applies learnable spline-based, groupwise functional mappings to perform feature-wise nonlinear calibration of the action mapping on RWKV outputs. Moreover, we introduce an Action Consistency Regularization (ACR), a lightweight auxiliary loss that enforces alignment between predicted action trajectories and expert demonstrations via Euler extrapolation, providing additional supervision to stabilize training and improve policy precision. Without resorting to large UNets, our design reduces parameters by 86.8\\%, maintains fast runtime, and achieves state-of-the-art success rates on Adroit, Meta-World, and DexArt benchmarks. Our project page can be viewed in \\href{https://zhihaochen-2003.github.io/KAN-We-Flow.github.io/}{\\textcolor{red}{link}}",
+    "authors": [
+      "Zhihao Chen",
+      "Yiyuan Ge",
+      "Ziyang Wang",
+      "Youwei Zhang"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2602.01115",
+    "pdf_url": "https://arxiv.org/pdf/2602.01115",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "AI Safety",
+      "Robotics",
+      "Evaluation",
+      "Computer Vision"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.73,
+    "read_first_score": 6.28,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.37,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Diffusion-based visuomotor policies excel at modeling action distributions but are inference-inefficient, since recursively denoising from noise to policy requires many steps and heavy UNet backbones, which hinders deployment on resource-constrained robots. Flow matching alleviates the sampling burden by learning a one-step vector field, yet prior implementations still inherit large UNet-style architectures.",
+    "key_contribution": "In this work, we present KAN-We-Flow, a flow-matching policy that draws on recent advances in Receptance Weighted Key Value (RWKV) and Kolmogorov-Arnold Networks (KAN) from vision to build a lightweight and highly expressive backbone for 3D manipulation.",
+    "why_it_matters": "KAN We Flow? Advancing Robotic Manipulation with 3D Flow Matching via KAN & RWKV advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about AI Safety.",
+    "one_line_takeaway": "In this work, we present KAN-We-Flow, a flow-matching policy that draws on recent advances in Receptance Weighted Key…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in AI Safety.",
+    "url": "https://arxiv.org/abs/2602.01115",
+    "difficulty": "beginner"
   },
   {
     "id": "arxiv:2606.00107",
@@ -1346,8 +1393,8 @@
       "AI Safety",
       "Robotics",
       "Adversarial",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -2166,8 +2213,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -2264,8 +2311,8 @@
       "Prompting",
       "Biomedical AI",
       "Interpretability",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -2311,8 +2358,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Machine Learning",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2357,8 +2404,8 @@
       "AI Agents",
       "RAG",
       "Embeddings",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3008,8 +3055,8 @@
     "tags": [
       "AI Agents",
       "Code Generation",
-      "Artificial Intelligence",
       "Multi-Agent Systems",
+      "Artificial Intelligence",
       "Databases"
     ],
     "paper_type": "systems",
@@ -3415,8 +3462,8 @@
       "Reasoning",
       "AI Agents",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -3760,8 +3807,8 @@
       "AI Agents",
       "Multimodal",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -4003,8 +4050,8 @@
       "RLHF",
       "Adversarial",
       "Interpretability",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -4187,9 +4234,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
       "Artificial Intelligence",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -4655,8 +4702,8 @@
       "Reasoning",
       "AI Agents",
       "Legal AI",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -4703,8 +4750,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5023,8 +5070,8 @@
     "topics": [],
     "tags": [
       "Adversarial",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -5309,10 +5356,10 @@
     "topics": [],
     "tags": [
       "AI Agents",
+      "Machine Learning",
       "Artificial Intelligence",
       "Human-Computer Interaction",
-      "AI Agents & Tool Use",
-      "Machine Learning"
+      "AI Agents & Tool Use"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5408,8 +5455,8 @@
       "Info Extraction",
       "Robotics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -5457,8 +5504,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5500,8 +5547,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Cryptography & Security",
-      "Software Engineering"
+      "Software Engineering",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5979,8 +6026,8 @@
       "LLMs",
       "AI Agents",
       "Info Extraction",
-      "Game Theory",
-      "Machine Learning"
+      "Machine Learning",
+      "Game Theory"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -6027,8 +6074,8 @@
     "tags": [
       "AI Safety",
       "Multi-Agent Systems",
-      "AI Safety & Alignment",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "AI Safety & Alignment"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -6523,8 +6570,8 @@
       "Self-Supervised",
       "Structured Data",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -6612,8 +6659,8 @@
       "LLMs",
       "Fine-Tuning",
       "Adversarial",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -7204,8 +7251,8 @@
       "AI Safety",
       "AI Agents",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -7391,8 +7438,8 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Computer Vision",
       "Machine Learning",
+      "Computer Vision",
       "Artificial Intelligence"
     ],
     "paper_type": "methods",
@@ -7486,8 +7533,8 @@
       "LLMs",
       "RL",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -7641,8 +7688,8 @@
     "tags": [
       "AI Safety",
       "Machine Learning",
-      "Artificial Intelligence",
-      "Human-Computer Interaction"
+      "Human-Computer Interaction",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -8103,8 +8150,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -8193,8 +8240,8 @@
       "LLMs",
       "RAG",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -8301,8 +8348,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Databases",
-      "Information Retrieval"
+      "Information Retrieval",
+      "Databases"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8317,10 +8364,10 @@
     "summary": "In the last few decades, research techniques have improved lossless compression ratios by significantly increasing processing time. However, these techniques have not gained popularity in industry because production systems require high throughput and low resource utilization.",
     "key_contribution": "Application-specific compressor systems outperform even the best generic compressors, but these techniques have severe drawbacks -- they are inherently limited in applicability, are hard to develop, and are difficult to maintain and deploy.",
     "why_it_matters": "OpenZL: Using Graphs to Compress Smaller and Faster improves how systems find and rank relevant information at scale.",
-    "content_hook": "A new paper that could change how we think about Databases.",
+    "content_hook": "A new paper that could change how we think about Information Retrieval.",
     "one_line_takeaway": "Application-specific compressor systems outperform even the best generic compressors, but these techniques have severe…",
     "biggest_caveat": "However, these techniques have not gained popularity in industry because production systems require high throughput and low resource utilization.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Databases.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Information Retrieval.",
     "url": "https://arxiv.org/abs/2605.09928",
     "difficulty": "intermediate"
   },
@@ -8455,8 +8502,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -8865,8 +8912,8 @@
     "topics": [],
     "tags": [
       "RLHF",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -8968,9 +9015,9 @@
     "tags": [
       "RAG",
       "Continual Learning",
-      "NLP",
       "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -10091,8 +10138,8 @@
     "tags": [
       "GNNs",
       "RL",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -10144,8 +10191,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -10281,8 +10328,8 @@
       "LLMs",
       "Reasoning",
       "Dialogue",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -10324,8 +10371,8 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "Game Theory",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Game Theory"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -10428,8 +10475,8 @@
     "tags": [
       "Model Compression",
       "Information Retrieval",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -10674,8 +10721,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -10818,8 +10865,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -11002,9 +11049,9 @@
     "tags": [
       "Fine-Tuning",
       "VLMs",
-      "Distributed Computing",
+      "Machine Learning",
       "Computer Vision",
-      "Machine Learning"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -11343,8 +11390,8 @@
       "Self-Supervised",
       "RL",
       "Interpretability",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -11689,8 +11736,8 @@
     "tags": [
       "RL",
       "Robotics",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -11879,8 +11926,8 @@
       "MoE",
       "Fairness & Ethics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -12249,8 +12296,8 @@
       "Hallucination",
       "Robotics",
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -12567,8 +12614,8 @@
     "tags": [
       "VLMs",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -12627,8 +12674,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12777,8 +12824,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -12822,8 +12869,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -13048,9 +13095,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Machine Learning",
+      "Multi-Agent Systems",
       "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -13775,9 +13822,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Artificial Intelligence",
       "NLP",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -14195,8 +14242,8 @@
     "tags": [
       "LLMs",
       "MoE",
-      "Mixture of Experts",
       "Machine Learning",
+      "Mixture of Experts",
       "Transformer Architectures"
     ],
     "paper_type": "methods",
@@ -14741,8 +14788,8 @@
       "RL",
       "Robotics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -14881,8 +14928,8 @@
       "AI Agents",
       "GNNs",
       "RL",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -15343,8 +15390,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -15433,8 +15480,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Game Theory",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Game Theory"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -15449,10 +15496,10 @@
     "summary": "Distributed constraint optimization problems (DCOPs) provide a popular framework for distributed decision making under limited communication, but many real-world instances are too large to solve monolithically. We address this challenge from two complementary directions.",
     "key_contribution": "We show that these algorithms are competitive with representative incomplete DCOP algorithms.",
     "why_it_matters": "Distributed Constraint Optimization via Online Learning and Iterative Pricing with Application to Large-Scale Satellite Scheduling represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Game Theory.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "We show that these algorithms are competitive with representative incomplete DCOP algorithms.",
     "biggest_caveat": "buted decision making under limited communication, but many real-world instances are too large to solve monolithically.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Game Theory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2607.25835",
     "difficulty": "intermediate"
   },
@@ -15481,8 +15528,8 @@
     "tags": [
       "VLMs",
       "Robotics",
-      "Machine Learning",
-      "Computer Vision"
+      "Computer Vision",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -15622,8 +15669,8 @@
       "Multimodal",
       "Adversarial",
       "Information Retrieval",
-      "Multimedia",
-      "Machine Learning"
+      "Machine Learning",
+      "Multimedia"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15857,9 +15904,9 @@
     "tags": [
       "Continual Learning",
       "RL",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Reinforcement Learning",
-      "Machine Learning"
+      "Reinforcement Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -16103,8 +16150,8 @@
       "Self-Supervised",
       "Robotics",
       "Interpretability",
-      "Self-Supervised & Contrastive Learning",
-      "Interpretability & Explainability"
+      "Interpretability & Explainability",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -16343,8 +16390,8 @@
     "tags": [
       "Reasoning",
       "Transformers",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -16442,9 +16489,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Distributed Computing",
+      "Artificial Intelligence",
       "NLP",
-      "Artificial Intelligence"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -16727,8 +16774,8 @@
       "Reasoning",
       "Hallucination",
       "AI Safety",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -16872,9 +16919,9 @@
     "tags": [
       "Biomedical AI",
       "Interpretability",
-      "Artificial Intelligence",
+      "Machine Learning",
       "Computer Vision",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -17015,8 +17062,8 @@
       "Reasoning",
       "RAG",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -17147,6 +17194,51 @@
     "difficulty": "advanced"
   },
   {
+    "id": "arxiv:2608.17373",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Integrating Novelty and Surprise for Experience Prioritization and Exploration in Image-Based Reinforcement Learning",
+    "abstract": "Sample efficiency is a central challenge in reinforcement learning (RL), particularly in image-based domains where agents must learn from high-dimensional visual inputs. Traditional sampling often relies on random or suboptimal experience selection, leading to redundant updates and slow learning. Improving efficiency requires mechanisms that prioritize informative experiences while also encouraging effective exploration. Prioritized Experience Replay (PER) addresses part of this challenge by reusing high-value transitions, while intrinsic rewards promote the exploration of novel or uncertain states. However, their integration has not been extensively studied. This paper introduces Novelty and Surprise Prioritized Experience Replay (NSPER), which uses novelty to capture underrepresented states and surprise to expose gaps in the agent's understanding of the environment. We further extend this with NSPER+R, integrating these signals as intrinsic rewards to jointly improve replay quality and exploration. Experiments on DeepMind Control Suite tasks show that NSPER and NSPER+R improve training efficiency and convergence speed compared to existing methods in image-based RL.",
+    "authors": [
+      "Hoda Yamani",
+      "Henry Williams",
+      "Bruce A. MacDonald"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.17373",
+    "pdf_url": "https://arxiv.org/pdf/2608.17373",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "RL",
+      "Machine Learning",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Advanced topic (RL) requiring graduate-level background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.2,
+    "read_first_score": 4.71,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.6,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Sample efficiency is a central challenge in reinforcement learning (RL), particularly in image-based domains where agents must learn from high-dimensional visual inputs. Traditional sampling often relies on random or suboptimal experience selection, leading to redundant updates and slow learning.",
+    "key_contribution": "Prioritized Experience Replay (PER) addresses part of this challenge by reusing high-value transitions, while intrinsic rewards promote the exploration of novel or uncertain states.",
+    "why_it_matters": "Integrating Novelty and Surprise for Experience Prioritization and Exploration in Image-Based Reinforcement Learning represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about RL.",
+    "one_line_takeaway": "Prioritized Experience Replay (PER) addresses part of this challenge by reusing high-value transitions, while intrinsic…",
+    "biggest_caveat": "However, their integration has not been extensively studied.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in RL.",
+    "url": "https://arxiv.org/abs/2608.17373",
+    "difficulty": "advanced"
+  },
+  {
     "id": "arxiv:2605.01928",
     "source": "arxiv",
     "source_type": "preprint",
@@ -17212,8 +17304,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Human-Computer Interaction",
-      "Computer Graphics"
+      "Computer Graphics",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17228,10 +17320,10 @@
     "summary": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel natural, avatars need to respond to users without forcing them through a controller-based interface first. This paper describes a gesture-driven interaction layer built for a browser-based metaverse onboarding environment, where users explore a set of virtual rooms as an avatar and interact with embedded video, document, and quiz content using hand, arm, and head gestures instead of a keyboard or controller.",
     "key_contribution": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel natural, avatars need to respond to users without forcing them through a controller-based interface first.",
     "why_it_matters": "A Browser-Based Gesture-Driven Avatar Interaction Framework for Metaverse Onboarding Environments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Human-Computer Interaction.",
+    "content_hook": "A new paper that could change how we think about Computer Graphics.",
     "one_line_takeaway": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Human-Computer Interaction.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
     "url": "https://arxiv.org/abs/2608.11708",
     "difficulty": "intermediate"
   },
@@ -17257,8 +17349,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Vision",
       "Machine Learning",
+      "Computer Vision",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -17274,10 +17366,10 @@
     "summary": "Rapid urbanization in Dhaka District, Bangladesh has triggered substantial alterations in land use and environmental conditions, necessitating systematic monitoring for informed urban planning and ecological sustainability. This study employs remote sensing data and machine learning techniques to analyze spatiotemporal changes in land cover and vegetation dynamics between 2019 and 2024.",
     "key_contribution": "Rapid urbanization in Dhaka District, Bangladesh has triggered substantial alterations in land use and environmental conditions, necessitating systematic monitoring for informed urban planning and ecological sustainability.",
     "why_it_matters": "Remote Sensing and Machine Learning-Based Analysis of Land Use and Vegetation Change in Dhaka District, Bangladesh advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Vision.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "Rapid urbanization in Dhaka District, Bangladesh has triggered substantial alterations in land use and environmental…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2608.12001",
     "difficulty": "intermediate"
   },
@@ -17305,8 +17397,8 @@
     "tags": [
       "Info Extraction",
       "Knowledge Graphs",
-      "Artificial Intelligence",
-      "Human-Computer Interaction"
+      "Human-Computer Interaction",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17750,9 +17842,9 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Software Engineering",
+      "Large Language Models",
       "AI Agents & Tool Use",
-      "Large Language Models"
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17766,7 +17858,7 @@
     "evidence_strength": 0.0,
     "summary": "The rapid adoption of AI coding agents and AI assistant web services is fundamentally changing how developers discover, consume, and interact with technical documentation. This paper studies that transformation across three interconnected dimensions: documentation accessibility, content analytics, and feedback systems.",
     "key_contribution": "We present an empirical study of HTTP request fingerprints from nine AI coding agents (Aider, Antigravity, Claude Code, Cline, Cursor, Junie, OpenCode, VS Code, and Windsurf) and six AI assistant services (ChatGPT, Claude, Google Gemini, Google NotebookLM, MistralAI, and Perplexity) accessing a live developer documentation endpoint, revealing identifiable behavioral signatures in HTTP runtime environments, pre-fetch strategies, User-Agent strings, and header patterns.",
-    "why_it_matters": "Developer Experience with AI Coding Agents: HTTP Behavioral Signatures in Documentation Portals moves AI from passive text generators to active problem-solvers that use tools and reason over time.",
+    "why_it_matters": "Developer Experience with AI Coding Agents: HTTP Behavioral Signatures in Documentation Portals advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "We present an empirical study of HTTP request fingerprints from nine AI coding agents (Aider, Antigravity, Claude Code,…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -17838,9 +17930,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
+      "Artificial Intelligence",
       "Game Theory",
-      "Artificial Intelligence"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17855,10 +17947,10 @@
     "summary": "Stock recommendation systems face the dual challenge of adapting to rapidly changing market conditions while maintaining low-latency predictions for end users. Traditional batch-trained models fail to capture concept drift, and monolithic architectures struggle to provide fault tolerance under load.",
     "key_contribution": "Results demonstrate that the system serves stock recommendations in 23 seconds per request and processes up to 500 portfolio addition requests per second per follower.",
     "why_it_matters": "A scalable online machine learning approach for Stock Recommendation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "Results demonstrate that the system serves stock recommendations in 23 seconds per request and processes up to 500…",
     "biggest_caveat": "buted microservices architecture using Kubernetes, Docker, and RabbitMQ.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2607.23120",
     "difficulty": "intermediate"
   },
@@ -18632,8 +18724,8 @@
       "Reasoning",
       "GNNs",
       "Robotics",
-      "Multi-Agent Systems",
-      "Machine Learning"
+      "Machine Learning",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -18914,8 +19006,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -18965,8 +19057,8 @@
       "LLMs",
       "RLHF",
       "AI Agents",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -19102,8 +19194,8 @@
       "AI Agents",
       "Continual Learning",
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -19190,8 +19282,8 @@
       "Dialogue",
       "Code Generation",
       "Artificial Intelligence",
-      "Software Engineering",
-      "Human-Computer Interaction"
+      "Human-Computer Interaction",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -19234,8 +19326,8 @@
     "tags": [
       "LLMs",
       "Hallucination",
-      "Distributed Computing",
       "Artificial Intelligence",
+      "Distributed Computing",
       "Software Engineering"
     ],
     "paper_type": "systems",
@@ -19420,9 +19512,9 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "NLP",
       "Artificial Intelligence",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -19695,8 +19787,8 @@
     "tags": [
       "RL",
       "Robotics",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -19841,8 +19933,8 @@
       "Self-Supervised",
       "RL",
       "Robotics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -20127,8 +20219,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "NLP",
       "Artificial Intelligence",
+      "NLP",
       "Software Engineering"
     ],
     "paper_type": "systems",
@@ -20398,8 +20490,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20492,8 +20584,8 @@
     "tags": [
       "LLMs",
       "MoE",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -20584,8 +20676,8 @@
       "LLMs",
       "Fine-Tuning",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -20632,8 +20724,8 @@
       "Prompting",
       "Transformers",
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -20676,8 +20768,8 @@
     "tags": [
       "LLMs",
       "Dialogue",
-      "NLP",
       "Information Retrieval",
+      "NLP",
       "Cryptography & Security"
     ],
     "paper_type": "systems",
@@ -20725,8 +20817,8 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20861,8 +20953,8 @@
       "Dialogue",
       "Biomedical AI",
       "Human-Computer Interaction",
-      "Dialogue Systems",
-      "Biomedical & Clinical AI"
+      "Biomedical & Clinical AI",
+      "Dialogue Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -21179,8 +21271,8 @@
       "AI Safety",
       "Model Compression",
       "Robotics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -21389,8 +21481,8 @@
     "tags": [
       "AI Safety",
       "Artificial Intelligence",
-      "Machine Learning",
-      "AI Safety & Alignment"
+      "AI Safety & Alignment",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -21440,8 +21532,8 @@
       "Multimodal",
       "RL",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -22149,9 +22241,9 @@
     "tags": [
       "LLMs",
       "Adversarial",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -22492,8 +22584,8 @@
     "tags": [
       "Object Detection",
       "RL",
-      "Machine Learning",
-      "Neural Networks"
+      "Neural Networks",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -22938,8 +23030,8 @@
       "LLMs",
       "RL",
       "Artificial Intelligence",
-      "Reinforcement Learning",
-      "Transformer Architectures"
+      "Transformer Architectures",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -22953,7 +23045,7 @@
     "evidence_strength": 0.0,
     "summary": "Recent advances in multi-agent reinforcement learning (MARL) have demonstrated success in numerous challenging domains and environments, but typically require specialized models for each task. In this work, we propose a coherent methodology that makes it possible for a single GPT-based model to learn and perform well across diverse MARL environments and tasks, including StarCraft Multi-Agent Challenge, Google Research Football and POGEMA.",
     "key_contribution": "In this work, we propose a coherent methodology that makes it possible for a single GPT-based model to learn and perform well across diverse MARL environments and tasks, including StarCraft Multi-Agent Challenge, Google Research Football and POGEMA.",
-    "why_it_matters": "MARL-GPT: Foundation Model for Multi-Agent Reinforcement Learning contributes to reinforcement learning — a key paradigm for training agents that make sequential decisions.",
+    "why_it_matters": "MARL-GPT: Foundation Model for Multi-Agent Reinforcement Learning extends Transformer capabilities — the architecture underpinning virtually every modern NLP and vision model.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "In this work, we propose a coherent methodology that makes it possible for a single GPT-based model to learn and…",
     "biggest_caveat": "but typically require specialized models for each task.",
@@ -23030,8 +23122,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Artificial Intelligence",
-      "Neural Networks"
+      "Neural Networks",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -23121,8 +23213,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -23167,8 +23259,8 @@
       "LLMs",
       "AI Safety",
       "AI Agents",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -23258,8 +23350,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Distributed Computing",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Distributed Computing"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -23396,8 +23488,8 @@
       "Transformers",
       "Self-Supervised",
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -23441,9 +23533,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
       "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -23674,8 +23766,8 @@
     "tags": [
       "Robotics",
       "Adversarial",
-      "Systems & Control",
-      "Software Engineering"
+      "Software Engineering",
+      "Systems & Control"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -23764,8 +23856,8 @@
     "tags": [
       "AI Agents",
       "Robotics",
-      "Artificial Intelligence",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -23912,8 +24004,8 @@
       "AI Safety",
       "GNNs",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -24102,8 +24194,8 @@
       "AI Safety",
       "VLMs",
       "Adversarial",
-      "Adversarial Robustness",
-      "Vision-Language Models"
+      "Vision-Language Models",
+      "Adversarial Robustness"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -24333,8 +24425,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
-      "Software Engineering"
+      "Software Engineering",
+      "Cryptography & Security"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -24480,8 +24572,8 @@
       "Multimodal",
       "Robotics",
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -24768,8 +24860,8 @@
     "tags": [
       "Info Extraction",
       "Interpretability",
-      "Interpretability & Explainability",
       "Machine Learning",
+      "Interpretability & Explainability",
       "Information Extraction"
     ],
     "paper_type": "methods",
@@ -24868,8 +24960,8 @@
     "topics": [],
     "tags": [
       "Object Detection",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -24889,6 +24981,59 @@
     "biggest_caveat": "cannot properly defocus near-depth occlusions.",
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Object Detection.",
     "url": "https://arxiv.org/abs/2601.19403",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2608.17177",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Grounding AI Agents in Contracts: An Empirical Evaluation of Spec-Driven Test Generation",
+    "abstract": "LLM-based agents are increasingly used for coding tasks, where they have outperformed many classical approaches and scaled to repository-level tasks, such as test generation. However, when directly prompted to generate tests, these agents can fail to reason about the code and its underlying contracts, thereby missing edge cases and behavioral boundaries that affect test quality. To address this limitation, we propose Spec-Driven Test Generation, where we instruct an agent to first reason about -- and explicitly document -- code pre-conditions, post-conditions, and undefined behaviors. This intermediate semi-formal specification acts as a cognitive scaffold to guide subsequent test generation. Our evaluation on production bugs from Google shows that the spec-driven agent can deliver a 9.8 percentage points ($p = 0.0352$) improvement in bug detection rate and a 2.5 percentage point ($p = 0.0034$) improvement in branch coverage, compared to a traditional test generation agent baseline. Using LLM-as-a-Judge, we further show that test suites generated by the spec-driven agent are superior to the baseline and human-authored tests in 77.8% and 56.7% of the cases, respectively, and demonstrated improvements on following best practices, readability, and edge-case coverage.",
+    "authors": [
+      "Michele Tufano",
+      "James McClure",
+      "José Cambronero",
+      "Runxiang Cheng",
+      "Sherry Y. Shi",
+      "Renyao Wei",
+      "Dorothy Chen",
+      "Franjo Ivančić",
+      "Livio Dalloro",
+      "Pat Rondon"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-17",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.17177",
+    "pdf_url": "https://arxiv.org/pdf/2608.17177",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Hallucination",
+      "AI Agents",
+      "Software Engineering"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.12,
+    "read_first_score": 4.45,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.56,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "LLM-based agents are increasingly used for coding tasks, where they have outperformed many classical approaches and scaled to repository-level tasks, such as test generation. However, when directly prompted to generate tests, these agents can fail to reason about the code and its underlying contracts, thereby missing edge cases and behavioral boundaries that affect test quality.",
+    "key_contribution": "To address this limitation, we propose Spec-Driven Test Generation, where we instruct an agent to first reason about -- and explicitly document -- code pre-conditions, post-conditions, and undefined behaviors.",
+    "why_it_matters": "Grounding AI Agents in Contracts: An Empirical Evaluation of Spec-Driven Test Generation represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "To address this limitation, we propose Spec-Driven Test Generation, where we instruct an agent to first reason about --…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2608.17177",
     "difficulty": "intermediate"
   },
   {
@@ -24956,8 +25101,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -25102,8 +25247,8 @@
       "VLMs",
       "Text-to-Image",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -25549,8 +25694,8 @@
       "Prompting",
       "AI Safety",
       "Self-Supervised",
-      "Human-Computer Interaction",
-      "Machine Learning"
+      "Machine Learning",
+      "Human-Computer Interaction"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -25659,8 +25804,8 @@
       "Reasoning",
       "Interpretability",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -25709,8 +25854,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -25806,8 +25951,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25822,10 +25967,10 @@
     "summary": "As artificial intelligence engineering paradigms shift from single-agent Prompt and Context Engineering toward multi-agent \\textbf{Coordination Engineering}, the ability to codify and systematically improve how multiple agents collaborate has emerged as a critical bottleneck. While single-agent skills can now be distributed as portable assets, multi-agent coordination protocols remain locked within framework-internal code or static configurations, preventing them from being shared across systems or autonomously improved over time.",
     "key_contribution": "We propose \\textbf{Swarm Skills}, a portable specification that extends the Anthropic Skills standard with multi-agent semantics.",
     "why_it_matters": "Swarm Skills: A Portable, Self-Evolving Multi-Agent System Specification for Coordination Engineering represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about NLP.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "We propose \\textbf{Swarm Skills}, a portable specification that extends the Anthropic Skills standard with multi-agent…",
     "biggest_caveat": "butable assets that consist of roles, workflows, execution bounds, and a built-in semantic structure for self-evolution.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in NLP.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2605.10052",
     "difficulty": "intermediate"
   },
@@ -26516,8 +26661,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Machine Learning",
-      "Software Engineering"
+      "Software Engineering",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -27831,10 +27976,10 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Artificial Intelligence",
+      "Machine Learning",
       "Computer Vision",
-      "Multimedia",
-      "Machine Learning"
+      "Artificial Intelligence",
+      "Multimedia"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -27878,10 +28023,10 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Large Language Models",
       "NLP",
-      "Natural Language Generation",
       "Cryptography & Security",
-      "Large Language Models"
+      "Natural Language Generation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -27976,8 +28121,8 @@
       "Reasoning",
       "RL",
       "Fairness & Ethics",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -28307,8 +28452,8 @@
     "tags": [
       "AI Agents",
       "Code Generation",
-      "Artificial Intelligence",
       "Code Generation & Synthesis",
+      "Artificial Intelligence",
       "AI Agents & Tool Use"
     ],
     "paper_type": "methods",
@@ -28356,8 +28501,8 @@
       "Prompting",
       "Fine-Tuning",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -29075,8 +29220,8 @@
       "AI Agents",
       "Code Generation",
       "Evaluation",
-      "NLP",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -29680,8 +29825,8 @@
     "tags": [
       "Federated Learning",
       "Biomedical AI",
-      "Artificial Intelligence",
       "Machine Learning",
+      "Artificial Intelligence",
       "Cryptography & Security"
     ],
     "paper_type": "dataset",
@@ -29728,8 +29873,8 @@
       "LLMs",
       "AI Safety",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -30238,8 +30383,8 @@
       "Info Extraction",
       "RL",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -30477,8 +30622,8 @@
       "Self-Supervised",
       "Adversarial",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -30521,9 +30666,9 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "NLP",
       "Information Retrieval",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30711,9 +30856,9 @@
     "topics": [],
     "tags": [
       "Reasoning",
-      "NLP",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30957,8 +31102,8 @@
       "LLMs",
       "Multimodal",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -31322,8 +31467,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -31609,8 +31754,8 @@
       "Prompting",
       "Fine-Tuning",
       "VLMs",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -31706,8 +31851,8 @@
       "AI Safety",
       "Transformers",
       "RL",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -31912,8 +32057,8 @@
     "tags": [
       "Multimodal",
       "Biomedical AI",
-      "Multimodal Learning",
       "Machine Learning",
+      "Multimodal Learning",
       "Biomedical & Clinical AI"
     ],
     "paper_type": "systems",
@@ -32963,10 +33108,10 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
       "Human-Computer Interaction",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -33063,8 +33208,8 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -33106,9 +33251,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Vision",
+      "Neural Networks",
       "Artificial Intelligence",
-      "Neural Networks"
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -33123,10 +33268,10 @@
     "summary": "Spiking neural networks (SNNs) hold promise for demonstrating superior learning and representation capabilities in deep models. Given the tremendous success of ResNet in deep learning, it would naturally follow to train deep SNNs with residual learning.",
     "key_contribution": "However, existing residual structures for constructing deep SNNs still present challenges of spike redundancy or information loss, as well as redundant learning.",
     "why_it_matters": "XOResNet: Exclusive-OR Meta-Residuals Facilitate Deep Spiking Neural Networks Learning advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Vision.",
+    "content_hook": "A new paper that could change how we think about Neural Networks.",
     "one_line_takeaway": "However, existing residual structures for constructing deep SNNs still present challenges of spike redundancy or…",
     "biggest_caveat": "limitations of residual learning in SNNs, providing new architectural insights for building high-performance neuromorphic systems.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Computer Vision.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Neural Networks.",
     "url": "https://arxiv.org/abs/2605.30362",
     "difficulty": "advanced"
   },
@@ -33306,8 +33451,8 @@
       "LLMs",
       "RLHF",
       "AI Agents",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -33486,8 +33631,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -33502,10 +33647,10 @@
     "summary": "Confidential high-performance computing orchestrates workloads across federated domains, yet existing frameworks rely on high-overhead user-space library operating systems or assume single-host execution. We propose \\codename, an architecture federating Trusted Execution Environments via a split Trusted Computing Base (TCB) design.",
     "key_contribution": "We propose \\codename, an architecture federating Trusted Execution Environments via a split Trusted Computing Base (TCB) design.",
     "why_it_matters": "Enforcing Attestable Workflows across Untrusted Networks represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
     "one_line_takeaway": "We propose \\codename, an architecture federating Trusted Execution Environments via a split Trusted Computing Base…",
     "biggest_caveat": "buted pipelines, \\codename\\ incurs just a $6.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
     "url": "https://arxiv.org/abs/2605.09297",
     "difficulty": "intermediate"
   },
@@ -33533,8 +33678,8 @@
     "tags": [
       "LLMs",
       "RAG",
-      "Artificial Intelligence",
-      "Information Retrieval"
+      "Information Retrieval",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -33555,6 +33700,149 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2608.16394",
     "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2510.16371",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Cataract-LMM Large-Scale Multi-Source Multi-Task Benchmark for Deep Learning in Surgical Video Analysis",
+    "abstract": "The development of computer-assisted surgery systems relies on large-scale, annotated datasets. Existing cataract surgery resources lack the diversity and annotation depth required to train generalizable deep-learning models. To address this gap, we present a dataset of 3,000 phacoemulsification cataract surgery videos acquired at two surgical centers from surgeons with varying expertise. The dataset provides four annotation layers: temporal surgical phases, instance segmentation of instruments and anatomical structures, instrument-tissue interaction tracking, and quantitative skill scores based on competency rubrics adapted from ICO-OSCAR and GRASIS. We demonstrate the technical utility of the dataset through benchmarking deep learning models across four tasks: workflow recognition, scene segmentation, instrument-tissue interaction tracking, and automated skill assessment. Furthermore, we establish a domain-adaptation baseline for phase recognition and instance segmentation by training on one surgical center and evaluating on a held-out center. Ultimately, these multi-source acquisitions, multi-layer annotations, and paired skill-kinematic labels facilitate the development of generalizable multi-task models for surgical workflow analysis, scene understanding, and competency-based training research. The dataset and annotations are available in Google Form (https://docs.google.com/forms/d/e/1FAIpQLSfmyMAPSTGrIy2sTnz0-TMw08ZagTimRulbAQcWdaPwDy187A/viewform?usp=dialog).",
+    "authors": [
+      "Mohammad Javad Ahmadi",
+      "Iman Gandomi",
+      "Parisa Abdi",
+      "Seyed-Farzad Mohammadi",
+      "Amirhossein Taslimi",
+      "Mehdi Khodaparast",
+      "Hassan Hashemi",
+      "Mahdi Tavakoli",
+      "Hamid D. Taghirad"
+    ],
+    "year": 2026,
+    "published_date": "2026-04-25",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2510.16371",
+    "pdf_url": "https://arxiv.org/pdf/2510.16371",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Object Detection",
+      "Evaluation",
+      "Machine Learning",
+      "Computer Vision",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "benchmark",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Uses multi-task — requires solid ML/DL background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.0,
+    "read_first_score": 4.96,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.25,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "The development of computer-assisted surgery systems relies on large-scale, annotated datasets. Existing cataract surgery resources lack the diversity and annotation depth required to train generalizable deep-learning models.",
+    "key_contribution": "To address this gap, we present a dataset of 3,000 phacoemulsification cataract surgery videos acquired at two surgical centers from surgeons with varying expertise.",
+    "why_it_matters": "Cataract-LMM Large-Scale Multi-Source Multi-Task Benchmark for Deep Learning in Surgical Video Analysis advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about Object Detection.",
+    "one_line_takeaway": "To address this gap, we present a dataset of 3,000 phacoemulsification cataract surgery videos acquired at two surgical…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Object Detection.",
+    "url": "https://arxiv.org/abs/2510.16371",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "arxiv:2608.17108",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "A Multiplication-Free Feature Extractor for Signal Classification: Keyword Spotting Case Study",
+    "abstract": "A very low complexity feature extractor called next iRDT is proposed and evaluated for the problem of keyword spotting (KWS). Unlike any other types of feature extractors including the widely used MFCC, or adaptive, CNN-based ones, our algorithm is multiplier-free and it employs only simple, energy-efficient arithmetic operators. Since keyword-spotting of speech commands (KWS) is a typical application for TinyML platforms requiring low complexity for the signal classification chain, we consider it as a case study to evaluate complexity and functional performance. If properly tuned, iRDT demonstrates similar accuracy to solutions based on MFCC or CNN-based extractors using baseline classifiers on Google's KWS 12-classes dataset. With a different classifier the system achieved 94.7% validation accuracy. Processing times on CPU for the proposed feature extractor, are at least one order of magnitude smaller than for the MFCC. The proposed algorithm has a very low hardware footprint, making it ideal for ultra-low power edge devices. Code and demo are available [18].",
+    "authors": [
+      "Radu Dogaru",
+      "Ioana Dogaru"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-17",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.17108",
+    "pdf_url": "https://arxiv.org/pdf/2608.17108",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Human-Computer Interaction"
+    ],
+    "paper_type": "dataset",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.0,
+    "read_first_score": 4.64,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.25,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "A very low complexity feature extractor called next iRDT is proposed and evaluated for the problem of keyword spotting (KWS). Unlike any other types of feature extractors including the widely used MFCC, or adaptive, CNN-based ones, our algorithm is multiplier-free and it employs only simple, energy-efficient arithmetic operators.",
+    "key_contribution": "A very low complexity feature extractor called next iRDT is proposed and evaluated for the problem of keyword spotting (KWS).",
+    "why_it_matters": "A Multiplication-Free Feature Extractor for Signal Classification: Keyword Spotting Case Study represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Human-Computer Interaction.",
+    "one_line_takeaway": "A very low complexity feature extractor called next iRDT is proposed and evaluated for the problem of keyword spotting…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Human-Computer Interaction.",
+    "url": "https://arxiv.org/abs/2608.17108",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2608.17168",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Can LLMs Reason in a Legally Meaningful Manner? A Small-scale Study on European Court of Human Rights Cases",
+    "abstract": "Reasoning has become a standard technique and feature for contemporary LLMs; however, its application and quality in the context of demanding legal-oriented tasks, such as legal case forecasting, remain under explored. We investigate how LLMs reason in the context of legal case forecasting, using legal cases from the European Court of Human Rights (ECtHR) as a testbed. We evaluate OpenAI GPT 5.4, a recent top-tier LLM, by exploring alternative prompting strategies that are more or less suggestive of what counts as legally meaningful reasoning in the context of ECtHR jurisprudence. We present our findings derived from assessing the model's responses with both human and LLM evaluation. We find that the examined model scores far from ideal in legal reasoning, the model produces structurally complete but substantively shallow analyses, and that LLM-as-a-Judge evaluators are internally consistent yet align only weakly with our trained annotators, i.e., reliable but not a valid substitute for human evaluation. Overall, the expert-curated prompt leads to more comprehensive reasoning, which does not result in more accurate predictions compared to the other examined settings. Based on our findings, we urge the community not to rely solely on automated LLM-based evaluation and to avoid using task accuracy as an appropriate proxy for reasoning quality.",
+    "authors": [
+      "Amogh Raina",
+      "Ilias Chalkidis",
+      "Daniel Hershcovich",
+      "Henrik Palmer Olsen"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-17",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.17168",
+    "pdf_url": "https://arxiv.org/pdf/2608.17168",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Reasoning",
+      "Info Extraction",
+      "Legal AI",
+      "Evaluation"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.0,
+    "read_first_score": 5.65,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.5,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Reasoning has become a standard technique and feature for contemporary LLMs; however, its application and quality in the context of demanding legal-oriented tasks, such as legal case forecasting, remain under explored. We investigate how LLMs reason in the context of legal case forecasting, using legal cases from the European Court of Human Rights (ECtHR) as a testbed.",
+    "key_contribution": "We present our findings derived from assessing the model's responses with both human and LLM evaluation.",
+    "why_it_matters": "Can LLMs Reason in a Legally Meaningful Manner? A Small-scale Study on European Court of Human Rights Cases represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "We present our findings derived from assessing the model's responses with both human and LLM evaluation.",
+    "biggest_caveat": "however, its application and quality in the context of demanding legal-oriented tasks, such as legal case forecasting, remain under explored.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2608.17168",
+    "difficulty": "beginner"
   },
   {
     "id": "arxiv:2608.13033",
@@ -33714,8 +34002,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Machine Learning",
-      "Neural Networks"
+      "Neural Networks",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -33759,8 +34047,8 @@
       "Hallucination",
       "AI Safety",
       "VLMs",
-      "Human-Computer Interaction",
-      "Computer Vision"
+      "Computer Vision",
+      "Human-Computer Interaction"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -34828,9 +35116,9 @@
     "tags": [
       "Code Generation",
       "Evaluation",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Software Engineering",
-      "Machine Learning"
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -34965,8 +35253,8 @@
       "LLMs",
       "Robotics",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35393,9 +35681,9 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Artificial Intelligence",
+      "Machine Learning",
       "Multi-Agent Systems",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35572,8 +35860,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Vision",
-      "Computer Graphics"
+      "Computer Graphics",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -35588,10 +35876,10 @@
     "summary": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive. We study how to select a small set of BRDF measurements that is most informative for reconstructing material appearance under a learned BRDF prior.",
     "key_contribution": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive.",
     "why_it_matters": "Rendering-Aware Sparse Sampling for BRDF Acquisition advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Vision.",
+    "content_hook": "A new paper that could change how we think about Computer Graphics.",
     "one_line_takeaway": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and…",
     "biggest_caveat": "but dense gonioreflectometer measurements are slow and expensive.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
     "url": "https://arxiv.org/abs/2604.26740",
     "difficulty": "intermediate"
   },
@@ -35619,8 +35907,8 @@
     "tags": [
       "Evaluation",
       "Information Retrieval",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35759,8 +36047,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35856,8 +36144,8 @@
       "Multimodal",
       "Robotics",
       "Evaluation",
-      "Human-Computer Interaction",
-      "Computer Vision"
+      "Computer Vision",
+      "Human-Computer Interaction"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -35903,8 +36191,8 @@
       "Object Detection",
       "ASR",
       "Interpretability",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -36427,8 +36715,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Cryptography & Security",
-      "Software Engineering"
+      "Software Engineering",
+      "Cryptography & Security"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -36523,9 +36811,9 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "Artificial Intelligence",
+      "Machine Learning",
       "Computer Vision",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -36679,8 +36967,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -36918,8 +37206,8 @@
       "Reasoning",
       "RLHF",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -37338,8 +37626,8 @@
       "Evaluation",
       "Artificial Intelligence",
       "Benchmarking & Evaluation",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -37384,8 +37672,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "NLP",
-      "Neural Networks"
+      "Neural Networks",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -37652,8 +37940,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Machine Learning",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Machine Learning"
     ],
     "paper_type": "empirical",
     "difficulty_level": "L2",
@@ -37789,9 +38077,9 @@
     "tags": [
       "Reasoning",
       "AI Safety",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -37883,8 +38171,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -38644,59 +38932,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2510.16371",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Cataract-LMM Large-Scale Multi-Source Multi-Task Benchmark for Deep Learning in Surgical Video Analysis",
-    "abstract": "The development of computer-assisted surgery systems relies on large-scale, annotated datasets. Existing cataract surgery resources lack the diversity and annotation depth required to train generalizable deep-learning models. To address this gap, we present a dataset of 3,000 phacoemulsification cataract surgery videos acquired at two surgical centers from surgeons with varying expertise. The dataset provides four annotation layers: temporal surgical phases, instance segmentation of instruments and anatomical structures, instrument-tissue interaction tracking, and quantitative skill scores based on competency rubrics adapted from ICO-OSCAR and GRASIS. We demonstrate the technical utility of the dataset through benchmarking deep learning models across four tasks: workflow recognition, scene segmentation, instrument-tissue interaction tracking, and automated skill assessment. Furthermore, we establish a domain-adaptation baseline for phase recognition and instance segmentation by training on one surgical center and evaluating on a held-out center. Ultimately, these multi-source acquisitions, multi-layer annotations, and paired skill-kinematic labels facilitate the development of generalizable multi-task models for surgical workflow analysis, scene understanding, and competency-based training research. The dataset and annotations are available in Google Form (https://docs.google.com/forms/d/e/1FAIpQLSfmyMAPSTGrIy2sTnz0-TMw08ZagTimRulbAQcWdaPwDy187A/viewform?usp=dialog).",
-    "authors": [
-      "Mohammad Javad Ahmadi",
-      "Iman Gandomi",
-      "Parisa Abdi",
-      "Seyed-Farzad Mohammadi",
-      "Amirhossein Taslimi",
-      "Mehdi Khodaparast",
-      "Hassan Hashemi",
-      "Mahdi Tavakoli",
-      "Hamid D. Taghirad"
-    ],
-    "year": 2026,
-    "published_date": "2026-04-25",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2510.16371",
-    "pdf_url": "https://arxiv.org/pdf/2510.16371",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Object Detection",
-      "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision",
-      "Machine Learning"
-    ],
-    "paper_type": "benchmark",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Uses multi-task — requires solid ML/DL background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 4.96,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.25,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "The development of computer-assisted surgery systems relies on large-scale, annotated datasets. Existing cataract surgery resources lack the diversity and annotation depth required to train generalizable deep-learning models.",
-    "key_contribution": "To address this gap, we present a dataset of 3,000 phacoemulsification cataract surgery videos acquired at two surgical centers from surgeons with varying expertise.",
-    "why_it_matters": "Cataract-LMM Large-Scale Multi-Source Multi-Task Benchmark for Deep Learning in Surgical Video Analysis advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Object Detection.",
-    "one_line_takeaway": "To address this gap, we present a dataset of 3,000 phacoemulsification cataract surgery videos acquired at two surgical…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Object Detection.",
-    "url": "https://arxiv.org/abs/2510.16371",
-    "difficulty": "advanced"
-  },
-  {
     "id": "arxiv:2604.27891",
     "source": "arxiv",
     "source_type": "preprint",
@@ -38722,8 +38957,8 @@
       "LLMs",
       "AI Agents",
       "Dialogue",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38767,8 +39002,8 @@
       "Fairness & Ethics",
       "Interpretability",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -38859,8 +39094,8 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Distributed Computing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -38953,8 +39188,8 @@
       "Reasoning",
       "Interpretability",
       "Artificial Intelligence",
-      "Interpretability & Explainability",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Interpretability & Explainability"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39098,8 +39333,8 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Game Theory",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Game Theory"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39196,9 +39431,9 @@
     "tags": [
       "Transformers",
       "Evaluation",
-      "Artificial Intelligence",
       "Computer Vision",
-      "Systems & Control"
+      "Systems & Control",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -39245,8 +39480,8 @@
       "LLMs",
       "Fine-Tuning",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -39436,8 +39671,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -39484,9 +39719,9 @@
     "tags": [
       "LLMs",
       "RAG",
+      "Retrieval-Augmented Generation",
       "Artificial Intelligence",
-      "Software Engineering",
-      "Retrieval-Augmented Generation"
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39756,8 +39991,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Data Structures & Algorithms"
+      "Data Structures & Algorithms",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39803,9 +40038,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Databases",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Databases"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39820,10 +40055,10 @@
     "summary": "Unsupervised outlier detection is attractive because it eliminates the need for labeled data. Moreover, forming multi-model ensembles can improve detection robustness.",
     "key_contribution": "We propose MetaEns, an automatic unsupervised framework for selecting ensembles of outlier detection models.",
     "why_it_matters": "Automatic Unsupervised Ensemble Outlier Model Selection--Extended Version represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Databases.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose MetaEns, an automatic unsupervised framework for selecting ensembles of outlier detection models.",
     "biggest_caveat": "However, composing an ensemble without labeled data is challenging.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Databases.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2605.16567",
     "difficulty": "intermediate"
   },
@@ -39851,8 +40086,8 @@
     "topics": [],
     "tags": [
       "GNNs",
-      "NLP",
       "GNN",
+      "NLP",
       "Graph Neural Networks"
     ],
     "paper_type": "methods",
@@ -39902,8 +40137,8 @@
       "LLMs",
       "Reasoning",
       "Interpretability",
-      "Interpretability & Explainability",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Interpretability & Explainability"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -40696,8 +40931,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -41001,8 +41236,8 @@
     "tags": [
       "Multimodal",
       "Evaluation",
-      "Multimedia",
-      "Machine Learning"
+      "Machine Learning",
+      "Multimedia"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -41103,8 +41338,8 @@
       "LLMs",
       "AI Safety",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "AI Safety & Alignment"
+      "AI Safety & Alignment",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -41388,8 +41623,8 @@
       "Prompting",
       "Code Generation",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -41578,8 +41813,8 @@
       "3D Vision",
       "Self-Supervised",
       "Evaluation",
-      "Self-Supervised & Contrastive Learning",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -41726,8 +41961,8 @@
       "AI Safety",
       "GNNs",
       "Information Retrieval",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -41824,8 +42059,8 @@
       "Fine-Tuning",
       "Self-Supervised",
       "Interpretability",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -42101,8 +42336,8 @@
       "Multimodal",
       "Model Compression",
       "Computer Vision",
-      "Model Compression & Efficiency",
-      "Multimodal Learning"
+      "Multimodal Learning",
+      "Model Compression & Efficiency"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42149,8 +42384,8 @@
       "LLMs",
       "Fairness & Ethics",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -42171,6 +42406,52 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2407.15073",
     "difficulty": "beginner"
+  },
+  {
+    "id": "arxiv:2601.06458",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "PixRec: Leveraging Visual Context for Next-Item Prediction in Sequential Recommendation",
+    "abstract": "Large Language Models (LLMs) have recently shown strong potential for usage in sequential recommendation tasks through text-only models, which combine advanced prompt design, contrastive alignment, and fine-tuning on downstream domain-specific data. While effective, these approaches overlook the rich visual information present in many real-world recommendation scenarios, particularly in e-commerce. This paper proposes PixRec - a vision-language framework that incorporates both textual attributes and product images into the recommendation pipeline. Our architecture leverages a vision-language model backbone capable of jointly processing image-text sequences, maintaining a dual-tower structure and mixed training objective while aligning multi-modal feature projections for both item-item and user-item interactions. Using the Amazon Reviews dataset augmented with product images, our experiments demonstrate $3\\times$ and 40% improvements in top-rank and top-10 rank accuracy over text-only recommenders respectively, indicating that visual features can help distinguish items with similar textual descriptions. Our work outlines future directions for scaling multi-modal recommenders training, enhancing visual-text feature fusion, and evaluating inference-time performance. This work takes a step toward building software systems utilizing visual information in sequential recommendation for real-world applications like e-commerce.",
+    "authors": [
+      "Sayak Chakrabarty",
+      "Souradip Pal"
+    ],
+    "year": 2026,
+    "published_date": "2026-01-10",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2601.06458",
+    "pdf_url": "https://arxiv.org/pdf/2601.06458",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Fine-Tuning",
+      "AI Safety",
+      "VLMs",
+      "Information Retrieval"
+    ],
+    "paper_type": "dataset",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.94,
+    "read_first_score": 4.31,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.22,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Large Language Models (LLMs) have recently shown strong potential for usage in sequential recommendation tasks through text-only models, which combine advanced prompt design, contrastive alignment, and fine-tuning on downstream domain-specific data. While effective, these approaches overlook the rich visual information present in many real-world recommendation scenarios, particularly in e-commerce.",
+    "key_contribution": "While effective, these approaches overlook the rich visual information present in many real-world recommendation scenarios, particularly in e-commerce.",
+    "why_it_matters": "PixRec: Leveraging Visual Context for Next-Item Prediction in Sequential Recommendation improves how systems find and rank relevant information at scale.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "While effective, these approaches overlook the rich visual information present in many real-world recommendation…",
+    "biggest_caveat": "butes and product images into the recommendation pipeline.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2601.06458",
+    "difficulty": "advanced"
   },
   {
     "id": "arxiv:2608.14078",
@@ -42489,8 +42770,8 @@
       "LLMs",
       "RLHF",
       "AI Agents",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -42725,8 +43006,8 @@
     "tags": [
       "Continual Learning",
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -43014,8 +43295,8 @@
       "LLMs",
       "RLHF",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -43060,8 +43341,8 @@
     "topics": [],
     "tags": [
       "Machine Learning",
-      "Game Theory",
-      "Data Structures & Algorithms"
+      "Data Structures & Algorithms",
+      "Game Theory"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -43452,8 +43733,8 @@
     "tags": [
       "Transformers",
       "Adversarial",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -43593,8 +43874,8 @@
       "Info Extraction",
       "RL",
       "Robotics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -43842,8 +44123,8 @@
       "RLHF",
       "Robotics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -44168,8 +44449,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Neural Networks"
+      "Neural Networks",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -44184,10 +44465,10 @@
     "summary": "Characterising optimisation problem instances is a fundamental part of understanding the behaviour and performance of different algorithms as well as providing information for algorithm selection and configuration. In this paper we propose a novel approach to problem characterisation based on the representation of instances when implemented as a program.",
     "key_contribution": "In this paper we propose a novel approach to problem characterisation based on the representation of instances when implemented as a program.",
     "why_it_matters": "A New Approach to Characterising Optimisation Problems Using Programmatic Representation and Complexity Measures represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Neural Networks.",
     "one_line_takeaway": "In this paper we propose a novel approach to problem characterisation based on the representation of instances when…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Neural Networks.",
     "url": "https://arxiv.org/abs/2608.08898",
     "difficulty": "intermediate"
   },
@@ -44304,8 +44585,8 @@
       "LLMs",
       "Fine-Tuning",
       "Multimodal",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -44355,8 +44636,8 @@
       "Reasoning",
       "RL",
       "Code Generation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -44402,8 +44683,8 @@
       "Object Detection",
       "Self-Supervised",
       "Interpretability",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -44797,8 +45078,8 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Computer Graphics",
-      "Computer Vision"
+      "Computer Vision",
+      "Computer Graphics"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -44985,8 +45266,8 @@
       "Transformers",
       "RL",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -45085,8 +45366,8 @@
       "Prompting",
       "Self-Supervised",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -45332,8 +45613,8 @@
       "Continual Learning",
       "Fairness & Ethics",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -45510,52 +45791,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2608.13973",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Rethinking Auxiliary Modalities in Multimodal Zero-shot Anomaly Detection: From Semantic Fusion to Conditional Modulation",
-    "abstract": "Recent foundation model-based methods have endowed RGB images with strong zero-shot anomaly detection (ZSAD) through vision-language pretraining. However, RGB observations alone remain limited in perceiving anomalies dominated by geometric deformation, depth variation, or subtle surface changes. Auxiliary modalities can provide complementary structural information, but existing multimodal methods typically fuse them directly into a shared semantic space, which may disturb the text-aligned anomaly semantics established by RGB foundation models and often requires modality-specific architectures. To address this issue, we propose a plug-and-play auxiliary-conditioned enhancement framework for zero-shot anomaly detection. Instead of reconstructing a joint multimodal anomaly semantic space, our framework preserves the original RGB image-text anomaly matching pathway and uses auxiliary observations as conditional signals for RGB feature refinement, allowing auxiliary modalities to seamlessly enhance existing RGB-based zero-shot anomaly detectors. Specifically, a lightweight meta-learning module takes global RGB and auxiliary representations as input and generates sample-adaptive low-rank residual updates to determine how RGB features should be refined. We further construct uncertainty-aware spatial modulation from the initial RGB anomaly response and auxiliary reliability, which determines where local residual updates are strengthened or suppressed. This global-to-local conditional modulation enables selective multimodal enhancement while preserving the original RGB anomaly semantics. Extensive experiments on MVTec 3D-AD and Eyecandies demonstrate that our framework consistently improves multiple popular RGB-based zero-shot anomaly detectors, achieving state-of-the-art performance for multimodal zero-shot anomaly detection.",
-    "authors": [
-      "Peng Wu",
-      "Xin Ge",
-      "Yujia Sun",
-      "Guansong Pang"
-    ],
-    "year": 2026,
-    "published_date": "2026-08-14",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2608.13973",
-    "pdf_url": "https://arxiv.org/pdf/2608.13973",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "VLMs",
-      "Self-Supervised",
-      "Computer Vision"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Uses pretraining — requires solid ML/DL background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 4.04,
-    "content_potential_score": 0.42,
-    "interestingness_score": 1.66,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Recent foundation model-based methods have endowed RGB images with strong zero-shot anomaly detection (ZSAD) through vision-language pretraining. However, RGB observations alone remain limited in perceiving anomalies dominated by geometric deformation, depth variation, or subtle surface changes.",
-    "key_contribution": "To address this issue, we propose a plug-and-play auxiliary-conditioned enhancement framework for zero-shot anomaly detection.",
-    "why_it_matters": "Rethinking Auxiliary Modalities in Multimodal Zero-shot Anomaly Detection: From Semantic Fusion to Conditional Modulation advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about VLMs.",
-    "one_line_takeaway": "To address this issue, we propose a plug-and-play auxiliary-conditioned enhancement framework for zero-shot anomaly…",
-    "biggest_caveat": "However, RGB observations alone remain limited in perceiving anomalies dominated by geometric deformation, depth variation, or subtle surface changes.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in VLMs.",
-    "url": "https://arxiv.org/abs/2608.13973",
-    "difficulty": "advanced"
-  },
-  {
     "id": "arxiv:2608.14580",
     "source": "arxiv",
     "source_type": "preprint",
@@ -45609,6 +45844,139 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in AI Agents.",
     "url": "https://arxiv.org/abs/2608.14580",
     "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2608.16919",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "CARA: Cognitive Adaptive Recommendation Agent",
+    "abstract": "Recent advances in large language models and agent-based recommendation frameworks have introduced new opportunities for more flexible and context-aware recommendation. However, existing methods still largely rely on semantic matching, end-to-end generation, or loosely structured agent workflows, without explicitly modeling how user preferences are processed and translated into final decisions. To address this limitation, we propose CARA, a cognitively inspired recommendation framework that formulates recommendation as a structured decision-making process. The core intuition of CARA is that user decisions are jointly shaped by two complementary mechanisms: intuitive affective preference and deliberate rational evaluation. Accordingly, CARA organizes recommendation into two coordinated stages: candidate filtering, which narrows the search space based on coarse-grained preference constraints, and dual-perspective decision modeling, which captures recommendation decisions through affective and rational judgment. We further introduce a boundary-aware KTO strategy that prioritizes instructions the model can solve occasionally but not consistently, thereby increasing the density of informative preference signals. Extensive experiments on three Amazon Reviews domains show that CARA achieves the best performance on most evaluation metrics, with relative improvements of up to 10.15% over the baseline.",
+    "authors": [
+      "Weijun Gao",
+      "Jinyang Dong",
+      "Chuanru Ren",
+      "Hengxiao Li"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-02",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.16919",
+    "pdf_url": "https://arxiv.org/pdf/2608.16919",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Information Retrieval",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.42,
+    "content_potential_score": 0.42,
+    "interestingness_score": 1.66,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Recent advances in large language models and agent-based recommendation frameworks have introduced new opportunities for more flexible and context-aware recommendation. However, existing methods still largely rely on semantic matching, end-to-end generation, or loosely structured agent workflows, without explicitly modeling how user preferences are processed and translated into final decisions.",
+    "key_contribution": "To address this limitation, we propose CARA, a cognitively inspired recommendation framework that formulates recommendation as a structured decision-making process.",
+    "why_it_matters": "CARA: Cognitive Adaptive Recommendation Agent improves how systems find and rank relevant information at scale.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "To address this limitation, we propose CARA, a cognitively inspired recommendation framework that formulates…",
+    "biggest_caveat": "limitation, we propose CARA, a cognitively inspired recommendation framework that formulates recommendation as a structured decision-making process.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2608.16919",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2608.17213",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Pessimistic Meta-Induction and Its Limits: Lessons from Frequentist Statistics and Machine Learning Theory",
+    "abstract": "This paper challenges the pessimistic meta-inductive argument against scientific realism by undermining its inductive step rather than its historical premise. Although related challenges already exist, I develop a new one. Drawing on a general epistemology of scientific inference developed in frequentist statistics, machine learning, and formal epistemology, I evaluate induction in terms of convergence to the truth. I argue that ordinary enumerative induction can achieve everywhere convergence, whereas meta-induction fails even to achieve almost everywhere convergence. Indeed, in the problem context where meta-induction arises, the failure is deeper: no inference method whatsoever achieves almost everywhere convergence.",
+    "authors": [
+      "Hanti Lin"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-17",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.17213",
+    "pdf_url": "https://arxiv.org/pdf/2608.17213",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Machine Learning"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.88,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "This paper challenges the pessimistic meta-inductive argument against scientific realism by undermining its inductive step rather than its historical premise. Although related challenges already exist, I develop a new one.",
+    "key_contribution": "I argue that ordinary enumerative induction can achieve everywhere convergence, whereas meta-induction fails even to achieve almost everywhere convergence.",
+    "why_it_matters": "Pessimistic Meta-Induction and Its Limits: Lessons from Frequentist Statistics and Machine Learning Theory represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
+    "one_line_takeaway": "I argue that ordinary enumerative induction can achieve everywhere convergence, whereas meta-induction fails even to…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
+    "url": "https://arxiv.org/abs/2608.17213",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2608.13973",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Rethinking Auxiliary Modalities in Multimodal Zero-shot Anomaly Detection: From Semantic Fusion to Conditional Modulation",
+    "abstract": "Recent foundation model-based methods have endowed RGB images with strong zero-shot anomaly detection (ZSAD) through vision-language pretraining. However, RGB observations alone remain limited in perceiving anomalies dominated by geometric deformation, depth variation, or subtle surface changes. Auxiliary modalities can provide complementary structural information, but existing multimodal methods typically fuse them directly into a shared semantic space, which may disturb the text-aligned anomaly semantics established by RGB foundation models and often requires modality-specific architectures. To address this issue, we propose a plug-and-play auxiliary-conditioned enhancement framework for zero-shot anomaly detection. Instead of reconstructing a joint multimodal anomaly semantic space, our framework preserves the original RGB image-text anomaly matching pathway and uses auxiliary observations as conditional signals for RGB feature refinement, allowing auxiliary modalities to seamlessly enhance existing RGB-based zero-shot anomaly detectors. Specifically, a lightweight meta-learning module takes global RGB and auxiliary representations as input and generates sample-adaptive low-rank residual updates to determine how RGB features should be refined. We further construct uncertainty-aware spatial modulation from the initial RGB anomaly response and auxiliary reliability, which determines where local residual updates are strengthened or suppressed. This global-to-local conditional modulation enables selective multimodal enhancement while preserving the original RGB anomaly semantics. Extensive experiments on MVTec 3D-AD and Eyecandies demonstrate that our framework consistently improves multiple popular RGB-based zero-shot anomaly detectors, achieving state-of-the-art performance for multimodal zero-shot anomaly detection.",
+    "authors": [
+      "Peng Wu",
+      "Xin Ge",
+      "Yujia Sun",
+      "Guansong Pang"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-14",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.13973",
+    "pdf_url": "https://arxiv.org/pdf/2608.13973",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "VLMs",
+      "Self-Supervised",
+      "Computer Vision"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Uses pretraining — requires solid ML/DL background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.04,
+    "content_potential_score": 0.42,
+    "interestingness_score": 1.66,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Recent foundation model-based methods have endowed RGB images with strong zero-shot anomaly detection (ZSAD) through vision-language pretraining. However, RGB observations alone remain limited in perceiving anomalies dominated by geometric deformation, depth variation, or subtle surface changes.",
+    "key_contribution": "To address this issue, we propose a plug-and-play auxiliary-conditioned enhancement framework for zero-shot anomaly detection.",
+    "why_it_matters": "Rethinking Auxiliary Modalities in Multimodal Zero-shot Anomaly Detection: From Semantic Fusion to Conditional Modulation advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about VLMs.",
+    "one_line_takeaway": "To address this issue, we propose a plug-and-play auxiliary-conditioned enhancement framework for zero-shot anomaly…",
+    "biggest_caveat": "However, RGB observations alone remain limited in perceiving anomalies dominated by geometric deformation, depth variation, or subtle surface changes.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in VLMs.",
+    "url": "https://arxiv.org/abs/2608.13973",
+    "difficulty": "advanced"
   },
   {
     "id": "arxiv:2608.14673",
@@ -46370,8 +46738,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Machine Learning",
-      "Data Structures & Algorithms"
+      "Data Structures & Algorithms",
+      "Machine Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -46416,8 +46784,8 @@
       "LLMs",
       "Hallucination",
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -46555,8 +46923,8 @@
     "tags": [
       "LLMs",
       "Prompting",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -46863,8 +47231,8 @@
     "tags": [
       "VLMs",
       "Info Extraction",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -46951,8 +47319,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Machine Learning",
-      "Neural Networks"
+      "Neural Networks",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -46967,10 +47335,10 @@
     "summary": "Cardiovascular diseases are the leading cause of death worldwide, and conditions such as arrhythmia often require long-term monitoring for effective detection and diagnosis. However, current wearable monitoring devices are bulky, uncomfortable, and typically rely on clinicians to manually evaluate electrocardiograms (ECGs).",
     "key_contribution": "These results demonstrate that our proposed approximations significantly extend wearable device battery life while preserving the required arrhythmia classification performance.",
     "why_it_matters": "Toward Energy-Efficient and Low-Power Arrhythmia Detection for Wearable Devices represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Machine Learning.",
+    "content_hook": "A new paper that could change how we think about Neural Networks.",
     "one_line_takeaway": "These results demonstrate that our proposed approximations significantly extend wearable device battery life while…",
     "biggest_caveat": "However, current wearable monitoring devices are bulky, uncomfortable, and typically rely on clinicians to manually evaluate electrocardiograms (ECGs).",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Neural Networks.",
     "url": "https://arxiv.org/abs/2607.14747",
     "difficulty": "intermediate"
   },
@@ -48065,8 +48433,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -48081,10 +48449,10 @@
     "summary": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy -- will continue to grow. The Sun is by far the largest energy source in our solar system, and thus it warrants consideration how future AI infrastructure could most efficiently tap into that power.",
     "key_contribution": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy -- will continue to grow.",
     "why_it_matters": "Towards a future space-based, highly scalable AI infrastructure system design represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "If AI is a foundational general-purpose technology, we should anticipate that demand for AI compute -- and energy --…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2511.19468",
     "difficulty": "intermediate"
   },
@@ -48132,358 +48500,6 @@
     "biggest_caveat": "buted agent networks.",
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2606.19135",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2210.09899",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "First Order Logic on Pathwidth Revisited Again",
-    "abstract": "Courcelle's celebrated theorem states that all MSO-expressible properties can be decided in linear time on graphs of bounded treewidth. Unfortunately, the hidden constant implied by this theorem is a tower of exponentials whose height increases with each quantifier alternation in the formula. More devastatingly, this cannot be improved, under standard assumptions, even if we consider the much more restricted problem of deciding FO-expressible properties on trees.   In this paper we revisit this well-studied topic and identify a natural special case where the dependence of Courcelle's theorem can, in fact, be improved. Specifically, we show that all FO-expressible properties can be decided with an elementary dependence on the input formula, if the input graph has bounded pathwidth (rather than treewidth). This is a rare example of treewidth and pathwidth having different complexity behaviors. Our result is also in sharp contrast with MSO logic on graphs of bounded pathwidth, where it is known that the dependence has to be non-elementary, under standard assumptions. Our work builds upon, and generalizes, a corresponding meta-theorem by Gajarsk{ý} and Hlin{ě}n{ý} for the more restricted class of graphs of bounded tree-depth.",
-    "authors": [
-      "Michael Lampis"
-    ],
-    "year": 2026,
-    "published_date": "2026-04-30",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2210.09899",
-    "pdf_url": "https://arxiv.org/pdf/2210.09899",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Data Structures & Algorithms"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses theorem and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 5.02,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.45,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Courcelle's celebrated theorem states that all MSO-expressible properties can be decided in linear time on graphs of bounded treewidth. Unfortunately, the hidden constant implied by this theorem is a tower of exponentials whose height increases with each quantifier alternation in the formula.",
-    "key_contribution": "Specifically, we show that all FO-expressible properties can be decided with an elementary dependence on the input formula, if the input graph has bounded pathwidth (rather than treewidth).",
-    "why_it_matters": "First Order Logic on Pathwidth Revisited Again represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Data Structures & Algorithms.",
-    "one_line_takeaway": "Specifically, we show that all FO-expressible properties can be decided with an elementary dependence on the input…",
-    "biggest_caveat": "cannot be improved, under standard assumptions, even if we consider the much more restricted problem of deciding FO-expressible properties on trees.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Data Structures & Algorithms.",
-    "url": "https://arxiv.org/abs/2210.09899",
-    "difficulty": "frontier"
-  },
-  {
-    "id": "arxiv:2606.15033",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Cloze: An Open Research Platform for Studying Human-AI Conversations in Mental Health Contexts",
-    "abstract": "Cloze is an open-source web platform for conducting controlled, monitored studies of human-AI conversation in mental health research contexts. Consumer large language model (LLM) products such as ChatGPT, Claude, and Gemini are built for individual productivity, and offer researchers little experimental control, inconsistent data export, and no shared safety scaffolding that holds across providers. Cloze gives research teams a single environment in which they configure which models participants converse with, how the AI is instructed, how conversations are scheduled over time, and which safety constraints apply unconditionally, while every message is captured with full provenance (model version, prompt configuration, timing). The platform currently supports OpenAI, Anthropic, Google, and locally hosted open-weight models served through Ollama behind a unified interface, and runs in the cloud or fully on premises so that participant data need never leave an institution. Cloze is research infrastructure for building an evidence base on human-AI interaction in mental health contexts. It is not a therapeutic product.",
-    "authors": [
-      "Matthew Flathers",
-      "Francesco Cipriani",
-      "John Torous"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-13",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.15033",
-    "pdf_url": "https://arxiv.org/pdf/2606.15033",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Dialogue",
-      "NLP",
-      "Human-Computer Interaction"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 3.64,
-    "content_potential_score": 1.0,
-    "interestingness_score": 1.95,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Cloze is an open-source web platform for conducting controlled, monitored studies of human-AI conversation in mental health research contexts. Consumer large language model (LLM) products such as ChatGPT, Claude, and Gemini are built for individual productivity, and offer researchers little experimental control, inconsistent data export, and no shared safety scaffolding that holds across providers.",
-    "key_contribution": "Cloze is an open-source web platform for conducting controlled, monitored studies of human-AI conversation in mental health research contexts.",
-    "why_it_matters": "Cloze: An Open Research Platform for Studying Human-AI Conversations in Mental Health Contexts represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Cloze is an open-source web platform for conducting controlled, monitored studies of human-AI conversation in mental…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2606.15033",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2606.15202",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Comparing Human Gaze and Vision-Language Model Attention in Safety-Relevant Environments",
-    "abstract": "Human visual attention plays an important role in how people perceive and respond to environments containing potential risks. This study investigates whether large vision-language models can identify the same regions of a scene that attract human attention in safety-relevant environments. Eye-tracking data were collected from ten participants viewing 33 scene images representing environments with varying levels of potential risk using Pupil Invisible wearable glasses. Gaze coordinates were mapped onto stimulus images to generate population-averaged human gaze heatmaps. In parallel, GPT-4o was prompted through the OpenAI Vision Application Programming Interface (API) to generate spatial predictions of visual attention, which were converted into saliency maps for comparison with human gaze patterns.   Spatial alignment between human gaze heatmaps and model-generated saliency maps was evaluated using four complementary metrics: Pearson correlation (r = 0.515 +- 0.117), Normalised Scanpath Saliency (NSS = 0.988 +- 0.323), Kullback-Leibler divergence (KL = 1.766 +- 0.844), and Area Under the Receiver Operating Characteristic Curve using the Judd formulation (AUC-Judd = 0.806 +- 0.076). A cross-model comparison with Gemini Pro, Gemini Flash, and Claude showed that all models exceeded the AUC-Judd chance baseline of 0.5 and achieved positive NSS scores. Gemini Pro demonstrated the strongest spatial localisation according to three of the four metrics, whereas GPT-4o produced the closest distributional match to human attention as measured by KL divergence.   These findings suggest that large vision-language models can identify regions that broadly correspond to where humans direct visual attention in safety-relevant scenes without requiring eye-tracking training data. The results highlight the potential of vision-language models as a scalable tool for approximating human attentional patterns.",
-    "authors": [
-      "Marta Vallejo",
-      "Siwen Wang"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-13",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.15202",
-    "pdf_url": "https://arxiv.org/pdf/2606.15202",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "AI Safety",
-      "VLMs",
-      "Interpretability",
-      "Computer Vision"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 4.45,
-    "content_potential_score": 1.0,
-    "interestingness_score": 1.95,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Human visual attention plays an important role in how people perceive and respond to environments containing potential risks. This study investigates whether large vision-language models can identify the same regions of a scene that attract human attention in safety-relevant environments.",
-    "key_contribution": "Human visual attention plays an important role in how people perceive and respond to environments containing potential risks.",
-    "why_it_matters": "Comparing Human Gaze and Vision-Language Model Attention in Safety-Relevant Environments advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Human visual attention plays an important role in how people perceive and respond to environments containing potential…",
-    "biggest_caveat": "butional match to human attention as measured by KL divergence.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2606.15202",
-    "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2606.15870",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Google's Training Supercomputers from TPU v2 to Ironwood: Architectural Stability, Scale, Resilience, Power Efficiency, and Sustainability Across Five Generations",
-    "abstract": "This paper (to appear in the July/August 2026 issue of IEEE Micro magazine) summarizes five generations of Google s TPUs, from TPU v2 to Ironwood, highlighting their evolution as scalable, resilient, power-efficient, sustainable supercomputers for AI training. It details the TPU s stable architecture, which has surprisingly easily accommodated the rapidly changing deep neural network workloads, such as the rise of Transformers. Key advancements over eight years include 10x increase in HBM capacity and bandwidth per node, a 100x increase in peak node performance, and a 3600x increase in supercomputer performance. The paper also discusses the role of optical circuit switches, built-in self test, and hardware replay in enhancing resilience and how TPU's environmental impact is reduced with substantial improvements in performance per Watt and in carbon emissions per floating point operation. It concludes by identifying six features that may well characterize successful training accelerators of this decade.",
-    "authors": [
-      "Norman P. Jouppi",
-      "Sridhar Lakshmanamurthy",
-      "Cliff Young",
-      "David Patterson"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-14",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.15870",
-    "pdf_url": "https://arxiv.org/pdf/2606.15870",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Transformers"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 3.57,
-    "content_potential_score": 1.72,
-    "interestingness_score": 2.31,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "This paper (to appear in the July/August 2026 issue of IEEE Micro magazine) summarizes five generations of Google s TPUs, from TPU v2 to Ironwood, highlighting their evolution as scalable, resilient, power-efficient, sustainable supercomputers for AI training. It details the TPU s stable architecture, which has surprisingly easily accommodated the rapidly changing deep neural network workloads, such as the rise of Transformers.",
-    "key_contribution": "This paper (to appear in the July/August 2026 issue of IEEE Micro magazine) summarizes five generations of Google s TPUs, from TPU v2 to Ironwood, highlighting their evolution as scalable, resilient, power-efficient, sustainable supercomputers for AI training.",
-    "why_it_matters": "Google's Training Supercomputers from TPU v2 to Ironwood: Architectural Stability, Scale, Resilience, Power Efficiency, and Sustainability Across Five Generations represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Transformers.",
-    "one_line_takeaway": "This paper (to appear in the July/August 2026 issue of IEEE Micro magazine) summarizes five generations of Google s…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Transformers.",
-    "url": "https://arxiv.org/abs/2606.15870",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2606.16651",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Mapping the Design Space for Youth Social Media: A Framework Centered on Friendship Building",
-    "abstract": "This dissertation develops a design framework for friendship-supportive youth social media. I conducted a qualitative meta-analysis across my formative, case-study, and co-design work with teens and young adults, synthesizing recurring design themes into three pillars: social understanding (legible norms, intentions, trust, reciprocity, and accountability), placeness (spatial and embodied affordances that make online interaction feel inhabitable), and identity alignment (authentic expression that remains current, plural, and interpretable). The framework is grounded in interpersonal, developmental, and sociotechnical theory, but its contribution is design-oriented: it translates broader accounts of friendship and social development into the specific ways social media platforms can shape youth friendship building. I initially validate parts of this framework through WhoamI Today (WIT), a platform deployed with 99 youth across the United States and Korea. My proposed work extends this validation through a follow-up deployment while refining the framework as a roadmap for cumulative design research on youth social media.",
-    "authors": [
-      "JaeWon Kim"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-15",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.16651",
-    "pdf_url": "https://arxiv.org/pdf/2606.16651",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "AI Safety",
-      "Interpretability",
-      "Human-Computer Interaction"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 3.0,
-    "content_potential_score": 1.42,
-    "interestingness_score": 2.16,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "This dissertation develops a design framework for friendship-supportive youth social media. I conducted a qualitative meta-analysis across my formative, case-study, and co-design work with teens and young adults, synthesizing recurring design themes into three pillars: social understanding (legible norms, intentions, trust, reciprocity, and accountability), placeness (spatial and embodied affordances that make online interaction feel inhabitable), and identity alignment (authentic expression that remains current, plural, and interpretable).",
-    "key_contribution": "This dissertation develops a design framework for friendship-supportive youth social media.",
-    "why_it_matters": "Mapping the Design Space for Youth Social Media: A Framework Centered on Friendship Building represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about AI Safety.",
-    "one_line_takeaway": "This dissertation develops a design framework for friendship-supportive youth social media.",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in AI Safety.",
-    "url": "https://arxiv.org/abs/2606.16651",
-    "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2606.13719",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Nomenclature Ontology for Medical And Disease names (NOMAD): taxonomy of types and origins of disease names",
-    "abstract": "The nomenclature of human disease has developed organically over the past centuries using Greek, Latin, and Arabic terminology and reflects the idiosyncrasies of different eras of medical discovery. Despite evident heterogeneity in naming practices, no systematic framework exists for characterising these conventions across all diseases. In this paper, we describe the Nomenclature Ontology for Medical And Disease names (NOMAD), a meta-taxonomy that classifies disease names according to their naming conventions. We developed a two-level taxonomy comprising 9 top-level categories and 20 subcategories and applied it to 22,548 index entries from the ICD-10-CM 2026 Alphabetical Index in a scalable three-stage machine learning-driven classification pipeline. Classification was multi-label, reflecting the compositional nature of medical nomenclature. We classified 99.1% of terms with a mean of 2.12 labels per entry. Anatomical categories were the most prevalent (63.8% of entries), followed by Descriptive (48.4%) and Pathophysiological (40.2%), while Eponymous and Geographical labels were less common than their cultural prominence might suggest (9.7% and 1.9% respectively). Among all Eponymous diseases, we identified only 57 (2.6%) of diseases named after a female person. We manually reviewed a random sample of n=2,255 entries (10%) for accuracy and calculated a full agreement rate of 70% and partial agreement rate of 26% (macro-averaged Cohen's Kappa score 0.832). Naming convention profiles varied substantially across ICD-10-CM chapters, reflecting specialty-specific epistemological traditions: infectious disease chapters were dominated by etiological labels and showed the highest proportion of geographical region related labels, the circulatory chapter by anatomical and pathophysiological labels, and mental and behavioural disorders showed the highest prevalence of socio-behavioral labels.",
-    "authors": [
-      "Spiros Denaxas",
-      "Cai Ytsma",
-      "Giannos Louloudis",
-      "Jackie MacArthur",
-      "Harry Hemingway"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-11",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.13719",
-    "pdf_url": "https://arxiv.org/pdf/2606.13719",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Knowledge Graphs",
-      "Information Retrieval"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 4.73,
-    "content_potential_score": 1.0,
-    "interestingness_score": 1.95,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "The nomenclature of human disease has developed organically over the past centuries using Greek, Latin, and Arabic terminology and reflects the idiosyncrasies of different eras of medical discovery. Despite evident heterogeneity in naming practices, no systematic framework exists for characterising these conventions across all diseases.",
-    "key_contribution": "The nomenclature of human disease has developed organically over the past centuries using Greek, Latin, and Arabic terminology and reflects the idiosyncrasies of different eras of medical discovery.",
-    "why_it_matters": "Nomenclature Ontology for Medical And Disease names (NOMAD): taxonomy of types and origins of disease names improves how systems find and rank relevant information at scale.",
-    "content_hook": "A new paper that could change how we think about Knowledge Graphs.",
-    "one_line_takeaway": "The nomenclature of human disease has developed organically over the past centuries using Greek, Latin, and Arabic…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Knowledge Graphs.",
-    "url": "https://arxiv.org/abs/2606.13719",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2606.13733",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "How Task Structure Limits Multi-Agent Success: An Information-Theoretic Analysis",
-    "abstract": "Multi-agent systems (MAS) were expected to overcome the limitation of single-agent systems (SAS) through collaboration. However, under typicality conditions on the task's constraint graph and bounded inter-agent communication, we prove that the success probability of a MAS is closely tied to the connectivity of task constraints, where each agent has limited information-processing capacity. Specifically, the success probability decays exponentially with an information bottleneck that emerges from partitioning the task's constraint graph among agents. We define this quantity as the \\emph{minimum cut cost} $C_{\\min}$ of the potential constraint graph of each task. This information-theoretic bound applies to both open systems with external feedback and closed systems without. We validate our theory on both synthetic experiments and real-world empirical data from SWE-bench submissions. From our framework, effective MAS design should incorporate task-inherent constraints alongside engineering optimization, and when $\\Cmin$ is high, practitioners should restructure tasks rather than simply scaling agents or communication.",
-    "authors": [
-      "Shi Pan",
-      "Ming Luo"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-11",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2606.13733",
-    "pdf_url": "https://arxiv.org/pdf/2606.13733",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Machine Learning"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses information-theoretic and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 2.5,
-    "content_potential_score": 1.0,
-    "interestingness_score": 1.95,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Multi-agent systems (MAS) were expected to overcome the limitation of single-agent systems (SAS) through collaboration. However, under typicality conditions on the task's constraint graph and bounded inter-agent communication, we prove that the success probability of a MAS is closely tied to the connectivity of task constraints, where each agent has limited information-processing capacity.",
-    "key_contribution": "Multi-agent systems (MAS) were expected to overcome the limitation of single-agent systems (SAS) through collaboration.",
-    "why_it_matters": "How Task Structure Limits Multi-Agent Success: An Information-Theoretic Analysis represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Machine Learning.",
-    "one_line_takeaway": "Multi-agent systems (MAS) were expected to overcome the limitation of single-agent systems (SAS) through collaboration.",
-    "biggest_caveat": "limitation of single-agent systems (SAS) through collaboration.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
-    "url": "https://arxiv.org/abs/2606.13733",
-    "difficulty": "frontier"
-  },
-  {
-    "id": "arxiv:2606.11980v1",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Somewhere Over the Desktop: A Research Agenda for Ubiquitous Analytics",
-    "abstract": "Spatial computing, generative AI, and open web standards are converging. Three spatial operating systems -- Android XR, Meta Horizon OS, and Apple visionOS -- now ship with platform-level scene understanding. Wearable displays span the range from full headsets to slim smartglasses. Agentic AI operates on the same spatial substrates as the human user. This convergence enables new opportunities for \\textit{ubiquitous analytics} (UA): the use of many, physically distributed, networked devices to support data sensemaking anytime and anywhere. But proprietary platforms are settling design conventions that will calcify without evidence-based alternatives. UA has now matured to the point where its intellectual history can be read as a structured genealogy of foundations, contributions, and lineages. We trace this genealogy and organize it into clusters spanning cognition, context, interaction, platforms, visualization, collaboration, and evaluation. Finally, we cross these clusters with each other, yielding a total of 42 future research challenges.",
-    "authors": [
-      "Niklas Elmqvist",
-      "Panagiotis D. Ritsos",
-      "Peter W. S. Butcher"
-    ],
-    "year": 2026,
-    "published_date": "2026-06-10",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "http://arxiv.org/abs/2606.11980v1",
-    "pdf_url": "https://arxiv.org/pdf/2606.11980v1",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "AI Agents",
-      "Human-Computer Interaction"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 3.56,
-    "content_potential_score": 1.0,
-    "interestingness_score": 1.95,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Spatial computing, generative AI, and open web standards are converging. Three spatial operating systems -- Android XR, Meta Horizon OS, and Apple visionOS -- now ship with platform-level scene understanding.",
-    "key_contribution": "Spatial computing, generative AI, and open web standards are converging.",
-    "why_it_matters": "Somewhere Over the Desktop: A Research Agenda for Ubiquitous Analytics represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about AI Agents.",
-    "one_line_takeaway": "Spatial computing, generative AI, and open web standards are converging.",
-    "biggest_caveat": "buted, networked devices to support data sensemaking anytime and anywhere.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in AI Agents.",
-    "url": "http://arxiv.org/abs/2606.11980v1",
     "difficulty": "intermediate"
   }
 ]
