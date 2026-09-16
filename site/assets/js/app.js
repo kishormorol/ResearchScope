@@ -211,6 +211,21 @@ async function loadStats() {
       if (heroEl) heroEl.textContent = live;
     });
   }
+  // The prose further down the page quoted the corpus size as a hand-typed
+  // literal, and drifted: it still said 60,000+ at 253,566. It reads the live
+  // count only — not fetchPaperCount, whose fallback is the stats.json snapshot
+  // of the curated top-N sections, which those sentences are not about. With
+  // the API unreachable they keep their static "250,000+" rather than claiming
+  // the snapshot's 34,909.
+  if (window._rs_data?.fetchLivePaperCount) {
+    window._rs_data.fetchLivePaperCount().then(total => {
+      if (!Number.isFinite(total)) return;
+      const live = total.toLocaleString();
+      document.querySelectorAll('.rs-live-paper-count').forEach(el => {
+        el.textContent = live;
+      });
+    });
+  }
   const genEl = document.getElementById('stat-generated');
   if (genEl && stats.generated_at) {
     genEl.textContent = 'Updated ' + new Date(stats.generated_at).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });

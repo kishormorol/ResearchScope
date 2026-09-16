@@ -225,6 +225,18 @@ async function _fetchJournalPapers(limit = 2000) {
   return [];
 }
 
+async function _fetchLivePaperCount() {
+  // The Railway total only — no snapshot fallback. Callers that describe the
+  // browsable corpus need this rather than _fetchPaperCount, whose fallback is
+  // data/stats.json: that counts the curated top-N sections (34,909 at the time
+  // of writing) and would understate the database by an order of magnitude.
+  try {
+    const json = await _papersListFetch(new URLSearchParams({ page: 1, page_size: 1 }));
+    if (json && Number.isFinite(json.total)) return json.total;
+  } catch { /* unreachable — the caller keeps its static text */ }
+  return null;
+}
+
 async function _fetchPaperCount() {
   // Live total across every source (preprint + conference + journal). This is the
   // real corpus size on Railway — unaffected by the browse-page SECTION_CAP and
@@ -453,6 +465,7 @@ window._rs_data = {
   fetchConferencePapers: _fetchConferencePapers,
   fetchJournalPapers:    _fetchJournalPapers,
   fetchPaperCount:       _fetchPaperCount,
+  fetchLivePaperCount:   _fetchLivePaperCount,
   searchPapersQuick:     _searchPapersQuick,
   searchArxivPapers:     _searchArxivPapers,
   fetchAllAuthors:  (n) => _staticFetch('data/authors.json', n),

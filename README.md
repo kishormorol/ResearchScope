@@ -2,7 +2,7 @@
 
 # ResearchScope
 
-**CS Research Intelligence Platform — 100,000+ papers, scored, ranked, and searchable.**
+**CS Research Intelligence Platform — 250,000+ papers, scored, ranked, and searchable.**
 
 Stop skimming paper lists. ResearchScope scores papers by impact, surfaces research gaps, recommends venues, and tracks who's driving the frontier — updated daily.
 
