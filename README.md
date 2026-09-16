@@ -12,6 +12,7 @@ Stop skimming paper lists. ResearchScope scores papers by impact, surfaces resea
 [![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
 [![Python](https://img.shields.io/badge/Pipeline-Python%203.11-3b82f6?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![GitHub Actions](https://img.shields.io/badge/CI-GitHub%20Actions-f59e0b?style=for-the-badge&logo=githubactions&logoColor=white)](.github/workflows)
+[![DOI](https://img.shields.io/badge/DOI-10.5281%2Fzenodo.22798618-1682D4?style=for-the-badge)](https://doi.org/10.5281/zenodo.22798618)
 
 <br/>
 
