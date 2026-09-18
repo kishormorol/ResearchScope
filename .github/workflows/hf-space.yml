@@ -1,0 +1,87 @@
+name: Sync Hugging Face Space
+
+# Mirrors the published site to https://huggingface.co/spaces/kishormorol/ResearchScope
+# after each successful Pages deploy, so the Space never drifts from GitHub.
+on:
+  # Follow the Pages deploy, so the Space only ever gets a site that shipped.
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Never let two uploads race for the same Space; don't cancel one mid-upload.
+concurrency:
+  group: hf-space
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Stage the site
+        run: |
+          mkdir _hf
+          cp -R site/. _hf/
+          # Pipeline data the site never loads, and too big for a Space.
+          rm -f _hf/data/{papers_db,conferences_db,journals_db,search_index}.json
+          find _hf -name .DS_Store -delete
+
+      # `secrets` is not available to a step-level `if`, so the token check
+      # becomes an output. Without it a fork, or this repo before the secret is
+      # set, would fail the run for a reason nobody can act on.
+      - name: Check for a Hugging Face token
+        id: token
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          if [ -n "$HF_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::HF_TOKEN is not set, so the Space was not updated."
+          fi
+
+      - uses: actions/setup-python@v5
+        if: steps.token.outputs.present == 'true'
+        with:
+          python-version: '3.12'
+
+      - name: Install the Hugging Face client
+        if: steps.token.outputs.present == 'true'
+        run: pip install --quiet --upgrade huggingface_hub
+
+      # The Space keeps its own README.md (the YAML header HF reads) and
+      # .gitattributes; everything else is replaced by the staged site, and
+      # files the site no longer has are deleted.
+      - name: Upload to the Space
+        if: steps.token.outputs.present == 'true'
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          SPACE: kishormorol/ResearchScope
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+        run: |
+          python - <<'PY'
+          import os, shutil
+          from huggingface_hub import HfApi, hf_hub_download
+
+          space = os.environ["SPACE"]
+          for name in ("README.md", ".gitattributes"):
+              shutil.copy(hf_hub_download(space, name, repo_type="space"), f"_hf/{name}")
+
+          HfApi().upload_folder(
+              repo_id=space,
+              repo_type="space",
+              folder_path="_hf",
+              delete_patterns=["*"],
+              commit_message=f"Sync from GitHub {os.environ['SOURCE_SHA'][:7]}",
+          )
+          PY
