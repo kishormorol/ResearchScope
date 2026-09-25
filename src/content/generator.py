@@ -7,6 +7,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 
+from src.content.llm_cache import LLMFieldCache
 from src.normalization.schema import Author, Lab, Paper, ResearchGap, Topic
 
 # ── Template tables ───────────────────────────────────────────────────────────
@@ -55,7 +56,17 @@ def _truncate(text: str, max_chars: int = 300) -> str:
 
 
 class ContentGenerator:
-    """Generate all creator-facing content fields for a Paper."""
+    """Generate all creator-facing content fields for a Paper.
+
+    Five reader-facing fields prefer model-written text from the LLM cache (see
+    src/content/llm_cache.py) and fall back to the templates below.
+    """
+
+    def __init__(self, llm_cache: LLMFieldCache | None = None):
+        self.llm = llm_cache if llm_cache is not None else LLMFieldCache.load()
+
+    def _cached(self, paper: Paper, field: str) -> str | None:
+        return self.llm.get(paper.id, paper.title or "", paper.abstract or "", field)
 
     def enrich(self, paper: Paper) -> Paper:
         paper.summary = self._summary(paper)
@@ -84,9 +95,13 @@ class ContentGenerator:
     # ── Fields ────────────────────────────────────────────────────────────────
 
     def _summary(self, paper: Paper) -> str:
+        if cached := self._cached(paper, "summary"):
+            return cached
         return _first_sentences(paper.abstract, 2) if paper.abstract else ""
 
     def _key_contribution(self, paper: Paper) -> str:
+        if cached := self._cached(paper, "key_contribution"):
+            return cached
         if not paper.abstract:
             return ""
         # Find the sentence with the strongest novelty signal
@@ -101,6 +116,8 @@ class ContentGenerator:
         return sentences[0].strip() if sentences else ""
 
     def _why_it_matters(self, paper: Paper) -> str:
+        if cached := self._cached(paper, "why_it_matters"):
+            return cached
         title = paper.title or "This work"
         for tag in paper.tags:
             if tag in _WHY_MATTERS:
@@ -116,6 +133,8 @@ class ContentGenerator:
         )
 
     def _plain_english(self, paper: Paper) -> str:
+        if cached := self._cached(paper, "plain_english_explanation"):
+            return cached
         if not paper.abstract:
             return ""
         summary = _first_sentences(paper.abstract, 3)
@@ -127,6 +146,8 @@ class ContentGenerator:
         return _truncate(paper.abstract, 500)
 
     def _one_liner(self, paper: Paper) -> str:
+        if cached := self._cached(paper, "one_line_takeaway"):
+            return cached
         contribution = self._key_contribution(paper)
         if contribution:
             return _truncate(contribution, 120)
