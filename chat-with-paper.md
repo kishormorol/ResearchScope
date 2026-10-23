@@ -418,6 +418,20 @@ The tests cover URL normalization, frontend state helpers, extraction/chunking, 
 
 Integration testing must use a disposable PostgreSQL database, not the production Railway database.
 
+### Manual check for saved chat links
+
+Use a local site and disposable API with two prepared arXiv papers and a saved
+chat for each paper under the same account.
+
+1. Open `chat-paper?id=<paper A>&session=<chat B>`. The workspace must navigate to
+   paper B and chat B before displaying chat B's messages. Check the paper title
+   and the Open PDF link as well as the saved answer and its sources.
+2. Open `chat-paper?session=<chat B>`, then open a link with matching paper and
+   chat IDs. Both must display paper B and chat B. Send a question and reload to
+   check that its answer and sources remain attached to paper B.
+3. Select paper A's chat from history. The reader must switch to paper A.
+   A missing session or another account's session must not display its messages.
+
 ## Known limitations
 
 - The discovery search covers papers indexed by ResearchScope; it is not a complete live arXiv.org search.

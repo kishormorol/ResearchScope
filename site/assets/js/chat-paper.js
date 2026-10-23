@@ -316,11 +316,11 @@
       state.sessions = result.results || [];
       renderHistory();
       if (state.requestedSessionId) {
-        await openSession(state.requestedSessionId, false);
+        await openSession(state.requestedSessionId);
         state.requestedSessionId = '';
       } else if (state.paperId) {
         const recent = state.sessions.find((session) => session.paper_id === state.paperId);
-        if (recent) await openSession(recent.id, false);
+        if (recent) await openSession(recent.id);
       }
     } catch (_) {
       el('history-list').textContent = 'Could not load chat history.';
@@ -356,7 +356,7 @@
       meta.className = 'history-meta';
       meta.textContent = `${session.paper_title || session.paper_id} · ${session.message_count} messages`;
       main.append(title, meta);
-      main.addEventListener('click', () => openSession(session.id, true));
+      main.addEventListener('click', () => openSession(session.id));
       const actions = document.createElement('div');
       actions.className = 'history-actions';
       const rename = document.createElement('button');
@@ -375,9 +375,9 @@
     });
   }
 
-  async function openSession(sessionId, navigate) {
+  async function openSession(sessionId) {
     const detail = await api.chat.getSession(sessionId);
-    if (navigate && detail.paper_id !== state.paperId) {
+    if (detail.paper_id !== state.paperId) {
       location.href = core.workspaceUrl(detail.paper_id, detail.id);
       return;
     }
