@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="assets/css/style.css?v=ui-integrity-18"/>
-  <link rel="stylesheet" href="assets/css/chat-paper.css?v=20260714-paper-loading"/>
+  <link rel="stylesheet" href="assets/css/chat-paper.css?v=20261024-composer"/>
   <script src="assets/js/theme-bootstrap.js?v=ui-integrity-18"></script>
 </head>
 <body>
@@ -156,11 +156,13 @@
         </div>
       </div>
       <div class="composer-wrap">
+        <label for="chat-input" class="composer-label">Ask about this paper</label>
         <div class="composer">
-          <textarea id="chat-input" rows="1" maxlength="4000" placeholder="Ask anything about this paper…" disabled></textarea>
-          <button id="send-message" class="send-btn" aria-label="Send message" disabled>↑</button>
+          <textarea id="chat-input" rows="1" maxlength="4000" dir="auto" aria-describedby="composer-note composer-hint" placeholder="Ask anything about this paper…" disabled></textarea>
+          <button id="send-message" class="send-btn" aria-label="Send message" disabled>Send</button>
         </div>
-        <div id="composer-note" class="composer-note"></div>
+        <div id="composer-note" class="composer-note" role="status"></div>
+        <p id="composer-hint" class="composer-hint">Enter to send. Shift+Enter for a new line.</p>
       </div>
     </section>
 
@@ -193,6 +195,6 @@
 <script src="assets/js/chat-paper-core.js?v=20260714-paper-loading"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="assets/js/paper-pdf-viewer.js?v=20260714-paper-loading"></script>
-<script src="assets/js/chat-paper.js?v=20260714-paper-loading"></script>
+<script src="assets/js/chat-paper.js?v=20261024-composer"></script>
 </body>
 </html>

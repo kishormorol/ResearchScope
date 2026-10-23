@@ -56,6 +56,24 @@ Desktop uses a split layout. Smaller screens switch between Paper and Assistant 
 
 Citation chips call the PDF reader with the cited page number. If the embedded reader cannot load the document, the workspace exposes an external PDF action.
 
+### Composer
+
+The labeled question field grows with a multiline draft up to eight text lines,
+then scrolls. Browsers without `field-sizing` keep a fixed field that scrolls.
+Enter sends a question, Shift+Enter inserts a new line, and Enter during text
+composition does not submit. The Send control becomes Stop during generation.
+
+The draft clears only after the API accepts the request, and only if the field
+still contains that draft. A rejected request leaves the draft available for
+editing. A connection failure can leave acceptance uncertain, so check saved
+history before resending. A different draft typed while waiting is not cleared.
+
+For a manual check, use the local site and a disposable API with one prepared
+paper. Check a four line draft, a draft longer than eight lines, Shift+Enter,
+composition, Send and Stop, and keyboard focus at wide and narrow widths. Force
+a quota rejection and check that the exact draft remains. Also type a new draft
+while a request is pending and check that acceptance does not erase it.
+
 ### API base behavior
 
 `site/assets/js/railway-api.js` selects API targets as follows:

@@ -437,7 +437,8 @@
 
   async function sendMessage() {
     const input = el('chat-input');
-    const content = input.value.trim();
+    const draft = input.value;
+    const content = draft.trim();
     if (!content || state.document?.status !== 'ready') return;
     if (!api.auth.isLoggedIn()) {
       window.rsOpenModal(`chat-paper?id=${encodeURIComponent(state.paperId)}`);
@@ -460,17 +461,18 @@
     const assistantId = `local-assistant-${requestId}`;
     appendMessage({ id: userId, role: 'user', content, citations: [], status: 'complete' });
     appendMessage({ id: assistantId, role: 'assistant', content: '', citations: [], status: 'pending' });
-    input.value = '';
     state.submitting = false;
     state.generating = true;
     state.abortController = new AbortController();
-    el('send-message').textContent = '■';
+    el('send-message').textContent = 'Stop';
+    el('send-message').setAttribute('aria-label', 'Stop generating');
     el('send-message').disabled = false;
 
     try {
       const response = await api.chat.sendMessage(
         session.id, content, requestId, state.abortController.signal,
       );
+      if (input.value === draft) input.value = '';
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
@@ -517,7 +519,8 @@
       state.submitting = false;
       state.generating = false;
       state.abortController = null;
-      el('send-message').textContent = '↑';
+      el('send-message').textContent = 'Send';
+      el('send-message').setAttribute('aria-label', 'Send message');
       setComposer(state.document?.status === 'ready', 'Answers are grounded in the prepared PDF.');
     }
   }
@@ -577,7 +580,7 @@
       else sendMessage();
     });
     el('chat-input').addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && !event.shiftKey) {
+      if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
         event.preventDefault();
         sendMessage();
       }
