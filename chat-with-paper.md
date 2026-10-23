@@ -418,6 +418,29 @@ The tests cover URL normalization, frontend state helpers, extraction/chunking, 
 
 Integration testing must use a disposable PostgreSQL database, not the production Railway database.
 
+For manual history selection checks, save two chats for the same paper. Delay
+delivery of an authenticated session detail response in the local browser. Click
+New chat before releasing it, and check that the message list stays empty. Repeat
+by selecting the other chat before releasing the older response. The latest
+selection must remain visible. Without a delay, both chats must still open.
+
+Rename the selected older chat and check that the history updates without
+switching its messages to the most recent chat. Reload with an explicit session
+URL to check restoration. Also check a delayed initial history load and deletion
+while a detail response is pending. Deleting an unrelated chat must not cancel a
+pending selection, regardless of which request started first. A failed deletion
+must leave the selection unchanged.
+
+After releasing the delayed response in the New chat check, run this small
+assertion in the browser console:
+
+```javascript
+console.assert(
+  document.querySelectorAll('#messages .message').length === 0,
+  'New chat must stay empty after the older response arrives.',
+);
+```
+
 ## Known limitations
 
 - The discovery search covers papers indexed by ResearchScope; it is not a complete live arXiv.org search.

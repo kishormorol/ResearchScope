@@ -10,6 +10,7 @@
     paper: null,
     document: null,
     session: null,
+    sessionSelection: undefined,
     sessions: [],
     messages: [],
     viewerUrl: '',
@@ -306,7 +307,7 @@
     }
   }
 
-  async function loadSessions() {
+  async function loadSessions(restore = false) {
     if (!api.auth.isLoggedIn()) {
       renderHistory();
       return;
@@ -315,6 +316,7 @@
       const result = await api.chat.listSessions({ limit: 100 });
       state.sessions = result.results || [];
       renderHistory();
+      if (!restore || state.sessionSelection !== undefined) return;
       if (state.requestedSessionId) {
         await openSession(state.requestedSessionId, false);
         state.requestedSessionId = '';
@@ -376,7 +378,10 @@
   }
 
   async function openSession(sessionId, navigate) {
+    const selection = { id: sessionId };
+    state.sessionSelection = selection;
     const detail = await api.chat.getSession(sessionId);
+    if (selection !== state.sessionSelection) return;
     if (navigate && detail.paper_id !== state.paperId) {
       location.href = core.workspaceUrl(detail.paper_id, detail.id);
       return;
@@ -410,6 +415,7 @@
       }
       return;
     }
+    if (state.sessionSelection?.id === session.id) state.sessionSelection = null;
     state.sessions = core.removeSessionById(state.sessions, session.id);
     if (state.session?.id === session.id) {
       state.session = null;
@@ -420,6 +426,7 @@
   }
 
   function newChat() {
+    state.sessionSelection = null;
     state.session = null;
     state.messages = [];
     renderMessages();
@@ -585,6 +592,7 @@
     el('delete-all-chats').addEventListener('click', async () => {
       if (!api.auth.isLoggedIn() || !window.confirm('Delete all of your paper chats?')) return;
       await api.chat.deleteAllSessions();
+      state.sessionSelection = null;
       state.sessions = [];
       state.session = null;
       state.messages = [];
@@ -597,7 +605,7 @@
     bindEvents();
     if (!state.paperId) {
       setComposer(false, 'Choose a paper from ResearchScope to start a chat.');
-      await loadSessions();
+      await loadSessions(true);
       setView('history');
       return;
     }
@@ -614,7 +622,7 @@
     } else {
       await preparePaper();
     }
-    await loadSessions();
+    await loadSessions(true);
   }
 
   document.addEventListener('DOMContentLoaded', init);
