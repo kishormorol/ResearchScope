@@ -79,6 +79,10 @@ jobs:
             git commit -m "chore: journal sync [$(date -u +%Y-%m-%d)]"
             for i in 1 2 3; do
               git push origin main && break
+              if [ "$i" -eq 3 ]; then
+                echo "::error::Could not publish data after three attempts."
+                exit 1
+              fi
               echo "Push attempt $i failed, retrying with rebase (theirs)…"
               git pull --rebase --autostash -X theirs origin main
               sleep 5

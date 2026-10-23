@@ -81,10 +81,16 @@ jobs:
 
       - name: Commit updated data
         run: |
+          set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add site/data/
-          git diff --cached --quiet || git commit -m "chore: daily arXiv update [$(date -u +%Y-%m-%d)]" && git push || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: daily arXiv update [$(date -u +%Y-%m-%d)]"
+          git push
 
   deploy:
     needs: pipeline

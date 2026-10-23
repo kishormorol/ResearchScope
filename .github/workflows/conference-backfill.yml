@@ -78,13 +78,17 @@ jobs:
           set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add site/data/ data/ || true
+          git add site/data/ data/
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: conference backfill — ICML, AISTATS, UAI, CVF, S2 bulk [$(date -u +%Y-%m-%d)]"
             for i in 1 2 3; do
               git push origin main && break
+              if [ "$i" -eq 3 ]; then
+                echo "::error::Could not publish data after three attempts."
+                exit 1
+              fi
               echo "Push attempt $i failed, retrying…"
               git pull --rebase --autostash -X theirs origin main
               sleep $((i * 5))

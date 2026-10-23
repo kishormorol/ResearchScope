@@ -96,6 +96,10 @@ jobs:
             git commit -m "chore: monthly conference sync [$(date -u +%Y-%m)]"
             for i in 1 2 3; do
               git push origin main && break
+              if [ "$i" -eq 3 ]; then
+                echo "::error::Could not publish data after three attempts."
+                exit 1
+              fi
               echo "Push attempt $i failed, retrying with rebase (theirs)…"
               # Use -X theirs so the conference sync data wins over any
               # concurrent daily arXiv commit — conference data is the superset.
