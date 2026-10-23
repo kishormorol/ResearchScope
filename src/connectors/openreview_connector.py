@@ -134,7 +134,7 @@ class OpenReviewConnector(BaseConnector):
                         all_papers.append(p)
             except Exception as exc:
                 log.warning("[openreview] search %s q='%s' failed: %s", venue_id, query, exc)
-        return all_papers
+        return all_papers[:max_results]
 
     # ── internals ─────────────────────────────────────────────────────────────
 
@@ -177,7 +177,7 @@ class OpenReviewConnector(BaseConnector):
             notes = data.get("notes", [])
         except Exception:
             # fallback: venueid query
-            notes = self._fetch_venue_all(venue_id)[:max_results]
+            return self._fetch_venue_all(venue_id)[:max_results]
 
         return [
             p for p in (self._note_to_paper(n, venue_name, rank, year) for n in notes)
