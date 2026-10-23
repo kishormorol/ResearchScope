@@ -160,7 +160,7 @@ class ACLAnthologyConnector(BaseConnector):
 
             # Extract field = {value} or field = "value"
             field_re = re.compile(
-                r'\n\s{4}(\w+)\s*=\s*(?:\{((?:[^{}]|\{[^{}]*\})*)\}|"([^"]*)")',
+                r'\n[ \t]*(\w+)\s*=\s*(?:\{((?:[^{}]|\{[^{}]*\})*)\}|"([^"]*)")',
                 re.DOTALL,
             )
             for fm in field_re.finditer(block):
@@ -230,7 +230,7 @@ class ACLAnthologyConnector(BaseConnector):
                         papers.append(p)
             except Exception as exc:
                 log.debug("[acl] venue fallback '%s' failed: %s", venue, exc)
-        return papers
+        return papers[:max_results]
 
     # ── Normalise: export format ──────────────────────────────────────────────
 
