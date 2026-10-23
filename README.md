@@ -338,9 +338,20 @@ already supplied by the shell or deployment environment.
 | `PIPELINE_SECRET` | Both | Shared secret for `/pipeline/trigger` endpoint |
 | `GITHUB_TOKEN` | Railway Env | Fine-grained PAT for triggering workflows |
 | `CHAT_ENABLED` | Railway Env | Feature flag; defaults to `false` |
-| `OPENAI_API_KEY` | Railway Env | Server-side key for Chat with arXiv; never expose it to the browser |
-| `OPENAI_CHAT_MODEL` | Railway Env | Optional model override; defaults to `gpt-5.6-terra` |
-| `OPENAI_REASONING_EFFORT` | Railway Env | Optional reasoning level; defaults to `low` for lower cost and latency |
+| `CHAT_PROVIDER` | Railway Env | Chat provider, `openai` by default or `ollama` |
+| `OPENAI_API_KEY` | Railway Env | Key for OpenAI chat or embeddings; never expose it to the browser |
+| `OPENAI_CHAT_MODEL` | Railway Env | Optional OpenAI chat model; defaults to `gpt-5.6-terra` |
+| `OPENAI_REASONING_EFFORT` | Railway Env | OpenAI reasoning level; defaults to `low` |
+| `OLLAMA_CHAT_MODEL` | Railway Env | Required when `CHAT_PROVIDER=ollama`; name of an installed model |
+| `OLLAMA_API_BASE_URL` | Railway Env | Ollama Responses URL; defaults to `http://127.0.0.1:11434/v1` and accepts only loopback IP addresses |
+| `OLLAMA_REASONING_EFFORT` | Railway Env | Optional Ollama reasoning effort; omitted by default |
+| `CHAT_EMBEDDINGS_ENABLED` | Railway Env | Set to `false` to disable OpenAI embeddings |
+
+Ollama chat does not provide local embeddings in this setup. When embeddings are
+enabled, they still require `OPENAI_API_KEY` and use the existing OpenAI URL,
+embedding model and dimensions. Those settings retain their defaults. For fully local
+chat without an OpenAI key, set `CHAT_EMBEDDINGS_ENABLED=false`. See
+[`chat-with-paper.md`](chat-with-paper.md) for provider settings and URL limits.
 
 Chat semantic ranking runs inside PostgreSQL. Standard Railway PostgreSQL uses
 the compatible `REAL[]` cosine query; a Railway pgvector database automatically

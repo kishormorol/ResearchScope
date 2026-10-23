@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import ipaddress
 import json
+import math
 import os
 from collections.abc import AsyncIterator
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from urllib.parse import urlsplit
 
 import httpx
 
@@ -19,17 +22,17 @@ class ProviderRequestError(RuntimeError):
 @dataclass(frozen=True)
 class ProviderConfig:
     provider: str
-    api_key: str
+    api_key: str = field(repr=False)
     model: str
     base_url: str
     timeout_seconds: float
     max_output_tokens: int
-    reasoning_effort: str
+    reasoning_effort: str | None
 
 
 @dataclass(frozen=True)
 class EmbeddingConfig:
-    api_key: str
+    api_key: str = field(repr=False)
     model: str
     base_url: str
     timeout_seconds: float
@@ -55,43 +58,93 @@ def provider_configured() -> bool:
 
 
 def get_provider_config() -> ProviderConfig:
-    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
-    if not api_key:
-        raise ProviderConfigurationError("OPENAI_API_KEY is required")
+    provider = os.environ.get("CHAT_PROVIDER", "openai").strip().lower()
+    if provider == "openai":
+        api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+        if not api_key:
+            raise ProviderConfigurationError("OPENAI_API_KEY is required")
+        model = os.environ.get("OPENAI_CHAT_MODEL", "gpt-5.6-terra").strip()
+        model = model or "gpt-5.6-terra"
+        base_url = os.environ.get(
+            "OPENAI_API_BASE_URL", "https://api.openai.com/v1"
+        ).rstrip("/")
+    elif provider == "ollama":
+        api_key = ""
+        model = os.environ.get("OLLAMA_CHAT_MODEL", "").strip()
+        if not model:
+            raise ProviderConfigurationError("OLLAMA_CHAT_MODEL is required")
+        base_url = os.environ.get(
+            "OLLAMA_API_BASE_URL", "http://127.0.0.1:11434/v1"
+        ).strip().rstrip("/")
+        try:
+            url = urlsplit(base_url)
+            if (
+                url.scheme not in {"http", "https"}
+                or not ipaddress.ip_address(url.hostname or "").is_loopback
+                or url.username is not None
+                or url.password is not None
+                or url.query
+                or url.fragment
+                or (url.port is not None and not 1 <= url.port <= 65535)
+                or any(ord(char) < 33 for char in base_url)
+            ):
+                raise ValueError
+        except ValueError as exc:
+            raise ProviderConfigurationError(
+                "OLLAMA_API_BASE_URL must use HTTP or HTTPS with a loopback IP "
+                "and no credentials, query or fragment"
+            ) from exc
+    else:
+        raise ProviderConfigurationError("CHAT_PROVIDER must be openai or ollama")
 
-    reasoning_effort = os.environ.get("OPENAI_REASONING_EFFORT", "low").strip().lower()
+    reasoning_setting = f"{provider.upper()}_REASONING_EFFORT"
+    reasoning_effort = os.environ.get(
+        reasoning_setting, "low" if provider == "openai" else ""
+    ).strip().lower()
     allowed_efforts = {"none", "low", "medium", "high", "xhigh", "max"}
-    if reasoning_effort not in allowed_efforts:
+    if (
+        provider == "openai" or reasoning_effort
+    ) and reasoning_effort not in allowed_efforts:
         raise ProviderConfigurationError(
-            "OPENAI_REASONING_EFFORT must be none, low, medium, high, xhigh, or max"
+            f"{reasoning_setting} must be none, low, medium, high, xhigh, or max"
         )
+    try:
+        timeout = float(os.environ.get("CHAT_REQUEST_TIMEOUT_SECONDS", "90"))
+        output_tokens = int(os.environ.get("CHAT_MAX_OUTPUT_TOKENS", "1200"))
+        if not math.isfinite(timeout) or timeout <= 0 or output_tokens <= 0:
+            raise ValueError
+    except ValueError as exc:
+        raise ProviderConfigurationError(
+            "CHAT_REQUEST_TIMEOUT_SECONDS and CHAT_MAX_OUTPUT_TOKENS must be positive"
+        ) from exc
 
     return ProviderConfig(
-        provider="openai",
+        provider=provider,
         api_key=api_key,
-        model=os.environ.get("OPENAI_CHAT_MODEL", "gpt-5.6-terra").strip()
-        or "gpt-5.6-terra",
-        base_url=os.environ.get(
-            "OPENAI_API_BASE_URL", "https://api.openai.com/v1"
-        ).rstrip("/"),
-        timeout_seconds=float(os.environ.get("CHAT_REQUEST_TIMEOUT_SECONDS", "90")),
-        max_output_tokens=int(os.environ.get("CHAT_MAX_OUTPUT_TOKENS", "1200")),
-        reasoning_effort=reasoning_effort,
+        model=model,
+        base_url=base_url,
+        timeout_seconds=timeout,
+        max_output_tokens=output_tokens,
+        reasoning_effort=reasoning_effort or None,
     )
 
 
 def get_embedding_config() -> EmbeddingConfig:
-    provider = get_provider_config()
+    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
+    if not api_key:
+        raise ProviderConfigurationError("OPENAI_API_KEY is required for embeddings")
     dimensions = int(os.environ.get("OPENAI_EMBEDDING_DIMENSIONS", "256"))
     if dimensions < 64 or dimensions > 3072:
         raise ProviderConfigurationError(
             "OPENAI_EMBEDDING_DIMENSIONS must be between 64 and 3072"
         )
     return EmbeddingConfig(
-        api_key=provider.api_key,
+        api_key=api_key,
         model=os.environ.get("OPENAI_EMBEDDING_MODEL", "text-embedding-3-large").strip()
         or "text-embedding-3-large",
-        base_url=provider.base_url,
+        base_url=os.environ.get(
+            "OPENAI_API_BASE_URL", "https://api.openai.com/v1"
+        ).rstrip("/"),
         timeout_seconds=float(os.environ.get("CHAT_EMBEDDING_TIMEOUT_SECONDS", "60")),
         dimensions=dimensions,
     )
@@ -137,17 +190,19 @@ def build_openai_request(
     messages: list[dict[str, object]],
     config: ProviderConfig,
 ) -> tuple[str, dict[str, str], dict[str, object]]:
+    body: dict[str, object] = {
+        "model": config.model,
+        "instructions": system_prompt,
+        "input": messages,
+        "stream": True,
+        "max_output_tokens": config.max_output_tokens,
+    }
+    if config.reasoning_effort is not None:
+        body["reasoning"] = {"effort": config.reasoning_effort}
     return (
         f"{config.base_url}/responses",
-        {"Authorization": f"Bearer {config.api_key}"},
-        {
-            "model": config.model,
-            "instructions": system_prompt,
-            "input": messages,
-            "stream": True,
-            "max_output_tokens": config.max_output_tokens,
-            "reasoning": {"effort": config.reasoning_effort},
-        },
+        {"Authorization": f"Bearer {config.api_key}"} if config.api_key else {},
+        body,
     )
 
 
@@ -216,7 +271,9 @@ async def stream_provider(
     url, headers, body = build_openai_request(system_prompt, messages, config)
 
     try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
+        async with httpx.AsyncClient(
+            timeout=timeout, trust_env=config.provider != "ollama"
+        ) as client:
             async with client.stream(
                 "POST", url, headers=headers, json=body
             ) as response:
@@ -227,6 +284,10 @@ async def stream_provider(
                         if event[0] == "provider_error":
                             raise ProviderRequestError("provider_stream_error")
                         yield event
+                        # Responses usage is emitted only by response.completed.
+                        if event[0] == "usage":
+                            return
+                raise ProviderRequestError("provider_incomplete_response")
     except httpx.TimeoutException as exc:
         raise ProviderRequestError("provider_timeout") from exc
     except httpx.HTTPError as exc:

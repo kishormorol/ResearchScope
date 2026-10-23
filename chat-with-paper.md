@@ -4,14 +4,11 @@
 
 Chat with Paper is an implemented, authenticated ResearchScope feature for arXiv papers. It provides a split workspace with a PDF reader on the left and an evidence-grounded assistant on the right.
 
-The feature currently uses:
-
-- a dedicated `Chat arXiv` navigation entry and discovery page;
-- a PDF.js reader with page navigation, zoom, fit-width, and citation jumps;
-- PostgreSQL-backed document chunks and per-user chat history;
-- structured PDF extraction with PyMuPDF;
-- OpenAI embeddings and the OpenAI Responses API;
-- hybrid lexical and semantic retrieval with validated page citations.
+The feature has a dedicated `Chat arXiv` page and a PDF.js reader. PostgreSQL
+stores paper chunks and each user's chat history, and PyMuPDF extracts the paper
+text. The backend sends Responses requests to OpenAI or local Ollama. Retrieval
+uses text search and optional OpenAI embeddings, and answers contain source
+labels with page citation controls.
 
 Normal ResearchScope paper-title links remain external paper/source links. They do not automatically open the chat workspace. Chat is intentionally accessed through the separate Chat arXiv section.
 
@@ -78,7 +75,7 @@ Main modules:
 - `backend/app/services/document_service.py`: secure PDF resolution/download, extraction, chunking, embedding, and persistence;
 - `backend/app/services/retrieval_service.py`: query routing and hybrid retrieval;
 - `backend/app/services/chat_service.py`: limits, prompting, evidence validation, persistence, and SSE events;
-- `backend/app/services/provider_service.py`: OpenAI Responses and Embeddings API calls;
+- `backend/app/services/provider_service.py`: chat provider and OpenAI Embeddings API calls;
 - `backend/app/services/paper_catalog_service.py`: trusted metadata fallback for papers missing from the local database;
 - `backend/app/services/paper_viewer_service.py`: browser-viewable PDF resolution.
 
@@ -215,7 +212,7 @@ Before a response is displayed and saved, the backend:
 - maps accepted labels to real stored chunk IDs and page ranges;
 - replaces an answer with the insufficient-evidence response if grounding still fails.
 
-The provider response is always buffered until citation and secret-leak checks finish. The browser still receives the validated answer through SSE, but unsafe partial text is not shown first.
+The backend waits for the provider stream to complete, then checks citations and secrets before it stores the answer. It sends the validated answer through SSE after those checks. A source label is not proof that a claim is supported by the paper.
 
 ### Narrow safety guardrails
 
@@ -227,18 +224,51 @@ The provider response is always buffered until citation and secret-leak checks f
   harm are answered at a supported high level without executable steps, while
   only explicit targeted credential theft and sexual abuse of minors are blocked.
 
-## OpenAI provider
+## Chat providers and embeddings
 
-The current feature uses OpenAI exclusively.
+`CHAT_PROVIDER` selects the chat provider. It defaults to `openai`, whose model
+and reasoning defaults remain `gpt-5.6-terra` and `low`. The output limit
+defaults to 1,200 tokens. The backend reads the OpenAI key only on the server.
+Never put that key in frontend JavaScript, committed `.env` files, screenshots,
+logs, or API responses.
+The backend has named OpenAI and Ollama routes. Named Gateway, Codex, and
+OpenCode routes are not implemented.
 
-The backend calls:
+Set `CHAT_PROVIDER=ollama` to use an Ollama server through its Responses
+API. Set `OLLAMA_CHAT_MODEL` to a model already installed on that server. No
+Ollama API key is required. `OLLAMA_API_BASE_URL` defaults to
+`http://127.0.0.1:11434/v1`. The URL must use HTTP or HTTPS and a loopback IP
+literal, either IPv4 or IPv6. DNS names such as `localhost` are not accepted.
+The URL cannot contain user information, a query, or a fragment. The backend
+makes this connection, so `127.0.0.1` refers to the backend host, not a visitor's
+computer. For a backend in a container, loopback stays inside that container.
+Ollama chat requests ignore environment proxies so prompts stay local.
 
-- `POST /v1/responses` for chat generation;
-- `POST /v1/embeddings` for document and query embeddings.
+Ollama reasoning is omitted unless `OLLAMA_REASONING_EFFORT` is set to `none`,
+`low`, `medium`, `high`, `xhigh`, or `max`. A model may not support every value.
+Compatibility for Ollama's stateless OpenAI Responses API is described in the
+[Ollama OpenAI compatibility documentation](https://docs.ollama.com/api/openai-compatibility),
+which was checked on 24 October 2026 but was not verified against a live server.
 
-The current default chat configuration is `gpt-5.6-terra` with `low` reasoning effort and a 1,200-token output limit. Both model and reasoning effort are environment-configurable.
+Choosing Ollama does not change the OpenAI embedding settings. Embeddings
+require `OPENAI_API_KEY` and use the existing defaults for `OPENAI_API_BASE_URL`,
+`OPENAI_EMBEDDING_MODEL`, and `OPENAI_EMBEDDING_DIMENSIONS`. Setting
+`CHAT_EMBEDDINGS_ENABLED=false` disables embedding calls
+and allows Ollama chat without an OpenAI key. Ollama answers do not mean that
+embeddings run locally.
 
-The OpenAI API key is read only by the backend. It must never be placed in frontend JavaScript, committed `.env` files, screenshots, logs, or API responses.
+For local chat without OpenAI embeddings, set:
+
+```env
+CHAT_ENABLED=true
+CHAT_PROVIDER=ollama
+OLLAMA_CHAT_MODEL=<already installed model>
+CHAT_EMBEDDINGS_ENABLED=false
+```
+
+Do not add an OpenAI key for this configuration. To enable embeddings, configure
+the OpenAI embedding settings separately. The README and `.env.example` list
+the available variables.
 
 ## Persistence and ownership
 
@@ -317,7 +347,7 @@ The feature is disabled unless `CHAT_ENABLED=true`. Disabling chat does not remo
 
 ## Environment configuration
 
-Required for chat:
+For OpenAI chat and embeddings:
 
 ```env
 DATABASE_URL=postgresql://...
@@ -337,7 +367,7 @@ OPENAI_API_KEY=replace-with-server-side-key
 ALLOWED_ORIGINS=https://kishormorol.github.io,http://127.0.0.1:8080,http://localhost:8080
 ```
 
-Recommended current settings:
+OpenAI defaults:
 
 ```env
 OPENAI_CHAT_MODEL=gpt-5.6-terra

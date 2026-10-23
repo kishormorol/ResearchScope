@@ -35,6 +35,7 @@ from app.services.guardrail_service import (
     redact_secrets,
 )
 from app.services.provider_service import (
+    ProviderConfig,
     ProviderConfigurationError,
     ProviderRequestError,
     chat_enabled,
@@ -156,8 +157,7 @@ class ChatTurn:
     session: ChatSession
     user_message: ChatMessage
     assistant_message: ChatMessage
-    provider: str
-    model: str
+    provider_config: ProviderConfig
     system_prompt: str
     provider_messages: list[dict[str, object]]
     chunks: list[RetrievedChunk]
@@ -696,8 +696,7 @@ async def start_turn(
         session=session,
         user_message=user_message,
         assistant_message=assistant_message,
-        provider=config.provider,
-        model=config.model,
+        provider_config=config,
         system_prompt=system_prompt,
         provider_messages=provider_messages,
         chunks=chunks,
@@ -738,8 +737,8 @@ async def stream_chat_turn(
         {
             "user_message_id": turn.user_message.id,
             "assistant_message_id": turn.assistant_message.id,
-            "provider": turn.provider,
-            "model": turn.model,
+            "provider": turn.provider_config.provider,
+            "model": turn.provider_config.model,
         },
     )
     started = time.perf_counter()
@@ -747,7 +746,7 @@ async def stream_chat_turn(
     usage = {"input_tokens": 0, "output_tokens": 0}
     try:
         async for event, payload in stream_provider(
-            turn.system_prompt, turn.provider_messages
+            turn.system_prompt, turn.provider_messages, config=turn.provider_config
         ):
             if event == "delta":
                 text = str(payload)
