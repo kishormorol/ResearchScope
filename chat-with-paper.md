@@ -317,11 +317,12 @@ The feature is disabled unless `CHAT_ENABLED=true`. Disabling chat does not remo
 
 ## Environment configuration
 
-Required for chat:
+Set the database connection and a generated `JWT_SECRET` using the
+[local setup instructions](README.md#local-development). The signing secret is
+required even when chat is disabled. Then configure chat:
 
 ```env
 DATABASE_URL=postgresql://...
-JWT_SECRET=replace-with-a-long-random-secret
 JWT_TTL_HOURS=72
 CHAT_ENABLED=true
 CHAT_DAILY_MESSAGE_LIMIT=20

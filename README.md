@@ -303,7 +303,7 @@ python src/pipeline.py
 python src/pipeline.py --conferences-only
 
 # Run tests
-python -m pytest tests/ -v
+JWT_SECRET=local_test_signing_secret_not_for_deployment python -m pytest tests/ -v
 
 # Serve the frontend
 cd site && python -m http.server 8080
@@ -314,14 +314,20 @@ cd .. && python scripts/serve_site.py --port 8080
 # Run the API locally
 cd backend
 pip install -r requirements.txt
-DATABASE_URL=postgresql://... uvicorn app.main:app --reload
-
-# Alternatively, use DATABASE_URL from the repository-root .env
+# Configure DATABASE_URL and JWT_SECRET in the repository root .env first.
 uvicorn app.main:app --reload
 ```
 
 The local API loads the repository-root `.env` without overriding variables
 already supplied by the shell or deployment environment.
+
+Every API start requires `JWT_SECRET`, even when chat is disabled. For local
+use, also configure `DATABASE_URL`. Generate a signing secret once with
+`openssl rand -hex 32` and save the output as `JWT_SECRET` in `.env` or your
+backend environment. Keep the same
+value across API workers and restarts. The API refuses to start if the secret
+is missing, blank or matches a known placeholder. Changing the value signs out
+existing sessions. Keep `.env` out of Git.
 
 ### Environment variables
 
@@ -329,7 +335,7 @@ already supplied by the shell or deployment environment.
 |---|---|---|
 | `RAILWAY_DATABASE_URL` | GH Secret | Public Railway PostgreSQL URL (pipeline sync) |
 | `DATABASE_URL` | Railway Env | Same URL for FastAPI backend |
-| `JWT_SECRET` | Railway Env | Secret key for JWT signing |
+| `JWT_SECRET` | Backend environment or root `.env` | Required signing secret. Use a generated value, not a placeholder |
 | `HF_TOKEN` | GH Secret | HuggingFace write token for dataset push |
 | `SEMANTIC_SCHOLAR_API_KEY` | GH Secret | Raises S2 rate limit 1→10 req/s |
 | `OPENREVIEW_EMAIL` | GH Secret | For OpenReview authenticated access |

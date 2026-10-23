@@ -13,16 +13,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.database import get_db
 from app.models import User
 
-SECRET_KEY  = os.environ.get("JWT_SECRET", "change-me-in-production")
+SECRET_KEY  = os.environ.get("JWT_SECRET", "")
 ALGORITHM   = "HS256"
 TOKEN_TTL_H = int(os.environ.get("JWT_TTL_HOURS", "72"))
 
-if SECRET_KEY == "change-me-in-production":
-    import logging as _logging
-    _logging.getLogger(__name__).warning(
-        "JWT_SECRET is not set — using insecure default. "
-        "Set the JWT_SECRET environment variable before deploying."
-    )
+if not SECRET_KEY.strip() or SECRET_KEY.strip().casefold() in {
+    "change-me-in-production",
+    "replace-with-a-long-random-secret",
+    "your-secret-key",
+    "your-secret-key-here",
+    "changeme",
+    "secret",
+}:
+    raise RuntimeError("JWT_SECRET must be set to a value that is not a placeholder")
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer  = HTTPBearer()
