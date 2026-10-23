@@ -1,15 +1,19 @@
 from __future__ import annotations
 
+import asyncio
+import logging
 import uuid
 from datetime import datetime, timezone
 
+import anyio
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from sqlalchemy import delete, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from starlette.types import Receive, Scope, Send
 
 from app.auth import get_current_user
-from app.database import get_db
+from app.database import get_db, get_session_factory
 from app.models import ChatMessage, ChatSession, Paper, User
 from app.schemas_chat import (
     ChatMessageCreate,
@@ -20,7 +24,13 @@ from app.schemas_chat import (
     ChatSessionOut,
     ChatSessionUpdate,
 )
-from app.services.chat_service import ChatError, start_turn, stream_chat_turn
+from app.services.chat_service import (
+    ChatError,
+    ChatTurn,
+    cancel_pending_turn,
+    start_turn,
+    stream_chat_turn,
+)
 from app.services.quota_service import (
     QuotaConfigurationError,
     QuotaExceeded,
@@ -29,6 +39,44 @@ from app.services.quota_service import (
 )
 
 router = APIRouter(prefix="/chat", tags=["paper-chat"])
+log = logging.getLogger(__name__)
+
+
+class _ChatStreamResponse(StreamingResponse):
+    def __init__(self, turn: ChatTurn, user: User):
+        super().__init__(
+            (),
+            media_type="text/event-stream",
+            headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+        )
+        self.turn = turn
+        self.user = user
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        # FastAPI closes the request's database dependency before streaming.
+        db = get_session_factory()()
+        stream = stream_chat_turn(db, self.turn, self.user)
+        self.body_iterator = stream
+        try:
+            await super().__call__(scope, receive, send)
+        finally:
+            with anyio.CancelScope(shield=True):
+                # Let the driver finish after a single timeout cancellation.
+                try:
+                    try:
+                        await asyncio.wait_for(stream.aclose(), timeout=5)
+                    finally:
+                        await asyncio.wait_for(
+                            cancel_pending_turn(db, self.turn.assistant_message.id),
+                            timeout=5,
+                        )
+                except asyncio.TimeoutError:
+                    log.warning("Chat stream database cleanup timed out")
+                finally:
+                    try:
+                        await asyncio.wait_for(db.close(), timeout=5)
+                    except asyncio.TimeoutError:
+                        log.warning("Chat stream database close timed out")
 
 
 async def _owned_session(
@@ -224,8 +272,4 @@ async def send_message(
         )
     except ChatError as exc:
         raise HTTPException(status_code=exc.status_code, detail=exc.code)
-    return StreamingResponse(
-        stream_chat_turn(db, turn, current_user),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
-    )
+    return _ChatStreamResponse(turn, current_user)

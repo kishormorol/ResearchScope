@@ -242,6 +242,17 @@ The OpenAI API key is read only by the backend. It must never be placed in front
 
 ## Persistence and ownership
 
+Stopping a generation aborts the browser request. The response owns its database
+session and changes an interrupted pending answer to `cancelled`. Reloading the
+chat displays `Generation cancelled.` for that saved state. Completed and failed
+answers retain their state if the connection closes later.
+
+Cleanup requests cancellation after five seconds for each operation and waits
+for the database driver to finish closing its connection. It can take longer
+than five seconds. If a database failure prevents the status update, the row can
+remain pending. The existing stale turn cleanup marks such rows failed after
+15 minutes when another message request runs.
+
 The additive schema is defined in:
 
 - `backend/migrations/001_chat_with_paper.sql`;

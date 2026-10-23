@@ -172,7 +172,10 @@
     const bubble = document.createElement('div');
     bubble.className = 'message-bubble';
     bubble.textContent = core.displayAnswerText(
-      message.content || (message.status === 'pending' ? 'Thinking…' : ''),
+      message.content || (
+        message.status === 'pending' ? 'Thinking…'
+          : message.status === 'cancelled' ? 'Generation cancelled.' : ''
+      ),
     );
     article.appendChild(bubble);
 
@@ -510,7 +513,7 @@
       const pending = state.messages.find((item) => item.role === 'assistant' && item.status === 'pending');
       if (pending) Object.assign(pending, {
         content: error.name === 'AbortError' ? 'Generation cancelled.' : `Could not answer: ${error.message}`,
-        status: 'failed',
+        status: error.name === 'AbortError' ? 'cancelled' : 'failed',
       });
       renderMessages();
     } finally {

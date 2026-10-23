@@ -6,7 +6,7 @@ import os
 import re
 import time
 import uuid
-from collections.abc import AsyncIterator
+from collections.abc import AsyncGenerator
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 
@@ -730,9 +730,20 @@ async def _record_usage(
     await db.execute(stmt)
 
 
+async def cancel_pending_turn(db: AsyncSession, message_id: str) -> None:
+    await db.rollback()
+    await db.execute(
+        update(ChatMessage)
+        .where(ChatMessage.id == message_id, ChatMessage.status == "pending")
+        .values(status="cancelled", content="", citations=[])
+        .execution_options(synchronize_session=False)
+    )
+    await db.commit()
+
+
 async def stream_chat_turn(
     db: AsyncSession, turn: ChatTurn, user: User
-) -> AsyncIterator[str]:
+) -> AsyncGenerator[str, None]:
     yield sse(
         "message_started",
         {
@@ -812,13 +823,6 @@ async def stream_chat_turn(
                 **usage,
             },
         )
-    except asyncio.CancelledError:
-        await db.rollback()
-        message = await db.get(ChatMessage, turn.assistant_message.id)
-        if message:
-            message.status = "cancelled"
-            await db.commit()
-        raise
     except Exception as exc:
         await db.rollback()
         message = await db.get(ChatMessage, turn.assistant_message.id)
