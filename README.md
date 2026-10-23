@@ -223,6 +223,12 @@ instruct = load_dataset("kishormorol/researchscope-papers",
 | **CVF** | CVPR (2021–25), ICCV (2021+23), ECCV (2020+22+24) | Monthly |
 | **Semantic Scholar** | AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE + journals | Monthly |
 
+PMLR ingestion reads authors and supplied paper and PDF links from proceedings
+indexes. If an index does not contain an abstract, the abstract stays empty.
+PDF paths are not inferred from paper links. Recovering a paper link can change
+a record ID that previously used a title fallback. Existing stored rows are not
+migrated automatically.
+
 ---
 
 ## Project Layout

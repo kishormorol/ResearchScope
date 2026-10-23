@@ -14,6 +14,7 @@ from __future__ import annotations
 import logging
 import re
 import time
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from html.parser import HTMLParser
@@ -54,58 +55,96 @@ _DELAY = 2.0
 class _PMLRParser(HTMLParser):
     """Extract paper records from a PMLR proceedings index page."""
 
-    def __init__(self) -> None:
+    def __init__(self, base_url: str = f"{_BASE}/") -> None:
         super().__init__()
+        self._base_url = base_url
         self.papers: list[dict[str, Any]] = []
         self._current: dict[str, Any] | None = None
         self._in_title = False
         self._in_authors = False
         self._in_abstract = False
-        self._tag_stack: list[str] = []
+        self._in_links = False
+        self._paper_div_depth = 0
+        self._authors_tag = ""
+        self._authors_depth = 0
+        self._authors_text = ""
 
     def handle_starttag(self, tag: str, attrs: list) -> None:
         attr_dict = dict(attrs)
-        cls = attr_dict.get("class", "")
-        self._tag_stack.append(tag)
+        classes = set(attr_dict.get("class", "").split())
 
-        if tag == "div" and "paper" in cls:
-            self._current = {"title": "", "authors": [], "abstract": "", "url": ""}
+        if tag == "div" and "paper" in classes and self._current is None:
+            self._current = {
+                "title": "", "authors": [], "abstract": "", "url": "", "pdf_url": ""
+            }
+            self._paper_div_depth = 1
+            self._in_title = self._in_authors = False
+            self._in_abstract = self._in_links = False
+            self._authors_tag = ""
+            self._authors_depth = 0
+            self._authors_text = ""
         elif self._current is not None:
-            if tag == "p" and cls == "title":
+            if tag == "div":
+                self._paper_div_depth += 1
+            if self._in_authors and tag == self._authors_tag:
+                self._authors_depth += 1
+            if tag == "p" and "title" in classes:
                 self._in_title = True
-            elif tag == "p" and cls == "authors":
+            elif tag in {"p", "span"} and "authors" in classes and not self._in_authors:
                 self._in_authors = True
-            elif tag == "p" and cls == "abstract":
+                self._authors_tag = tag
+                self._authors_depth = 1
+            elif tag == "p" and "abstract" in classes:
                 self._in_abstract = True
-            elif tag == "a" and self._in_title:
+            elif tag == "p" and "links" in classes:
+                self._in_links = True
+            elif tag == "a" and (self._in_title or self._in_links):
                 href = attr_dict.get("href", "")
                 if href:
-                    self._current["url"] = href if href.startswith("http") else f"{_BASE}{href}"
+                    try:
+                        url = urllib.parse.urljoin(self._base_url, href)
+                        parsed = urllib.parse.urlsplit(url)
+                    except ValueError:
+                        return
+                    if parsed.scheme not in {"http", "https"}:
+                        return
+                    if parsed.path.lower().endswith(".pdf"):
+                        self._current["pdf_url"] = url
+                    elif self._in_title or parsed.path.lower().endswith(".html"):
+                        if not self._current["url"]:
+                            self._current["url"] = url
 
     def handle_endtag(self, tag: str) -> None:
-        if self._tag_stack:
-            self._tag_stack.pop()
         if tag == "p":
             self._in_title = False
-            self._in_authors = False
             self._in_abstract = False
-        if tag == "div" and self._current and self._current.get("title"):
-            self.papers.append(self._current)
-            self._current = None
+            self._in_links = False
+        if self._in_authors and tag == self._authors_tag:
+            self._authors_depth -= 1
+            if self._authors_depth == 0:
+                self._in_authors = False
+        if tag == "div" and self._current is not None:
+            self._paper_div_depth -= 1
+            if self._paper_div_depth == 0:
+                self._current["title"] = " ".join(self._current["title"].split())
+                self._current["abstract"] = " ".join(self._current["abstract"].split())
+                self._current["authors"] = [
+                    " ".join(author.split())
+                    for author in self._authors_text.split(",") if author.strip()
+                ]
+                if self._current["title"]:
+                    self.papers.append(self._current)
+                self._current = None
 
     def handle_data(self, data: str) -> None:
         if self._current is None:
             return
-        text = data.strip()
-        if not text:
-            return
         if self._in_title:
-            self._current["title"] += text
+            self._current["title"] += data
         elif self._in_authors:
-            # Authors are comma-separated inline text
-            self._current["authors"] = [a.strip() for a in text.split(",") if a.strip()]
+            self._authors_text += data
         elif self._in_abstract:
-            self._current["abstract"] += " " + text
+            self._current["abstract"] += data
 
 
 class PMLRConnector(BaseConnector):
@@ -169,7 +208,7 @@ class PMLRConnector(BaseConnector):
         with urllib.request.urlopen(req, timeout=60) as resp:
             html = resp.read().decode("utf-8", errors="replace")
 
-        parser = _PMLRParser()
+        parser = _PMLRParser(url)
         parser.feed(html)
 
         papers = []
@@ -211,5 +250,6 @@ class PMLRConnector(BaseConnector):
             venue=venue,
             conference_rank=rank,
             paper_url=paper_url,
+            pdf_url=rec.get("pdf_url", ""),
             fetched_at=datetime.now(timezone.utc).isoformat(),
         )
