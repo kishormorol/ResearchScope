@@ -26,7 +26,7 @@ _API_BASE      = "https://api.semanticscholar.org/graph/v1/paper/search"
 _API_BULK      = "https://api.semanticscholar.org/graph/v1/paper/search/bulk"
 _FIELDS        = (
     "paperId,title,abstract,authors.name,authors.affiliations,"
-    "year,venue,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
+    "year,venue,citationCount,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
 )
 
 # Venues to bulk-fetch in fetch_all using the S2 bulk cursor endpoint.
@@ -243,7 +243,7 @@ class SemanticScholarConnector(BaseConnector):
                 log.warning("[s2] venue=%s query='%s' failed: %s", venue_key, query, exc)
             time.sleep(self._sleep)
 
-        return all_papers
+        return all_papers[:max_results]
 
     def fetch_venue(self, query: str, venue_key: str, max_results: int = 100) -> list[Paper]:
         """Fetch from a single venue by its short name (e.g. 'ICLR')."""
@@ -338,6 +338,7 @@ class SemanticScholarConnector(BaseConnector):
             conference_rank=rank,
             paper_url=paper_url,
             pdf_url=pdf_url,
+            citations=int(rec.get("citationCount") or 0),
             tags=tags,
             fetched_at=datetime.now(timezone.utc).isoformat(),
         )
