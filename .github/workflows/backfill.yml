@@ -26,6 +26,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - name: Checkout
         uses: actions/checkout@v7
 
