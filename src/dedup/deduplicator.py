@@ -29,6 +29,15 @@ def _normalise_title(title: str) -> str:
     return re.sub(r"\s+", " ", title).strip()
 
 
+def _title_bigrams(title: str) -> list[tuple[str, str]]:
+    words = title.split()
+    return (
+        [(words[k], words[k + 1]) for k in range(len(words) - 1)]
+        if len(words) >= 2
+        else [(word, "") for word in words]
+    )
+
+
 _ARXIV_URL_RE = re.compile(r"arxiv\.org/abs/(\d{4}\.\d{4,5})", re.IGNORECASE)
 _ARXIV_ID_RE  = re.compile(r"^arxiv:(\d{4}\.\d{4,5})", re.IGNORECASE)
 
@@ -128,13 +137,7 @@ class Deduplicator:
         kept: list[int] = []
 
         for i in range(len(result)):
-            words = normalised[i].split()
-            # Build bigrams; fall back to unigrams for very short titles
-            bigrams: list[tuple[str, str]] = (
-                [(words[k], words[k + 1]) for k in range(len(words) - 1)]
-                if len(words) >= 2
-                else [(w, "") for w in words]
-            )
+            bigrams = _title_bigrams(normalised[i])
 
             # Gather candidate kept-paper indices sharing ≥1 bigram
             candidates: set[int] = set()
@@ -156,5 +159,15 @@ class Deduplicator:
                 existing = result[best_match]
                 if _completeness(result[i]) > _completeness(existing):
                     result[best_match] = _merge(result[i], existing)
+                    old_bigrams = set(_title_bigrams(normalised[best_match]))
+                    new_bigrams = set(bigrams)
+                    for bg in old_bigrams - new_bigrams:
+                        indices = bigram_idx[bg]
+                        indices.remove(best_match)
+                        if not indices:
+                            del bigram_idx[bg]
+                    for bg in new_bigrams - old_bigrams:
+                        bigram_idx[bg].append(best_match)
+                    normalised[best_match] = normalised[i]
 
         return [result[i] for i in kept]
