@@ -15,7 +15,6 @@ BACKEND = Path(__file__).resolve().parents[1] / "backend"
 sys.path.insert(0, str(BACKEND))
 
 from app.schemas import PaperList, PaperOut  # noqa: E402
-from app.schemas_chat import DocumentStatusOut  # noqa: E402
 
 # Columns that are nullable in the papers table but non-optional on PaperOut.
 _NULLABLE_PAPER_FIELDS = {
@@ -102,16 +101,3 @@ def test_populated_paper_values_are_preserved():
     assert paper.topics == ["NLP"]
     assert paper.citations == 173000
     assert paper.paper_score == 9.5
-
-
-def test_document_status_tolerates_null_counts():
-    status = DocumentStatusOut.model_validate(
-        {
-            "paper_id": "arxiv:1706.03762",
-            "status": "ready",
-            "page_count": None,
-            "chunk_count": None,
-        }
-    )
-    assert status.page_count == 0
-    assert status.chunk_count == 0

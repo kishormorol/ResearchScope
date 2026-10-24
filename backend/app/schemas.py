@@ -61,11 +61,6 @@ class PaperList(BaseModel):
     results: list[PaperOut]
 
 
-class PaperViewerOut(BaseModel):
-    viewer_url: str | None = None
-    external_url: str | None = None
-
-
 # ── Auth ──────────────────────────────────────────────────────────────────────
 
 class RegisterIn(BaseModel):

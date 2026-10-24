@@ -1,1 +1,1 @@
-"""Backend services for document preparation, retrieval, and paper chat."""
+"""Backend services for the research paper catalog."""

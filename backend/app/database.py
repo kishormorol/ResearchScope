@@ -8,20 +8,6 @@ from sqlalchemy.orm import DeclarativeBase
 
 log = logging.getLogger(__name__)
 
-# Dimension the optional pgvector HNSW index is built for. The retrieval query
-# must cast to the same typed `vector(N)` for the index to be usable, so this is
-# the single source of truth for both — import it rather than repeating 256.
-PGVECTOR_INDEX_DIMENSIONS = 256
-
-
-def configured_embedding_dimensions() -> int:
-    """Embedding width the app is configured to produce, or the default."""
-    try:
-        return int(os.environ.get("OPENAI_EMBEDDING_DIMENSIONS", "256"))
-    except ValueError:
-        return PGVECTOR_INDEX_DIMENSIONS
-
-
 def _database_url() -> str:
     """
     Resolve the database URL from environment variables.
@@ -97,67 +83,6 @@ async def get_db():
         yield session
 
 
-async def _enable_pgvector_index(conn) -> bool:
-    """Enable optional HNSW acceleration without requiring pgvector in prod."""
-    from sqlalchemy import text
-    from sqlalchemy.exc import SQLAlchemyError
-
-    try:
-        async with conn.begin_nested():
-            available = await conn.scalar(
-                text(
-                    """
-                    SELECT EXISTS (
-                        SELECT 1 FROM pg_available_extensions WHERE name = 'vector'
-                    )
-                    """
-                )
-            )
-            if not available:
-                log.info(
-                    "pgvector is unavailable; using PostgreSQL array cosine search."
-                )
-                return False
-
-            configured = configured_embedding_dimensions()
-            if configured != PGVECTOR_INDEX_DIMENSIONS:
-                # The index is typed vector(PGVECTOR_INDEX_DIMENSIONS); a query
-                # embedding of a different width cannot use it, so retrieval
-                # silently degrades to a sequential scan. Say so out loud.
-                log.warning(
-                    "OPENAI_EMBEDDING_DIMENSIONS=%s does not match the pgvector "
-                    "index width %s; semantic search will not use the HNSW index. "
-                    "Rebuild the index for %s dimensions or revert the setting.",
-                    configured,
-                    PGVECTOR_INDEX_DIMENSIONS,
-                    configured,
-                )
-
-            await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
-            await conn.execute(
-                text(
-                    f"""
-                    CREATE INDEX IF NOT EXISTS ix_paper_chunks_embedding_hnsw_256
-                    ON paper_chunks USING hnsw (
-                        (embedding::vector({PGVECTOR_INDEX_DIMENSIONS}))
-                        vector_cosine_ops
-                    )
-                    WHERE embedding IS NOT NULL
-                      AND array_length(embedding, 1) = {PGVECTOR_INDEX_DIMENSIONS}
-                    """
-                )
-            )
-    except SQLAlchemyError as exc:
-        log.warning(
-            "pgvector acceleration could not be enabled; using PostgreSQL "
-            "array cosine search: %s",
-            exc,
-        )
-        return False
-
-    return True
-
-
 async def init_db() -> None:
     try:
         from sqlalchemy import text
@@ -167,65 +92,6 @@ async def init_db() -> None:
             # Idempotent migration: add notes column if not present
             await conn.execute(
                 text("ALTER TABLE favourites ADD COLUMN IF NOT EXISTS notes TEXT")
-            )
-            await conn.execute(
-                text("""
-                ALTER TABLE paper_documents
-                    ADD COLUMN IF NOT EXISTS embedding_model TEXT,
-                    ADD COLUMN IF NOT EXISTS embedding_dimensions INTEGER
-                        NOT NULL DEFAULT 0
-            """)
-            )
-            await conn.execute(
-                text("""
-                ALTER TABLE paper_chunks
-                    ADD COLUMN IF NOT EXISTS token_count INTEGER NOT NULL DEFAULT 0,
-                    ADD COLUMN IF NOT EXISTS parent_chunk_index INTEGER,
-                    ADD COLUMN IF NOT EXISTS content_type TEXT
-                        NOT NULL DEFAULT 'paragraph',
-                    ADD COLUMN IF NOT EXISTS embedding REAL[],
-                    ADD COLUMN IF NOT EXISTS embedding_model TEXT,
-                    ADD COLUMN IF NOT EXISTS bounding_box JSONB
-            """)
-            )
-            await conn.execute(
-                text("""
-                CREATE INDEX IF NOT EXISTS ix_paper_chunks_parent
-                ON paper_chunks (paper_id, parent_chunk_index)
-            """)
-            )
-            await conn.execute(
-                text("""
-                CREATE INDEX IF NOT EXISTS ix_paper_chunks_type
-                ON paper_chunks (paper_id, content_type)
-            """)
-            )
-            await _enable_pgvector_index(conn)
-            await conn.execute(
-                text("""
-                CREATE OR REPLACE FUNCTION paper_chunks_search_vector_update()
-                RETURNS trigger AS $$
-                BEGIN
-                    NEW.search_vector := to_tsvector(
-                        'english', coalesce(NEW.content, '')
-                    );
-                    RETURN NEW;
-                END;
-                $$ LANGUAGE plpgsql
-            """)
-            )
-            await conn.execute(
-                text("""
-                DROP TRIGGER IF EXISTS paper_chunks_search_vector_trigger
-                ON paper_chunks
-            """)
-            )
-            await conn.execute(
-                text("""
-                CREATE TRIGGER paper_chunks_search_vector_trigger
-                BEFORE INSERT OR UPDATE OF content ON paper_chunks
-                FOR EACH ROW EXECUTE FUNCTION paper_chunks_search_vector_update()
-            """)
             )
         log.info("Database tables initialised.")
     except Exception as exc:
