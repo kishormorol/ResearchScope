@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_call:
+    secrets:
+      HF_TOKEN:
+        required: false
 
 permissions:
   contents: read
@@ -12,7 +16,8 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  queue: max
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -21,8 +26,24 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      source_sha: ${{ steps.source.outputs.sha }}
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Record published revision
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
@@ -30,3 +51,13 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  sync-space:
+    needs: deploy
+    permissions:
+      contents: read
+    uses: ./.github/workflows/hf-space.yml
+    with:
+      source_sha: ${{ needs.deploy.outputs.source_sha }}
+    secrets:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
