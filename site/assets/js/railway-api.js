@@ -15,8 +15,8 @@ const RS_API = window.__RS_API_BASE__ ||
     : 'https://researchscope-production.up.railway.app');
 
 // Local browse pages read the public production /papers listing through the
-// static dev server's same-origin proxy. All auth, chat, document preparation,
-// favourites, and paper-specific endpoints continue to use RS_API above.
+// static dev server's same-origin proxy. Auth, favourites, and paper-specific
+// endpoints continue to use RS_API above.
 const RS_PAPERS_LIST_API = window.__RS_PAPERS_LIST_API_BASE__ ||
   ((location.hostname === '127.0.0.1' || location.hostname === 'localhost')
     ? `${location.origin}/api/production`
@@ -77,22 +77,6 @@ async function _papersListFetch(params) {
     throw Object.assign(new Error(err.detail || 'Papers API error'), { status: res.status });
   }
   return res.json();
-}
-
-async function _apiFetchRaw(path, opts = {}) {
-  const headers = { 'Content-Type': 'application/json', ...(opts.headers || {}) };
-  const token = _auth.token();
-  if (token && !headers.Authorization) headers.Authorization = `Bearer ${token}`;
-  const res = await fetch(`${RS_API}${path}`, { ...opts, headers });
-  if (!res.ok) {
-    const err = await res.json().catch(() => ({ detail: res.statusText }));
-    const expired = _expireStoredSession(res.status, headers.Authorization, token);
-    const message = expired
-      ? 'Your session has expired. Please sign in again.'
-      : (err.detail || 'API error');
-    throw Object.assign(new Error(message), { status: res.status, authExpired: expired });
-  }
-  return res;
 }
 
 function _expireStoredSession(status, authorization, storedToken) {
@@ -418,7 +402,6 @@ function _showUserMenu() {
     </div>
     <a href="profile.html">Profile &amp; Settings</a>
     <a href="favourites.html">My Favourites</a>
-    <a href="chat-paper">My Paper Chats</a>
     <div style="height:1px;background:var(--rs-border,#aa9970);margin:.25rem 0"></div>
     <button onclick="rsLogout()" style="color:var(--rs-danger,#7f2d23)">Sign out</button>`;
   wrap.appendChild(menu);
@@ -483,36 +466,10 @@ window._rs_api = {
   papers: {
     list:        (p) => _apiFetch(`/papers?${new URLSearchParams(p)}`),
     get:         (id) => _apiFetch(`/papers/${encodeURIComponent(id)}`),
-    viewer:      (id) => _apiFetch(`/papers/${encodeURIComponent(id)}/viewer-url`),
     conferences: (p)  => _apiFetch(`/papers/conferences?${new URLSearchParams(p)}`),
     journals:    (p)  => _apiFetch(`/papers/journals?${new URLSearchParams(p)}`),
   },
   search: (q, opts = {}) => _apiFetch(`/search?${new URLSearchParams({ q, ...opts })}`),
-  documents: {
-    status:  (paperId) => _apiFetch(`/papers/${encodeURIComponent(paperId)}/document-status`),
-    prepare: (paperId) => _apiFetch(`/papers/${encodeURIComponent(paperId)}/prepare`, { method: 'POST' }),
-  },
-  chat: {
-    createSession: (paperId) => _apiFetch('/chat/sessions', {
-      method: 'POST', body: JSON.stringify({ paper_id: paperId }),
-    }),
-    listSessions: (opts = {}) => _apiFetch(`/chat/sessions?${new URLSearchParams(opts)}`, { cache: 'no-store' }),
-    getSession: (id) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}`, { cache: 'no-store' }),
-    updateSession: (id, data) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}`, {
-      method: 'PATCH', body: JSON.stringify(data),
-    }),
-    deleteSession: (id) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}`, { method: 'DELETE' }),
-    deleteAllSessions: () => _apiFetch('/chat/sessions', { method: 'DELETE' }),
-    listMessages: (id) => _apiFetch(`/chat/sessions/${encodeURIComponent(id)}/messages`),
-    sendMessage: (id, content, requestId, signal) => _apiFetchRaw(
-      `/chat/sessions/${encodeURIComponent(id)}/messages`,
-      {
-        method: 'POST', signal,
-        headers: { 'Idempotency-Key': requestId },
-        body: JSON.stringify({ content }),
-      },
-    ),
-  },
 };
 
 // ── Init ──────────────────────────────────────────────────────────────────────

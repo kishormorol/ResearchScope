@@ -597,7 +597,6 @@ function buildDropdownNav() {
   if (linksDiv) {
     linksDiv.innerHTML =
       navLink('papers.html', 'Papers') +
-      navLink('chat-arxiv', '✦ Chat arXiv', ['chat-paper']) +
       dropdown('Venues', [
         ['conferences.html', 'Conferences'],
         ['journals.html',    'Journals'],
@@ -624,7 +623,6 @@ function buildDropdownNav() {
     mobLinks.innerHTML =
       ml('./',  'Home') +
       ml('papers.html', 'Papers') +
-      ml('chat-arxiv', '✦ Chat with arXiv', ['chat-paper']) +
       sec('Venues') +
       ml('conferences.html',           'Conferences') +
       ml('journals.html',              'Journals') +

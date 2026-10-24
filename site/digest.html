@@ -133,8 +133,8 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-18"></script>
-<script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
+<script src="assets/js/app.js?v=20261024-remove-assistant"></script>
+<script src="assets/js/railway-api.js?v=20261024-remove-assistant"></script>
 <script>
 // Topic group icons
 const TOPIC_ICONS = {
@@ -231,7 +231,6 @@ function renderDigestPaperCard(paper) {
     </div>
     ${abstract ? `<p class="text-xs leading-relaxed" style="color:var(--rs-muted)">${escHtml(abstract)}…</p>` : ''}
     <div class="flex gap-2 flex-wrap mt-1">
-      <a href="${escHtml(url)}" class="text-xs font-semibold hover:underline" style="color:var(--rs-primary)">Chat →</a>
       <a href="${escHtml(externalUrl)}" target="_blank" rel="noopener"
          class="text-xs font-semibold hover:underline" style="color:var(--rs-muted)">Paper ↗</a>
       <a href="${escHtml(tweetPaperUrl(paper))}" target="_blank" rel="noopener" class="tweet-btn">

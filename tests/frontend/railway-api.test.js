@@ -18,7 +18,7 @@ function createClient(fetchImpl) {
     location: {
       hostname: '127.0.0.1',
       origin: 'http://127.0.0.1:8080',
-      pathname: '/chat-paper',
+      pathname: '/papers.html',
     },
     localStorage: {
       getItem: (key) => values.get(key) ?? null,
@@ -68,13 +68,6 @@ function unauthorized() {
   assert.equal(jsonClient.values.has('rs_jwt'), false);
   assert.equal(jsonClient.values.has('rs_user'), false);
   assert.deepEqual(jsonClient.events, ['rs:auth-expired']);
-
-  const rawClient = createClient(async () => unauthorized());
-  await assert.rejects(
-    rawClient.api.chat.sendMessage('session-1', 'hello', 'request-1'),
-    (error) => error.status === 401 && error.authExpired === true,
-  );
-  assert.equal(rawClient.values.has('rs_jwt'), false);
 
   const requests = [];
   const loginClient = createClient(async (url, options) => {
