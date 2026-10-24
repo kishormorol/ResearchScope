@@ -36,6 +36,12 @@ The frontend is a static site on GitHub Pages backed by a **FastAPI REST API** o
 
 ---
 
+## Score availability
+
+Reading and content scores display `Unavailable` when the returned value is missing, blank or not a finite number. A numeric zero still displays as `0.0`. Numeric strings in older static records retain their numeric display.
+
+The table summaries, expanded score bars, topic reading paths and graph inspector use the same distinction. The display behavior does not add fields to the API, recover scores omitted by storage, or establish that the ranking predicts reading usefulness.
+
 ## Install the CLI
 
 The `researchscope` package ships a lightweight command-line tool for searching, saving, and analysing papers locally. It requires **Python 3.10+**.

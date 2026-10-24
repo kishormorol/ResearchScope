@@ -185,9 +185,9 @@
     &middot; MIT License &copy; 2026 Md Kishor Morol
   </p>
 </footer>
-<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/app.js?v=scoreavailability1"></script>
 <script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
-<script src="assets/js/topic-graph.js?v=ui-integrity-18"></script>
+<script src="assets/js/topic-graph.js?v=scoreavailability1"></script>
 <style>
 .topic-filter-btn {
   padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
@@ -223,7 +223,7 @@ function paperStub(p, icon='') {
       <a href="${escHtml(url)}" class="text-sm font-medium hover:underline">${escHtml(p.title)}</a>
       <div class="flex gap-1 flex-wrap mt-0.5">
         ${difficultyBadge(p)}
-        <span class="badge badge-score">${(+p.read_first_score||0).toFixed(1)}</span>
+        <span class="badge badge-score">${scoreText(p.read_first_score)}</span>
         ${p.paper_type ? `<span class="badge badge-type">${escHtml(p.paper_type)}</span>` : ''}
       </div>
       ${p.one_line_takeaway ? `<p class="text-xs mt-0.5 italic" style="color:var(--rs-muted)">${escHtml(truncate(p.one_line_takeaway,100))}</p>` : ''}

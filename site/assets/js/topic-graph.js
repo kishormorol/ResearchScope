@@ -681,6 +681,10 @@
       return;
     }
 
+    // Graph defaults are numeric; the label must retain score availability.
+    const rawReadFirst = nodeOrEdge.raw?.read_first_score;
+    const numericReadFirst = typeof rawReadFirst === 'number' || (typeof rawReadFirst === 'string' && rawReadFirst.trim() !== '');
+    const readFirst = numericReadFirst ? number(rawReadFirst, null) : null;
     const tags = asArray(nodeOrEdge.tags).slice(0, 8)
       .map((tag) => `<span class="badge badge-tag">${escapeHtml(tag)}</span>`).join('');
     const authors = asArray(nodeOrEdge.authors).slice(0, 4).join(', ');
@@ -692,7 +696,7 @@
         <p class="topic-graph-muted">${escapeHtml(authors)}${authors ? ' · ' : ''}${escapeHtml(nodeOrEdge.venue || nodeOrEdge.sourceLabel)} ${nodeOrEdge.year || ''}</p>
         <div class="topic-graph-metrics">
           <span>${number(nodeOrEdge.paperScore, 0).toFixed(1)} score</span>
-          <span>${number(nodeOrEdge.readFirstScore, 0).toFixed(1)} read first</span>
+          <span>${readFirst === null ? 'Unavailable' : readFirst.toFixed(1)} read first</span>
           <span>${escapeHtml(nodeOrEdge.difficulty)}</span>
         </div>
         <p>${escapeHtml(truncate(nodeOrEdge.summary, 260))}</p>

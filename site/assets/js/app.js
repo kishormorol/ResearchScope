@@ -104,12 +104,19 @@ function sourceBadge(paper) {
 }
 
 // ── Score bar ──────────────────────────────────────────────────────────
+function scoreText(score) {
+  const numeric = typeof score === 'number' || (typeof score === 'string' && score.trim() !== '');
+  const value = numeric ? Number(score) : NaN;
+  return Number.isFinite(value) ? value.toFixed(1) : 'Unavailable';
+}
+
 function scoreBar(label, score, max = 10) {
-  const pct = Math.round((score || 0) / max * 100);
+  const display = scoreText(score);
+  const pct = display === 'Unavailable' ? 0 : Math.round(Number(score) / max * 100);
   return `<div class="score-bar-wrap">
     <span style="font-size:0.72rem;color:var(--rs-muted);min-width:9rem">${escHtml(label)}</span>
     <div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct}%"></div></div>
-    <span class="score-bar-label">${(+score || 0).toFixed(1)}</span>
+    <span class="score-bar-label">${display}</span>
   </div>`;
 }
 

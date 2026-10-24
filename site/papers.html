@@ -182,7 +182,7 @@
   </p>
 </footer>
 
-<script src="assets/js/app.js?v=ui-integrity-18"></script>
+<script src="assets/js/app.js?v=scoreavailability1"></script>
 <script src="assets/js/library.js"></script>
 <script src="assets/js/chat-arxiv-core.js?v=20260718-paper-chat"></script>
 <script src="assets/js/railway-api.js?v=20260718-auth-expiry"></script>
@@ -288,7 +288,7 @@ function renderRows(papers, startIdx = 0) {
       <td>
         <span class="badge badge-score font-bold">${scoreVal.toFixed(1)}</span>
         <div class="text-xs mt-0.5" style="color:var(--rs-muted)">
-           ${(p.read_first_score||0).toFixed(1)} ·  ${(p.content_potential_score||0).toFixed(1)}
+           ${scoreText(p.read_first_score)} ·  ${scoreText(p.content_potential_score)}
         </div>
       </td>
       <td class="library-cell">${libBtn}</td>
