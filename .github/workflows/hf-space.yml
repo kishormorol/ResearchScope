@@ -1,14 +1,15 @@
 name: Sync Hugging Face Space
 
-# Mirrors the published site to https://huggingface.co/spaces/kishormorol/ResearchScope
-# after each successful Pages deploy, so the Space never drifts from GitHub.
 on:
-  # Follow the Pages deploy, so the Space only ever gets a site that shipped.
-  workflow_run:
-    workflows: ["Deploy to GitHub Pages"]
-    types: [completed]
-    branches: [main]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      source_sha:
+        required: true
+        type: string
+    secrets:
+      HF_TOKEN:
+        required: false
 
 permissions:
   contents: read
@@ -16,16 +17,31 @@ permissions:
 # Never let two uploads race for the same Space; don't cancel one mid-upload.
 concurrency:
   group: hf-space
+  queue: max
   cancel-in-progress: false
 
 jobs:
   sync:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    if: github.repository == 'kishormorol/ResearchScope'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          ref: ${{ inputs.source_sha || github.sha }}
+          persist-credentials: false
+
+      - name: Record mirrored revision
+        id: source
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Stage the site
         run: |
@@ -67,7 +83,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
           SPACE: kishormorol/ResearchScope
-          SOURCE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
         run: |
           python - <<'PY'
           import os, shutil

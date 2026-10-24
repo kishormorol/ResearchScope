@@ -10,8 +10,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: push-to-main
@@ -21,6 +19,14 @@ jobs:
   journal-sync:
     runs-on: ubuntu-latest
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v6
@@ -73,33 +79,24 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add site/data/
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "chore: journal sync [$(date -u +%Y-%m-%d)]"
-            for i in 1 2 3; do
-              git push origin main && break
-              echo "Push attempt $i failed, retrying with rebase (theirs)…"
-              git pull --rebase --autostash -X theirs origin main
-              sleep 5
-            done
-          fi
+          bash scripts/publish_generated_data.sh "chore: journal sync [$(date -u +%Y-%m-%d)]"
+
+      - name: Upload generated data recovery
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: journal-sync-generated-data-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-recovery/
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy:
     needs: journal-sync
     if: github.repository == 'kishormorol/ResearchScope'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: main
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: site/
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}

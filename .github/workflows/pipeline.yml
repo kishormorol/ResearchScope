@@ -21,14 +21,20 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   pipeline:
     if: github.repository == 'kishormorol/ResearchScope' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v6
@@ -81,29 +87,31 @@ jobs:
 
       - name: Commit updated data
         run: |
+          set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add site/data/
-          git diff --cached --quiet || git commit -m "chore: daily arXiv update [$(date -u +%Y-%m-%d)]" && git push || true
+          bash scripts/publish_generated_data.sh "chore: daily arXiv update [$(date -u +%Y-%m-%d)]"
+
+      - name: Upload generated data recovery
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: pipeline-generated-data-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-recovery/
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy:
     needs: pipeline
     if: github.repository == 'kishormorol/ResearchScope'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: main
-      - uses: actions/configure-pages@v6
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: site/
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
 
   # Per-section fine-tuning dataset for A* papers. Runs in parallel — does not
   # block the data refresh or Pages deploy. Uses the committed conferences_db.json
@@ -111,6 +119,8 @@ jobs:
   build-sections:
     name: Build section fine-tuning dataset
     if: github.repository == 'kishormorol/ResearchScope'
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 330   # under the 6h job cap even with GROBID restarts
     services:
@@ -120,6 +130,14 @@ jobs:
         ports:
           - 8070:8070
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - uses: actions/checkout@v7
 
       - uses: actions/setup-python@v6

@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: push-to-main
@@ -22,6 +20,14 @@ jobs:
     outputs:
       changed: ${{ steps.check.outputs.changed }}
     steps:
+      - name: Require main branch
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF:-}" != "refs/heads/main" ]; then
+            echo "::error::Run this publishing workflow from main."
+            exit 1
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v7
 
@@ -60,44 +66,28 @@ jobs:
       - name: Commit updated data
         if: steps.check.outputs.changed == 'true'
         run: |
+          set -euo pipefail
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "chore: update research data [$(date -u +%Y-%m-%d)]"
-          git pull --rebase --autostash origin main
-          git push
+          bash scripts/publish_generated_data.sh "chore: update research data [$(date -u +%Y-%m-%d)]"
+
+      - name: Upload generated data recovery
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: update-generated-data-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publication-recovery/
+          retention-days: 14
+          if-no-files-found: ignore
 
   deploy-pages:
     name: Deploy to GitHub Pages
     needs: update-data
     if: github.repository == 'kishormorol/ResearchScope'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          ref: ${{ github.ref }}    # pick up any data commit from previous job
-
-      - name: Pull latest changes
-        run: git pull --rebase origin ${{ github.ref_name }} || true
-
-      - name: Copy data into site/data/
-        run: |
-          mkdir -p site/data
-          if [ -d data ] && ls data/*.json 1>/dev/null 2>&1; then
-            cp data/*.json site/data/
-          fi
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: site/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
