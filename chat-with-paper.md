@@ -418,6 +418,17 @@ The tests cover URL normalization, frontend state helpers, extraction/chunking, 
 
 Integration testing must use a disposable PostgreSQL database, not the production Railway database.
 
+### Manual answer ownership checks
+
+Use a local API, a disposable database and a controlled provider response. Keep both saved chats on the same paper so choosing history does not reload the page.
+
+1. Send a question in chat A and delay delivery of its actual response. Open chat B with a pending assistant message from another accepted request. Release A's response and confirm that B retains its own content, status and citations. Check A's saved answer and B's unchanged row in the database.
+2. Repeat with a provider failure and with Stop. Neither result should mark B's message as failed. Also check a B that contains only completed messages and an empty New Chat view.
+3. Open B and then reopen A before the stream starts, and again after its start event. A's reloaded message has the server ID rather than the local placeholder ID. Confirm that A still receives its own answer without adding a duplicate message.
+4. Delay completion after an answer delta and repeat the selection check. Finally, send normally without changing chats and confirm that the answer and citations match the saved assistant message.
+
+Stream updates use the assistant ID from the server's start event. They do nothing when that message is absent from the current view. History refresh can still reopen a recent chat after completion; selection behavior and server cancellation cleanup are separate from message ownership.
+
 ## Known limitations
 
 - The discovery search covers papers indexed by ResearchScope; it is not a complete live arXiv.org search.

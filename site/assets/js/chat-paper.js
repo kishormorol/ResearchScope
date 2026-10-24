@@ -219,7 +219,8 @@
 
   function updateAssistantMessage(id, patch) {
     const message = state.messages.find((item) => item.id === id);
-    if (message) Object.assign(message, patch);
+    if (!message) return;
+    Object.assign(message, patch);
     renderMessages();
   }
 
@@ -458,6 +459,7 @@
     const requestId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
     const userId = `local-user-${requestId}`;
     const assistantId = `local-assistant-${requestId}`;
+    let streamedAssistantId = assistantId;
     appendMessage({ id: userId, role: 'user', content, citations: [], status: 'complete' });
     appendMessage({ id: assistantId, role: 'assistant', content: '', citations: [], status: 'pending' });
     input.value = '';
@@ -483,14 +485,11 @@
         buffer = parsed.rest;
         for (const event of parsed.events) {
           if (event.type === 'message_started' && event.data.assistant_message_id) {
-            const message = state.messages.find((item) => item.id === assistantId);
-            if (message) message.id = event.data.assistant_message_id;
+            updateAssistantMessage(streamedAssistantId, { id: event.data.assistant_message_id });
+            streamedAssistantId = event.data.assistant_message_id;
           } else if (event.type === 'delta') {
             answer += event.data.text || '';
-            updateAssistantMessage(
-              state.messages.find((item) => item.id !== userId && item.role === 'assistant' && item.status === 'pending')?.id || assistantId,
-              { content: answer },
-            );
+            updateAssistantMessage(streamedAssistantId, { content: answer });
           } else if (event.type === 'citations') {
             citations = event.data.citations || [];
           } else if (event.type === 'message_completed') {
@@ -502,17 +501,13 @@
         }
         if (done) break;
       }
-      const pending = state.messages.find((item) => item.role === 'assistant' && item.status === 'pending');
-      if (pending) Object.assign(pending, { content: answer, citations, status: 'complete' });
-      renderMessages();
+      updateAssistantMessage(streamedAssistantId, { content: answer, citations, status: 'complete' });
       await loadSessions();
     } catch (error) {
-      const pending = state.messages.find((item) => item.role === 'assistant' && item.status === 'pending');
-      if (pending) Object.assign(pending, {
+      updateAssistantMessage(streamedAssistantId, {
         content: error.name === 'AbortError' ? 'Generation cancelled.' : `Could not answer: ${error.message}`,
         status: 'failed',
       });
-      renderMessages();
     } finally {
       state.submitting = false;
       state.generating = false;
