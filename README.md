@@ -414,9 +414,9 @@ Want to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Persistent paper metadata
 
-Conference and journal JSON archives retain existing paper metadata, including identifiers, affiliations, limitations, future work and the original fetch time. Browser subsets still omit their existing internal fields. The archives omit seven heavy creator and score fields that the pipeline generates again.
+Conference and journal JSON archives retain existing paper metadata, including identifiers, affiliations, limitations, future work and the recorded fetch time. Browser subsets still omit their existing internal fields. The archives omit seven heavy creator and score fields that the pipeline generates again.
 
-The record caps and 100 MiB write guard remain unchanged. Metadata already missing from an older archive cannot be recovered by this change. The loader's existing current time default for missing fetch times is unchanged. Daily runs reload local archives, while sync runs may prefer PostgreSQL. The PostgreSQL projection, API fields and Hugging Face export schema are unchanged.
+The record caps and 100 MiB write guard remain unchanged. Metadata already missing from an older archive cannot be recovered by this change. Daily runs reload local archives, while sync runs may prefer PostgreSQL. The PostgreSQL projection, API fields and Hugging Face export schema are unchanged.
 
 ## License
 
