@@ -418,6 +418,33 @@ The tests cover URL normalization, frontend state helpers, extraction/chunking, 
 
 Integration testing must use a disposable PostgreSQL database, not the production Railway database.
 
+For manual creation checks, start a new chat on a prepared paper. Pause delivery
+of the actual chat creation response, then choose New chat or open a saved chat.
+Enter `Keep this newer draft exactly` before releasing the response. The current
+chat and draft must remain unchanged, and Send must become available. Check that
+no message request or model request was made for the earlier question.
+
+Repeat without changing chats. The question must send once, including after
+repeated Enter presses while creation is pending. A failed creation must preserve
+the draft and allow a retry. Also release a failed response after changing chats,
+and check Delete all before releasing a successful creation response.
+
+After releasing an abandoned creation response, run this assertion in the
+browser console:
+
+```javascript
+console.assert(
+  document.querySelector('#chat-input').value === 'Keep this newer draft exactly' &&
+    !document.querySelector('#send-message').disabled,
+  'Changing chats must preserve the draft and release Send.',
+);
+```
+
+The API can commit an empty chat before the browser receives its response. An
+abandoned creation can therefore leave an empty chat in later history. The
+browser does not delete that row automatically. This check concerns the interval
+before a question is sent, not navigation during an active answer.
+
 ## Known limitations
 
 - The discovery search covers papers indexed by ResearchScope; it is not a complete live arXiv.org search.

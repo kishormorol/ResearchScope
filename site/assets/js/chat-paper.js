@@ -429,10 +429,7 @@
 
   async function ensureSession() {
     if (state.session) return state.session;
-    state.session = await api.chat.createSession(state.paperId);
-    state.sessions.unshift(state.session);
-    renderHistory();
-    return state.session;
+    return api.chat.createSession(state.paperId);
   }
 
   async function sendMessage() {
@@ -446,13 +443,29 @@
     if (!core.claimSendSlot(state)) return;
     el('send-message').disabled = true;
 
+    const messages = state.messages;
     let session;
     try {
       session = await ensureSession();
     } catch (error) {
-      state.submitting = false;
-      setComposer(true, `Could not start chat: ${error.message}`);
+      setComposer(state.document?.status === 'ready', messages === state.messages
+        ? `Could not start chat: ${error.message}`
+        : 'The chat changed before your message was sent. Review your draft and send it again.');
       return;
+    } finally {
+      state.submitting = false;
+    }
+    if (messages !== state.messages) {
+      setComposer(
+        state.document?.status === 'ready',
+        'The chat changed before your message was sent. Review your draft and send it again.',
+      );
+      return;
+    }
+    if (!state.session) {
+      state.session = session;
+      state.sessions.unshift(session);
+      renderHistory();
     }
 
     const requestId = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`);
@@ -461,7 +474,6 @@
     appendMessage({ id: userId, role: 'user', content, citations: [], status: 'complete' });
     appendMessage({ id: assistantId, role: 'assistant', content: '', citations: [], status: 'pending' });
     input.value = '';
-    state.submitting = false;
     state.generating = true;
     state.abortController = new AbortController();
     el('send-message').textContent = '■';
