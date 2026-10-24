@@ -146,8 +146,10 @@ async function _queryPapers({
   }
 
   // 2. Last resort — static JSON (already capped at 1 000 by the generator)
+  const staticFile = source === 'conference' ? 'conferences.json'
+    : source === 'journal' ? 'journals.json' : 'papers.json';
   try {
-    const res = await fetch('data/papers.json');
+    const res = await fetch(`data/${staticFile}`);
     const all = await res.json();
     const filtered = search
       ? all.filter(p => (p.title||'').toLowerCase().includes(search.toLowerCase()) ||
@@ -156,7 +158,7 @@ async function _queryPapers({
     const count = Math.min(filtered.length, SECTION_CAP);
     return { data: filtered.slice(start, Math.min(start + pageSize, SECTION_CAP)), count, error: null };
   } catch (e) {
-    console.warn('[static] papers.json failed:', e.message);
+    console.warn(`[static] ${staticFile} failed:`, e.message);
   }
 
   return { data: [], count: 0, error: null };
