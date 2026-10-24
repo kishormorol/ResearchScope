@@ -61,6 +61,9 @@ def _conn():
 
 def _paper_row(p: dict[str, Any]) -> dict[str, Any]:
     row = {k: p[k] for k in _PAPER_COLS if k in p}
+    fetched_at = row.get("fetched_at")
+    if isinstance(fetched_at, str) and not fetched_at.strip():
+        row["fetched_at"] = None
     for col in _LIST_COLS:
         val = row.get(col)
         if isinstance(val, list):
@@ -81,7 +84,11 @@ def _upsert_papers(cur, rows: list[dict]) -> None:
         return
     cols    = list(rows[0].keys())
     placeholders = ", ".join(["%s"] * len(cols))
-    updates = ", ".join(f"{c} = EXCLUDED.{c}" for c in cols if c != "id")
+    updates = ", ".join(
+        f"{c} = COALESCE(EXCLUDED.{c}, papers.{c})" if c == "fetched_at"
+        else f"{c} = EXCLUDED.{c}"
+        for c in cols if c != "id"
+    )
     sql = (
         f"INSERT INTO papers ({', '.join(cols)}) VALUES ({placeholders}) "
         f"ON CONFLICT (id) DO UPDATE SET {updates}"

@@ -165,6 +165,14 @@ Live countdowns to top CS conference deadlines — filter by area, track abstrac
 
 ---
 
+### Paper fetch times
+
+Source connectors still assign fetch times to new records. Loading older normalized records without `fetched_at` leaves the value empty instead of assigning the current time.
+
+PostgreSQL stores `NULL` for null or blank fetch times in new rows. Updates with those values leave the stored time unchanged. Provided nonempty values still replace it. The change does not validate historical timestamp accuracy or correct times invented by earlier runs. It adds no fields and requires no database migration.
+
+Deduplication rules are unchanged. A richer retained record can still have an unknown time after a fresh duplicate is fetched. The field is not a last seen marker.
+
 ## API
 
 The REST API is live at **`https://researchscope-production.up.railway.app`**.

@@ -132,6 +132,7 @@ class Paper:
             _map = {"beginner": "L1", "intermediate": "L2", "advanced": "L3", "frontier": "L4"}
             data = dict(data, difficulty_level=_map.get(data.get("difficulty", ""), "L2"))
         filtered = {k: v for k, v in data.items() if k in known}
+        filtered.setdefault("fetched_at", "")
         return cls(**filtered)
 
 
