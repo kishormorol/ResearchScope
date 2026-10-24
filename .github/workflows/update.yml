@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: push-to-main
@@ -70,34 +68,10 @@ jobs:
     name: Deploy to GitHub Pages
     needs: update-data
     if: github.repository == 'kishormorol/ResearchScope'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          ref: ${{ github.ref }}    # pick up any data commit from previous job
-
-      - name: Pull latest changes
-        run: git pull --rebase origin ${{ github.ref_name }} || true
-
-      - name: Copy data into site/data/
-        run: |
-          mkdir -p site/data
-          if [ -d data ] && ls data/*.json 1>/dev/null 2>&1; then
-            cp data/*.json site/data/
-          fi
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: site/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+    secrets:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
