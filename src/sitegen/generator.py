@@ -71,9 +71,9 @@ class SiteGenerator:
         self._write(output_dir, "papers_db.json",
                     [p.to_dict() for p in arxiv_papers[: self.MAX_DB_PAPERS]])
         self._write(output_dir, "conferences_db.json",
-                    [self._slim(p) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
+                    [self._slim(p, archive=True) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
         self._write(output_dir, "journals_db.json",
-                    [self._slim(p) for p in journal_papers[: self.MAX_JOURNAL_DB_PAPERS]])
+                    [self._slim(p, archive=True) for p in journal_papers[: self.MAX_JOURNAL_DB_PAPERS]])
 
         # ── Section 1: arXiv preprints — top 1 000 by paper_score ───────────────
         self._write(output_dir, "papers.json",
@@ -134,6 +134,10 @@ class SiteGenerator:
         "canonical_id", "author_ids", "affiliations_raw", "lab_ids", "university_ids",
         "cluster_id", "prerequisites", "fetched_at",
     }
+    _ARCHIVE_STRIP_FIELDS = {
+        "tweet_thread", "linkedin_post", "newsletter_blurb", "video_script_outline",
+        "plain_english_explanation", "technical_summary", "score_breakdown",
+    }
 
     @staticmethod
     def _slim_author(author: Author) -> dict:
@@ -148,10 +152,10 @@ class SiteGenerator:
         return d
 
     @classmethod
-    def _slim(cls, paper: Paper) -> dict:
-        """Return a browser-friendly dict — drops heavy fields not shown in the UI."""
+    def _slim(cls, paper: Paper, *, archive: bool = False) -> dict:
+        """Keep paper metadata in archives while omitting regenerated heavy fields."""
         d = paper.to_dict()
-        for f in cls._STRIP_FIELDS:
+        for f in cls._ARCHIVE_STRIP_FIELDS if archive else cls._STRIP_FIELDS:
             d.pop(f, None)
         return d
 
