@@ -28,21 +28,24 @@ _FIELDS        = (
     "paperId,title,abstract,authors.name,authors.affiliations,"
     "year,venue,externalIds,openAccessPdf,publicationVenue,fieldsOfStudy"
 )
+# The bulk endpoint rejects authors.affiliations with HTTP 400, which had been
+# failing every bulk venue (KDD, WWW, SIGIR, WSDM, ICSE, ...)
+_BULK_FIELDS   = _FIELDS.replace("authors.affiliations,", "")
 
 # Venues to bulk-fetch in fetch_all using the S2 bulk cursor endpoint.
 # Each entry: venue_key → years to fetch.
 # These are used in conference-sync mode — primary source for venues without
 # a clean proceedings API (AAAI, KDD, WWW, SIGIR, WSDM, CHI, ICSE).
 _BULK_VENUES: dict[str, list[int]] = {
-    "AAAI":   [2021, 2022, 2023, 2024],
-    "IJCAI":  [2021, 2022, 2023, 2024],
-    "KDD":    [2022, 2023, 2024],
-    "WWW":    [2022, 2023, 2024],
-    "SIGIR":  [2022, 2023, 2024],
-    "WSDM":   [2023, 2024],
-    "CHI":    [2022, 2023, 2024],
-    "SIGMOD": [2022, 2023, 2024],
-    "ICSE":   [2022, 2023, 2024],
+    "AAAI":   [2021, 2022, 2023, 2024, 2025, 2026],
+    "IJCAI":  [2021, 2022, 2023, 2024, 2025, 2026],
+    "KDD":    [2022, 2023, 2024, 2025, 2026],
+    "WWW":    [2022, 2023, 2024, 2025, 2026],
+    "SIGIR":  [2022, 2023, 2024, 2025, 2026],
+    "WSDM":   [2023, 2024, 2025, 2026],
+    "CHI":    [2022, 2023, 2024, 2025, 2026],
+    "SIGMOD": [2022, 2023, 2024, 2025, 2026],
+    "ICSE":   [2022, 2023, 2024, 2025, 2026],
 }
 
 # Short venue names accepted by the S2 ?venue= filter → (canonical, rank)
@@ -195,11 +198,12 @@ class SemanticScholarConnector(BaseConnector):
         token: str | None = None
 
         while True:
+            # filter on venue only: a query=<venue> term would keep just the
+            # papers whose text mentions the venue name (24 of 772 for KDD 2024)
             params: dict[str, Any] = {
-                "query":  venue_key,
                 "venue":  venue_key,
                 "year":   str(year),
-                "fields": _FIELDS,
+                "fields": _BULK_FIELDS,
                 "limit":  500,
             }
             if token:
