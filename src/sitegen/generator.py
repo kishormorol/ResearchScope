@@ -42,6 +42,10 @@ class SiteGenerator:
     # authors.json — slim, no paper_ids; ~0.4 KB/author
     #   5,000 × 0.4 KB = 2 MB  ✓ safe
     MAX_AUTHORS = 5_000
+    # Share of each conference cap kept for the newest edition of every A*
+    # conference. paper_score leans on citations and abstracts, so without a
+    # reserve a just-published NeurIPS or CVPR is crowded out by older years.
+    LATEST_EDITION_SHARE = 0.4
     # Topics/gaps caps — prevents raw tag explosion from bloating these lists
     MAX_TOPICS  = 150
     MAX_GAPS    = 100
@@ -70,8 +74,9 @@ class SiteGenerator:
         # ── Persistent stores (committed to git, used by next pipeline run) ──────
         self._write(output_dir, "papers_db.json",
                     [p.to_dict() for p in arxiv_papers[: self.MAX_DB_PAPERS]])
+        conf_db = self._with_latest_editions(conf_papers, self.MAX_CONF_DB_PAPERS)
         self._write(output_dir, "conferences_db.json",
-                    [self._slim(p) for p in conf_papers[: self.MAX_CONF_DB_PAPERS]])
+                    [self._slim(p) for p in conf_db])
         self._write(output_dir, "journals_db.json",
                     [self._slim(p) for p in journal_papers[: self.MAX_JOURNAL_DB_PAPERS]])
 
@@ -81,7 +86,8 @@ class SiteGenerator:
 
         # ── Section 2: A* conference papers — top 1 000 by paper_score ──────────
         self._write(output_dir, "conferences.json",
-                    [self._slim(p) for p in a_star_papers[: self.MAX_FRONTEND_CONF]])
+                    [self._slim(p) for p in
+                     self._with_latest_editions(a_star_papers, self.MAX_FRONTEND_CONF)])
 
         # ── Section 3: Q1 journal papers — top 1 000 by paper_score ─────────────
         self._write(output_dir, "journals.json",
@@ -89,7 +95,7 @@ class SiteGenerator:
 
         # ── Search index — arXiv DB + top conference papers ─────────────────────
         # _search_entry is ultra-light (~250 B/paper) so 20 K entries ≈ 5 MB — safe.
-        all_db = arxiv_papers[: self.MAX_DB_PAPERS] + conf_papers[: self.MAX_CONF_DB_PAPERS]
+        all_db = arxiv_papers[: self.MAX_DB_PAPERS] + conf_db
         self._write(output_dir, "search_index.json",
                     [self._search_entry(p) for p in all_db])
 
@@ -125,6 +131,45 @@ class SiteGenerator:
             log.warning("HF dataset push failed (non-fatal): %s", exc)
 
     # ── Helpers ───────────────────────────────────────────────────────────────
+
+    @classmethod
+    def _with_latest_editions(cls, papers: list[Paper], cap: int) -> list[Paper]:
+        """Top ``cap`` papers by score, with part of the cap kept for new editions.
+
+        Up to ``LATEST_EDITION_SHARE`` of the slots go to the newest edition of
+        each A* conference (its latest year, if that is this year or last),
+        shared round-robin across venues in score order so one big conference
+        cannot take them all. The rest are filled by score as before. ``papers``
+        must already be sorted by paper_score; the result keeps that order.
+        """
+        if len(papers) <= cap:
+            return list(papers)
+        min_year = datetime.now(timezone.utc).year - 1
+        newest: dict[str, int] = {}
+        for p in papers:
+            if p.conference_rank == "A*" and p.year:
+                newest[p.venue] = max(newest.get(p.venue, 0), int(p.year))
+        queues: dict[str, list[Paper]] = {}
+        for p in papers:
+            year = int(p.year or 0)
+            if p.conference_rank == "A*" and year >= min_year and year == newest.get(p.venue):
+                queues.setdefault(p.venue, []).append(p)
+
+        reserved: list[Paper] = []
+        budget = int(cap * cls.LATEST_EDITION_SHARE)
+        depth = 0
+        while len(reserved) < budget and any(depth < len(q) for q in queues.values()):
+            for q in queues.values():
+                if depth < len(q) and len(reserved) < budget:
+                    reserved.append(q[depth])
+            depth += 1
+
+        keep = {id(p) for p in reserved}
+        for p in papers:
+            if len(keep) >= cap:
+                break
+            keep.add(id(p))
+        return [p for p in papers if id(p) in keep]
 
     # Creator-content and internal fields never needed by the browser UI
     _STRIP_FIELDS = {

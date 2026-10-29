@@ -43,6 +43,7 @@ _VENUES: dict[str, tuple[str, str, int]] = {
     "NeurIPS.cc/2022/Conference":       ("NeurIPS", "A*", 2022),
     "ICML.cc/2025/Conference":          ("ICML",    "A*", 2025),
     "ICML.cc/2024/Conference":          ("ICML",    "A*", 2024),
+    "colmweb.org/COLM/2026/Conference": ("COLM",    "A*", 2026),
     "colmweb.org/COLM/2025/Conference": ("COLM",    "A*", 2025),
     "colmweb.org/COLM/2024/Conference": ("COLM",    "A*", 2024),
 }

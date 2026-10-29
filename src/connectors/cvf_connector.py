@@ -25,18 +25,20 @@ from src.normalization.schema import Paper
 log = logging.getLogger(__name__)
 
 _BASE = "https://openaccess.thecvf.com"
-_MAX_ABSTRACT_FETCH = 200   # fetch individual pages for top N papers per conference
+_MAX_ABSTRACT_FETCH = 6000  # per conference; covers a full CVPR (~4k) so new papers are scored on their abstract
 _ABSTRACT_WORKERS = 20      # concurrent requests for abstract enrichment
 _ABSTRACT_TIMEOUT = 10      # seconds per individual abstract request
 _DELAY = 1.5
 
 # conference key → (url_path, venue name, rank, year)
 _CONFERENCES: dict[str, tuple[str, str, str, int]] = {
+    "CVPR2026": ("CVPR2026?day=all",  "CVPR", "A*", 2026),
     "CVPR2025": ("CVPR2025?day=all",  "CVPR", "A*", 2025),
     "CVPR2024": ("CVPR2024?day=all",  "CVPR", "A*", 2024),
     "CVPR2023": ("CVPR2023?day=all",  "CVPR", "A*", 2023),
     "CVPR2022": ("CVPR2022?day=all",  "CVPR", "A*", 2022),
     "CVPR2021": ("CVPR2021?day=all",  "CVPR", "A*", 2021),
+    "ICCV2025": ("ICCV2025?day=all",  "ICCV", "A*", 2025),
     "ICCV2023": ("ICCV2023?day=all",  "ICCV", "A*", 2023),
     "ICCV2021": ("ICCV2021?day=all",  "ICCV", "A*", 2021),
     "ECCV2024": ("ECCV2024?day=all",  "ECCV", "A*", 2024),

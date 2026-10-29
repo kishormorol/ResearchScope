@@ -12,6 +12,10 @@ on:
         description: 'Max papers per S2 keyword query (fallback only). Bulk S2 and OpenReview/PMLR/CVF/ACL always fetch ALL papers.'
         required: false
         default: '500'
+      refresh_years:
+        description: 'Comma-separated years to re-fetch even if already archived (e.g. 2025,2026)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -52,12 +56,14 @@ jobs:
           OPENREVIEW_PASSWORD: ${{ secrets.OPENREVIEW_PASSWORD }}
           RAILWAY_DATABASE_URL: ${{ secrets.RAILWAY_DATABASE_URL }}
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          CONF_REFRESH_YEARS: ${{ github.event.inputs.refresh_years }}
         run: |
           MAX="${{ github.event.inputs.max_results || '500' }}"
           echo "Running: python src/pipeline.py --conferences-only --max-results $MAX"
-          echo "Sources: OpenReview (ICLR 2022-25, NeurIPS 2022-24, COLM)"
-          echo "         PMLR (ICML 2020-25, AISTATS 2021-25, UAI 2021-24)"
-          echo "         CVF  (CVPR 2021-25, ICCV 2021+23, ECCV 2020+22+24)"
+          echo "Sources: OpenReview (ICLR 2022-26, NeurIPS 2022-25, ICML 2024-25, COLM 2024-26)"
+          echo "         Virtual sites (NeurIPS 2025-26)"
+          echo "         PMLR (ICML 2020-26, AISTATS 2021-26, UAI 2021-26)"
+          echo "         CVF  (CVPR 2021-26, ICCV 2021+23+25, ECCV 2020+22+24)"
           echo "         ACL  (2020+)"
           echo "         S2   (AAAI, IJCAI, KDD, WWW, SIGIR, WSDM, CHI, SIGMOD, ICSE)"
           python src/pipeline.py --conferences-only --max-results $MAX

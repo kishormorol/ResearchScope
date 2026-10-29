@@ -36,6 +36,7 @@ from src.clustering.clusterer import TopicClusterer
 from src.connectors.acl_connector import ACLAnthologyConnector
 from src.connectors.arxiv_connector import ArxivConnector
 from src.connectors.cvf_connector import CVFConnector
+from src.connectors.miniconf_connector import MiniconfConnector
 from src.connectors.openalex_connector import OpenAlexConnector
 from src.connectors.openreview_connector import OpenReviewConnector
 from src.connectors.pmlr_connector import PMLRConnector
@@ -185,15 +186,24 @@ def _load_complete_archive(source_type: str) -> list[Paper] | None:
     return papers
 
 
-def _settled_conf_keys(papers: list[Paper]) -> set[str]:
+# A past block needs at least this many archived papers to count as settled.
+# Any smaller and it was a partial fetch (keyword search, abstract cap, an API
+# outage), and skipping it would freeze the gap forever: NeurIPS 2025 sat at
+# 29 papers that way.
+_SETTLED_MIN_PAPERS = 150
+
+
+def _settled_conf_keys(papers: list[Paper],
+                       min_papers: int = _SETTLED_MIN_PAPERS) -> set[str]:
     """Build the set of "<venue>:<year>" conference blocks safe to skip re-fetch.
 
-    A block is settled when it is already in the complete archive AND its year is
-    in the past — the current calendar year is never skipped, so proceedings
-    still being published keep getting refreshed each run.
+    A block is settled when the complete archive already holds at least
+    ``min_papers`` of its papers AND its year is in the past. The current
+    calendar year is never skipped, so proceedings still being published keep
+    getting refreshed each run.
     """
     cur_year = datetime.now(timezone.utc).year
-    keys: set[str] = set()
+    counts: dict[str, int] = {}
     for p in papers:
         if not p.venue or not p.year:
             continue
@@ -202,8 +212,12 @@ def _settled_conf_keys(papers: list[Paper]) -> set[str]:
         except (TypeError, ValueError):
             continue
         if year < cur_year:
-            keys.add(f"{p.venue}:{year}")
-    return keys
+            key = f"{p.venue}:{year}"
+            counts[key] = counts.get(key, 0) + 1
+    # CONF_REFRESH_YEARS="2025,2026" forces those years to be fetched again
+    force = {y.strip() for y in os.environ.get("CONF_REFRESH_YEARS", "").split(",") if y.strip()}
+    return {key for key, n in counts.items()
+            if n >= min_papers and key.rsplit(":", 1)[1] not in force}
 
 
 def _is_conference_paper(p: Paper) -> bool:
@@ -449,7 +463,7 @@ def run_pipeline(
         if conferences_only:
             # ── Conference-sync mode: fetch ALL papers directly from proceedings ──
             # OpenReview — ICLR, NeurIPS, COLM (authenticates via env credentials)
-            log.info("  [openreview] fetching ALL papers (ICLR 2022-26, NeurIPS 2022-25, ICML 2024-25, COLM 2024-25) …")
+            log.info("  [openreview] fetching ALL papers (ICLR 2022-26, NeurIPS 2022-25, ICML 2024-25, COLM 2024-26) …")
             try:
                 fetched = OpenReviewConnector().fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
@@ -457,7 +471,17 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [openreview] fetch_all failed: %s", exc)
 
-            log.info("  [pmlr] fetching ALL papers (ICML 2020-25, AISTATS 2021-25, UAI 2021-24) …")
+            # Conference virtual sites — NeurIPS accepted papers without OpenReview,
+            # whose API now challenges CI requests
+            log.info("  [miniconf] fetching ALL papers (NeurIPS 2025-26) …")
+            try:
+                fetched = MiniconfConnector().fetch_all(skip_keys=conf_skip_keys)
+                log.info("    → %d papers", len(fetched))
+                all_papers.extend(fetched)
+            except Exception as exc:
+                log.warning("  [miniconf] fetch_all failed: %s", exc)
+
+            log.info("  [pmlr] fetching ALL papers (ICML 2020-26, AISTATS 2021-26, UAI 2021-26) …")
             try:
                 fetched = PMLRConnector().fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
@@ -465,7 +489,7 @@ def run_pipeline(
             except Exception as exc:
                 log.warning("  [pmlr] fetch_all failed: %s", exc)
 
-            log.info("  [cvf] fetching ALL papers (CVPR 2021-25, ICCV 2021+23, ECCV 2020+22+24) …")
+            log.info("  [cvf] fetching ALL papers (CVPR 2021-26, ICCV 2021+23+25, ECCV 2020+22+24) …")
             try:
                 fetched = CVFConnector().fetch_all(skip_keys=conf_skip_keys)
                 log.info("    → %d papers", len(fetched))
