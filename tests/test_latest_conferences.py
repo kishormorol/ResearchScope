@@ -185,3 +185,43 @@ def test_s2_bulk_fields_exclude_affiliations():
     from src.connectors.semantic_scholar_connector import _BULK_FIELDS
     assert "authors.affiliations" not in _BULK_FIELDS
     assert "abstract" in _BULK_FIELDS and "authors.name" in _BULK_FIELDS
+
+
+# ── S2 rate-limit retries ─────────────────────────────────────────────────────
+
+class _Resp:
+    def __init__(self, body: bytes):
+        self._body = body
+    def read(self):
+        return self._body
+    def __enter__(self):
+        return self
+    def __exit__(self, *a):
+        return False
+
+
+def _http_error(code: int):
+    import urllib.error
+    return urllib.error.HTTPError("u", code, "err", {}, None)
+
+
+def test_s2_get_json_retries_rate_limits(monkeypatch):
+    import src.connectors.semantic_scholar_connector as s2
+    calls, waits = [], []
+    def fake_urlopen(req, timeout=0):
+        calls.append(1)
+        if len(calls) < 3:
+            raise _http_error(429)
+        return _Resp(b'{"data": [1]}')
+    monkeypatch.setattr(s2.urllib.request, "urlopen", fake_urlopen)
+    out = s2.SemanticScholarConnector._get_json("https://api.example.org/x", {}, sleep=waits.append)
+    assert out == {"data": [1]} and len(calls) == 3 and waits == [5.0, 10.0]
+
+
+def test_s2_get_json_does_not_retry_client_errors(monkeypatch):
+    import pytest
+    import src.connectors.semantic_scholar_connector as s2
+    monkeypatch.setattr(s2.urllib.request, "urlopen",
+                        lambda req, timeout=0: (_ for _ in ()).throw(_http_error(400)))
+    with pytest.raises(Exception):
+        s2.SemanticScholarConnector._get_json("https://api.example.org/x", {}, sleep=lambda s: None)

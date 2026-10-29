@@ -12,6 +12,7 @@ import json
 import logging
 import os
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
@@ -113,6 +114,11 @@ _JOURNAL_VENUES: dict[str, list[int]] = {
 # Throttle: unauthenticated = ~1 req/s; with key = 10 req/s
 _SLEEP_NO_KEY  = 1.1
 _SLEEP_WITH_KEY = 0.15
+# Without an API key S2 shares one rate limit across all anonymous callers, so
+# 429s are routine; back off and retry instead of dropping the venue-year
+_RETRY_STATUSES = {429, 500, 502, 503, 504}
+_MAX_RETRIES    = 6
+_BACKOFF_BASE   = 5.0   # seconds; doubles each attempt (5, 10, 20, 40, 80, 160)
 
 
 class SemanticScholarConnector(BaseConnector):
@@ -159,6 +165,7 @@ class SemanticScholarConnector(BaseConnector):
                             all_papers.append(p)
                 except Exception as exc:
                     log.warning("[s2] bulk %s %d failed: %s", venue_key, year, exc)
+                time.sleep(self._sleep)
 
         return all_papers
 
@@ -214,9 +221,7 @@ class SemanticScholarConnector(BaseConnector):
             if self._key:
                 headers["x-api-key"] = self._key
 
-            req = urllib.request.Request(url, headers=headers)
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                data = json.loads(resp.read())
+            data = self._get_json(url, headers)
 
             for rec in data.get("data", []):
                 p = self._record_to_paper(rec, venue_name, rank, source_type=source_type)
@@ -254,6 +259,24 @@ class SemanticScholarConnector(BaseConnector):
         return self._fetch_venue(query, venue_key, max_results)
 
     # ── internal ──────────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _get_json(url: str, headers: dict[str, str], sleep=time.sleep) -> dict:
+        """GET a JSON response, retrying rate limits and server errors with backoff."""
+        for attempt in range(_MAX_RETRIES + 1):
+            try:
+                req = urllib.request.Request(url, headers=headers)
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    return json.loads(resp.read())
+            except urllib.error.HTTPError as exc:
+                if exc.code not in _RETRY_STATUSES or attempt == _MAX_RETRIES:
+                    raise
+                retry_after = exc.headers.get("Retry-After") if exc.headers else None
+                wait = float(retry_after) if retry_after and retry_after.isdigit() \
+                    else _BACKOFF_BASE * 2 ** attempt
+                log.info("[s2] HTTP %d — retrying in %.0fs", exc.code, wait)
+                sleep(wait)
+        raise RuntimeError("unreachable")
 
     def _fetch_venue(self, query: str, venue_key: str, max_results: int) -> list[Paper]:
         venue_name, rank = _VENUES.get(venue_key, (venue_key, ""))
