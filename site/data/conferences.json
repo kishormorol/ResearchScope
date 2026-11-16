@@ -313,8 +313,8 @@
     "tags": [
       "Model Compression",
       "RL",
-      "Deep Reinforcement Learning",
       "Continual RL",
+      "Deep Reinforcement Learning",
       "Reinforcement Learning"
     ],
     "paper_type": "methods",
@@ -690,8 +690,8 @@
     "topics": [],
     "tags": [
       "GNNs",
-      "Graph Neural Networks",
       "Cell dynamics",
+      "Graph Neural Networks",
       "Flow matching",
       "Dynamics"
     ],
@@ -1044,11 +1044,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Hessian-free",
+      "single-loop",
       "gap function",
+      "Hessian-free",
       "bilevel optimization",
-      "constrained optimization",
-      "single-loop"
+      "constrained optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -1063,10 +1063,10 @@
     "summary": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained meta-learning, adversarial learning, and distributed bilevel optimization. However, existing bilevel optimization methods mostly are typically restricted to specific constraint settings, such as linear lower-level constraints.",
     "key_contribution": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained meta-learning, adversarial learning, and distributed bilevel optimization.",
     "why_it_matters": "Overcoming Lower-Level Constraints in Bilevel Optimization: A Novel Approach with Regularized Gap Functions represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Hessian-free.",
+    "content_hook": "A new paper that could change how we think about single-loop.",
     "one_line_takeaway": "Constrained bilevel optimization tackles nested structures present in constrained learning tasks like constrained…",
     "biggest_caveat": "buted bilevel optimization.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Hessian-free.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in single-loop.",
     "url": "https://openreview.net/forum?id=cyPMEXdqQ2",
     "difficulty": "advanced"
   },
@@ -1345,9 +1345,9 @@
     "tags": [
       "Diffusion",
       "Model Compression",
-      "Quantization",
       "Acceleration",
-      "Diffusion Models"
+      "Diffusion Models",
+      "Quantization"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -2527,8 +2527,8 @@
       "Multimodal",
       "Transformers",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Transformer Architectures"
+      "Transformer Architectures",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -2849,8 +2849,8 @@
     "tags": [
       "Multimodal",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Multimodal Learning",
+      "Benchmarking & Evaluation",
       "Meta Learning; Deep Learning Architecture; General Machine Learning"
     ],
     "paper_type": "theory",
@@ -3088,8 +3088,8 @@
     "tags": [
       "LLMs",
       "RLHF",
-      "Stable Diffusion",
       "ranking and preferences",
+      "Stable Diffusion",
       "Reinforcement Learning"
     ],
     "paper_type": "theory",
@@ -3509,8 +3509,8 @@
       "RL",
       "Evaluation",
       "Benchmarking & Evaluation",
-      "Large Scale Training",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Large Scale Training"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -3879,8 +3879,8 @@
     "tags": [
       "Robotics",
       "Robotics & Embodied AI",
-      "Dynamical system",
       "Safe imitation learning",
+      "Dynamical system",
       "Learning from demonstration"
     ],
     "paper_type": "systems",
@@ -4155,9 +4155,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Reinforcement Learning",
       "meta learning",
-      "inverse reinforcement learning"
+      "inverse reinforcement learning",
+      "Reinforcement Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -4204,9 +4204,9 @@
     "tags": [
       "Prompting",
       "Info Extraction",
+      "convergence analysis",
       "Prompting & In-Context Learning",
-      "bilevel optimization",
-      "convergence analysis"
+      "bilevel optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -4349,9 +4349,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Text generation APIs",
       "Transformer Architectures",
       "Inference efficiency",
-      "Text generation APIs",
       "Transformer models"
     ],
     "paper_type": "systems",
@@ -5096,9 +5096,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -5335,10 +5335,10 @@
     "topics": [],
     "tags": [
       "RAG",
-      "Physics Simulations",
-      "Physics-based Deep Learning",
+      "Meta-Learning",
       "Retrieval-Augmented Generation",
-      "Meta-Learning"
+      "Physics Simulations",
+      "Physics-based Deep Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -5513,6 +5513,50 @@
     "difficulty": "beginner"
   },
   {
+    "id": "miniconf:neurips2026:7d62228d788292ee693d12fd549e7745",
+    "source": "miniconf",
+    "source_type": "conference",
+    "title": "Online Allocation with Differential Privacy",
+    "abstract": "We study private online allocation problems, where allocation decisions must satisfy differential privacy (DP) to protect sensitive user information while optimizing performance under constrained resources. We first formalize differential privacy notions suited to different privacy requirements in online allocation and establish the fundamental performance limits of any algorithm under these definitions. Based on these insights, we propose PPOA, a privacy-preserving meta algorithm for online allocation, and establish sufficient conditions under which PPOA preserves Joint DP (JDP) or Local DP (LDP) while achieving asymptotically near-optimal performance. Building on these conditions, PPOA can be instantiated into a variety of concrete algorithms. In particular, we present the specific designs, which include PPOA-DMD that preserves JDP and LDP and PPOA-FTRL that preserves JDP. We analyze their performance under both adversarial and stochastic settings and characterize the fundamental trade-offs between DP and allocation performance. Finally, we demonstrate the superior performance of the proposed algorithms via numerical experiments on AI model routing in battery-powered edge systems.",
+    "authors": [
+      "Jianyi Yang",
+      "Xingyu Zhou",
+      "Mostafa Mushsharat",
+      "Shaolei Ren"
+    ],
+    "year": 2026,
+    "published_date": "2026-01-01",
+    "venue": "NeurIPS",
+    "conference_rank": "A*",
+    "presentation_type": "spotlight",
+    "paper_url": "https://neurips.cc/virtual/2026/poster/150540",
+    "pdf_url": "https://openreview.net/pdf?id=hO8NU92Rtb",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Federated Learning"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses stochastic and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 5.02,
+    "read_first_score": 4.28,
+    "content_potential_score": 0.0,
+    "interestingness_score": 2.51,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We study private online allocation problems, where allocation decisions must satisfy differential privacy (DP) to protect sensitive user information while optimizing performance under constrained resources. We first formalize differential privacy notions suited to different privacy requirements in online allocation and establish the fundamental performance limits of any algorithm under these definitions.",
+    "key_contribution": "Based on these insights, we propose PPOA, a privacy-preserving meta algorithm for online allocation, and establish sufficient conditions under which PPOA preserves Joint DP (JDP) or Local DP (LDP) while achieving asymptotically near-optimal performance.",
+    "why_it_matters": "Online Allocation with Differential Privacy represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Federated Learning.",
+    "one_line_takeaway": "Based on these insights, we propose PPOA, a privacy-preserving meta algorithm for online allocation, and establish…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Federated Learning.",
+    "url": "https://neurips.cc/virtual/2026/poster/150540",
+    "difficulty": "frontier"
+  },
+  {
     "id": "miniconf:neurips2026:8708107b2ff5de15d0244471ae041fdb",
     "source": "miniconf",
     "source_type": "conference",
@@ -5557,50 +5601,6 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Evaluation.",
     "url": "https://neurips.cc/virtual/2026/poster/153081",
-    "difficulty": "frontier"
-  },
-  {
-    "id": "miniconf:neurips2026:7d62228d788292ee693d12fd549e7745",
-    "source": "miniconf",
-    "source_type": "conference",
-    "title": "Online Allocation with Differential Privacy",
-    "abstract": "We study private online allocation problems, where allocation decisions must satisfy differential privacy (DP) to protect sensitive user information while optimizing performance under constrained resources. We first formalize differential privacy notions suited to different privacy requirements in online allocation and establish the fundamental performance limits of any algorithm under these definitions. Based on these insights, we propose PPOA, a privacy-preserving meta algorithm for online allocation, and establish sufficient conditions under which PPOA preserves Joint DP (JDP) or Local DP (LDP) while achieving asymptotically near-optimal performance. Building on these conditions, PPOA can be instantiated into a variety of concrete algorithms. In particular, we present the specific designs, which include PPOA-DMD that preserves JDP and LDP and PPOA-FTRL that preserves JDP. We analyze their performance under both adversarial and stochastic settings and characterize the fundamental trade-offs between DP and allocation performance. Finally, we demonstrate the superior performance of the proposed algorithms via numerical experiments on AI model routing in battery-powered edge systems.",
-    "authors": [
-      "Jianyi Yang",
-      "Xingyu Zhou",
-      "Mostafa Mushsharat",
-      "Shaolei Ren"
-    ],
-    "year": 2026,
-    "published_date": "2026-01-01",
-    "venue": "NeurIPS",
-    "conference_rank": "A*",
-    "presentation_type": "spotlight",
-    "paper_url": "https://neurips.cc/virtual/2026/poster/150540",
-    "pdf_url": "https://openreview.net/pdf?id=hO8NU92Rtb",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Federated Learning"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses stochastic and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 5.02,
-    "read_first_score": 4.28,
-    "content_potential_score": 0.0,
-    "interestingness_score": 2.51,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We study private online allocation problems, where allocation decisions must satisfy differential privacy (DP) to protect sensitive user information while optimizing performance under constrained resources. We first formalize differential privacy notions suited to different privacy requirements in online allocation and establish the fundamental performance limits of any algorithm under these definitions.",
-    "key_contribution": "Based on these insights, we propose PPOA, a privacy-preserving meta algorithm for online allocation, and establish sufficient conditions under which PPOA preserves Joint DP (JDP) or Local DP (LDP) while achieving asymptotically near-optimal performance.",
-    "why_it_matters": "Online Allocation with Differential Privacy represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Federated Learning.",
-    "one_line_takeaway": "Based on these insights, we propose PPOA, a privacy-preserving meta algorithm for online allocation, and establish…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Federated Learning.",
-    "url": "https://neurips.cc/virtual/2026/poster/150540",
     "difficulty": "frontier"
   },
   {
@@ -8986,9 +8986,9 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Model-based Reinforcement Learning; Reward Shaping; Reward Smoothing",
       "Benchmarking & Evaluation",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Model-based Reinforcement Learning; Reward Shaping; Reward Smoothing"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -9083,9 +9083,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
+      "Meta-learning",
       "Benchmarking & Evaluation",
       "AutoML",
-      "Meta-learning",
       "Out-of-distribution Detection"
     ],
     "paper_type": "benchmark",
@@ -9137,8 +9137,8 @@
       "VLMs",
       "RL",
       "Robotics",
-      "Vision-Language Models",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "Vision-Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -10429,8 +10429,8 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Prompting & In-Context Learning",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -11554,9 +11554,9 @@
     "tags": [
       "RL",
       "Model-based reinforcement learning",
-      "generative model",
+      "bi-level optimization",
       "Reinforcement Learning",
-      "bi-level optimization"
+      "generative model"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -11647,8 +11647,8 @@
     "topics": [],
     "tags": [
       "Self-Supervised",
-      "Self-Supervised & Contrastive Learning",
-      "Graph Neural Network; Graph Dataset Condensation"
+      "Graph Neural Network; Graph Dataset Condensation",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -12293,8 +12293,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "evaluation"
+      "evaluation",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -13076,8 +13076,8 @@
       "RL",
       "Fairness & Ethics",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Exploration"
+      "Exploration",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -13285,8 +13285,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -13337,8 +13337,8 @@
       "LLMs",
       "RL",
       "Large Language Models",
-      "Reinforcement Learning",
-      "NLP"
+      "NLP",
+      "Reinforcement Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -13404,9 +13404,9 @@
     "topics": [],
     "tags": [
       "LLMs",
+      "Language Model Agents",
       "Cybersecurity",
       "Risk",
-      "Language Model Agents",
       "Benchmark"
     ],
     "paper_type": "methods",
@@ -13482,6 +13482,51 @@
     "difficulty": "beginner"
   },
   {
+    "id": "miniconf:neurips2026:55dd9b82d52ce59b5faeabc5667d5c01",
+    "source": "miniconf",
+    "source_type": "conference",
+    "title": "Aligning AI Teams",
+    "abstract": "Previous work has shown that alignment training on individual LLM agents can fail to transfer to multi-agent settings. We investigate the underlying mechanisms for this failure, and explore interventions to preserve alignment transfer to multi-agent LLM teams. We focus on two software-engineering tasks (sepsis triage, a news recommender) and ten consulting-proposal generation tasks. We present four findings: (1) The single-vs-team safety gap does not show a clear trend with more capable models. We find that Anthropic's Mythos Preview shows the largest gap on one of our tasks but the smallest on another; (2) Many natural interventions, such as having agents critique each other's work or coordinate in a group chat, do not bring agent teams back to single-agent alignment behavior; (3) diffusion of responsibility substantially accounts for the safety gap: agents in teams are less likely to proactively check for system-level safety failures and more likely to ignore, rationalize, or deflect responsibility for issues when they arise; (4) having a designated safety lead agent ensure system-level safety, and having a coordinator agent publish a safety specifications document are effective at restoring single-agent alignment. We also release magelab , a multi-agent LLM orchestration and experimentation framework. Our findings can help practitioners design agent teams that successfully preserve the behaviors expected of aligned individual agents.",
+    "authors": [
+      "Siddarth Srinivasan",
+      "Morgan J Matthews",
+      "Jascha Sohl-Dickstein",
+      "Erik Jones"
+    ],
+    "year": 2026,
+    "published_date": "2026-01-01",
+    "venue": "NeurIPS",
+    "conference_rank": "A*",
+    "presentation_type": "poster",
+    "paper_url": "https://neurips.cc/virtual/2026/poster/154600",
+    "pdf_url": "https://openreview.net/pdf?id=COJLsgVYoq",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "AI Safety"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
+    "maturity_stage": "emerging",
+    "paper_score": 4.83,
+    "read_first_score": 3.99,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.92,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Previous work has shown that alignment training on individual LLM agents can fail to transfer to multi-agent settings. We investigate the underlying mechanisms for this failure, and explore interventions to preserve alignment transfer to multi-agent LLM teams.",
+    "key_contribution": "We present four findings: (1) The single-vs-team safety gap does not show a clear trend with more capable models.",
+    "why_it_matters": "Aligning AI Teams represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "We present four findings: (1) The single-vs-team safety gap does not show a clear trend with more capable models.",
+    "biggest_caveat": "does not show a clear trend with more capable models.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
+    "url": "https://neurips.cc/virtual/2026/poster/154600",
+    "difficulty": "advanced"
+  },
+  {
     "id": "miniconf:neurips2026:d12e9ce9949f610ac6075ea1edbade93",
     "source": "miniconf",
     "source_type": "conference",
@@ -13525,51 +13570,6 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Prompting.",
     "url": "https://neurips.cc/virtual/2026/poster/151574",
-    "difficulty": "advanced"
-  },
-  {
-    "id": "miniconf:neurips2026:55dd9b82d52ce59b5faeabc5667d5c01",
-    "source": "miniconf",
-    "source_type": "conference",
-    "title": "Aligning AI Teams",
-    "abstract": "Previous work has shown that alignment training on individual LLM agents can fail to transfer to multi-agent settings. We investigate the underlying mechanisms for this failure, and explore interventions to preserve alignment transfer to multi-agent LLM teams. We focus on two software-engineering tasks (sepsis triage, a news recommender) and ten consulting-proposal generation tasks. We present four findings: (1) The single-vs-team safety gap does not show a clear trend with more capable models. We find that Anthropic's Mythos Preview shows the largest gap on one of our tasks but the smallest on another; (2) Many natural interventions, such as having agents critique each other's work or coordinate in a group chat, do not bring agent teams back to single-agent alignment behavior; (3) diffusion of responsibility substantially accounts for the safety gap: agents in teams are less likely to proactively check for system-level safety failures and more likely to ignore, rationalize, or deflect responsibility for issues when they arise; (4) having a designated safety lead agent ensure system-level safety, and having a coordinator agent publish a safety specifications document are effective at restoring single-agent alignment. We also release magelab , a multi-agent LLM orchestration and experimentation framework. Our findings can help practitioners design agent teams that successfully preserve the behaviors expected of aligned individual agents.",
-    "authors": [
-      "Siddarth Srinivasan",
-      "Morgan J Matthews",
-      "Jascha Sohl-Dickstein",
-      "Erik Jones"
-    ],
-    "year": 2026,
-    "published_date": "2026-01-01",
-    "venue": "NeurIPS",
-    "conference_rank": "A*",
-    "presentation_type": "poster",
-    "paper_url": "https://neurips.cc/virtual/2026/poster/154600",
-    "pdf_url": "https://openreview.net/pdf?id=COJLsgVYoq",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "AI Safety"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (AI Safety) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 4.83,
-    "read_first_score": 3.99,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.92,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Previous work has shown that alignment training on individual LLM agents can fail to transfer to multi-agent settings. We investigate the underlying mechanisms for this failure, and explore interventions to preserve alignment transfer to multi-agent LLM teams.",
-    "key_contribution": "We present four findings: (1) The single-vs-team safety gap does not show a clear trend with more capable models.",
-    "why_it_matters": "Aligning AI Teams represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "We present four findings: (1) The single-vs-team safety gap does not show a clear trend with more capable models.",
-    "biggest_caveat": "does not show a clear trend with more capable models.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
-    "url": "https://neurips.cc/virtual/2026/poster/154600",
     "difficulty": "advanced"
   },
   {
@@ -14202,8 +14202,8 @@
       "Fine-Tuning",
       "Info Extraction",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "meta learning"
+      "meta learning",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -14805,9 +14805,9 @@
     "tags": [
       "RL",
       "Adversarial",
-      "Adversarial Robustness",
+      "MPC",
       "optimal control",
-      "MPC"
+      "Adversarial Robustness"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -15084,8 +15084,8 @@
       "LLMs",
       "AI Agents",
       "Large Language Models",
-      "AI Agents & Tool Use",
-      "NLP"
+      "NLP",
+      "AI Agents & Tool Use"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15415,8 +15415,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Online Learning",
       "Dynamic Environments",
+      "Online Learning",
       "Non-convexity"
     ],
     "paper_type": "methods",
@@ -15432,10 +15432,10 @@
     "summary": "This paper considers the problem of online learning with non-convex loss functions in dynamic environments. Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret for non-convex losses, but their results are limited to static environments.",
     "key_contribution": "Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret for non-convex losses, but their results are limited to static environments.",
     "why_it_matters": "Online Non-convex Learning in Dynamic Environments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Online Learning.",
+    "content_hook": "A new paper that could change how we think about Dynamic Environments.",
     "one_line_takeaway": "Recently, Suggala and Netrapalli [2020] demonstrated that follow the perturbed leader (FTPL) can achieve optimal regret…",
     "biggest_caveat": "but their results are limited to static environments.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Online Learning.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Dynamic Environments.",
     "url": "https://openreview.net/forum?id=DrQXDKbGgy",
     "difficulty": "frontier"
   },
@@ -16037,8 +16037,8 @@
       "Prompting",
       "Transformers",
       "Self-Supervised",
-      "In-Context Learning",
-      "Prompting & In-Context Learning"
+      "Prompting & In-Context Learning",
+      "In-Context Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L1",
@@ -16762,10 +16762,10 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "linear speedup",
+      "system-level heterogeneity",
       "Federated bilevel optimization",
-      "system-level heterogeneity"
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -16812,8 +16812,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "efficient models",
       "Transformer Architectures",
+      "efficient models",
       "Panoptic segmentation"
     ],
     "paper_type": "systems",
@@ -17841,8 +17841,8 @@
     "tags": [
       "LLMs",
       "Hallucination",
-      "Factuality & Hallucination",
       "Large Language Models",
+      "Factuality & Hallucination",
       "NLP"
     ],
     "paper_type": "systems",
@@ -17984,8 +17984,8 @@
     "topics": [],
     "tags": [
       "Continual Learning",
-      "Neural Process",
       "Uncertainty",
+      "Neural Process",
       "Incremental Learning"
     ],
     "paper_type": "systems",
@@ -18934,8 +18934,8 @@
       "Reasoning",
       "Knowledge Graphs",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Knowledge Graphs & Representation"
+      "Knowledge Graphs & Representation",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -19126,8 +19126,8 @@
       "Prompting",
       "Fine-Tuning",
       "Transformers",
-      "Prompting & In-Context Learning",
-      "few"
+      "few",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -19271,10 +19271,10 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Prompting & In-Context Learning",
-      "Machine Learning",
+      "Bilevel Optimization",
       "Meta Learning",
-      "Bilevel Optimization"
+      "Prompting & In-Context Learning",
+      "Machine Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -20356,8 +20356,8 @@
       "LLMs",
       "Info Extraction",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -20509,9 +20509,9 @@
     "tags": [
       "LLMs",
       "RLHF",
-      "Large Language Models",
       "RLHF & Preference Alignment",
-      "Multi-Agent System; Planning"
+      "Multi-Agent System; Planning",
+      "Large Language Models"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -20944,9 +20944,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -22337,8 +22337,8 @@
     "tags": [
       "Evaluation",
       "Embeddings",
-      "Benchmarking & Evaluation",
       "Text Embeddings & Semantic Similarity",
+      "Benchmarking & Evaluation",
       "near-duplicate detection"
     ],
     "paper_type": "benchmark",
@@ -22779,8 +22779,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "Language Model Agents",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Language Model Agents"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -23894,9 +23894,9 @@
     "tags": [
       "Self-Supervised",
       "Evaluation",
+      "Self-Supervised & Contrastive Learning",
       "Benchmarking & Evaluation",
-      "Self-Supervised Learning",
-      "Self-Supervised & Contrastive Learning"
+      "Self-Supervised Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -24571,9 +24571,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25272,9 +25272,9 @@
     "tags": [
       "Robotics",
       "Imitation Learning",
-      "Interactive Learning",
       "Navigation",
-      "Active Imitation Learning"
+      "Active Imitation Learning",
+      "Interactive Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -26066,9 +26066,9 @@
     "tags": [
       "LLMs",
       "Prompting",
-      "Prompting & In-Context Learning",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -26082,7 +26082,7 @@
     "evidence_strength": 0.0,
     "summary": "Humans can quickly learn a new word from a few illustrative examples, and then systematically and flexibly use it in novel contexts. Yet the abilities of current language models for few-shot word learning, and methods for improving these abilities, are underexplored.",
     "key_contribution": "Humans can quickly learn a new word from a few illustrative examples, and then systematically and flexibly use it in novel contexts.",
-    "why_it_matters": "Rapid Word Learning Through Meta In-Context Learning unlocks new capabilities from existing models without any additional training.",
+    "why_it_matters": "Rapid Word Learning Through Meta In-Context Learning advances our understanding of large language models, which are reshaping how we build AI systems and interact with knowledge.",
     "content_hook": "A new paper that could change how we think about LLMs.",
     "one_line_takeaway": "Humans can quickly learn a new word from a few illustrative examples, and then systematically and flexibly use it in…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
@@ -26664,8 +26664,8 @@
     "tags": [
       "RL",
       "Meta Reinforcement Learning",
-      "Reinforcement Learning",
-      "Meta-RL"
+      "Meta-RL",
+      "Reinforcement Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27141,10 +27141,10 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "graph neural networks",
-      "machine learning force fields",
+      "Model Compression & Efficiency",
       "knowledge distillation",
-      "Model Compression & Efficiency"
+      "graph neural networks",
+      "machine learning force fields"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -27189,9 +27189,9 @@
     "tags": [
       "RL",
       "maximum-likelihood estimation",
-      "deep reinforcement learning",
+      "Reinforcement Learning",
       "TD-Learning with function approximation",
-      "Reinforcement Learning"
+      "deep reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27574,8 +27574,8 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
-      "Fine-Tuning & PEFT",
-      "Benchmarking & Evaluation"
+      "Benchmarking & Evaluation",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -27624,8 +27624,8 @@
       "VLMs",
       "Model Compression",
       "CLIP Model",
-      "Vision-Language Models",
-      "Data-Free Learning"
+      "Data-Free Learning",
+      "Vision-Language Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -29334,9 +29334,9 @@
     "tags": [
       "Reasoning",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Reasoning & Chain-of-Thought",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -29721,8 +29721,8 @@
     "tags": [
       "LLMs",
       "AI Safety",
-      "data extraction",
       "language models",
+      "data extraction",
       "privacy"
     ],
     "paper_type": "systems",
@@ -31280,9 +31280,9 @@
     "tags": [
       "NLG",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Natural Language Generation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -31430,9 +31430,9 @@
     "tags": [
       "Robotics",
       "imitation learning",
-      "policy transfer",
+      "Robotics & Embodied AI",
       "transfer learning",
-      "Robotics & Embodied AI"
+      "policy transfer"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -31578,9 +31578,9 @@
     "tags": [
       "Prompting",
       "Diffusion",
+      "prototype",
       "Prompting & In-Context Learning",
-      "Diffusion Models",
-      "prototype"
+      "Diffusion Models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -31629,9 +31629,9 @@
     "tags": [
       "Object Detection",
       "Fairness & Ethics",
+      "Meta-Learning",
       "Object Detection & Segmentation",
-      "Bargaining Game",
-      "Meta-Learning"
+      "Bargaining Game"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -31728,10 +31728,10 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "online convex optimization",
-      "Bias, Fairness & Ethics",
       "stochastic convex optimization",
-      "byzantine robust learning"
+      "byzantine robust learning",
+      "Bias, Fairness & Ethics",
+      "online convex optimization"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -32826,8 +32826,8 @@
       "LLMs",
       "Info Extraction",
       "Large Language Models",
-      "Information Extraction",
-      "NLP"
+      "NLP",
+      "Information Extraction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -32879,8 +32879,8 @@
       "LLMs",
       "Fairness & Ethics",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -32924,9 +32924,9 @@
     "tags": [
       "Dialogue",
       "Evaluation",
-      "Benchmarking & Evaluation",
+      "NLP",
       "Dialogue Systems",
-      "NLP"
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -33106,10 +33106,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "episodic incentive",
-      "episodic control",
       "state embedding",
-      "Reinforcement Learning"
+      "episodic control",
+      "Reinforcement Learning",
+      "episodic incentive"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -33154,8 +33154,8 @@
     "tags": [
       "GNNs",
       "Self-Supervised",
-      "graph multiresolution analysis",
       "Graph Neural Networks",
+      "graph multiresolution analysis",
       "Graph neural networks"
     ],
     "paper_type": "methods",
@@ -33944,9 +33944,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Fine-Tuning & PEFT",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -33992,9 +33992,9 @@
     "topics": [],
     "tags": [
       "RL",
-      "Generative Models",
       "Generative Flow Networks",
       "Exploration",
+      "Generative Models",
       "Reinforcement Learning"
     ],
     "paper_type": "theory",
@@ -34096,10 +34096,10 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Bias, Fairness & Ethics",
-      "large-scale optimization",
       "meta learning",
-      "bi-level optimization"
+      "bi-level optimization",
+      "Bias, Fairness & Ethics",
+      "large-scale optimization"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -34193,9 +34193,9 @@
     "tags": [
       "Fine-Tuning",
       "Black-Box Optimization",
-      "Fine-Tuning & PEFT",
       "Meta-Black-Box-Optimization",
-      "Learning to Optimize"
+      "Learning to Optimize",
+      "Fine-Tuning & PEFT"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -34240,9 +34240,9 @@
     "tags": [
       "Info Extraction",
       "Federated Learning",
-      "Causality",
       "treatment effect estimation",
-      "differential privacy"
+      "differential privacy",
+      "Causality"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -34288,10 +34288,10 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "System Dynamics",
-      "Agent Behavior",
       "Meta-Causal Reasoning",
-      "Meta-Causality"
+      "Meta-Causality",
+      "Agent Behavior",
+      "System Dynamics"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -34306,10 +34306,10 @@
     "summary": "Most work on causality in machine learning assumes that causal relationships are driven by a constant underlying process. However, the flexibility of agents' actions or tipping points in the environmental process can change the qualitative dynamics of the system.",
     "key_contribution": "To analyze these qualitative changes on the causal graph, we propose the concept of meta-causal states, which groups classical causal models into clusters based on equivalent qualitative behavior and consolidates specific mechanism parameterizations.",
     "why_it_matters": "Systems with Switching Causal Relations: A Meta-Causal Perspective represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about System Dynamics.",
+    "content_hook": "A new paper that could change how we think about Meta-Causal Reasoning.",
     "one_line_takeaway": "To analyze these qualitative changes on the causal graph, we propose the concept of meta-causal states, which groups…",
     "biggest_caveat": "However, the flexibility of agents' actions or tipping points in the environmental process can change the qualitative dynamics of the system.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in System Dynamics.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Meta-Causal Reasoning.",
     "url": "https://openreview.net/forum?id=J9VogDTa1W",
     "difficulty": "intermediate"
   },
@@ -34338,8 +34338,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -35258,8 +35258,8 @@
       "Translation",
       "Code Generation",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35404,9 +35404,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35518,8 +35518,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -35565,8 +35565,8 @@
     "topics": [],
     "tags": [
       "human-AI collaboration",
-      "Bayesian policy reuse",
-      "reinforcement learning"
+      "reinforcement learning",
+      "Bayesian policy reuse"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -35725,8 +35725,8 @@
     "tags": [
       "AI Safety",
       "Info Extraction",
-      "generation",
       "metrics",
+      "generation",
       "human preferences"
     ],
     "paper_type": "methods",
@@ -35828,9 +35828,9 @@
     "tags": [
       "Prompting",
       "SSMs",
+      "meta learning",
       "Prompting & In-Context Learning",
-      "State Space Models",
-      "meta learning"
+      "State Space Models"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -36546,8 +36546,8 @@
       "LLMs",
       "Hallucination",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -36700,8 +36700,8 @@
       "RL",
       "representation learning",
       "bisimulation",
-      "meta-reinforcement learning",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "meta-reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -36798,11 +36798,11 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "regret bounds",
+      "meta learning theory",
       "PAC-Bayes generalization bound",
-      "piecewise-Lipschitz/non-Lipschitz functions",
+      "regret bounds",
       "non-convex online meta learning",
-      "meta learning theory"
+      "piecewise-Lipschitz/non-Lipschitz functions"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -36817,10 +36817,10 @@
     "summary": "Online-Within-Online (OWO) meta learning stands for the online multi-task learning paradigm in which both tasks and data within each task become available in a sequential order. In this work, we study the OWO meta learning of the initialization and step size of within-task online algorithms in the non-convex setting, and provide improved regret bounds under mild assumptions of loss functions.",
     "key_contribution": "Then, we propose a new algorithm of regret $O((\\frac{\\log{T}}{T}+V)\\sqrt{m})$ for non-convex OWO meta learning.",
     "why_it_matters": "Improved Regret Bounds for Non-Convex Online-Within-Online Meta Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about regret bounds.",
+    "content_hook": "A new paper that could change how we think about meta learning theory.",
     "one_line_takeaway": "Then, we propose a new algorithm of regret $O((\\frac{\\log{T}}{T}+V)\\sqrt{m})$ for non-convex OWO meta learning.",
     "biggest_caveat": "butions include investigating how to attain generalization bounds for statistical meta learning via regret analysis.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in regret bounds.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in meta learning theory.",
     "url": "https://openreview.net/forum?id=pA8Q5WiEMg",
     "difficulty": "frontier"
   },
@@ -37050,10 +37050,10 @@
     "topics": [],
     "tags": [
       "RL",
-      "temporal-difference learning",
       "neuroscience",
-      "reinforcement learning",
-      "Reinforcement Learning"
+      "Reinforcement Learning",
+      "temporal-difference learning",
+      "reinforcement learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37162,8 +37162,8 @@
       "AI Agents",
       "Code Generation",
       "software engineering",
-      "large language models",
-      "LLM agents"
+      "LLM agents",
+      "large language models"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -37207,9 +37207,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "neural processes",
       "transformers",
-      "bayesian causal discovery"
+      "bayesian causal discovery",
+      "neural processes"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -37224,10 +37224,10 @@
     "summary": "Discovering a unique causal structure is difficult due to both inherent identifiability issues, and the consequences of finite data. As such, uncertainty over causal structures, such as those obtained from a Bayesian posterior, are often necessary for downstream tasks.",
     "key_contribution": "To address these limitations, we propose a Bayesian meta learning model that allows for sampling causal structures from the posterior and encodes these key properties.",
     "why_it_matters": "A Meta-Learning Approach to Bayesian Causal Discovery represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about neural processes.",
+    "content_hook": "A new paper that could change how we think about transformers.",
     "one_line_takeaway": "To address these limitations, we propose a Bayesian meta learning model that allows for sampling causal structures from…",
     "biggest_caveat": "limitations, we propose a Bayesian meta learning model that allows for sampling causal structures from the posterior and encodes these key properties.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in neural processes.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in transformers.",
     "url": "https://openreview.net/forum?id=eeJz7eDWKO",
     "difficulty": "frontier"
   },
@@ -38149,8 +38149,8 @@
       "Multimodal",
       "Sentiment Analysis",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -38255,9 +38255,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -38305,8 +38305,8 @@
       "NLG",
       "Interpretability",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -38451,8 +38451,8 @@
       "Prompting",
       "Fine-Tuning",
       "RL",
-      "Prompting & In-Context Learning",
-      "Policy customization"
+      "Policy customization",
+      "Prompting & In-Context Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -38500,10 +38500,10 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
+      "Pacing equilibrium",
       "interference bias",
       "Bias, Fairness & Ethics",
-      "First-price auctions",
-      "Pacing equilibrium"
+      "First-price auctions"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38806,8 +38806,8 @@
       "Self-Supervised",
       "Robotics",
       "Robotic manipulation",
-      "Self-Supervised & Contrastive Learning",
-      "Robotics & Embodied AI"
+      "Robotics & Embodied AI",
+      "Self-Supervised & Contrastive Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38879,6 +38879,48 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
     "url": "https://openreview.net/forum?id=AyJPSnE1bq",
     "difficulty": "beginner"
+  },
+  {
+    "id": "miniconf:neurips2026:dc66b44552c92b64725c5483f5881102",
+    "source": "miniconf",
+    "source_type": "conference",
+    "title": "Certified Policy Optimisation for Nested Causal Bandits via PAC-Bayes Risk",
+    "abstract": "Critical sequential decisions are rarely single-timescale: a strategic decision causally shapes the context in which every subsequent tactical choice is made; standard bandit and reinforcement-learning theory does not capture this causal coupling between timescales. We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's action sets the next level's context distribution, and propose Nested Causal Thompson Sampling (NCTS), which draws one mechanism-factorised belief per episode and acts recursively under it. Our main theoretical result is a causal PAC-Bayesian excess-risk bound that certifies any candidate deployment policy from historic data alone, off-policy and anytime, answering the deployment question: can we trust this agent here, and at what risk? Experiments on a hierarchical SCM show that, against a matched RFF-GP joint regression on the same function class, the factorised SCM-mechanism posterior transfers significantly better zero-shot under exogenous distribution shifts, the recursive meta-to-inner commit significantly dominates the joint-commit alternative in distribution, and the certificate significantly contracts as offline data accumulates. Combining these results, we establish progressive certified handover , a safe-deployment method: each timescale flips from a legacy controller to NCTS when gains can be certified, independently of the others.",
+    "authors": [
+      "Tim Woydt",
+      "Paul-David Zuercher"
+    ],
+    "year": 2026,
+    "published_date": "2026-01-01",
+    "venue": "NeurIPS",
+    "conference_rank": "A*",
+    "presentation_type": "poster",
+    "paper_url": "https://neurips.cc/virtual/2026/poster/148390",
+    "pdf_url": "https://openreview.net/pdf?id=yCGQfWxC94",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Info Extraction"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses bayesian and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 4.53,
+    "read_first_score": 2.72,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.77,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Critical sequential decisions are rarely single-timescale: a strategic decision causally shapes the context in which every subsequent tactical choice is made; standard bandit and reinforcement-learning theory does not capture this causal coupling between timescales. We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's action sets the next level's context distribution, and propose Nested Causal Thompson Sampling (NCTS), which draws one mechanism-factorised belief per episode and acts recursively under it.",
+    "key_contribution": "We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's action sets the next level's context distribution, and propose Nested Causal Thompson Sampling (NCTS), which draws one mechanism-factorised belief per episode and acts recursively under it.",
+    "why_it_matters": "Certified Policy Optimisation for Nested Causal Bandits via PAC-Bayes Risk represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Info Extraction.",
+    "one_line_takeaway": "We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's…",
+    "biggest_caveat": "does not capture this causal coupling between timescales.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Info Extraction.",
+    "url": "https://neurips.cc/virtual/2026/poster/148390",
+    "difficulty": "frontier"
   },
   {
     "id": "miniconf:neurips2026:eccbc87e4b5ce2fe28308fd9f2a7baf3",
@@ -39064,48 +39106,6 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
     "url": "https://neurips.cc/virtual/2026/poster/153076",
-    "difficulty": "frontier"
-  },
-  {
-    "id": "miniconf:neurips2026:dc66b44552c92b64725c5483f5881102",
-    "source": "miniconf",
-    "source_type": "conference",
-    "title": "Certified Policy Optimisation for Nested Causal Bandits via PAC-Bayes Risk",
-    "abstract": "Critical sequential decisions are rarely single-timescale: a strategic decision causally shapes the context in which every subsequent tactical choice is made; standard bandit and reinforcement-learning theory does not capture this causal coupling between timescales. We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's action sets the next level's context distribution, and propose Nested Causal Thompson Sampling (NCTS), which draws one mechanism-factorised belief per episode and acts recursively under it. Our main theoretical result is a causal PAC-Bayesian excess-risk bound that certifies any candidate deployment policy from historic data alone, off-policy and anytime, answering the deployment question: can we trust this agent here, and at what risk? Experiments on a hierarchical SCM show that, against a matched RFF-GP joint regression on the same function class, the factorised SCM-mechanism posterior transfers significantly better zero-shot under exogenous distribution shifts, the recursive meta-to-inner commit significantly dominates the joint-commit alternative in distribution, and the certificate significantly contracts as offline data accumulates. Combining these results, we establish progressive certified handover , a safe-deployment method: each timescale flips from a legacy controller to NCTS when gains can be certified, independently of the others.",
-    "authors": [
-      "Tim Woydt",
-      "Paul-David Zuercher"
-    ],
-    "year": 2026,
-    "published_date": "2026-01-01",
-    "venue": "NeurIPS",
-    "conference_rank": "A*",
-    "presentation_type": "poster",
-    "paper_url": "https://neurips.cc/virtual/2026/poster/148390",
-    "pdf_url": "https://openreview.net/pdf?id=yCGQfWxC94",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Info Extraction"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses bayesian and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 4.53,
-    "read_first_score": 2.72,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.77,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Critical sequential decisions are rarely single-timescale: a strategic decision causally shapes the context in which every subsequent tactical choice is made; standard bandit and reinforcement-learning theory does not capture this causal coupling between timescales. We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's action sets the next level's context distribution, and propose Nested Causal Thompson Sampling (NCTS), which draws one mechanism-factorised belief per episode and acts recursively under it.",
-    "key_contribution": "We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's action sets the next level's context distribution, and propose Nested Causal Thompson Sampling (NCTS), which draws one mechanism-factorised belief per episode and acts recursively under it.",
-    "why_it_matters": "Certified Policy Optimisation for Nested Causal Bandits via PAC-Bayes Risk represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Info Extraction.",
-    "one_line_takeaway": "We formalise the problem class as Nested Contextual Causal Bandits (NCCBs), a hierarchical SCM where each level's…",
-    "biggest_caveat": "does not capture this causal coupling between timescales.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Info Extraction.",
-    "url": "https://neurips.cc/virtual/2026/poster/148390",
     "difficulty": "frontier"
   },
   {
@@ -40146,8 +40146,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "AI Safety & Alignment",
-      "NLP"
+      "NLP",
+      "AI Safety & Alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -40292,9 +40292,9 @@
     "tags": [
       "GNNs",
       "Evaluation",
-      "datasets and benchmarks",
+      "temporal graph learning",
       "Benchmarking & Evaluation",
-      "temporal graph learning"
+      "datasets and benchmarks"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -40347,8 +40347,8 @@
       "Reasoning",
       "Fairness & Ethics",
       "Evaluation",
-      "Reasoning & Chain-of-Thought",
-      "Datasets"
+      "Datasets",
+      "Reasoning & Chain-of-Thought"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -40496,8 +40496,8 @@
       "LLMs",
       "Robotics",
       "Embodied AI",
-      "multi-agent cooperation",
-      "Robotics & Embodied AI"
+      "Robotics & Embodied AI",
+      "multi-agent cooperation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -42519,8 +42519,8 @@
       "LLMs",
       "Info Extraction",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -42566,8 +42566,8 @@
       "LLMs",
       "Translation",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -42764,9 +42764,9 @@
     "tags": [
       "Code Generation",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Code Generation & Synthesis",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -43593,9 +43593,9 @@
     "tags": [
       "AI Safety",
       "TTS",
+      "NLP",
       "Speech Synthesis",
-      "AI Safety & Alignment",
-      "NLP"
+      "AI Safety & Alignment"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -43786,9 +43786,9 @@
     "tags": [
       "NLG",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Natural Language Generation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -44070,8 +44070,8 @@
       "LLMs",
       "Biomedical AI",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -44739,8 +44739,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Benchmarking & Evaluation",
-      "Reasoning & Chain-of-Thought"
+      "Reasoning & Chain-of-Thought",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -44785,8 +44785,8 @@
       "Info Extraction",
       "Biomedical AI",
       "Biomedical & Clinical AI",
-      "Information Extraction",
-      "NLP"
+      "NLP",
+      "Information Extraction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -44885,9 +44885,9 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Benchmarking & Evaluation",
       "Large Language Models",
-      "NLP"
+      "NLP",
+      "Benchmarking & Evaluation"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -47537,8 +47537,8 @@
       "Object Detection",
       "Transformers",
       "Transformer Architectures",
-      "Computer Science",
-      "Object Detection & Segmentation"
+      "Object Detection & Segmentation",
+      "Computer Science"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -47679,9 +47679,9 @@
     "tags": [
       "Transformers",
       "Self-Supervised",
+      "Self-Supervised & Contrastive Learning",
       "Transformer Architectures",
-      "Computer Science",
-      "Self-Supervised & Contrastive Learning"
+      "Computer Science"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
