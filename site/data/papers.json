@@ -301,52 +301,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2605.22513",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Meta-Learning for Rapid Adaptation in Reference Tracking of Uncertain Nonlinear Systems",
-    "abstract": "In this paper, we address the problem of reference tracking for uncertain nonlinear systems. Since collecting data from the target system (i.e., the system of interest) is often challenging, our objective is to design optimal controllers using limited target system data. Meta-learning provides a promising paradigm by leveraging offline data from source systems (systems sharing structural similarities with the target system) to accelerate training and enhance control performance. Motivated by this idea, we propose a meta-learning-based control framework that tailors the implicit model-agnostic meta-learning (iMAML) algorithm to the control setting. The framework operates in two phases: an (offline) meta-training phase, where an aggregated representation is learned from source data to capture the shared system dynamics among similar systems, and an (online) meta-adaptation phase, where this representation is fine-tuned on the target system using only a few data samples and limited adaptation steps. We formulate this framework as a bi-level optimization problem and provide an efficient solution with reduced storage complexity and few approximations. The proposed framework is general, allowing various learning algorithms to be integrated. To demonstrate this flexibility, we propose two specific learning algorithms that can be incorporated into our framework based on a neural state-space model and a deep Q-network, respectively. The primary distinction between these approaches is whether explicit system identification is required. Numerical simulations and hardware experiments demonstrate that the proposed methods enhance control performance and consistently outperform baseline approaches.",
-    "authors": [
-      "Jiaqi Yan",
-      "Ankush Chakrabarty",
-      "Niklas Schmid",
-      "John Lygeros",
-      "Alisa Rupenyan"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22513",
-    "pdf_url": "https://arxiv.org/pdf/2605.22513",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Fine-Tuning",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.9,
-    "read_first_score": 5.75,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.45,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "In this paper, we address the problem of reference tracking for uncertain nonlinear systems. Since collecting data from the target system (i.e., the system of interest) is often challenging, our objective is to design optimal controllers using limited target system data.",
-    "key_contribution": "Motivated by this idea, we propose a meta-learning-based control framework that tailors the implicit model-agnostic meta-learning (iMAML) algorithm to the control setting.",
-    "why_it_matters": "Meta-Learning for Rapid Adaptation in Reference Tracking of Uncertain Nonlinear Systems represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Fine-Tuning.",
-    "one_line_takeaway": "Motivated by this idea, we propose a meta-learning-based control framework that tailors the implicit model-agnostic…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Fine-Tuning.",
-    "url": "https://arxiv.org/abs/2605.22513",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2607.02850",
     "source": "arxiv",
     "source_type": "preprint",
@@ -571,115 +525,6 @@
     "difficulty": "beginner"
   },
   {
-    "id": "arxiv:2605.22082",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "CoRMA: Contrastive RMA for Contact-Rich Meta-Adaptation",
-    "abstract": "We present CoRMA(Contrastive Robotic Motor Adaptation), a context-based meta-adaptation framework that modifies RMA for force-dominant assembly. CoRMA replaces raw simulator-parameter adaptation with a compact 6D simulator-only semantic contact context describing contact onset, lateral engagement, guided transition, contact direction, and jamming. A deployable causal Transformer adapter infers this context online from force, proprioceptive, and action histories using semantic regression and a force-regime contrastive objective. At deployment, oracle context is removed and replaced by the inferred context, enabling within-episode adaptation without demonstrations, privileged inputs, or gradient updates. We evaluate CoRMA on PegInsert, GearMesh, and NutThread in Isaac Lab / Isaac Sim~5.0 and on a real Marvin arm. Compared with FORGE baselines that achieve high simulation success but degrade substantially on hardware, CoRMA retains higher verified real success under controlled target-pose noise. These results support semantic contact inference as a reusable adaptation interface within a related assembly task family, while broader unseen-task generalization and Real2Sim calibration remain future work.",
-    "authors": [
-      "Wentian Wang",
-      "Chutong Wen",
-      "Hongxu Ma",
-      "Wuhao Wang",
-      "Zhexiong Xue",
-      "Abdul Haseeb Nizamani",
-      "Dandi Zhou",
-      "Xinhai Sun",
-      "Jianqiao Zhu"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22082",
-    "pdf_url": "https://arxiv.org/pdf/2605.22082",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Transformers",
-      "Robotics",
-      "Machine Learning"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Uses contrastive — requires solid ML/DL background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.8,
-    "read_first_score": 4.21,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.4,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We present CoRMA(Contrastive Robotic Motor Adaptation), a context-based meta-adaptation framework that modifies RMA for force-dominant assembly. CoRMA replaces raw simulator-parameter adaptation with a compact 6D simulator-only semantic contact context describing contact onset, lateral engagement, guided transition, contact direction, and jamming.",
-    "key_contribution": "We present CoRMA(Contrastive Robotic Motor Adaptation), a context-based meta-adaptation framework that modifies RMA for force-dominant assembly.",
-    "why_it_matters": "CoRMA: Contrastive RMA for Contact-Rich Meta-Adaptation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Transformers.",
-    "one_line_takeaway": "We present CoRMA(Contrastive Robotic Motor Adaptation), a context-based meta-adaptation framework that modifies RMA for…",
-    "biggest_caveat": "but degrade substantially on hardware, CoRMA retains higher verified real success under controlled target-pose noise.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Transformers.",
-    "url": "https://arxiv.org/abs/2605.22082",
-    "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2605.23066",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Orbax: Distributed Checkpointing with JAX",
-    "abstract": "In a landscape of high-performance distributed ML systems, JAX has emerged as a framework of choice. However, JAX's modular design philosophy leaves it without a standardized checkpointing solution. In this paper, we introduce Orbax, a modular, JAX-native checkpointing library that abstracts the complexities of distributed accelerator systems while also providing flexibility for user-friendly checkpoint manipulations throughout the ML model lifecycle. We demonstrate performance exceeding comparable PyTorch competitors by up to 3.5$\\times$ for saving and 2$\\times$ for loading. The library is available at https://github.com/google/orbax.",
-    "authors": [
-      "Colin Gaffney",
-      "Shutong Li",
-      "Daniel Ng",
-      "Anastasia Petrushkina",
-      "Niket Kumar",
-      "Adam Cogdell",
-      "Mridul Sahu",
-      "Yaning Liang",
-      "Nikhil Bansal",
-      "Justin Pan",
-      "Angel Mau",
-      "Abhishek Agrawal",
-      "Marco Berlot",
-      "Ruoxin Sang",
-      "Kiranbir Sodhia",
-      "Rakesh Iyer"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.23066",
-    "pdf_url": "https://arxiv.org/pdf/2605.23066",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Robotics",
-      "Distributed Computing",
-      "Machine Learning"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.77,
-    "read_first_score": 4.43,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.38,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "In a landscape of high-performance distributed ML systems, JAX has emerged as a framework of choice. However, JAX's modular design philosophy leaves it without a standardized checkpointing solution.",
-    "key_contribution": "In this paper, we introduce Orbax, a modular, JAX-native checkpointing library that abstracts the complexities of distributed accelerator systems while also providing flexibility for user-friendly checkpoint manipulations throughout the ML model lifecycle.",
-    "why_it_matters": "Orbax: Distributed Checkpointing with JAX represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Robotics.",
-    "one_line_takeaway": "In this paper, we introduce Orbax, a modular, JAX-native checkpointing library that abstracts the complexities of…",
-    "biggest_caveat": "buted ML systems, JAX has emerged as a framework of choice.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Robotics.",
-    "url": "https://arxiv.org/abs/2605.23066",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2609.33115",
     "source": "arxiv",
     "source_type": "preprint",
@@ -704,8 +549,8 @@
       "LLMs",
       "Evaluation",
       "Game Theory",
-      "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Multi-Agent Systems"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -947,8 +792,8 @@
     "tags": [
       "Biomedical AI",
       "Interpretability",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -1084,8 +929,8 @@
       "AI Safety",
       "Robotics",
       "Adversarial",
-      "Machine Learning",
-      "Computer Vision"
+      "Computer Vision",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -1148,55 +993,6 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2606.02863",
     "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2605.21273",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "DriveMA: Rethinking Language Interfaces in Driving VLAs with One-Step Meta-Actions",
-    "abstract": "Driving Vision-Language-Action Models (Driving VLAs) commonly introduce natural-language reasoning as an intermediate interface for end-to-end planning, but reasoning-centric interfaces face three practical bottlenecks: obtaining high-quality reasoning annotations is difficult, generating and understanding long reasoning chains is challenging for compact models, and inference latency is substantially increased. In this paper, we rethink the design of language interfaces in Driving VLAs and show that concise one-step meta-actions are a simple yet effective alternative to verbose reasoning. Meta-actions provide semantic decision grounding while remaining low-entropy, and being automatically derivable from expert trajectories, enabling scalable supervision and reliable trajectory conditioning. Building on this interface, we propose DriveMA, which combines action-centric supervised training with a turn-level credit-assignment reinforcement learning framework that jointly optimizes meta-action correctness, trajectory quality, and trajectory--meta-action consistency. Experiments show that DriveMA already achieves a new state of the art on the Waymo End-to-End Driving Challenge with a 2B model, reaching a Rater Feedback Score (RFS) of 8.060, while its 4B version further improves the state of the art to 8.079; DriveMA also obtains competitive performance on NAVSIM. Ablations demonstrate that one-step meta-actions offer a better practical trade-off between expressiveness, predictability, and inference efficiency than natural-language reasoning or finer-grained action sequences. Code, data, and models will be released to facilitate future research.",
-    "authors": [
-      "Weicheng Zheng",
-      "Yixin Huang",
-      "Qiao Sun",
-      "Derun Li",
-      "Hang zhao"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.21273",
-    "pdf_url": "https://arxiv.org/pdf/2605.21273",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Reasoning",
-      "Hallucination",
-      "Info Extraction",
-      "RL",
-      "Computer Vision"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (RL) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.72,
-    "read_first_score": 4.64,
-    "content_potential_score": 1.84,
-    "interestingness_score": 2.78,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Driving Vision-Language-Action Models (Driving VLAs) commonly introduce natural-language reasoning as an intermediate interface for end-to-end planning, but reasoning-centric interfaces face three practical bottlenecks: obtaining high-quality reasoning annotations is difficult, generating and understanding long reasoning chains is challenging for compact models, and inference latency is substantially increased. In this paper, we rethink the design of language interfaces in Driving VLAs and show that concise one-step meta-actions are a simple yet effective alternative to verbose reasoning.",
-    "key_contribution": "Driving Vision-Language-Action Models (Driving VLAs) commonly introduce natural-language reasoning as an intermediate interface for end-to-end planning, but reasoning-centric interfaces face three practical bottlenecks: obtaining high-quality reasoning annotations is difficult, generating and understanding long reasoning chains is challenging for compact models, and inference latency is substantially increased.",
-    "why_it_matters": "DriveMA: Rethinking Language Interfaces in Driving VLAs with One-Step Meta-Actions advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Reasoning.",
-    "one_line_takeaway": "Driving Vision-Language-Action Models (Driving VLAs) commonly introduce natural-language reasoning as an intermediate…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Reasoning.",
-    "url": "https://arxiv.org/abs/2605.21273",
-    "difficulty": "advanced"
   },
   {
     "id": "arxiv:2606.15634",
@@ -2095,8 +1891,8 @@
       "AI Safety",
       "Evaluation",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Databases"
+      "Databases",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -2145,9 +1941,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Software Engineering",
       "Artificial Intelligence",
       "NLP",
+      "Software Engineering",
       "Machine Learning"
     ],
     "paper_type": "systems",
@@ -2296,8 +2092,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2523,8 +2319,8 @@
     "tags": [
       "AI Safety",
       "RL",
-      "Artificial Intelligence",
       "Cryptography & Security",
+      "Artificial Intelligence",
       "Machine Learning"
     ],
     "paper_type": "systems",
@@ -2809,51 +2605,6 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2606.04823",
     "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2605.22746",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Plug-in Losses for Evidential Deep Learning: A Simplified Framework for Uncertainty Estimation that Includes the Softmax Classifier",
-    "abstract": "Real-world sensor-based learning systems require uncertainty estimation that is both reliable and computationally efficient. Evidential Deep Learning (EDL) provides single-pass uncertainty estimation by modeling the class probabilities via Dirichlet distributions, where the Dirichlet parameters are predicted by a learned neural network mapping. However, this approach can lead to computational challenges, as Dirichlet expected objectives are more complex than standard supervised learning losses, complicating their analysis and implementation. We address this issue by approximating the objective of the first-order empirical risk minimization problem induced by EDL with a plug-in loss evaluated at the Dirichlet mean and show that, under mild assumptions, the approximation error decays with growing evidence for a broad class of loss functions, including mean-squared error and cross-entropy loss. As a special case, our analysis provides justification for the use of softmax in the context of uncertainty estimation, since under a particular evidence-to-Dirichlet mapping, our framework includes the standard softmax classifier. We validate the proposed simplified objectives on the Google Speech Commands dataset and show that they achieve predictive accuracy and selective prediction performance comparable to classical EDL, while being simpler to implement using standard deep learning losses and training pipelines. To the best of our knowledge, this empirical analysis is the first to obtain coverage-accuracy trade-offs for speech recognition tasks through EDL.",
-    "authors": [
-      "Berk Hayta",
-      "Hannah Laus",
-      "Simon Mittermaier",
-      "Felix Krahmer"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22746",
-    "pdf_url": "https://arxiv.org/pdf/2605.22746",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "ASR",
-      "Machine Learning"
-    ],
-    "paper_type": "dataset",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Uses cross-entropy — requires solid ML/DL background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.6,
-    "read_first_score": 3.82,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.55,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Real-world sensor-based learning systems require uncertainty estimation that is both reliable and computationally efficient. Evidential Deep Learning (EDL) provides single-pass uncertainty estimation by modeling the class probabilities via Dirichlet distributions, where the Dirichlet parameters are predicted by a learned neural network mapping.",
-    "key_contribution": "We address this issue by approximating the objective of the first-order empirical risk minimization problem induced by EDL with a plug-in loss evaluated at the Dirichlet mean and show that, under mild assumptions, the approximation error decays with growing evidence for a broad class of loss functions, including mean-squared error and cross-entropy loss.",
-    "why_it_matters": "Plug-in Losses for Evidential Deep Learning: A Simplified Framework for Uncertainty Estimation that Includes the Softmax Classifier represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about ASR.",
-    "one_line_takeaway": "We address this issue by approximating the objective of the first-order empirical risk minimization problem induced by…",
-    "biggest_caveat": "butions, where the Dirichlet parameters are predicted by a learned neural network mapping.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in ASR.",
-    "url": "https://arxiv.org/abs/2605.22746",
-    "difficulty": "advanced"
   },
   {
     "id": "arxiv:2605.16336",
@@ -3238,9 +2989,9 @@
     "tags": [
       "AI Agents",
       "Code Generation",
-      "Multi-Agent Systems",
       "Artificial Intelligence",
-      "Databases"
+      "Databases",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3484,8 +3235,8 @@
     "tags": [
       "GNNs",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -3677,9 +3428,9 @@
     "topics": [],
     "tags": [
       "VLMs",
+      "Computer Vision",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Computer Vision"
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3860,8 +3611,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Multi-Agent Systems",
-      "Distributed Computing"
+      "Distributed Computing",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -3909,8 +3660,8 @@
       "Reasoning",
       "Multimodal",
       "Interpretability",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -4670,8 +4421,8 @@
     "tags": [
       "Fine-Tuning",
       "Structured Data",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5685,8 +5436,8 @@
     "topics": [],
     "tags": [
       "Programming Languages",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -5758,54 +5509,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in Info Extraction.",
     "url": "https://arxiv.org/abs/2605.27817",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2605.27428",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "$E^3$-Agent: An Executable and Evolving Agent for Resource Management of Edge Generative Inference",
-    "abstract": "Edge deployments of generative inference increasingly face two practical realities: per-device per-model performance is often unknown at deployment time, and it is non-stationary due to user-driven semantic events, background load, and device churn. Consequently, a resource manager that is tuned offline under a fixed regime can become brittle and expensive to maintain. This paper presents $E^3$-Agent, an executable and evolving agent for edge artificial intelligence generated content (AIGC) resource management. $E^3$-Agent separates a fast-path router that makes millisecond-level dispatch decisions from a slow-path, event-driven large language model (LLM) meta-controller that mitigates regime shifts through a small, explicit control surface exposed via a tool interface, including risk gating, router configuration, and rapid performance calibration. The agent learns online from execution feedback and continuously adapts to unknown and time-varying service-time mappings. We evaluate $E^3$-Agent in a discrete-event simulator driven by MLPerf-derived device-model measurement priors, covering cold-start warmup and three dynamic regimes: semantic dynamics, device churn, and hidden drift. Across the dynamic scenarios, $E^3$-Agent reduces average latency by 65%-73% compared to the best static baseline, stays within 7%-10% of an online full-information Oracle used for evaluation, and effectively suppresses stutter rate under semantic degradation.",
-    "authors": [
-      "Rui Bao",
-      "Yaping Sun",
-      "Zhiyong Chen",
-      "Feng Yang",
-      "Meixia Tao",
-      "Nan Li",
-      "Wenjun Zhang"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.27428",
-    "pdf_url": "https://arxiv.org/pdf/2605.27428",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Machine Learning"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.5,
-    "read_first_score": 4.48,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.25,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Edge deployments of generative inference increasingly face two practical realities: per-device per-model performance is often unknown at deployment time, and it is non-stationary due to user-driven semantic events, background load, and device churn. Consequently, a resource manager that is tuned offline under a fixed regime can become brittle and expensive to maintain.",
-    "key_contribution": "Edge deployments of generative inference increasingly face two practical realities: per-device per-model performance is often unknown at deployment time, and it is non-stationary due to user-driven semantic events, background load, and device churn.",
-    "why_it_matters": "$E^3$-Agent: An Executable and Evolving Agent for Resource Management of Edge Generative Inference represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Edge deployments of generative inference increasingly face two practical realities: per-device per-model performance is…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2605.27428",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2609.33176",
@@ -6311,8 +6014,8 @@
     "tags": [
       "Info Extraction",
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -6775,8 +6478,8 @@
       "Info Extraction",
       "Self-Supervised",
       "Robotics",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -6912,9 +6615,9 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
+      "Machine Learning",
       "Computer Vision",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -7245,9 +6948,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -7391,8 +7094,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Cryptography & Security",
       "Multi-Agent Systems",
+      "Cryptography & Security",
       "Artificial Intelligence"
     ],
     "paper_type": "methods",
@@ -7720,8 +7423,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -8225,8 +7928,8 @@
       "Fine-Tuning",
       "Video AI",
       "Robotics",
-      "Computer Graphics",
-      "Computer Vision"
+      "Computer Vision",
+      "Computer Graphics"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8315,8 +8018,8 @@
     "topics": [],
     "tags": [
       "RLHF",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -8410,8 +8113,8 @@
     "tags": [
       "LLMs",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8763,8 +8466,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Information Retrieval"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -9720,8 +9423,8 @@
     "tags": [
       "Model Compression",
       "Information Retrieval",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -9952,8 +9655,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -9968,10 +9671,10 @@
     "summary": "Scientific discovery advances when evidence from different investigations is brought into contact. Yet paper-centric communication leaves experimental results fragmented, delayed, or unreported, creating a \"scientific memory wall\" between growing computational capabilities and the evidence accessible to AI systems.",
     "key_contribution": "We propose Evolving Scientific Intelligence (ESI), an architectural blueprint for enabling these evidence-driven chain reactions.",
     "why_it_matters": "Evolving Scientific Intelligence: From Fragmented Evidence to Distributed Experimental Loops represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We propose Evolving Scientific Intelligence (ESI), an architectural blueprint for enabling these evidence-driven chain…",
     "biggest_caveat": "buted experimental nodes.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2611.00580",
     "difficulty": "beginner"
   },
@@ -11163,8 +10866,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -11179,10 +10882,10 @@
     "summary": "Modern computational advertising platforms typically rely on recommendation systems to predict user responses, such as click-through rates, conversion rates, and other optimization events. To support a wide variety of product surfaces and advertiser goals, these platforms maintain an extensive ecosystem of machine learning (ML) models.",
     "key_contribution": "We present a large-scale empirical study comparing model performance, efficiency, and technique propagation between a standardized model-building approach and independent per-model optimization in recommendation systems.",
     "why_it_matters": "Template-Driven Machine Learning Standardization for Large Model Fleets represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We present a large-scale empirical study comparing model performance, efficiency, and technique propagation between a…",
     "biggest_caveat": "butions and optimization events.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2603.24963",
     "difficulty": "advanced"
   },
@@ -11573,8 +11276,8 @@
     "tags": [
       "Prompting",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -12073,8 +11776,8 @@
     "tags": [
       "VLMs",
       "Self-Supervised",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -12133,8 +11836,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -12283,8 +11986,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -12328,8 +12031,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -12554,9 +12257,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
+      "Machine Learning",
       "Multi-Agent Systems",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -12758,9 +12461,9 @@
     "topics": [],
     "tags": [
       "Classification",
+      "Machine Learning",
       "Cryptography & Security",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -12849,8 +12552,8 @@
     "tags": [
       "Interpretability",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -12992,8 +12695,8 @@
     "tags": [
       "LLMs",
       "Machine Learning",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -13173,9 +12876,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13267,8 +12970,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Cryptography & Security",
-      "Distributed Computing"
+      "Distributed Computing",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13283,10 +12986,10 @@
     "summary": "DRAM continues to limit the performance, energy efficiency, and robustness of modern systems. Many prior works propose DRAM techniques that support in-DRAM computation, improve memory access latency and parallelism, and enhance DRAM maintenance and reliability.",
     "key_contribution": "Many prior works propose DRAM techniques that support in-DRAM computation, improve memory access latency and parallelism, and enhance DRAM maintenance and reliability.",
     "why_it_matters": "Terracotta: Enabling the Adoption of New DRAM Techniques via a Flexible DRAM Interface and Memory Controller represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Distributed Computing.",
     "one_line_takeaway": "Many prior works propose DRAM techniques that support in-DRAM computation, improve memory access latency and…",
     "biggest_caveat": "However, adopting each new technique requires repeated modifications to the rigid DRAM interface and memory controller, hindering its deployment.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
     "url": "https://arxiv.org/abs/2610.06475",
     "difficulty": "intermediate"
   },
@@ -13750,8 +13453,8 @@
     "tags": [
       "Info Extraction",
       "Knowledge Graphs",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -14469,9 +14172,9 @@
     "tags": [
       "RL",
       "Evaluation",
+      "Computer Vision",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Computer Vision"
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -15169,8 +14872,8 @@
     "tags": [
       "Reasoning",
       "Transformers",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -15240,65 +14943,6 @@
     "biggest_caveat": "limitations by unlocking the iterative denoising process of diffusion language models (dLLMs) as a multi-granularity reconstruction space.",
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2610.22400",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2511.07885",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Intelligence per Watt: Measuring Intelligence Efficiency of Local AI",
-    "abstract": "Large language model (LLM) queries are predominantly processed by frontier models in centralized cloud infrastructure. Demand growth strains this paradigm faster than providers can scale. Two advances create an opportunity to rethink it: small, local LMs (<=20B active parameters) now achieve competitive performance to frontier models on many tasks, and local accelerators (e.g., Apple M4 Max) can host these models at interactive latencies. This raises the question: can local inference viably redistribute demand from centralized infrastructure? This requires measuring both whether local LMs can accurately answer real-world queries and whether they can do so efficiently on power-constrained devices (e.g., laptops). We propose intelligence per watt (IPW), task accuracy per unit of power, as a unified metric for the capability and efficiency of local inference across model-accelerator configurations. We evaluate 20+ state-of-the-art local LMs, 8 hardware accelerators (local and cloud), and 1M real-world single-turn chat and reasoning queries. For each query, we measure accuracy (local LM win rate against frontier models), energy, latency, and power. We find three key results. First, local LMs successfully answer 88.7% of these queries, with accuracy varying by domain. Second, longitudinal analysis from 2023-2025 shows IPW improved 5.3x, driven by both algorithmic and accelerator advances, with locally-serviceable query coverage rising from 23.2% to 71.3%. Third, local accelerators achieve at least 1.4x lower IPW than cloud accelerators running identical models, revealing significant headroom for local accelerator optimization. These findings demonstrate that local inference can meaningfully redistribute demand from centralized infrastructure for a substantial subset of queries, with IPW serving as the critical metric for tracking this transition.",
-    "authors": [
-      "Jon Saad-Falcon",
-      "Avanika Narayan",
-      "Hakki Orhun Akengin",
-      "J. Wes Griffin",
-      "Herumb Shandilya",
-      "Adrian Gamarra Lafuente",
-      "Medhya Goel",
-      "Rebecca Joseph",
-      "Shlok Natarajan",
-      "Etash Kumar Guha",
-      "Shang Zhu",
-      "Ben Athiwaratkun",
-      "John Hennessy",
-      "Azalia Mirhoseini",
-      "Christopher Ré"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2511.07885",
-    "pdf_url": "https://arxiv.org/pdf/2511.07885",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Reasoning",
-      "Distributed Computing",
-      "Artificial Intelligence",
-      "NLP"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.23,
-    "read_first_score": 4.73,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.12,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Large language model (LLM) queries are predominantly processed by frontier models in centralized cloud infrastructure. Demand growth strains this paradigm faster than providers can scale.",
-    "key_contribution": "Two advances create an opportunity to rethink it: small, local LMs (<=20B active parameters) now achieve competitive performance to frontier models on many tasks, and local accelerators (e.g., Apple M4 Max) can host these models at interactive latencies.",
-    "why_it_matters": "Intelligence per Watt: Measuring Intelligence Efficiency of Local AI represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Two advances create an opportunity to rethink it: small, local LMs (<=20B active parameters) now achieve competitive…",
-    "biggest_caveat": "bute demand from centralized infrastructure?",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2511.07885",
     "difficulty": "intermediate"
   },
   {
@@ -15377,8 +15021,8 @@
     "tags": [
       "Info Extraction",
       "GNNs",
-      "Artificial Intelligence",
       "Cryptography & Security",
+      "Artificial Intelligence",
       "Machine Learning"
     ],
     "paper_type": "methods",
@@ -15472,8 +15116,8 @@
       "LLMs",
       "RLHF",
       "AI Safety",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -15617,9 +15261,9 @@
     "tags": [
       "Biomedical AI",
       "Interpretability",
+      "Computer Vision",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Computer Vision"
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -15852,9 +15496,9 @@
     "topics": [],
     "tags": [
       "RL",
+      "Machine Learning",
       "Multi-Agent Systems",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -16231,8 +15875,8 @@
       "LLMs",
       "Info Extraction",
       "Structured Data",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -16280,8 +15924,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -16415,8 +16059,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -16780,8 +16424,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -16796,10 +16440,10 @@
     "summary": "Recursive self-improvement (RSI), in which a system also improves the way it improves, is a long-standing aspiration on the path to AGI. Language agents increasingly store procedural knowledge in reusable skills.",
     "key_contribution": "Optimizing skills offers a direct way to achieve RSI, because the optimization procedure itself can be encoded as a skill.",
     "why_it_matters": "Skill$^{\\infty}$: Recursive Self-Improvement for Agent Skill Optimization represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about NLP.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "Optimizing skills offers a direct way to achieve RSI, because the optimization procedure itself can be encoded as a…",
     "biggest_caveat": "however, follow a hand-designed procedure.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in NLP.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2610.35434",
     "difficulty": "intermediate"
   },
@@ -17189,8 +16833,8 @@
     "tags": [
       "AI Agents",
       "RAG",
-      "Software Engineering",
       "Artificial Intelligence",
+      "Software Engineering",
       "Machine Learning"
     ],
     "paper_type": "systems",
@@ -17607,10 +17251,10 @@
     "topics": [],
     "tags": [
       "Code Generation",
-      "Software Engineering",
-      "Artificial Intelligence",
+      "Programming Languages",
       "Cryptography & Security",
-      "Programming Languages"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17706,9 +17350,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
+      "Machine Learning",
       "Multi-Agent Systems",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -18273,8 +17917,8 @@
       "LLMs",
       "Reasoning",
       "AI Safety",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -18389,8 +18033,8 @@
       "Fine-Tuning",
       "Federated Learning",
       "Structured Data",
-      "Distributed Computing",
-      "Computer Vision"
+      "Computer Vision",
+      "Distributed Computing"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -18917,8 +18561,8 @@
     "tags": [
       "VLMs",
       "Interpretability",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -19101,8 +18745,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -19371,8 +19015,8 @@
     "tags": [
       "Info Extraction",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -19651,8 +19295,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -19761,52 +19405,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2605.23057",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "ModeSwitch-LLM: A Lightweight Phase-Aware Controller for Cross-Mode LLM Inference on a Single GPU",
-    "abstract": "ModeSwitch-LLM is a lightweight request-boundary controller for improving single-GPU large language model inference efficiency by routing each request to an appropriate fixed inference mode. Instead of relying on one static serving configuration, the system selects among FP16, quantized modes, speculative decoding, and hybrid modes such as GPTQ plus prefix caching and INT8 plus continuous batching using cheap workload-level features. We evaluate ModeSwitch-LLM on Meta-Llama-3.1-8B-Instruct served on a single NVIDIA A100 GPU. On deployment-style synthetic workloads, the online controller achieves a 2.10x mean latency speedup over FP16 and a 0.48x mean energy ratio, corresponding to 51.7% lower energy per token. On automatic benchmarks used as a quality gate, accuracy remains close to FP16 with a mean delta of +0.17 percentage points. We also evaluate lightweight learned routers, but find that they do not clearly outperform the rule-based controller because they add routing overhead and more often select modes that violate quality, energy, or memory constraints. These results show that simple request-aware routing can recover substantial efficiency from existing inference modes without retraining the model or changing its architecture.",
-    "authors": [
-      "Aman Sunesh",
-      "Ali Alshehhi",
-      "Hivansh Dhakne"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.23057",
-    "pdf_url": "https://arxiv.org/pdf/2605.23057",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Evaluation",
-      "Machine Learning",
-      "NLP"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.2,
-    "read_first_score": 4.33,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.1,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "ModeSwitch-LLM is a lightweight request-boundary controller for improving single-GPU large language model inference efficiency by routing each request to an appropriate fixed inference mode. Instead of relying on one static serving configuration, the system selects among FP16, quantized modes, speculative decoding, and hybrid modes such as GPTQ plus prefix caching and INT8 plus continuous batching using cheap workload-level features.",
-    "key_contribution": "We also evaluate lightweight learned routers, but find that they do not clearly outperform the rule-based controller because they add routing overhead and more often select modes that violate quality, energy, or memory constraints.",
-    "why_it_matters": "ModeSwitch-LLM: A Lightweight Phase-Aware Controller for Cross-Mode LLM Inference on a Single GPU represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "We also evaluate lightweight learned routers, but find that they do not clearly outperform the rule-based controller…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2605.23057",
-    "difficulty": "beginner"
-  },
-  {
     "id": "arxiv:2608.20026",
     "source": "arxiv",
     "source_type": "preprint",
@@ -19872,8 +19470,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Software Engineering",
       "Artificial Intelligence",
+      "Software Engineering",
       "Machine Learning"
     ],
     "paper_type": "systems",
@@ -19963,8 +19561,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "theory",
     "difficulty_level": "L3",
@@ -20007,8 +19605,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Human-Computer Interaction",
-      "Computer Graphics"
+      "Computer Graphics",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20023,10 +19621,10 @@
     "summary": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel natural, avatars need to respond to users without forcing them through a controller-based interface first. This paper describes a gesture-driven interaction layer built for a browser-based metaverse onboarding environment, where users explore a set of virtual rooms as an avatar and interact with embedded video, document, and quiz content using hand, arm, and head gestures instead of a keyboard or controller.",
     "key_contribution": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel natural, avatars need to respond to users without forcing them through a controller-based interface first.",
     "why_it_matters": "A Browser-Based Gesture-Driven Avatar Interaction Framework for Metaverse Onboarding Environments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Human-Computer Interaction.",
+    "content_hook": "A new paper that could change how we think about Computer Graphics.",
     "one_line_takeaway": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Human-Computer Interaction.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
     "url": "https://arxiv.org/abs/2608.11708",
     "difficulty": "intermediate"
   },
@@ -20053,8 +19651,8 @@
     "topics": [],
     "tags": [
       "Computer Vision",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20100,8 +19698,8 @@
     "tags": [
       "Info Extraction",
       "Knowledge Graphs",
-      "Artificial Intelligence",
-      "Human-Computer Interaction"
+      "Human-Computer Interaction",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20504,8 +20102,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20520,10 +20118,10 @@
     "summary": "Predicting emerging trends is vital for businesses, researchers, and policymakers; yet traditional approaches often lack scalability and adaptability. This paper presents a trend prediction framework based on Automated Machine Learning (AutoML), designed to extract insights from textual datasets with temporal attributes.",
     "key_contribution": "Experimental results demonstrate that the proposed system's best trial achieves a final RMSE of 7.099, indicating high predictive accuracy.",
     "why_it_matters": "AutoCluster, AutoTopicModeling, AutoTrendAnalysis: A Complete AutoML Pipeline for Predicting Emerging Trends represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "Experimental results demonstrate that the proposed system's best trial achieves a final RMSE of 7.099, indicating high…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2607.22641",
     "difficulty": "intermediate"
   },
@@ -20546,8 +20144,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Game Theory",
       "Distributed Computing",
+      "Game Theory",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -20563,10 +20161,10 @@
     "summary": "Stock recommendation systems face the dual challenge of adapting to rapidly changing market conditions while maintaining low-latency predictions for end users. Traditional batch-trained models fail to capture concept drift, and monolithic architectures struggle to provide fault tolerance under load.",
     "key_contribution": "Results demonstrate that the system serves stock recommendations in 23 seconds per request and processes up to 500 portfolio addition requests per second per follower.",
     "why_it_matters": "A scalable online machine learning approach for Stock Recommendation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Game Theory.",
+    "content_hook": "A new paper that could change how we think about Distributed Computing.",
     "one_line_takeaway": "Results demonstrate that the system serves stock recommendations in 23 seconds per request and processes up to 500…",
     "biggest_caveat": "buted microservices architecture using Kubernetes, Docker, and RabbitMQ.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Game Theory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
     "url": "https://arxiv.org/abs/2607.23120",
     "difficulty": "intermediate"
   },
@@ -20691,8 +20289,8 @@
     "tags": [
       "Long Context",
       "Transformers",
-      "Cryptography & Security",
-      "Machine Learning"
+      "Machine Learning",
+      "Cryptography & Security"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -21427,9 +21025,9 @@
     "tags": [
       "Dialogue",
       "Code Generation",
-      "Software Engineering",
+      "Artificial Intelligence",
       "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -21472,9 +21070,9 @@
     "tags": [
       "LLMs",
       "Hallucination",
-      "Software Engineering",
+      "Artificial Intelligence",
       "Distributed Computing",
-      "Artificial Intelligence"
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -21705,8 +21303,8 @@
     "tags": [
       "RL",
       "Robotics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -21772,60 +21370,6 @@
     "difficulty": "beginner"
   },
   {
-    "id": "arxiv:2605.22020",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "ForeSplat: Optimization-Aware Foresight for Feed-Forward 3D Gaussian Splatting",
-    "abstract": "Feed-forward 3D Gaussian Splatting (3DGS) models offer fast single-pass reconstruction,but scaling them to match per-scene optimization quality is fundamentally hindered by the scarcity of large-scale 3D annotations.A practical compromise is predict-then-refine,where post-prediction optimization compensates for the limited capacity of the feed-forward network.However,standard feed-forward 3DGS is trained solely for zero-step rendering error,ignoring whether its output constitutes a good initialization for the downstream optimizer.We present ForeSplat,an optimization-aware training framework that equips feed-forward 3DGS models to produce initializations explicitly designed for rapid,effective refinement.By offloading part of the scene-modeling burden to the optimizer,ForeSplat substantially reduces the capacity pressure on the feed-forward model,making high-quality reconstruction feasible even with compact networks.At its core is MetaGrad,a lightweight multi-anchor meta-gradient training rule that bypasses costly higher-order differentiation through the 3DGS optimizer.MetaGrad unrolls a short inner-loop refinement trajectory,samples anchor states,and back-propagates aggregated first-order gradients to the prediction head as a surrogate optimization-aware signal.This fine-tuning adds no inference cost and enables high-quality reconstruction within seconds after a few refinement steps.We instantiate ForeSplat on diverse backbones,including AnySplat,Pi3X,and a distilled variant tailored for edge deployment.Across all tested architectures,a ForeSplat-trained initialization converges in fewer refinement steps and reaches a higher peak reconstruction quality than its vanilla counterpart,even fully converged.The framework consistently bridges the gap between amortized prediction and per-scene optimization,establishing a practical path toward lightweight,high-fidelity 3D reconstruction.",
-    "authors": [
-      "Yuke Li",
-      "Weihang Liu",
-      "Cheng Zhang",
-      "Yuefeng Zhang",
-      "Jiadi Cui",
-      "Zixuan Wang",
-      "Junran Ding",
-      "Haoyu Wu",
-      "Yujiao Shi",
-      "Jingyi Yu",
-      "Xin Lou"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22020",
-    "pdf_url": "https://arxiv.org/pdf/2605.22020",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Fine-Tuning",
-      "3D Vision",
-      "Info Extraction",
-      "Computer Vision"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.2,
-    "read_first_score": 4.6,
-    "content_potential_score": 1.84,
-    "interestingness_score": 2.52,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Feed-forward 3D Gaussian Splatting (3DGS) models offer fast single-pass reconstruction,but scaling them to match per-scene optimization quality is fundamentally hindered by the scarcity of large-scale 3D annotations.A practical compromise is predict-then-refine,where post-prediction optimization compensates for the limited capacity of the feed-forward network.However,standard feed-forward 3DGS is trained solely for zero-step rendering error,ignoring whether its output constitutes a good initialization for the downstream optimizer.We present ForeSplat,an optimization-aware training framework that equips feed-forward 3DGS models to produce initializations explicitly designed for rapid,effective refinement.By offloading part of the scene-modeling burden to the optimizer,ForeSplat substantially reduces the capacity pressure on the feed-forward model,making high-quality reconstruction feasible even with compact networks.At its core is MetaGrad,a lightweight multi-anchor meta-gradient training rule that bypasses costly higher-order differentiation through the 3DGS optimizer.MetaGrad unrolls a short inner-loop refinement trajectory,samples anchor states,and back-propagates aggregated first-order gradients to the prediction head as a surrogate optimization-aware signal.This fine-tuning adds no inference cost and enables high-quality reconstruction within seconds after a few refinement steps.We instantiate ForeSplat on diverse backbones,including AnySplat,Pi3X,and a distilled variant tailored for edge deployment.Across all tested architectures,a ForeSplat-trained initialization converges in fewer refinement steps and reaches a higher peak reconstruction quality than its vanilla counterpart,even fully converged.The framework consistently bridges the gap between amortized prediction and per-scene optimization,establishing a practical path toward lightweight,high-fidelity 3D reconstruction.",
-    "key_contribution": "Feed-forward 3D Gaussian Splatting (3DGS) models offer fast single-pass reconstruction,but scaling them to match per-scene optimization quality is fundamentally hindered by the scarcity of large-scale 3D annotations.A practical compromise is predict-then-refine,where post-prediction optimization compensates for the limited capacity of the feed-forward network.However,standard feed-forward 3DGS is trained solely for zero-step rendering error,ignoring whether its output constitutes a good initialization for the downstream optimizer.We present ForeSplat,an optimization-aware training framework that equips feed-forward 3DGS models to produce initializations explicitly designed for rapid,effective refinement.By offloading part of the scene-modeling burden to the optimizer,ForeSplat substantially reduces the capacity pressure on the feed-forward model,making high-quality reconstruction feasible even with compact networks.At its core is MetaGrad,a lightweight multi-anchor meta-gradient training rule that bypasses costly higher-order differentiation through the 3DGS optimizer.MetaGrad unrolls a short inner-loop refinement trajectory,samples anchor states,and back-propagates aggregated first-order gradients to the prediction head as a surrogate optimization-aware signal.This fine-tuning adds no inference cost and enables high-quality reconstruction within seconds after a few refinement steps.We instantiate ForeSplat on diverse backbones,including AnySplat,Pi3X,and a distilled variant tailored for edge deployment.Across all tested architectures,a ForeSplat-trained initialization converges in fewer refinement steps and reaches a higher peak reconstruction quality than its vanilla counterpart,even fully converged.The framework consistently bridges the gap between amortized prediction and per-scene optimization,establishing a practical path toward lightweight,high-fidelity 3D reconstruction.",
-    "why_it_matters": "ForeSplat: Optimization-Aware Foresight for Feed-Forward 3D Gaussian Splatting advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Fine-Tuning.",
-    "one_line_takeaway": "Feed-forward 3D Gaussian Splatting (3DGS) models offer fast single-pass reconstruction,but scaling them to match…",
-    "biggest_caveat": "but scaling them to match per-scene optimization quality is fundamentally hindered by the scarcity of large-scale 3D annotations.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Fine-Tuning.",
-    "url": "https://arxiv.org/abs/2605.22020",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2605.25665",
     "source": "arxiv",
     "source_type": "preprint",
@@ -21847,8 +21391,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -22057,8 +21601,8 @@
       "VLMs",
       "Text-to-Image",
       "Self-Supervised",
-      "Machine Learning",
-      "Computer Vision"
+      "Computer Vision",
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -22246,8 +21790,8 @@
     "tags": [
       "Reasoning",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -22389,8 +21933,8 @@
     "tags": [
       "Evaluation",
       "Systems & Control",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -22877,9 +22421,9 @@
     "topics": [],
     "tags": [
       "Info Extraction",
+      "Machine Learning",
       "Cryptography & Security",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -23063,9 +22607,9 @@
     "tags": [
       "Self-Supervised",
       "Neural Networks",
+      "Computer Vision",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Computer Vision"
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -23713,54 +23257,6 @@
     "difficulty": "frontier"
   },
   {
-    "id": "arxiv:2605.24044",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "RED: Adaptive Real-Time DAG Scheduling for Robotic Inference under Environmental Dynamics",
-    "abstract": "Robots deployed in dynamic environments must contend with environment-driven changes that reshape computation at runtime: new tasks may appear, precedence relations can shift, and overall workload structure evolves, all of which degrade performance, especially when multi-task inference is required under tight resource and real-time budgets. We present RED, a real-time scheduling framework for multi-task deep neural network workloads on resource-constrained robotic platforms that adapts to Robotic Environmental Dynamics (RED) while preserving end-to-end timing guarantees under modeling assumptions. The core of RED is a deadline-aware scheduler that assigns intermediate sub-deadlines, allowing it to accommodate evolving computation graphs and asynchronous inference induced by unpredictable conditions. The framework also supports flexible deployment of MIMONet (multi-input multi-output neural networks), commonly used in multi-tasking robots to alleviate memory pressure through weight sharing. RED explicitly leverages this shared-parameter property via a workload refinement and graph-reconstruction procedure that aligns MIMONet structure with schedulability requirements, improving compatibility and efficiency. We implement RED on NVIDIA Jetson family platforms and on an Apple M-series MacBook and evaluate it on navigation-oriented workloads representative of real robotic scenarios. Experiments show consistent gains over existing methods in throughput, deadline satisfaction, robustness to interference, adaptability, and runtime overhead.",
-    "authors": [
-      "Zexin Li",
-      "Tao Ren",
-      "Johnathan Liu",
-      "Xiaoxi He",
-      "Cong Liu"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.24044",
-    "pdf_url": "https://arxiv.org/pdf/2605.24044",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Robotics",
-      "Adversarial",
-      "Systems & Control",
-      "Software Engineering"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Uses multi-task — requires solid ML/DL background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.14,
-    "read_first_score": 3.89,
-    "content_potential_score": 1.84,
-    "interestingness_score": 2.49,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Robots deployed in dynamic environments must contend with environment-driven changes that reshape computation at runtime: new tasks may appear, precedence relations can shift, and overall workload structure evolves, all of which degrade performance, especially when multi-task inference is required under tight resource and real-time budgets. We present RED, a real-time scheduling framework for multi-task deep neural network workloads on resource-constrained robotic platforms that adapts to Robotic Environmental Dynamics (RED) while preserving end-to-end timing guarantees under modeling assumptions.",
-    "key_contribution": "We present RED, a real-time scheduling framework for multi-task deep neural network workloads on resource-constrained robotic platforms that adapts to Robotic Environmental Dynamics (RED) while preserving end-to-end timing guarantees under modeling assumptions.",
-    "why_it_matters": "RED: Adaptive Real-Time DAG Scheduling for Robotic Inference under Environmental Dynamics represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Robotics.",
-    "one_line_takeaway": "We present RED, a real-time scheduling framework for multi-task deep neural network workloads on resource-constrained…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Robotics.",
-    "url": "https://arxiv.org/abs/2605.24044",
-    "difficulty": "advanced"
-  },
-  {
     "id": "arxiv:2610.34413",
     "source": "arxiv",
     "source_type": "preprint",
@@ -23877,8 +23373,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -24018,8 +23514,8 @@
       "LLMs",
       "Reasoning",
       "Federated Learning",
-      "Multi-Agent Systems",
-      "Distributed Computing"
+      "Distributed Computing",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -24113,8 +23609,8 @@
     "tags": [
       "Robotics",
       "Systems & Control",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -24302,8 +23798,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -24448,8 +23944,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -24494,8 +23990,8 @@
       "LLMs",
       "AI Safety",
       "AI Agents",
-      "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Multi-Agent Systems"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -24585,8 +24081,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Cryptography & Security",
-      "Distributed Computing"
+      "Distributed Computing",
+      "Cryptography & Security"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -24777,8 +24273,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -25390,8 +24886,8 @@
     "tags": [
       "LLMs",
       "AI Agents",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25484,8 +24980,8 @@
       "LLMs",
       "Reasoning",
       "AI Agents",
-      "Human-Computer Interaction",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Human-Computer Interaction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25719,8 +25215,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -25902,8 +25398,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25993,8 +25489,8 @@
       "LLMs",
       "AI Safety",
       "Model Compression",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -26038,8 +25534,8 @@
     "tags": [
       "Multimodal",
       "Artificial Intelligence",
-      "Multimedia",
       "NLP",
+      "Multimedia",
       "Machine Learning"
     ],
     "paper_type": "methods",
@@ -26627,8 +26123,8 @@
     "topics": [],
     "tags": [
       "Prompting",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -26770,8 +26266,8 @@
     "tags": [
       "AI Safety",
       "AI Agents",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -27294,8 +26790,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -27440,8 +26936,8 @@
       "VLMs",
       "Text-to-Image",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -27581,8 +27077,8 @@
     "tags": [
       "LLMs",
       "Reasoning",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -27725,8 +27221,8 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27926,9 +27422,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Machine Learning",
       "Cryptography & Security",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -27943,10 +27439,10 @@
     "summary": "File-type classification underlies many workflows like malware triage, forensic carving, packet inspection, and storage indexing. Learned systems such as Google's Magika assume whole-file access at a known offset, so they break on the inputs many of these tasks actually produce, like a single packet payload, a header-less carved fragment, a random disk block, or a chunked upload.",
     "key_contribution": "We introduce MimeLens, a family of small BERT-style encoders pretrained on binary content from windows sampled at a uniformly random offset within each file, with no privileged head-of-file position, in standard- and short-context variants.",
     "why_it_matters": "MimeLens: Position-Agnostic Content-Type Detection for Binary Fragments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We introduce MimeLens, a family of small BERT-style encoders pretrained on binary content from windows sampled at a…",
     "biggest_caveat": "cannot: from a single mid-stream UDP packet, and more than twice as accurately as libmagic and Magika on random mid-file disk blocks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2606.04171",
     "difficulty": "intermediate"
   },
@@ -28210,8 +27706,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Information Retrieval",
-      "Machine Learning"
+      "Machine Learning",
+      "Information Retrieval"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -28256,8 +27752,8 @@
     "topics": [],
     "tags": [
       "AI Safety",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -28609,8 +28105,8 @@
     "topics": [],
     "tags": [
       "Structured Data",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -29755,8 +29251,8 @@
     "tags": [
       "AI Agents",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -30033,8 +29529,8 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -30791,8 +30287,8 @@
       "LLMs",
       "AI Agents",
       "Evaluation",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -32083,8 +31579,8 @@
     "topics": [],
     "tags": [
       "Interpretability",
-      "Programming Languages",
-      "Software Engineering"
+      "Software Engineering",
+      "Programming Languages"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -32128,8 +31624,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -32144,10 +31640,10 @@
     "summary": "The rapid evolution of cyberattacks continues to drive the emergence of unknown (zero-day) threats, posing significant challenges for network intrusion detection systems in Internet of Things (IoT) networks. Existing machine learning and deep learning approaches typically rely on large labeled datasets, payload inspection, or closed-set classification, limiting their effectiveness under data scarcity, encrypted traffic, and distribution shifts.",
     "key_contribution": "To address these limitations, we propose SiamXBERT, a data-efficient, open-set Siamese meta-learning framework built on a pretrained language model for unknown-attack detection.",
     "why_it_matters": "Data-Efficient Unknown Attack Detection in IoT Networks Using Pretrained Language Models represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Software Engineering.",
+    "content_hook": "A new paper that could change how we think about Cryptography & Security.",
     "one_line_takeaway": "To address these limitations, we propose SiamXBERT, a data-efficient, open-set Siamese meta-learning framework built on…",
     "biggest_caveat": "bution shifts.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Software Engineering.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Cryptography & Security.",
     "url": "https://arxiv.org/abs/2602.12183",
     "difficulty": "intermediate"
   },
@@ -32273,8 +31769,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Information Retrieval",
       "NLP",
+      "Information Retrieval",
       "Machine Learning"
     ],
     "paper_type": "methods",
@@ -32645,9 +32141,9 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "NLP",
+      "Machine Learning",
       "Artificial Intelligence",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -32690,8 +32186,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -33963,8 +33459,8 @@
     "tags": [
       "Evaluation",
       "Information Retrieval",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -34057,8 +33553,8 @@
       "AI Safety",
       "Transformers",
       "RL",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -34357,8 +33853,8 @@
       "Prompting",
       "Fine-Tuning",
       "VLMs",
-      "Machine Learning",
-      "Computer Vision"
+      "Computer Vision",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -35158,9 +34654,9 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "Human-Computer Interaction",
       "Artificial Intelligence",
       "NLP",
+      "Human-Computer Interaction",
       "Machine Learning"
     ],
     "paper_type": "systems",
@@ -35524,52 +35020,6 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2506.17231",
     "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2605.22695",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Improving Viewpoint-Invariance and Temporal Consistency for Action Detection",
-    "abstract": "Viewpoint change invariance and action temporal consistency are critical aspects for the effective deployment of human action detection of untrimmed videos. Existing appearance-based video detection methods often struggle with limited viewpoint diversity during training, while motion-based detection approaches frequently fail to model fine-grained temporal relationships across consecutive motion windows. This paper introduces a novel two-stage action detection approach designed to improve both view-invariance and global temporal coherence properties. In the first stage, we extract motion features from augmented virtual viewpoints, solely used at training. Then, the second stage introduces a new view-invariant, multi-scale temporal encoder based on selective state-space sequence modelling to aggregate information across viewpoints and time scales. Experiments on PKU-MMD and BABEL benchmarks demonstrate that this approach significantly outperforms state-of-the-art methods in all considered splits. Code and trained models are available at: https://icb-vision-ai.github.io/HydraView-TAD",
-    "authors": [
-      "Yannick Porto",
-      "Renato Martins",
-      "Thomas Chalumeau",
-      "Cedric Demonceaux"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22695",
-    "pdf_url": "https://arxiv.org/pdf/2605.22695",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "SSMs",
-      "Evaluation",
-      "Computer Vision"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.01,
-    "read_first_score": 4.68,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.0,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Viewpoint change invariance and action temporal consistency are critical aspects for the effective deployment of human action detection of untrimmed videos. Existing appearance-based video detection methods often struggle with limited viewpoint diversity during training, while motion-based detection approaches frequently fail to model fine-grained temporal relationships across consecutive motion windows.",
-    "key_contribution": "This paper introduces a novel two-stage action detection approach designed to improve both view-invariance and global temporal coherence properties.",
-    "why_it_matters": "Improving Viewpoint-Invariance and Temporal Consistency for Action Detection advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about SSMs.",
-    "one_line_takeaway": "This paper introduces a novel two-stage action detection approach designed to improve both view-invariance and global…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in SSMs.",
-    "url": "https://arxiv.org/abs/2605.22695",
-    "difficulty": "beginner"
   },
   {
     "id": "arxiv:2604.19139",
@@ -36273,8 +35723,8 @@
       "LLMs",
       "Multimodal",
       "Robotics",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -36338,8 +35788,8 @@
     "tags": [
       "AI Agents",
       "Programming Languages",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -36476,8 +35926,8 @@
     "tags": [
       "Fine-Tuning",
       "Self-Supervised",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -36662,8 +36112,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Software Engineering",
       "Cryptography & Security",
+      "Software Engineering",
       "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
@@ -36759,8 +36209,8 @@
       "LLMs",
       "Reasoning",
       "Evaluation",
-      "Information Retrieval",
-      "NLP"
+      "NLP",
+      "Information Retrieval"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -37123,8 +36573,8 @@
     "tags": [
       "LLMs",
       "RLHF",
-      "Information Retrieval",
-      "NLP"
+      "NLP",
+      "Information Retrieval"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -37342,8 +36792,8 @@
     "topics": [],
     "tags": [
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -37945,8 +37395,8 @@
       "Multimodal",
       "Robotics",
       "Evaluation",
-      "Human-Computer Interaction",
-      "Computer Vision"
+      "Computer Vision",
+      "Human-Computer Interaction"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -38319,8 +37769,8 @@
     "tags": [
       "Reasoning",
       "AI Agents",
-      "Artificial Intelligence",
-      "Software Engineering"
+      "Software Engineering",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38380,8 +37830,8 @@
     "tags": [
       "Biomedical AI",
       "Software Engineering",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38754,8 +38204,8 @@
     "tags": [
       "Fine-Tuning",
       "Biomedical AI",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -38849,9 +38299,9 @@
     "tags": [
       "LLMs",
       "Dialogue",
-      "Human-Computer Interaction",
       "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Human-Computer Interaction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -39257,8 +38707,8 @@
     "tags": [
       "LLMs",
       "RAG",
-      "Information Retrieval",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Information Retrieval"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -39438,8 +38888,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Neural Networks",
-      "Machine Learning"
+      "Machine Learning",
+      "Neural Networks"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -39483,8 +38933,8 @@
       "Hallucination",
       "AI Safety",
       "VLMs",
-      "Human-Computer Interaction",
-      "Computer Vision"
+      "Computer Vision",
+      "Human-Computer Interaction"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -40038,8 +39488,8 @@
       "AI Agents",
       "Code Generation",
       "Knowledge Graphs",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -40131,8 +39581,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -40269,8 +39719,8 @@
     "tags": [
       "Code Generation",
       "Evaluation",
-      "Software Engineering",
       "Artificial Intelligence",
+      "Software Engineering",
       "Machine Learning"
     ],
     "paper_type": "benchmark",
@@ -40882,8 +40332,8 @@
     "tags": [
       "Evaluation",
       "Information Retrieval",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -41392,8 +40842,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Software Engineering",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Software Engineering"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -41440,9 +40890,9 @@
     "tags": [
       "Fine-Tuning",
       "Evaluation",
+      "Computer Vision",
       "Artificial Intelligence",
-      "Machine Learning",
-      "Computer Vision"
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -42072,55 +41522,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2602.02709",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "ATLAS: A Multi-LLM Training Framework for EvoDPO with Adaptive Reference Evolution",
-    "abstract": "Recent multi-LLM agent systems have shown promising capabilities for automated problem-solving, yet they predominantly rely on frozen agents or static fine-tuning pipelines. To address this limitation, our primary contribution is ATLAS (Adaptive Task-distributed Learning for Agentic Self-evolution), a multi-agent framework where specialized meta-agents collaboratively train and refine an active agent toward a domain-specific policy. A core challenge in iterative preference learning within these pipelines is the reliance on fixed reference models, which typically leads to overly conservative updates or training stagnation. To overcome this, the framework's algorithmic engine utilizes Evolving Direct Preference Optimization (EvoDPO). EvoDPO employs an inspection agent to perform adaptive, proxy-KL gated reference policy updates based on continuous training telemetry. We evaluate this full framework across a diverse set of challenging environments-including non-stationary contextual bandits, partial differential equations (PINNs), and combinatorial optimization tasks (TSP, Bin Packing). Through comparison against fixed-reference, adaptive-reference, and external automated-discovery baselines, our results suggest that ATLAS combines supporter-driven exploration with EvoDPO-driven stability to improve long-horizon evaluator-driven self-improvement.",
-    "authors": [
-      "Ujin Jeon",
-      "Jiyong Kwon",
-      "Madison Ann Sullivan",
-      "Caleb Eunho Lee",
-      "Guang Lin"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2602.02709",
-    "pdf_url": "https://arxiv.org/pdf/2602.02709",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "RLHF",
-      "Fine-Tuning",
-      "AI Agents",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (RLHF) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 3.07,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.5,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Recent multi-LLM agent systems have shown promising capabilities for automated problem-solving, yet they predominantly rely on frozen agents or static fine-tuning pipelines. To address this limitation, our primary contribution is ATLAS (Adaptive Task-distributed Learning for Agentic Self-evolution), a multi-agent framework where specialized meta-agents collaboratively train and refine an active agent toward a domain-specific policy.",
-    "key_contribution": "Recent multi-LLM agent systems have shown promising capabilities for automated problem-solving, yet they predominantly rely on frozen agents or static fine-tuning pipelines.",
-    "why_it_matters": "ATLAS: A Multi-LLM Training Framework for EvoDPO with Adaptive Reference Evolution represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Recent multi-LLM agent systems have shown promising capabilities for automated problem-solving, yet they predominantly…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2602.02709",
-    "difficulty": "advanced"
-  },
-  {
     "id": "arxiv:2605.30104",
     "source": "arxiv",
     "source_type": "preprint",
@@ -42218,53 +41619,6 @@
     "biggest_caveat": "However, challenges in interrater agreement and the need for new responses in certain cases, particularly for Apple App Store reviews, were noted.",
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Software Engineering.",
     "url": "https://arxiv.org/abs/2501.08087",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2605.23007",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "MadEvolve: Evolutionary Optimization of Trading Systems with Large Language Models",
-    "abstract": "We explore the application of LLM-driven algorithm optimization to several common tasks in quantitative finance. MadEvolve, a general-purpose algorithm optimization framework inspired by DeepMind's Alpha-Evolve, was recently developed to optimize algorithms in computational cosmology. Here we demonstrate the utility of MadEvolve to optimize algorithmic trading strategies and alpha generation at the example of Bitcoin trading. On our simulation and backtesting setup, we achieve significant improvements on all tasks we considered, such as evolving feature sets for signal generation, optimizing separate components of the trading strategy, and jointly evolving the feature pipeline together with the execution strategy. Additionally, we compare our method to other agentic search approaches, specifically Claude Code, and carefully evaluate p-hacking probabilities on our simulation setup. Our findings strongly support the utility of AI-driven agentic and evolutionary algorithms for algorithmic trading and quantitative finance.",
-    "authors": [
-      "Yurii Kvasiuk",
-      "Tianyi Li",
-      "Owen Colegrove",
-      "Moritz Münchmeyer"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.23007",
-    "pdf_url": "https://arxiv.org/pdf/2605.23007",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "AI Agents",
-      "Artificial Intelligence",
-      "Machine Learning"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 4.76,
-    "content_potential_score": 0.55,
-    "interestingness_score": 1.77,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We explore the application of LLM-driven algorithm optimization to several common tasks in quantitative finance. MadEvolve, a general-purpose algorithm optimization framework inspired by DeepMind's Alpha-Evolve, was recently developed to optimize algorithms in computational cosmology.",
-    "key_contribution": "Here we demonstrate the utility of MadEvolve to optimize algorithmic trading strategies and alpha generation at the example of Bitcoin trading.",
-    "why_it_matters": "MadEvolve: Evolutionary Optimization of Trading Systems with Large Language Models represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Here we demonstrate the utility of MadEvolve to optimize algorithmic trading strategies and alpha generation at the…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2605.23007",
     "difficulty": "intermediate"
   },
   {
@@ -42443,8 +41797,8 @@
       "VLMs",
       "Self-Supervised",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -43093,8 +42447,8 @@
     "tags": [
       "Continual Learning",
       "Self-Supervised",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -45343,8 +44697,8 @@
       "Object Detection",
       "3D Vision",
       "Robotics",
-      "Systems & Control",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Systems & Control"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -46419,8 +45773,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -46754,9 +46108,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Data Structures & Algorithms",
+      "Machine Learning",
       "Game Theory",
-      "Machine Learning"
+      "Data Structures & Algorithms"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -46771,10 +46125,10 @@
     "summary": "Our results show that the existence of a short high-utility protocol already suffices for efficient communication. In particular, in a game with $n$ possible observations and $m$ actions: (1) For any achievable target utility $α$, we give an algorithm with $\\mathrm{poly}(n, m, 1/ε)$ runtime that designs a protocol achieving utility at least $α-ε$ using only $2^{\\mathcal O(CC_α(G))}/ε^2$ bits of communication.",
     "key_contribution": "Our results show that the existence of a short high-utility protocol already suffices for efficient communication.",
     "why_it_matters": "Computationally Efficient Collaborative Communication Via Regularity-Based Coarsening represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Data Structures & Algorithms.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "Our results show that the existence of a short high-utility protocol already suffices for efficient communication.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Data Structures & Algorithms.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2608.05327",
     "difficulty": "frontier"
   },
@@ -47251,58 +46605,6 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Info Extraction.",
     "url": "https://arxiv.org/abs/2606.05873",
     "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2605.22785",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Evaluating Commercial AI Chatbots as News Intermediaries",
-    "abstract": "AI chatbots are rapidly shaping how people encounter the news, yet no prior study has systematically measured how accurately these systems, with their proprietary search integrations and retrieval-synthesis pipelines, handle emerging facts across languages and regions. We present a 14-day (February 9-22, 2026) evaluation of six AI chatbots (Gemini 3 Flash and Pro, Grok 4, Claude 4.5 Sonnet, GPT-5 and GPT-4o mini) on 2,100 factual questions derived from same-day BBC News reporting across six regional services (US & Canada, Arabic, Afrique, Hindi, Russian, Turkish). The best systems achieve over 90% multiple-choice accuracy on questions about events reported hours earlier. The same systems, however, lose 11-13% under free-response evaluation, and 16-17% across the cohort. We further characterize three failure patterns. First, every model achieves its lowest accuracy on Hindi (79% vs. 89-91% elsewhere) and citations indicate an Anglophone retrieval bias (e.g., models answering Hindi queries cite English Wikipedia more than any Hindi outlet). Second, retrieval, not reasoning, failures drive over 70% of all errors. When models retrieve a correct source, they often extract the correct answer; the problem is to land on the right source in the first place. Third, models achieving 88-96% accuracy on well-formed questions drop to 19-70% when questions contain subtle false premises, with the most vulnerable model accepting fabricated facts 64% of the time. We also identify a detection-accuracy paradox: the best false-premise detector ranks second in adversarial accuracy (abstention rate), while a weaker detector ranks first, showing that premise detection and answer recovery are partially independent capabilities. Overall, these suggest that high accuracy can mask systematic regional inequity, near-total dependence on retrieval infrastructure, and vulnerability to imperfect queries real users pose.",
-    "authors": [
-      "Mirac Suzgun",
-      "Emily Shen",
-      "Federico Bianchi",
-      "Alexander Spangher",
-      "Thomas Icard",
-      "Daniel E. Ho",
-      "Dan Jurafsky",
-      "James Zou"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22785",
-    "pdf_url": "https://arxiv.org/pdf/2605.22785",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Reasoning",
-      "Dialogue",
-      "Fairness & Ethics",
-      "NLP"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Survey, tutorial, or introductory material — accessible to beginners.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.93,
-    "read_first_score": 6.33,
-    "content_potential_score": 2.27,
-    "interestingness_score": 2.6,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "AI chatbots are rapidly shaping how people encounter the news, yet no prior study has systematically measured how accurately these systems, with their proprietary search integrations and retrieval-synthesis pipelines, handle emerging facts across languages and regions. We present a 14-day (February 9-22, 2026) evaluation of six AI chatbots (Gemini 3 Flash and Pro, Grok 4, Claude 4.5 Sonnet, GPT-5 and GPT-4o mini) on 2,100 factual questions derived from same-day BBC News reporting across six regional services (US & Canada, Arabic, Afrique, Hindi, Russian, Turkish).",
-    "key_contribution": "We present a 14-day (February 9-22, 2026) evaluation of six AI chatbots (Gemini 3 Flash and Pro, Grok 4, Claude 4.5 Sonnet, GPT-5 and GPT-4o mini) on 2,100 factual questions derived from same-day BBC News reporting across six regional services (US & Canada, Arabic, Afrique, Hindi, Russian, Turkish).",
-    "why_it_matters": "Evaluating Commercial AI Chatbots as News Intermediaries represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "We present a 14-day (February 9-22, 2026) evaluation of six AI chatbots (Gemini 3 Flash and Pro, Grok 4, Claude 4.5…",
-    "biggest_caveat": "however, lose 11-13% under free-response evaluation, and 16-17% across the cohort.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2605.22785",
-    "difficulty": "beginner"
   },
   {
     "id": "arxiv:2508.09801",
@@ -47839,8 +47141,8 @@
       "Object Detection",
       "Self-Supervised",
       "Interpretability",
-      "Machine Learning",
-      "Computer Vision"
+      "Computer Vision",
+      "Machine Learning"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -47978,8 +47280,8 @@
       "AI Safety",
       "Info Extraction",
       "Evaluation",
-      "Machine Learning",
-      "Computer Vision"
+      "Computer Vision",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -48024,8 +47326,8 @@
       "LLMs",
       "Info Extraction",
       "Evaluation",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -48114,8 +47416,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Human-Computer Interaction",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Human-Computer Interaction"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -48215,8 +47517,8 @@
       "Fine-Tuning",
       "AI Safety",
       "Robotics",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -48263,8 +47565,8 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "Computer Vision",
-      "Computer Graphics"
+      "Computer Graphics",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L4",
@@ -48529,54 +47831,6 @@
     "difficulty": "beginner"
   },
   {
-    "id": "arxiv:2605.22337",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Meta-Soft: Leveraging Composable Meta-Tokens for Context-Preserving KV Cache Compression",
-    "abstract": "The KV cache used in large language models has linearly growing time complexity, so LLMs face memory blow-up and reduced decoding efficiency when they process long contexts.Current KV Cache eviction has become an important research direction; however, existing methods based on fixed Soft Tokens (e.g., Judge Q) rely on a static parameter set as the query to evaluate the importance of KV pairs, so they cannot adapt dynamically to different input prompts, and they cannot precisely capture complex and changing task relevance.Also, evicted KV pairs are discarded permanently, so this causes irreversible information loss and context breaks. To address this problem, we propose Meta-Soft, a dynamic compression framework based on probe-driven context integration. Specifically, we build a meta-library with a learnable orthogonal basis matrix $\\mathcal{L}$, and we use a selector network with Gumbel-Softmax to produce differentiable sparse combination weights, so we dynamically synthesize the most targeted $k$ Soft Tokens from the input prompt features.We append these Soft Tokens to the end of the input sequence to probe key information. We also introduce an attention-flow based integration mechanism, which redistributes the semantic information of removed tokens into retained tokens, and this keeps the dropped context information effectively.Experiments on multiple datasets show that our method outperforms existing state-of-the-art eviction methods and provides a new solution for KV Cache compression.",
-    "authors": [
-      "Wei Luo",
-      "Yi Huang",
-      "Songchen Ma",
-      "Huanyu Qu",
-      "Jiang Cai",
-      "Mingkun Xu"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-21",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.22337",
-    "pdf_url": "https://arxiv.org/pdf/2605.22337",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Long Context",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.91,
-    "read_first_score": 5.29,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.46,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "The KV cache used in large language models has linearly growing time complexity, so LLMs face memory blow-up and reduced decoding efficiency when they process long contexts.Current KV Cache eviction has become an important research direction; however, existing methods based on fixed Soft Tokens (e.g., Judge Q) rely on a static parameter set as the query to evaluate the importance of KV pairs, so they cannot adapt dynamically to different input prompts, and they cannot precisely capture complex and changing task relevance.Also, evicted KV pairs are discarded permanently, so this causes irreversible information loss and context breaks. To address this problem, we propose Meta-Soft, a dynamic compression framework based on probe-driven context integration.",
-    "key_contribution": "To address this problem, we propose Meta-Soft, a dynamic compression framework based on probe-driven context integration.",
-    "why_it_matters": "Meta-Soft: Leveraging Composable Meta-Tokens for Context-Preserving KV Cache Compression represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "To address this problem, we propose Meta-Soft, a dynamic compression framework based on probe-driven context…",
-    "biggest_caveat": "however, existing methods based on fixed Soft Tokens (e.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2605.22337",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2605.30341",
     "source": "arxiv",
     "source_type": "preprint",
@@ -48605,8 +47859,8 @@
     "tags": [
       "VLMs",
       "Evaluation",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -48753,6 +48007,654 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2611.14935",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.16919",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Beyond Word Error Rate: A Failure Taxonomy of Streaming Dictation ASR",
+    "abstract": "Speech recognition (ASR) systems are usually compared by word error rate (WER) on recorded files, after punctuation, capital letters and number format are removed. In dictation, the audio is streamed live and the text goes into the user's message as written, so what matters is which mistakes the user has to fix. The test set, streamed to eleven ASR systems, comprises 106 scripted English dictations from one speaker (read in a quiet room, with a fan on, and whispered), 20 clips in each of eleven other language and dialect sets, and 400 recordings that join clips in two languages. Every error was sorted by a fixed rule into four levels: recognition, output formatting, language handling and, for the self-hosted models, audio dropped before the model. Systems with similar WER failed in different ways. Zoom Scribe and OpenAI's GPT-Live-Transcribe have almost the same WER on quiet English (7.4% and 7.3%), but 34.7% and 8.8% on whispered English. Zoom and both AssemblyAI models left out 26-28% of whispered words, and still 21-26% with their end-of-turn detection relaxed or off; seven other systems left out at most 3%. Qwen3-ASR's 32% came from the speech detection in our own deployment (6% when relaxed). Across 107 EARS speakers, the same four systems lost 7-31% of whispered words, while six others lost under 2%. With only English selected, Gemini, Deepgram and our self-hosted Whisper lost the non-English part of a two-language recording in 86-99% of recordings, against 33-46% with both languages selected, while GPT-Live-Transcribe, OpenAI's realtime Whisper and Meta lost it in at most 20%. Running Whisper behind a Silero voice activity detector that drops audio judged to be silence raised whispered WER from 10.1% to 51.4%. Most English results come from one read speaker. The code, the recordings, both references and every transcript are released.",
+    "authors": [
+      "Harras Mansoor",
+      "Muhammad Wisal",
+      "Hassan Bhatti",
+      "Masood Shakir"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-12",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.16919",
+    "pdf_url": "https://arxiv.org/pdf/2611.16919",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "ASR",
+      "NLP"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 5.05,
+    "content_potential_score": 1.0,
+    "interestingness_score": 1.95,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Speech recognition (ASR) systems are usually compared by word error rate (WER) on recorded files, after punctuation, capital letters and number format are removed. In dictation, the audio is streamed live and the text goes into the user's message as written, so what matters is which mistakes the user has to fix.",
+    "key_contribution": "Speech recognition (ASR) systems are usually compared by word error rate (WER) on recorded files, after punctuation, capital letters and number format are removed.",
+    "why_it_matters": "Beyond Word Error Rate: A Failure Taxonomy of Streaming Dictation ASR represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about ASR.",
+    "one_line_takeaway": "Speech recognition (ASR) systems are usually compared by word error rate (WER) on recorded files, after punctuation,…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in ASR.",
+    "url": "https://arxiv.org/abs/2611.16919",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2611.16947",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "SignalAudit-QD: A Reproducible Audit Resource for External Signals in AI-Query Forecasting",
+    "abstract": "SignalAudit-QD is a reproducible audit resource for testing whether a dated public signal adds information beyond query history in a fixed 20-term U.S. AI panel. It aligns two archived Google Trends extractions with eight USPTO AI-patent publication streams and releases origin-indexed predictions, paired losses, provenance, executable tests, and tamper-evident run manifests. Both inputs are retrospective reconstructions obtained after the modeled 2020--2023 origins; the task is therefore a pseudo-origin assay within frozen measurement vintages, not a historical deployment simulation. In the designated one-month comparison, adding a two-component patent block to a level ridge changes macro mean absolute error by +0.0012 Trends points, with conditional 95% moving-block interval [-0.0363,+0.0387]. This establishes neither aggregate benefit nor equivalence. Alternative dimensions, semantic mapping, patent definitions, a second extraction, and a three-month horizon remain unresolved; persistence-anchored and nonlinear hosts instead show model-specific worsening, tiny for the anchored fit. Matched timing controls expose availability assumptions, while a planted-signal assay detects only the largest tested injection. A within-query high-interest alert demonstrates the released interface but not online utility. The contribution is a bounded negative case study and an extensible evidence schema for auditing external-signal claims in temporal information retrieval.",
+    "authors": [
+      "Amir Rafe",
+      "Iman Jamshidi",
+      "Gourab Sil",
+      "Subasish Das"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-12",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.16947",
+    "pdf_url": "https://arxiv.org/pdf/2611.16947",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "IR",
+      "Information Retrieval"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.81,
+    "content_potential_score": 1.0,
+    "interestingness_score": 1.95,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "SignalAudit-QD is a reproducible audit resource for testing whether a dated public signal adds information beyond query history in a fixed 20-term U.S. AI panel.",
+    "key_contribution": "Alternative dimensions, semantic mapping, patent definitions, a second extraction, and a three-month horizon remain unresolved; persistence-anchored and nonlinear hosts instead show model-specific worsening, tiny for the anchored fit.",
+    "why_it_matters": "SignalAudit-QD: A Reproducible Audit Resource for External Signals in AI-Query Forecasting improves how systems find and rank relevant information at scale.",
+    "content_hook": "A new paper that could change how we think about IR.",
+    "one_line_takeaway": "Alternative dimensions, semantic mapping, patent definitions, a second extraction, and a three-month horizon remain…",
+    "biggest_caveat": "but not online utility.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in IR.",
+    "url": "https://arxiv.org/abs/2611.16947",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2611.14467",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "A Theory of Policy Optimization in Post-Training: Coverage Collapse and Reference Resets",
+    "abstract": "Policy optimization is central to language model post-training, yet principled guidance remains limited. We revisit its theoretical foundations to identify algorithms that learn near-optimal policies using total samples and gradient steps governed by the base model's response coverage, a measure of how readily it generates optimal responses. We call such algorithms coverage-preserving. This guarantee captures the goal of amplifying capabilities accessible through sampling from the base model.   (1) Coverage collapse. REINFORCE, the basis for PPO and GRPO, can drive the probability of optimal responses to near zero, even as reward improves. This coverage collapse stalls optimization, and convergence can require exponentially many steps despite good initial coverage. The failure arises even with exact gradients and persists under KL regularization to the base model.   (2) Reference resets. We show that repeatedly resetting the KL reference to the most recent policy mitigates coverage collapse. We formalize this intervention in Approximate Policy Mirror Descent (APMD), a meta-algorithm that approximately solves a sequence of KL-regularized RL subproblems. APMD enables stronger regularization, making each subproblem easier to solve, while reference resets allow convergence to global optimality.   (3) Coverage-preserving algorithms. For softmax linear policies over pretrained features, we use APMD to establish the first global convergence guarantees showing that widely used families of post-training algorithms are coverage-preserving. These include stylized PPO and GRPO variants with explicit KL regularization and reference resets, and squared-loss algorithms that implement them implicitly, including those used to train the Kimi models.   These results clarify how regularization, clipping, and objective choice affect the sampling and optimization costs of post-training.",
+    "authors": [
+      "Audrey Huang",
+      "Nan Jiang",
+      "Sham M. Kakade",
+      "Sadhika Malladi",
+      "Akshay Krishnamurthy",
+      "Dylan J. Foster"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-10",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.14467",
+    "pdf_url": "https://arxiv.org/pdf/2611.14467",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "RLHF",
+      "Machine Learning"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Survey, tutorial, or introductory material — accessible to beginners.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 6.83,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Policy optimization is central to language model post-training, yet principled guidance remains limited. We revisit its theoretical foundations to identify algorithms that learn near-optimal policies using total samples and gradient steps governed by the base model's response coverage, a measure of how readily it generates optimal responses.",
+    "key_contribution": "We show that repeatedly resetting the KL reference to the most recent policy mitigates coverage collapse.",
+    "why_it_matters": "A Theory of Policy Optimization in Post-Training: Coverage Collapse and Reference Resets represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about RLHF.",
+    "one_line_takeaway": "We show that repeatedly resetting the KL reference to the most recent policy mitigates coverage collapse.",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in RLHF.",
+    "url": "https://arxiv.org/abs/2611.14467",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "arxiv:2611.10028",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Beyond Hash Matching: AI-Based Detection of Previously Unidentified CSAM and its Legal Implications in the EU",
+    "abstract": "The detection of previously unidentified Child Sexual Abuse Material (CSAM) remains a significant challenge for law enforcement authorities, online service providers, and child protection organizations, as traditional hash-matching technologies are primarily designed to identify previously verified material. This paper reviews and classifies existing AI-based technologies that could complement hash-based approaches and support the detection, analysis, and prioritization of potentially harmful content. The reviewed approaches are organized into three categories: real-time image and video analysis, image and video classification and tagging, and AI-based behavioral monitoring. A comparative analysis examines the capabilities, limitations, and potential integration of general-purpose computer vision platforms, content moderation services, and specialized CSAM detection tools within existing detection workflows. An experimental evaluation was conducted using Google Cloud Vision AI and Sightengine to investigate sexual-content classification and child-adult age estimation. The results highlight differences in classification taxonomies and outputs across providers, as well as significant limitations in age classification, particularly for adolescents. These findings highlight the importance of using AI-based assessments as complementary tools for analysis and prioritization, rather than as definitive determination of CSAM. Finally, the paper examines the relevant European Union regulatory framework, with particular attention to the EU AI Act, the General Data Protection Regulation (GDPR), fundamental rights, transparency, accountability, and human oversight. The legal analysis highlights how regulatory obligations and safeguards may differ depending on the deployment context, potentially creating inconsistencies across interconnected detection and reporting workflows.",
+    "authors": [
+      "Emmanouela Kokolaki",
+      "Georgios Samaritakis",
+      "Paraskevi Fragopoulou"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-05",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.10028",
+    "pdf_url": "https://arxiv.org/pdf/2611.10028",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Computer Vision",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.01,
+    "content_potential_score": 1.55,
+    "interestingness_score": 2.23,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "The detection of previously unidentified Child Sexual Abuse Material (CSAM) remains a significant challenge for law enforcement authorities, online service providers, and child protection organizations, as traditional hash-matching technologies are primarily designed to identify previously verified material. This paper reviews and classifies existing AI-based technologies that could complement hash-based approaches and support the detection, analysis, and prioritization of potentially harmful content.",
+    "key_contribution": "The detection of previously unidentified Child Sexual Abuse Material (CSAM) remains a significant challenge for law enforcement authorities, online service providers, and child protection organizations, as traditional hash-matching technologies are primarily designed to identify previously verified material.",
+    "why_it_matters": "Beyond Hash Matching: AI-Based Detection of Previously Unidentified CSAM and its Legal Implications in the EU advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about Computer Vision.",
+    "one_line_takeaway": "The detection of previously unidentified Child Sexual Abuse Material (CSAM) remains a significant challenge for law…",
+    "biggest_caveat": "limitations in age classification, particularly for adolescents.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
+    "url": "https://arxiv.org/abs/2611.10028",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2611.10139",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "The satisfiability conjecture for random k-SAT formulas. Human-friendly exposition of the recent OpenAI resolution",
+    "abstract": "The satisfiability conjecture was one of the most important open problems in discrete probability. It was resolved recently first by Carenini~\\cite{GCarenini}, and shortly after by OpenAI~\\cite{k-sat-OpenAI}, among other 370 problems solved by its internal model. The conjecture concerned the satisfiability property of random instances of the k-SAT problem. It posits the existence of a fixed value for the clause-to-variables ratio around which the probability that the formula is satisfiable drops sharply from nearly one to nearly zero as the ratio increases. While the case of large constant $k$ was resolved a decade ago by Ding, Sly and Sun~\\cite{ding2015proof,ding2022proof} using the heavy machinery of the second moment method, the case of general $k$ eluded proof until ~\\cite{GCarenini} and~\\cite{k-sat-OpenAI}.   In this short note we provide a ''human-friendly'' and detailed exposition of the OpenAI's resolution of the conjecture.",
+    "authors": [
+      "David Gamarnik"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-06",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.10139",
+    "pdf_url": "https://arxiv.org/pdf/2611.10139",
+    "citations": 0,
+    "topics": [],
+    "tags": [],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.3,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "The satisfiability conjecture was one of the most important open problems in discrete probability. It was resolved recently first by Carenini~\\cite{GCarenini}, and shortly after by OpenAI~\\cite{k-sat-OpenAI}, among other 370 problems solved by its internal model.",
+    "key_contribution": "The satisfiability conjecture was one of the most important open problems in discrete probability.",
+    "why_it_matters": "The satisfiability conjecture for random k-SAT formulas. Human-friendly exposition of the recent OpenAI resolution represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about _default.",
+    "one_line_takeaway": "The satisfiability conjecture was one of the most important open problems in discrete probability.",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in this area.",
+    "url": "https://arxiv.org/abs/2611.10139",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2609.34436",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Hitting sets From Derivations: Waring Rank and Noncommutative ABPs",
+    "abstract": "We give an explicit hitting set of size $\\operatorname{poly}(n,d,r)$ for the class of $n$-variate degree-$d$ polynomials whose partial derivative space is bounded by $r$, over any field $\\mathbb{F}$ of characteristic zero (or large enough). In particular, this yields a polynomial sized hitting set for the class of depth-$3$ powering circuits.   The proof extends to the setting of noncommutative ABPs and provides a polynomial sized hitting set (of matrices) for the class of noncommututive polynomials that can be computed by polynomial sized noncommutative ABPs (this was also one of the results reported by Open AI~\\cite{OpenAI26} in their release on 6 Oct 2026).   The main technical insight is the construction of a ``formal derivation'' and properties of the associated Wronskian with respect to this derivation, which was previously studied by Moura \\cite{Moura_2004} in a very different context. The proofs in this paper are elementary and completely self-contained.   AI disclosure: A subset of the stewards obtained a weaker statement (hitting sets for polynomials with bounded partial derivative space) during conversations \\cite{astra_proof} with OpenAI GPT-6 Astra. Extensions of this idea to the broader class of noncommutative ABPs were obtained by the other stewards (via further conversations with Astra), prior to OpenAI's dump on 6 Oct 2026.   The proofs presented in this writeup is a rewriting (in the authors' words) of the proofs for both settings obtained by the models in a form that we believe is understandable to researchers. Although the proof is technically identical to OpenAI's release, we believe this exposition is self-contained, simpler, and more valuable to the community. The absurdity of the situation is not lost on us.",
+    "authors": [
+      "Shubham Bhardwaj",
+      "Foram Lakhani",
+      "Partha Mukhopadhyay",
+      "Ramprasad Saptharishi",
+      "Pratik Shastri",
+      "Amit Kumar Sinhababu"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-08",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2609.34436",
+    "pdf_url": "https://arxiv.org/pdf/2609.34436",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Dialogue"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 5.12,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We give an explicit hitting set of size $\\operatorname{poly}(n,d,r)$ for the class of $n$-variate degree-$d$ polynomials whose partial derivative space is bounded by $r$, over any field $\\mathbb{F}$ of characteristic zero (or large enough). In particular, this yields a polynomial sized hitting set for the class of depth-$3$ powering circuits.",
+    "key_contribution": "We give an explicit hitting set of size $\\operatorname{poly}(n,d,r)$ for the class of $n$-variate degree-$d$ polynomials whose partial derivative space is bounded by $r$, over any field $\\mathbb{F}$ of characteristic zero (or large enough).",
+    "why_it_matters": "Hitting sets From Derivations: Waring Rank and Noncommutative ABPs represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "We give an explicit hitting set of size $\\operatorname{poly}(n,d,r)$ for the class of $n$-variate degree-$d$…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2609.34436",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.11626",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Proof of the Aaronson-Ambainis Conjecture: An Exposition",
+    "abstract": "We give an exposition of a recent proof of the Aaronson-Ambainis conjecture, which states that every degree-$d$ polynomial $p : \\{0,1\\}^n \\to [0,1]$ has a variable of influence at least $\\mathrm{poly}(\\mathrm{Var}(p)/d)$. This implies that quantum query algorithms for decision problems can be efficiently simulated classically on most inputs. It also yields a near-equivalence between the status of the $\\mathsf{BPP}$ vs. $\\mathsf{BQP}$ problem in the random oracle and unrelativized worlds.   We organize the proof around four main steps and discuss how each connects to the literature on the analysis of boolean functions and probabilistic combinatorics. To bring out the key ideas, we do not optimize parameters, and our presentation yields weaker exponents than the original.   $\\textbf{Authors' note.}$ The proof was discovered by David Turturean using a research system developed at Physical Superintelligence (PSI), in combination with a non-public Anthropic model. The proof was then shared with the authors, who worked to understand it and prepare this exposition. Anthropic's public models were used in this process.   The authors did not receive financial compensation from Anthropic or PSI. This article is not intended for publication at a conference or in a journal.",
+    "authors": [
+      "Guy Blanc",
+      "Jordan Docter",
+      "Carmen Strassle",
+      "Li-Yang Tan"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-08",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.11626",
+    "pdf_url": "https://arxiv.org/pdf/2611.11626",
+    "citations": 0,
+    "topics": [],
+    "tags": [],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.69,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We give an exposition of a recent proof of the Aaronson-Ambainis conjecture, which states that every degree-$d$ polynomial $p : \\{0,1\\}^n \\to [0,1]$ has a variable of influence at least $\\mathrm{poly}(\\mathrm{Var}(p)/d)$. This implies that quantum query algorithms for decision problems can be efficiently simulated classically on most inputs.",
+    "key_contribution": "We give an exposition of a recent proof of the Aaronson-Ambainis conjecture, which states that every degree-$d$ polynomial $p : \\{0,1\\}^n \\to [0,1]$ has a variable of influence at least $\\mathrm{poly}(\\mathrm{Var}(p)/d)$.",
+    "why_it_matters": "Proof of the Aaronson-Ambainis Conjecture: An Exposition represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about _default.",
+    "one_line_takeaway": "We give an exposition of a recent proof of the Aaronson-Ambainis conjecture, which states that every degree-$d$…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in this area.",
+    "url": "https://arxiv.org/abs/2611.11626",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.11832",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Simulating Nondeterministic Turing Machines in Subexponential Deterministic Time",
+    "abstract": "We show that every multitape nondeterministic Turing machine can be simulated deterministically in subexponential time. Specifically, we show that the recent algorithms for $3$-$\\mathsf{SAT}$ presented by OpenAI and Anthropic imply $\\mathsf{NTIME}[t]\\subseteq\\mathsf{DTIME}[2^{O(t \\log \\log t/\\sqrt{\\log t})}]$, and that a stronger consequence of their proof yields \\[\\mathsf{NTIME}[t] \\subseteq\\mathsf{DTIME}[2^{O(t /\\sqrt{\\log t})}]. \\] More generally, we show that any subexponential time algorithm for solving circuit-CSPs transfers to a deterministic simulation of $\\mathsf{NTIME}$ with the same savings. Our results follow from new generalizations of Cook--Levin, which may be of independent interest.",
+    "authors": [
+      "Carmen Strassle",
+      "Bernardo Subercaseaux"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-09",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.11832",
+    "pdf_url": "https://arxiv.org/pdf/2611.11832",
+    "citations": 0,
+    "topics": [],
+    "tags": [],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.37,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We show that every multitape nondeterministic Turing machine can be simulated deterministically in subexponential time. Specifically, we show that the recent algorithms for $3$-$\\mathsf{SAT}$ presented by OpenAI and Anthropic imply $\\mathsf{NTIME}[t]\\subseteq\\mathsf{DTIME}[2^{O(t \\log \\log t/\\sqrt{\\log t})}]$, and that a stronger consequence of their proof yields \\[\\mathsf{NTIME}[t] \\subseteq\\mathsf{DTIME}[2^{O(t /\\sqrt{\\log t})}].",
+    "key_contribution": "We show that every multitape nondeterministic Turing machine can be simulated deterministically in subexponential time.",
+    "why_it_matters": "Simulating Nondeterministic Turing Machines in Subexponential Deterministic Time represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about _default.",
+    "one_line_takeaway": "We show that every multitape nondeterministic Turing machine can be simulated deterministically in subexponential time.",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in this area.",
+    "url": "https://arxiv.org/abs/2611.11832",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.09716",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Tensor value and the 9/4 bound for matrix multiplication",
+    "abstract": "We give an exposition of OpenAI's recent result that the exponent of matrix multiplication is at most 9/4 valid over every field. Our main tool is a fractional symmetrized variant of the tensor value introduced by Coppersmith and Winograd, used in place of spectral points (tensor characters) in the original proof. We prove a superadditivity inequality for a power of this value on partially direct sums, whose summands share one tensor factor and occupy independent subspaces in the other two. Together with the degenerations of polynomial multiplication tensors from the OpenAI proof, this inequality yields the bound.",
+    "authors": [
+      "Mahmut Levent Doğan",
+      "Vladimir Lysikov",
+      "Keiya Sakabe",
+      "Michael Walter"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-06",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.09716",
+    "pdf_url": "https://arxiv.org/pdf/2611.09716",
+    "citations": 0,
+    "topics": [],
+    "tags": [],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.29,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We give an exposition of OpenAI's recent result that the exponent of matrix multiplication is at most 9/4 valid over every field. Our main tool is a fractional symmetrized variant of the tensor value introduced by Coppersmith and Winograd, used in place of spectral points (tensor characters) in the original proof.",
+    "key_contribution": "We give an exposition of OpenAI's recent result that the exponent of matrix multiplication is at most 9/4 valid over every field.",
+    "why_it_matters": "Tensor value and the 9/4 bound for matrix multiplication represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about _default.",
+    "one_line_takeaway": "We give an exposition of OpenAI's recent result that the exponent of matrix multiplication is at most 9/4 valid over…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in this area.",
+    "url": "https://arxiv.org/abs/2611.09716",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.09736v1",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Safety Is $Π_1$, Provability Is $Σ_1$: One Framework for the Hugging Face Breach and OpenAI's Mathematical Proofs",
+    "abstract": "OpenAI's agents breached Hugging Face in July 2026, and the same company released more than seven hundred AI-generated manuscripts of mathematical proofs in October 2026. The first event is read as a failure in security, while the second is read as a success in mathematics. We read both through the hybrid framework of our paper (Kim and Kang, 2026, arXiv:2611.01914), in which coding, proving, and learning from data are derivations by one and the same deductive mechanism, distinguished by the kinds of premises from which they are derived. Under this framework, the AI systems behind the two events ran the same loop, in which a statistical proposer produces candidate exploits or proofs and a deductive verifier settles each one by a derivation. What separates the events is the logical form of the statement wanted by each of the two domains, security and mathematics. The safety of a program is a $Π_1$ statement, for it says that no exploit exists, which is not assured by any finite list of tests that have been passed by the program. By contrast, the provability of a sentence is a $Σ_1$ statement, for it says that a proof exists, which is assured by a single instance, namely a proof that has been checked by the deductive verifier. The theorem behind both is Turing's Undecidability Theorem: the halting set is $Σ_1$ but not decidable, so its complement is $Π_1$ and not $Σ_1$, which is to say that membership has a finite witness but non-membership has none. We prove that attaching a statistical proposer to a deductive verifier does not change this undecidability result, however good the proposer is. We then discuss what does assure safety and where the residual risk goes.",
+    "authors": [
+      "Jinho Kang",
+      "Jinsook Kim"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-06",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "http://arxiv.org/abs/2611.09736v1",
+    "pdf_url": "https://arxiv.org/pdf/2611.09736v1",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Machine Learning",
+      "Cryptography & Security",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.95,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "OpenAI's agents breached Hugging Face in July 2026, and the same company released more than seven hundred AI-generated manuscripts of mathematical proofs in October 2026. The first event is read as a failure in security, while the second is read as a success in mathematics.",
+    "key_contribution": "OpenAI's agents breached Hugging Face in July 2026, and the same company released more than seven hundred AI-generated manuscripts of mathematical proofs in October 2026.",
+    "why_it_matters": "Safety Is $Π_1$, Provability Is $Σ_1$: One Framework for the Hugging Face Breach and OpenAI's Mathematical Proofs represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
+    "one_line_takeaway": "OpenAI's agents breached Hugging Face in July 2026, and the same company released more than seven hundred AI-generated…",
+    "biggest_caveat": "but not decidable, so its complement is $Π_1$ and not $Σ_1$, which is to say that membership has a finite witness but non-membership has none.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
+    "url": "http://arxiv.org/abs/2611.09736v1",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.08412v1",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "The Gold Rush in AI4Math, II: What are signatures of AI-assisted Proofs?",
+    "abstract": "The growing use of AI in mathematics raises a question: can we detect AI involvement in proofs, separately from AI assistance with writing? Historical arXiv papers, recent papers disclosing substantive AI use, and manuscripts released by OpenAI provide a rich empirical basis for studying this question. However, several challenges remain: lack of matched case-control pairs; potential incompleteness of disclosure; and lack of ready-to-use features designed to capture signals of AI involvement in proofs.   To address these challenges, we construct five cohorts comprising 8,281 papers by combining existing manuscripts with those we produced using generative AI. These cohorts span different levels of AI involvement and include matched pairs of papers addressing the same research problems. We then introduce ProofTrace, a framework that represents each paper as a graph of immediate proof support (GIPS) and extracts interpretable features of mathematical organization.   Our study yields three discoveries. First, principal-component projections of our features reveal a qualitative gradient of AI involvement, where AI-reworded papers remain close to human papers, the two AI-generated cohorts depart in broadly shared directions, and papers disclosing substantive AI use occupy intermediate positions which shifts toward AI-generated cohorts over time. Second, we identify recurring signatures of AI-generated proofs, such as fewer externally cited results, greater reliance on intermediate conclusions, and altered graph connectivity; many of these signatures persist under controls for research field, manuscript length, or graph size. Finally, in a separate detection experiment, ProofTrace distinguishes human-written papers from those disclosing substantive AI use. Its performance remains stable under AI rewording, whereas the performance of state-of-the-art text-based detectors declines sharply.",
+    "authors": [
+      "Yuanchuan Guo",
+      "Jiashun Jin",
+      "Zheng Tracy Ke",
+      "Bingcheng Sui"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-05",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "http://arxiv.org/abs/2611.08412v1",
+    "pdf_url": "https://arxiv.org/pdf/2611.08412v1",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Interpretability",
+      "Artificial Intelligence"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.95,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "The growing use of AI in mathematics raises a question: can we detect AI involvement in proofs, separately from AI assistance with writing? Historical arXiv papers, recent papers disclosing substantive AI use, and manuscripts released by OpenAI provide a rich empirical basis for studying this question.",
+    "key_contribution": "We then introduce ProofTrace, a framework that represents each paper as a graph of immediate proof support (GIPS) and extracts interpretable features of mathematical organization.",
+    "why_it_matters": "The Gold Rush in AI4Math, II: What are signatures of AI-assisted Proofs? represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Interpretability.",
+    "one_line_takeaway": "We then introduce ProofTrace, a framework that represents each paper as a graph of immediate proof support (GIPS) and…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Interpretability.",
+    "url": "http://arxiv.org/abs/2611.08412v1",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.00517",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Limits and Constants of OpenAI's Claimed ETH Refutation",
+    "abstract": "A recent OpenAI preprint claims a deterministic algorithm that counts the satisfying assignments of a $k$-CNF formula in time $2^{O_k(n\\log\\log n/\\sqrt{\\log n})}$, and $2^{O(n/\\sqrt{\\log n})}$ at bounded clause density, which would refute the Exponential Time Hypothesis. The headline bound is proved by tensor contraction; the body develops an interpolation algorithm with the weaker exponent $n(\\log\\log n)^2/\\sqrt{\\log n}$. This note does four things. First, it explains the interpolation algorithm in plain terms. Second, it asks how large $n$ must be for the bounds to bite. The preprint states no constants, so we treat the hidden constant $C$ as a parameter: the general bound beats the $2^n$ of brute force only beyond $n\\approx 10^{32}$ for $C=2$, $10^{126}$ for $C=3$ and $10^{3517}$ for $C=10$. We then extract the constants from the tensor-contraction proof: for every input with $m$ clauses at bounded density, the running time it certifies stays above $2^n$ unless $\\log_2(n+m)>10^9$, and on random 3-CNF at the satisfiability threshold unless $\\log_2 n>5\\times10^{11}$. So the bounds are subexponential as $n\\to\\infty$, but the proof certifies no speed-up over brute force for any input of bounded density that could ever be written down. Third, for the clause-product form of the interpolation algorithm we prove limits in a cost model matching the preprint's evaluation. By a short algebraic lemma, polynomial cost needs components of $O(\\log^3 n)$ variables with per-point evaluation, or primal treewidth $O(\\log^2 n)$ with dynamic programming over the groups. So the scheme costs $2^{Ω(\\sqrt{\\mathrm{tw}})}$ at treewidth $\\mathrm{tw}$, $2^{Ω(\\sqrt n)}$ with high probability on random 3-CNF above clause density 3, and $2^{Ω(n^{1/3})}$ even on trivially countable path formulas. We explain why the preprint's sharper routes escape these limits. Fourth, we report experiments.",
+    "authors": [
+      "Fabio Dias",
+      "Yvens Lima"
+    ],
+    "year": 2026,
+    "published_date": "2026-10-31",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.00517",
+    "pdf_url": "https://arxiv.org/pdf/2611.00517",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Data Structures & Algorithms"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Survey, tutorial, or introductory material — accessible to beginners.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 5.65,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "A recent OpenAI preprint claims a deterministic algorithm that counts the satisfying assignments of a $k$-CNF formula in time $2^{O_k(n\\log\\log n/\\sqrt{\\log n})}$, and $2^{O(n/\\sqrt{\\log n})}$ at bounded clause density, which would refute the Exponential Time Hypothesis. The headline bound is proved by tensor contraction; the body develops an interpolation algorithm with the weaker exponent $n(\\log\\log n)^2/\\sqrt{\\log n}$.",
+    "key_contribution": "A recent OpenAI preprint claims a deterministic algorithm that counts the satisfying assignments of a $k$-CNF formula in time $2^{O_k(n\\log\\log n/\\sqrt{\\log n})}$, and $2^{O(n/\\sqrt{\\log n})}$ at bounded clause density, which would refute the Exponential Time Hypothesis.",
+    "why_it_matters": "Limits and Constants of OpenAI's Claimed ETH Refutation represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Data Structures & Algorithms.",
+    "one_line_takeaway": "A recent OpenAI preprint claims a deterministic algorithm that counts the satisfying assignments of a $k$-CNF formula…",
+    "biggest_caveat": "but the proof certifies no speed-up over brute force for any input of bounded density that could ever be written down.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Data Structures & Algorithms.",
+    "url": "https://arxiv.org/abs/2611.00517",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "arxiv:2611.00994",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Subexponential-Time Exact-One Hitting Set",
+    "abstract": "Exact-One Hitting Set is one of Karp's original 21 NP-complete problems: given an explicitly listed family of subsets of an $r$-element ground set, decide whether a subset meets every input set in exactly one element. Combining our reduction with the fixed-width exact-counting theorem of OpenAI (2026), we obtain a deterministic polynomial-space algorithm that computes the exact number of feasible selections in time $2^{O(r\\log\\log(r+16)/\\sqrt{\\log(r+16)})}\\operatorname{poly}(L+1)=2^{o(r)}\\operatorname{poly}(L+1)$, where $L$ is the input length. The number and widths of the input sets are unrestricted.   Known row selection retains at most $r+1$ input constraints, but their total width may remain quadratic. Our path representation of two-query counting cancellation constructs two ordinary 3-CNF formulas with at most $2r$ variables and $O(r^2)$ clauses each, whose model counts differ by the desired answer. The auxiliary-variable budget depends on the number of simultaneous conditions, not on their widths or on the numbers of witnesses. We extend this construction to signed equations with fixed bounded demands and positive integer coefficients. We also represent every explicitly listed Boolean relation of VC dimension at most one by binary clauses and signed exact-one equations on its original variables, obtaining the same two-query variable bound for unrestricted overlaps among such local constraints. A bounded-term version further handles fixed finite/cofinite local degree rules on arbitrary graphs. The path representation is related by variable elimination to existing marker--parity cancellation.",
+    "authors": [
+      "Shiteng Chen",
+      "Tao Jiang",
+      "Yijie Zhu"
+    ],
+    "year": 2026,
+    "published_date": "2026-10-31",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.00994",
+    "pdf_url": "https://arxiv.org/pdf/2611.00994",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Data Structures & Algorithms"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses theorem and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.86,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Exact-One Hitting Set is one of Karp's original 21 NP-complete problems: given an explicitly listed family of subsets of an $r$-element ground set, decide whether a subset meets every input set in exactly one element. Combining our reduction with the fixed-width exact-counting theorem of OpenAI (2026), we obtain a deterministic polynomial-space algorithm that computes the exact number of feasible selections in time $2^{O(r\\log\\log(r+16)/\\sqrt{\\log(r+16)})}\\operatorname{poly}(L+1)=2^{o(r)}\\operatorname{poly}(L+1)$, where $L$ is the input length.",
+    "key_contribution": "Exact-One Hitting Set is one of Karp's original 21 NP-complete problems: given an explicitly listed family of subsets of an $r$-element ground set, decide whether a subset meets every input set in exactly one element.",
+    "why_it_matters": "Subexponential-Time Exact-One Hitting Set represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Data Structures & Algorithms.",
+    "one_line_takeaway": "Exact-One Hitting Set is one of Karp's original 21 NP-complete problems: given an explicitly listed family of subsets…",
+    "biggest_caveat": "but their total width may remain quadratic.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Data Structures & Algorithms.",
+    "url": "https://arxiv.org/abs/2611.00994",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.01553",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "A Deterministic O(log m)-Competitive Algorithm for Online Minimum Cost Bipartite Matching with Delays",
+    "abstract": "In the online Minimum cost Bipartite Perfect Matching with Delays (MBPMD) problem, $m$ requests and $m$ servers arrive over time in a metric space. An online algorithm has to match each request to a server and can postpone a matching decision by paying the delay cost. The objective is to minimize the total distance and delay cost. Azar, Chiplunkar, and Kaplan gave a randomized $O(\\log n)$-competitive algorithm for metric spaces with $n$ points that are known in advance. For deterministic algorithms, however, the best known competitive ratio in general metric spaces was $O(m^{0.59})$, due to Azar and Jacob-Fanani. On the line, Kuo proposed the Virtual Robust Matching (VRM) algorithm and showed that it is $O(\\sqrt{m}\\log^2 m)$-competitive.   We prove that VRM is $O(\\log m)$-competitive for the MBPMD problem in any metric space. VRM is deterministic and does not need to know the metric space or $m$ in advance. It is the first deterministic polylogarithmic-competitive algorithm for the MBPMD problem in general metric spaces. Unlike the previous analysis of VRM, our analysis does not rely on a geometric decomposition of the metric space. Instead, it charges the waiting time of requests over time to the edges of a fixed optimal matching.   We also extend VRM to the non-bipartite version and prove that the resulting deterministic algorithm is $O(\\log m)$-competitive. This improves the $O(\\log^5 m)$ bound of Dufay and Wattenhofer and matches a concurrent result of Ahmadian, Chawla, Kumar, Purohit, and Zhang.   The proof that VRM is $O(\\log m)$-competitive and its non-bipartite extension were found by GPT-6 Astra (OpenAI) with almost no human input. We used Claude Opus 5.5 (Anthropic) to simplify and present the results. See the AI Usage and Methodology section for details. We take full responsibility for this paper.",
+    "authors": [
+      "Tung-Wei Kuo"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-01",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.01553",
+    "pdf_url": "https://arxiv.org/pdf/2611.01553",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Data Structures & Algorithms"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.45,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "In the online Minimum cost Bipartite Perfect Matching with Delays (MBPMD) problem, $m$ requests and $m$ servers arrive over time in a metric space. An online algorithm has to match each request to a server and can postpone a matching decision by paying the delay cost.",
+    "key_contribution": "We used Claude Opus 5.5 (Anthropic) to simplify and present the results.",
+    "why_it_matters": "A Deterministic O(log m)-Competitive Algorithm for Online Minimum Cost Bipartite Matching with Delays represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "We used Claude Opus 5.5 (Anthropic) to simplify and present the results.",
+    "biggest_caveat": "however, the best known competitive ratio in general metric spaces was $O(m^{0.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2611.01553",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.02280",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Deterministic Polynomial-Time Primality Testing with a Single Binomial Congruence",
+    "abstract": "We give a deterministic polynomial-time primality test whose main verification is the congruence $(1+X)^n=1+X^n$ in $C_n[X]/(X^r-b(Y))$, where $C_n=(\\mathbb{Z}/n\\mathbb{Z})[Y]/(Φ_r(Y))$. Two identities in the coefficient ring normalize $b$ and ensure compatibility with the main congruence. A finite-field root count and a lattice bound show that an accepted input is a prime power; elementary preprocessing excludes nontrivial perfect powers. We construct $b$ deterministically using Jacobi sums and the uniform Dedekind-zeta zero-free theorem of Cureton and Thorner, which extends OpenAI's Hecke zero-free theorem. The total bit complexity is $L^{32+o(1)}$, where $L=\\lceil\\log_2 n\\rceil$, and verification after constructing $b$ costs $L^{6+o(1)}$. More generally, for a fixed real algebraic $1/2\\leθ<1$, a common zero-free boundary $\\Re s>θ$ for the relevant Dedekind zeta functions gives $L^{\\max\\{6,(1-θ)^{-1}\\}+o(1)}$. This bound reaches $L^{6+o(1)}$ at $θ=5/6$, and hence under GRH. We state a fixed-base modification of Agrawal's conjecture for odd integers passing the base-$2$ Fermat test, using the modulus $X^r-2$ with $r$ the least positive integer not dividing $n(n-1)$.",
+    "authors": [
+      "Joseph M. Shunia"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-01",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.02280",
+    "pdf_url": "https://arxiv.org/pdf/2611.02280",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Info Extraction"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses theorem and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.53,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We give a deterministic polynomial-time primality test whose main verification is the congruence $(1+X)^n=1+X^n$ in $C_n[X]/(X^r-b(Y))$, where $C_n=(\\mathbb{Z}/n\\mathbb{Z})[Y]/(Φ_r(Y))$. Two identities in the coefficient ring normalize $b$ and ensure compatibility with the main congruence.",
+    "key_contribution": "A finite-field root count and a lattice bound show that an accepted input is a prime power; elementary preprocessing excludes nontrivial perfect powers.",
+    "why_it_matters": "Deterministic Polynomial-Time Primality Testing with a Single Binomial Congruence represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Info Extraction.",
+    "one_line_takeaway": "A finite-field root count and a lattice bound show that an accepted input is a prime power; elementary preprocessing…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Info Extraction.",
+    "url": "https://arxiv.org/abs/2611.02280",
     "difficulty": "frontier"
   }
 ]
