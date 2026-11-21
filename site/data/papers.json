@@ -152,6 +152,51 @@
     "difficulty": "intermediate"
   },
   {
+    "id": "arxiv:2611.23802",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "SFiD: Self-Supervised Fitness-Driven Optimization for Next-Generation Networking",
+    "abstract": "Next-generation (NG) wireless networks face increasingly complex and dynamic optimization challenges driven by data-intensive applications and massive device connectivity. Existing methods suffer from one or more limitations, including high computational complexity, poor scalability and adaptability, reliance on large labeled datasets, or weak generalization in dynamic and non-convex wireless environments. To overcome these limitations, we introduce a self-supervised fitness-driven diffusion (SFiD) method that autonomously generates its own training data and iteratively learns from it. It also exhibits strong generalization capabilities and the ability to effectively tackle challenging optimization problems. We validate the convergence of our proposed method to the global optimum on both analytical convex and non-convex optimization problems. To demonstrate the effectiveness of the proposed method, we consider reconfigurable intelligent surface (RIS) phaseshift optimization in cell-free massive multiple-input multipleoutput (CF-mMIMO) systems with imperfect channel state information and spatial correlation at the RIS as a case study. Specifically, we develop SFiD-C for continuous variable optimization and apply it to optimize continuous RIS phase shifts in CF-mMIMO systems. We also develop SFiD-D for discrete variable optimization and apply it to optimize discrete RIS phase shifts in CF-mMIMO systems. Furthermore, we develop a binary neural network (BNN) based version of SFiDD for reducing its computational complexity, referred to as SFiD-D (BNN). Finally, our experimental results demonstrate that the proposed methods markedly improve computational efficiency and achieve comparable or superior performance compared to meta-heuristic and DRL benchmarks for both continuous and discrete RIS phase-shift optimization.",
+    "authors": [
+      "Kalpesh K. Patel",
+      "Ekant Sharma",
+      "Sandeep Kumar Singh",
+      "Lajos Hanzo"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.23802",
+    "pdf_url": "https://arxiv.org/pdf/2611.23802",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Self-Supervised",
+      "Evaluation"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Uses self-supervised — requires solid ML/DL background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.99,
+    "read_first_score": 5.12,
+    "content_potential_score": 0.0,
+    "interestingness_score": 2.0,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Next-generation (NG) wireless networks face increasingly complex and dynamic optimization challenges driven by data-intensive applications and massive device connectivity. Existing methods suffer from one or more limitations, including high computational complexity, poor scalability and adaptability, reliance on large labeled datasets, or weak generalization in dynamic and non-convex wireless environments.",
+    "key_contribution": "To overcome these limitations, we introduce a self-supervised fitness-driven diffusion (SFiD) method that autonomously generates its own training data and iteratively learns from it.",
+    "why_it_matters": "SFiD: Self-Supervised Fitness-Driven Optimization for Next-Generation Networking represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Self-Supervised.",
+    "one_line_takeaway": "To overcome these limitations, we introduce a self-supervised fitness-driven diffusion (SFiD) method that autonomously…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Self-Supervised.",
+    "url": "https://arxiv.org/abs/2611.23802",
+    "difficulty": "advanced"
+  },
+  {
     "id": "arxiv:2609.00196",
     "source": "arxiv",
     "source_type": "preprint",
@@ -255,6 +300,55 @@
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Reasoning.",
     "url": "https://arxiv.org/abs/2609.38147",
     "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.22132",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "DailyBrick: Language-Guided Synthesis of Brick Assembly Instructions",
+    "abstract": "Generating a LEGO model from a user request is more than a plausible 3D shape generation. LEGO models require physical support per brick, and each brick should be placed unblocked. Current methods address this issue by training an expert large language model. We reduce the problem of generating extremely long context on all brick connections to that of writing a program that builds LEGO models like a human, considering each intermediate step could be executed. We introduce DailyBrick , a multi-stage agentic system that produces a LEGO model together with a brick-by-brick assembly instruction for human building and robot assembly. We design a multi-stage harness with roles to help LLMs generate more effectively. A versioned construction SDK compiles multi-level decisions, from semantic subparts to individual bricks, into canonical operations. An external Meta-Reviewer agent replays and inspects the generated package, verifies the model and its construction process, identifies failures, traces them to the responsible stage, and routes them to bounded repairs or to editable candidates for later skill or tool updates. Extensive experiments demonstrate that DailyBrick generates LEGO models based on simple user requests better than recent agentic systems, and show its utility in downstream applications such as robot manipulations on model assembly from instructions and brick sets (https://spatialagentlab.github.io/DailyBrick.github.io/).",
+    "authors": [
+      "Hang Zhang",
+      "Qijian Tian",
+      "Yuan Xie",
+      "Xuhong Wang",
+      "Xin Tan"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-19",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.22132",
+    "pdf_url": "https://arxiv.org/pdf/2611.22132",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Long Context",
+      "AI Agents",
+      "Robotics",
+      "Computer Vision"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.91,
+    "read_first_score": 4.57,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.46,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Generating a LEGO model from a user request is more than a plausible 3D shape generation. LEGO models require physical support per brick, and each brick should be placed unblocked.",
+    "key_contribution": "We introduce DailyBrick , a multi-stage agentic system that produces a LEGO model together with a brick-by-brick assembly instruction for human building and robot assembly.",
+    "why_it_matters": "DailyBrick: Language-Guided Synthesis of Brick Assembly Instructions advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "We introduce DailyBrick , a multi-stage agentic system that produces a LEGO model together with a brick-by-brick…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2611.22132",
+    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2605.31002",
@@ -792,8 +886,8 @@
     "tags": [
       "Biomedical AI",
       "Interpretability",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -1135,6 +1229,54 @@
     "difficulty": "intermediate"
   },
   {
+    "id": "arxiv:2603.09185",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "DEO: Training-Free Direct Embedding Optimization for Negation-Aware Retrieval",
+    "abstract": "Recent advances in Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) have enabled diverse retrieval methods. However, existing retrieval methods often fail to accurately retrieve results for negation and exclusion queries. To address this limitation, prior approaches rely on embedding adaptation or fine-tuning, which introduce additional computational cost and deployment complexity. We propose Direct Embedding Optimization (DEO), a training-free method for negation-aware text and multimodal retrieval. DEO decomposes queries into positive and negative components and optimizes the query embedding with a contrastive objective. Without additional training data or model updates, DEO outperforms baselines on NegConstraint, with gains of +0.0738 nDCG@10 and +0.1028 MAP@100, while improving Recall@5 by +6\\% over OpenAI CLIP in multimodal retrieval. These results demonstrate the practicality of DEO for negation- and exclusion-aware retrieval in real-world settings.",
+    "authors": [
+      "Taegyeong Lee",
+      "Jiwon Park",
+      "Seunghyun Hwang",
+      "JooYoung Jang"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-19",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2603.09185",
+    "pdf_url": "https://arxiv.org/pdf/2603.09185",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Fine-Tuning",
+      "RAG",
+      "VLMs",
+      "NLP"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Uses contrastive — requires solid ML/DL background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.68,
+    "read_first_score": 3.39,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.34,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Recent advances in Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG) have enabled diverse retrieval methods. However, existing retrieval methods often fail to accurately retrieve results for negation and exclusion queries.",
+    "key_contribution": "To address this limitation, prior approaches rely on embedding adaptation or fine-tuning, which introduce additional computational cost and deployment complexity.",
+    "why_it_matters": "DEO: Training-Free Direct Embedding Optimization for Negation-Aware Retrieval represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "To address this limitation, prior approaches rely on embedding adaptation or fine-tuning, which introduce additional…",
+    "biggest_caveat": "However, existing retrieval methods often fail to accurately retrieve results for negation and exclusion queries.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2603.09185",
+    "difficulty": "advanced"
+  },
+  {
     "id": "arxiv:2601.16834",
     "source": "arxiv",
     "source_type": "preprint",
@@ -1154,8 +1296,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -1170,10 +1312,10 @@
     "summary": "Wall-to-wall biomass density estimation from NASA's GEDI mission requires interpolating sparse LIDAR observations across heterogeneous landscapes. While Random Forest and XGBoost are widely used, they predict each location independently from satellite features, without adapting to the varying difficulty of heterogeneous landscapes.",
     "key_contribution": "We introduce Attentive Neural Processes (ANPs), a probabilistic meta-learning architecture that explicitly conditions predictions on local observation sets as well as geospatial foundation model embeddings.",
     "why_it_matters": "Interpolation of GEDI Biomass Estimates with Calibrated Uncertainty Quantification advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Vision.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "We introduce Attentive Neural Processes (ANPs), a probabilistic meta-learning architecture that explicitly conditions…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2601.16834",
     "difficulty": "intermediate"
   },
@@ -1710,8 +1852,8 @@
     "tags": [
       "LLMs",
       "Prompting",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "theory",
     "difficulty_level": "L1",
@@ -1801,8 +1943,8 @@
     "tags": [
       "AI Safety",
       "Evaluation",
-      "Databases",
       "Machine Learning",
+      "Databases",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -1852,9 +1994,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
       "Machine Learning",
       "Software Engineering",
+      "NLP",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -1904,8 +2046,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Distributed Computing",
-      "Machine Learning"
+      "Machine Learning",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -2583,8 +2725,8 @@
     "tags": [
       "LLMs",
       "Dialogue",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -2722,8 +2864,8 @@
       "LLMs",
       "Fine-Tuning",
       "Federated Learning",
-      "NLP",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -3142,8 +3284,8 @@
     "tags": [
       "GNNs",
       "Fairness & Ethics",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -3809,8 +3951,8 @@
       "Transformers",
       "Self-Supervised",
       "Interpretability",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -5041,8 +5183,8 @@
       "Reasoning",
       "AI Agents",
       "Legal AI",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -5181,8 +5323,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Game Theory",
-      "Systems & Control"
+      "Systems & Control",
+      "Game Theory"
     ],
     "paper_type": "theory",
     "difficulty_level": "L2",
@@ -5197,10 +5339,10 @@
     "summary": "We consider an intrusion detection task in which a defender must jointly optimize sensor placement locations and orientations to minimize the probability of missed detection of an intruder traversing a protected environment. We decompose this problem into a meta problem, termed SensorPlacement, and an embedded subproblem, termed OrientationScheduling.",
     "key_contribution": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose a greedy placement algorithm with near-optimality guarantees.",
     "why_it_matters": "A Unified Framework for Joint Sensor Placement and Scheduling for Intrusion Detection represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Game Theory.",
+    "content_hook": "A new paper that could change how we think about Systems & Control.",
     "one_line_takeaway": "We show that this game-value-based utility function is weakly submodular over the set of sensor placements and propose…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Game Theory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Systems & Control.",
     "url": "https://arxiv.org/abs/2606.19695",
     "difficulty": "intermediate"
   },
@@ -5597,8 +5739,8 @@
     "tags": [
       "LLMs",
       "AI Safety",
-      "NLP",
       "Machine Learning",
+      "NLP",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -6917,9 +7059,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "NLP",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -7064,8 +7206,8 @@
     "tags": [
       "AI Agents",
       "Cryptography & Security",
-      "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Multi-Agent Systems"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -7392,8 +7534,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -7547,49 +7689,6 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in RL.",
     "url": "https://arxiv.org/abs/2606.00838",
     "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2605.25140",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Eliminating Blind Spots from Wireless Network by Metasurface: A Blind Approach",
-    "abstract": "Deploying metasurfaces (MTSs) to eliminate wireless blind spots requires jointly determining the physical placement of MTSs and the meta-atom phase shifts. Existing methods typically rely on explicit channel estimation, which incurs prohibitive overhead and is often intractable in real-world networks. To sidestep this bottleneck, we propose RFZero, a channel-state-information (CSI)-free deployment paradigm. Instead of estimating channels, RFZero extracts macro-environmental features from visual photos to guide MTS placement, and leverages reference signal received power (RSRP) feedback for dynamic phase-shift optimization. Most importantly, RFZero operates independently of base stations, thereby enabling seamless plug-and-play implementation. Real-world field tests confirm that RFZero completely eliminates all blind spots in a $100\\text{ m}^2$ indoor area using just a pair of $1.5\\text{ m}\\times 0.9\\text{ m}$ MTSs.",
-    "authors": [
-      "Wenhai Lai",
-      "Mingxiao Li",
-      "Kaiming Shen",
-      "Liyao Xiang",
-      "Zhi-Quan Luo"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.25140",
-    "pdf_url": "https://arxiv.org/pdf/2605.25140",
-    "citations": 0,
-    "topics": [],
-    "tags": [],
-    "paper_type": "systems",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.38,
-    "read_first_score": 3.86,
-    "content_potential_score": 1.42,
-    "interestingness_score": 2.4,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Deploying metasurfaces (MTSs) to eliminate wireless blind spots requires jointly determining the physical placement of MTSs and the meta-atom phase shifts. Existing methods typically rely on explicit channel estimation, which incurs prohibitive overhead and is often intractable in real-world networks.",
-    "key_contribution": "To sidestep this bottleneck, we propose RFZero, a channel-state-information (CSI)-free deployment paradigm.",
-    "why_it_matters": "Eliminating Blind Spots from Wireless Network by Metasurface: A Blind Approach represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about _default.",
-    "one_line_takeaway": "To sidestep this bottleneck, we propose RFZero, a channel-state-information (CSI)-free deployment paradigm.",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in this area.",
-    "url": "https://arxiv.org/abs/2605.25140",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2610.14544",
@@ -7897,8 +7996,8 @@
       "Fine-Tuning",
       "Video AI",
       "Robotics",
-      "Computer Graphics",
-      "Computer Vision"
+      "Computer Vision",
+      "Computer Graphics"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8081,9 +8180,9 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
       "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8129,8 +8228,8 @@
       "LLMs",
       "Fine-Tuning",
       "AI Agents",
-      "Artificial Intelligence",
-      "NLP"
+      "NLP",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -8817,8 +8916,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "Multi-Agent Systems",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -9123,52 +9222,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2505.14479",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "A Neuro-Symbolic Approach for Reliable Proof Generation with LLMs: A Case Study in Euclidean Geometry",
-    "abstract": "Large language models (LLMs) struggle with formal domains that require rigorous logical deduction and symbolic reasoning, such as mathematical proof generation. We propose a neuro-symbolic approach that combines LLMs' generative strengths with structured components to overcome this challenge. As a proof of concept, we focus on SAT-level geometry problems. Our approach is two-fold: (1) We retrieve analogous problems and use their proofs to guide the LLM, and (2) a formal verifier evaluates the generated proofs and provides feedback, helping the model fix incorrect proofs. Our method significantly improves proof accuracy across diverse model families, achieving significant gains across all evaluated models: OpenAI o1, GPT-5, Gemini-Flash-2.5, and Claude Sonnet 4.6. Accuracy increases from 10% to 44% for the base models to 68% to 96% with our approach, with both analogous problem guidance and verifier feedback contributing to these improvements. More broadly, shifting to LLMs that generate provably correct conclusions has the potential to dramatically improve their reliability, accuracy and consistency, unlocking complex tasks and critical real-world applications that require trustworthiness.",
-    "authors": [
-      "Oren Sultan",
-      "Eitan Stern",
-      "Dafna Shahaf"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2505.14479",
-    "pdf_url": "https://arxiv.org/pdf/2505.14479",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Reasoning",
-      "NLP",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.33,
-    "read_first_score": 5.94,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.67,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Large language models (LLMs) struggle with formal domains that require rigorous logical deduction and symbolic reasoning, such as mathematical proof generation. We propose a neuro-symbolic approach that combines LLMs' generative strengths with structured components to overcome this challenge.",
-    "key_contribution": "We propose a neuro-symbolic approach that combines LLMs' generative strengths with structured components to overcome this challenge.",
-    "why_it_matters": "A Neuro-Symbolic Approach for Reliable Proof Generation with LLMs: A Case Study in Euclidean Geometry represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "We propose a neuro-symbolic approach that combines LLMs' generative strengths with structured components to overcome…",
-    "biggest_caveat": "buting to these improvements.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2505.14479",
-    "difficulty": "frontier"
-  },
-  {
     "id": "arxiv:2507.06415",
     "source": "arxiv",
     "source_type": "preprint",
@@ -9391,8 +9444,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "Information Retrieval",
       "Machine Learning",
+      "Information Retrieval",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -9510,6 +9563,49 @@
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2606.29270",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2608.12704",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Efficient Hessian-Free Methods for Multi-Objective Bilevel Optimization with Nonconvex Lower Level",
+    "abstract": "Multi-objective bilevel optimization has wide applications in the AI area such as automated learning and multi-task meta-learning. Although recently some works have been begun to study the multi-objective bilevel optimization, the proposed methods rely on the (strongly) convex lower level problems. In fact, these multi-objective bilevel learning problems are generally nonconvex, and particularly their lower level problems are nonconvex. To fill this gap, we propose a class of Multi-Objective Moreau Envelope based Hessian-free Algorithms (MOMEHA) to solve the multi-objective bilevel learning problems with nonconvex lower level. Specifically, our method uses the Moreau envelope to convert the original problem into a multi-objective single-level optimization with an envelope constraint. In particular, our method retains computational advantages of being single-loop and Hessian-free in the multi-objective setting by incorporating a smooth weighted Tchebycheff scalarization. Furthermore, we propose a momentum-based variant of MOMEHA (i.e., MB-MOMEHA) method to solve the stochastic multi-objective bilevel learning problems. In theory, we provide the convergence properties of our algorithms under both deterministic and stochastic setting. Some experiments on few-shot meta-learning and neural architecture search demonstrate that our methods outperform the existing approaches in Pareto front, validating its effectiveness and robustness.",
+    "authors": [
+      "Yicong Jiang",
+      "Feihu Huang"
+    ],
+    "year": 2026,
+    "published_date": "2026-08-13",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2608.12704",
+    "pdf_url": "https://arxiv.org/pdf/2608.12704",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Prompting",
+      "Machine Learning"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses stochastic and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.32,
+    "read_first_score": 5.55,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.66,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Multi-objective bilevel optimization has wide applications in the AI area such as automated learning and multi-task meta-learning. Although recently some works have been begun to study the multi-objective bilevel optimization, the proposed methods rely on the (strongly) convex lower level problems.",
+    "key_contribution": "To fill this gap, we propose a class of Multi-Objective Moreau Envelope based Hessian-free Algorithms (MOMEHA) to solve the multi-objective bilevel learning problems with nonconvex lower level.",
+    "why_it_matters": "Efficient Hessian-Free Methods for Multi-Objective Bilevel Optimization with Nonconvex Lower Level represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Prompting.",
+    "one_line_takeaway": "To fill this gap, we propose a class of Multi-Objective Moreau Envelope based Hessian-free Algorithms (MOMEHA) to solve…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Prompting.",
+    "url": "https://arxiv.org/abs/2608.12704",
     "difficulty": "frontier"
   },
   {
@@ -9852,49 +9948,6 @@
     "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in AI Agents.",
     "url": "https://arxiv.org/abs/2609.14858",
     "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2608.12704",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Efficient Hessian-Free Methods for Multi-Objective Bilevel Optimization with Nonconvex Lower Level",
-    "abstract": "Multi-objective bilevel optimization has wide applications in the AI area such as automated learning and multi-task meta-learning. Although recently some works have been begun to study the multi-objective bilevel optimization, the proposed methods rely on the (strongly) convex lower level problems. In fact, these multi-objective bilevel learning problems are generally nonconvex, and particularly their lower level problems are nonconvex. To fill this gap, we propose a class of Multi-Objective Moreau Envelope based Hessian-free Algorithms (MOMEHA) to solve the multi-objective bilevel learning problems with nonconvex lower level. Specifically, our method uses the Moreau envelope to convert the original problem into a multi-objective single-level optimization with an envelope constraint. In particular, our method retains computational advantages of being single-loop and Hessian-free in the multi-objective setting by incorporating a smooth weighted Tchebycheff scalarization. Furthermore, we propose a momentum-based variant of MOMEHA (i.e., MB-MOMEHA) method to solve the stochastic multi-objective bilevel learning problems. In theory, we provide the convergence properties of our algorithms under both deterministic and stochastic setting. Some experiments on few-shot meta-learning and neural architecture search demonstrate that our methods outperform the existing approaches in Pareto front, validating its effectiveness and robustness.",
-    "authors": [
-      "Yicong Jiang",
-      "Feihu Huang"
-    ],
-    "year": 2026,
-    "published_date": "2026-08-13",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2608.12704",
-    "pdf_url": "https://arxiv.org/pdf/2608.12704",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Prompting",
-      "Machine Learning"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses stochastic and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.32,
-    "read_first_score": 5.55,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.66,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Multi-objective bilevel optimization has wide applications in the AI area such as automated learning and multi-task meta-learning. Although recently some works have been begun to study the multi-objective bilevel optimization, the proposed methods rely on the (strongly) convex lower level problems.",
-    "key_contribution": "To fill this gap, we propose a class of Multi-Objective Moreau Envelope based Hessian-free Algorithms (MOMEHA) to solve the multi-objective bilevel learning problems with nonconvex lower level.",
-    "why_it_matters": "Efficient Hessian-Free Methods for Multi-Objective Bilevel Optimization with Nonconvex Lower Level represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Prompting.",
-    "one_line_takeaway": "To fill this gap, we propose a class of Multi-Objective Moreau Envelope based Hessian-free Algorithms (MOMEHA) to solve…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Prompting.",
-    "url": "https://arxiv.org/abs/2608.12704",
-    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2608.09087",
@@ -11154,9 +11207,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Artificial Intelligence",
+      "Machine Learning",
       "NLP",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -11340,8 +11393,8 @@
     "tags": [
       "Prompting",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -11614,8 +11667,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Machine Learning",
-      "Systems & Control"
+      "Systems & Control",
+      "Machine Learning"
     ],
     "paper_type": "theory",
     "difficulty_level": "L1",
@@ -12321,9 +12374,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Multi-Agent Systems",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Multi-Agent Systems"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -12368,8 +12421,8 @@
       "LLMs",
       "Fine-Tuning",
       "Evaluation",
-      "Artificial Intelligence",
-      "Databases"
+      "Databases",
+      "Artificial Intelligence"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -12616,8 +12669,8 @@
     "tags": [
       "Interpretability",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -12895,9 +12948,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "NLP",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13337,8 +13390,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -13472,8 +13525,8 @@
     "tags": [
       "Info Extraction",
       "Knowledge Graphs",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -14144,8 +14197,8 @@
     "tags": [
       "Multimodal",
       "Adversarial",
-      "Information Retrieval",
       "Machine Learning",
+      "Information Retrieval",
       "Multimedia"
     ],
     "paper_type": "systems",
@@ -14374,8 +14427,8 @@
     "tags": [
       "GNNs",
       "Evaluation",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -15400,6 +15453,290 @@
     "difficulty": "beginner"
   },
   {
+    "id": "arxiv:2607.21653",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Molt: A Scalable PyTorch-Native Training Framework for Agentic Reinforcement Learning",
+    "abstract": "Agentic reinforcement learning requires infrastructure that researchers can modify without sacrificing model scale or control over agent execution. We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent interfaces. Molt integrates four capabilities: a compact training implementation built on composable model parallelism; unified OpenAI and Anthropic interfaces with automatic trajectory segmentation after context compaction; fully asynchronous rollout and optimization; and distributed experience storage for long, multimodal trajectories. Existing agents retain their execution and context-management logic while a shared capture layer records generated tokens and behavior probabilities. Rollout workers place heavy experience payloads in Ray's object store, and trainer ranks retrieve their assigned experiences by reference, avoiding a centralized gather of the full rollout batch. The framework-owned RL implementation comprises approximately 9.2K Python code lines, and its rollout, weight-refit, and training-update path has executed end to end on a one-trillion-parameter policy. On a 35B multimodal mixture-of-experts workload, speculative decoding accelerates the generation stage by 5.14x, and optimizer offload reduces peak actor memory by 18.3 GB. Together, these results establish a compact training framework for agentic RL research at trillion-parameter scale.",
+    "authors": [
+      "Jian Hu",
+      "Huiying Li",
+      "Hao Zhang",
+      "Binfeng Xu",
+      "Yifan Zhang",
+      "Shaokun Zhang",
+      "Hemil Desai",
+      "Michael Demoret",
+      "Pavlo Molchanov",
+      "Jan Kautz",
+      "Yi Dong"
+    ],
+    "year": 2026,
+    "published_date": "2026-09-16",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2607.21653",
+    "pdf_url": "https://arxiv.org/pdf/2607.21653",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "AI Agents",
+      "Multimodal",
+      "Info Extraction",
+      "RL",
+      "NLP"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L3",
+    "difficulty_reason": "Advanced topic (RL) requiring graduate-level background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.2,
+    "read_first_score": 3.84,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.1,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Agentic reinforcement learning requires infrastructure that researchers can modify without sacrificing model scale or control over agent execution. We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent interfaces.",
+    "key_contribution": "We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent interfaces.",
+    "why_it_matters": "Molt: A Scalable PyTorch-Native Training Framework for Agentic Reinforcement Learning represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about AI Agents.",
+    "one_line_takeaway": "We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent…",
+    "biggest_caveat": "buted experience storage for long, multimodal trajectories.",
+    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in AI Agents.",
+    "url": "https://arxiv.org/abs/2607.21653",
+    "difficulty": "advanced"
+  },
+  {
+    "id": "arxiv:2611.23398",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "HardwareDx: A Foundational Graph Model System for Datacenter Machine Repairs",
+    "abstract": "The rapid scale-up of AI infrastructure has made datacenter reliability a cornerstone of the cloud business economy. Since hardware failures in hyper-scale AI clusters can stall multi-million dollar training workloads, the downtime of individual machines can cause outsized economic losses. Minimizing machine downtime, therefore, is more important than ever.   To address this, we present Hardware Diagnoser (HardwareDx), an AI-driven hardware diagnosis system that applies a graph foundation model approach to automated datacenter maintenance. It allows a single model to diagnose many platforms and accelerate onboarding of new hardware products. Deployed at production scale at Google, HardwareDx yields substantial efficiency gains across diverse compute architectures. Real-world evaluations demonstrate that it reduces production downtime by 18.3% on GPU platforms and 16.1% on TPUs. Furthermore, it significantly accelerates hardware deployment, cutting quality assurance (QA) time by 28.3% for GPUs and 25.1% for TPUs. These results establish HardwareDx as a field-tested solution for maximizing the reliability and cost efficiency of next generation AI fleets.",
+    "authors": [
+      "Yuanlin Wen",
+      "Elan Markowitz",
+      "Zubo Gu",
+      "Sami Abu-El-Haija",
+      "Bryan Perozzi",
+      "Mikhail Galkin",
+      "Ali Parviz",
+      "Aayush Gupta",
+      "Venkata Chivukula",
+      "Griffin Hadfield",
+      "Aravind Akella",
+      "Daniel J. Frame",
+      "Vahab Mirrokni",
+      "Amin Vahdat"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-17",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.23398",
+    "pdf_url": "https://arxiv.org/pdf/2611.23398",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Artificial Intelligence"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.2,
+    "read_first_score": 4.83,
+    "content_potential_score": 1.84,
+    "interestingness_score": 2.52,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "The rapid scale-up of AI infrastructure has made datacenter reliability a cornerstone of the cloud business economy. Since hardware failures in hyper-scale AI clusters can stall multi-million dollar training workloads, the downtime of individual machines can cause outsized economic losses.",
+    "key_contribution": "To address this, we present Hardware Diagnoser (HardwareDx), an AI-driven hardware diagnosis system that applies a graph foundation model approach to automated datacenter maintenance.",
+    "why_it_matters": "HardwareDx: A Foundational Graph Model System for Datacenter Machine Repairs represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
+    "one_line_takeaway": "To address this, we present Hardware Diagnoser (HardwareDx), an AI-driven hardware diagnosis system that applies a…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
+    "url": "https://arxiv.org/abs/2611.23398",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2610.05608",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation",
+    "abstract": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters). Both models generate 5-second video clips with synchronized 44 kHz audio, including lip-sync, in text-to-audio-video (T2AV) and image-to-audio-video (I2AV) modes; a built-in super-resolution model raises the output resolution to Full-HD (1920$\\times$1080). Building on the video generation capabilities of Kandinsky 5.0, Kandinsky 6.0 Video employs a dual-stream CrossDiT architecture that connects a pretrained video stream and a newly trained audio stream through bidirectional cross-attention for temporal and semantic alignment. Our continuous pretraining strategy first trains the audio stream from scratch on large-scale audio corpora and then trains both streams jointly on paired audio-video data while preserving unimodal fidelity; pretraining is followed by supervised fine-tuning, reinforcement-learning-based post-training, and distillation. In side-by-side human evaluation, Kandinsky 6.0 Video Pro clearly outperforms its predecessor, Kandinsky 5.0 Video Pro, and remains competitive with leading audio-video generation models, particularly in speech quality. To accelerate open research and deployment in multimedia generation, we release the code, model checkpoints, and diffusers integration under the MIT license.",
+    "authors": [
+      "Team Kandinsky",
+      "Julia Agafonova",
+      "Bulat Akhmatov",
+      "Mikhail Aksyutin",
+      "Grigorii Alekseenko",
+      "Anastasia Aliaskina",
+      "Olga Androsova",
+      "Vladimir Arkhipkin",
+      "Anna Averchenkova",
+      "Alexander Belykh",
+      "Serafima Bocharova",
+      "Sofiya Bogakovskaya",
+      "Anton Bukashkin",
+      "Mark Bulygin",
+      "Kirill Buzygin",
+      "Irina Cheremnykh",
+      "Kirill Chernyshev",
+      "Mikhail Chernyshov",
+      "Vladimir Chernyy",
+      "David Chikovani",
+      "Georgy Daniltsev",
+      "Denis Dimitrov",
+      "Anna Dmitrienko",
+      "Vladimir Dokholyan",
+      "Sergey Emelyanov",
+      "Dmitry Ermilov",
+      "Georgii Fedorov",
+      "Polina Gavrilova",
+      "Nikolai Gerasimenko",
+      "Aleksandr Gordeev",
+      "Andrey Inozemtsev",
+      "Andrei Ivaniuta",
+      "Alexander Ivanov",
+      "Mikhail Karaev",
+      "Anastasiia Kargapoltseva",
+      "Ivan Kirillov",
+      "Nikita Kiselev",
+      "Valeria Kobenko",
+      "Yury Kolabushin",
+      "Denis Koposov",
+      "Anatoly Korobov",
+      "Vladimir Korviakov",
+      "Kirill Kozlov",
+      "Denis Krzhivokolskiy",
+      "Konstantin Kuklev",
+      "Alexander Kunitsyn",
+      "Sergey Kuzin",
+      "Vladislav Lakhtionov",
+      "Alexey Letunovskiy",
+      "Maxim Litvinov",
+      "Alexander Lyulkov",
+      "Georgy Makarov",
+      "Kirill Malakhov",
+      "Egor Malykh",
+      "Mikhail Mamaev",
+      "Dmitrii Mikhailov",
+      "Polina Mikhailova",
+      "Ivan Mikheev",
+      "Elizaveta Muromtseva",
+      "Nikolai Nazarkin",
+      "Tatiana Nikulina",
+      "Lev Novitskiy",
+      "Stanislav Onuchin",
+      "Nikita Osterov",
+      "Denis Parkhomenko",
+      "Anatoliy Parpara",
+      "Vladimir Polovnikov",
+      "Konstantin Reznikov",
+      "Azat Saginbaev",
+      "Nikita Samsonov",
+      "Alexander Sentsov",
+      "Nikita Shaimov",
+      "Artem Sherstyuk",
+      "Andrey Shutkin",
+      "Egor Silvestrov",
+      "Bulat Suleimanov",
+      "Matvey Suprunov",
+      "Sergey Taranov",
+      "Irina Tolstykh",
+      "Tatiana Trofimuk",
+      "Ilya Trushkin",
+      "Aleksandra Tsybina",
+      "Olga Varlashina",
+      "Viacheslav Vasilev",
+      "Ilya Vasiliev",
+      "Eugeny Vilisov",
+      "Sergey Yakubson",
+      "Konstantin Zakharov"
+    ],
+    "year": 2026,
+    "published_date": "2026-10-04",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2610.05608",
+    "pdf_url": "https://arxiv.org/pdf/2610.05608",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Fine-Tuning",
+      "AI Safety",
+      "Video AI",
+      "Diffusion",
+      "Self-Supervised"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Survey, tutorial, or introductory material — accessible to beginners.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.2,
+    "read_first_score": 5.05,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.1,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters). Both models generate 5-second video clips with synchronized 44 kHz audio, including lip-sync, in text-to-audio-video (T2AV) and image-to-audio-video (I2AV) modes; a built-in super-resolution model raises the output resolution to Full-HD (1920$\\times$1080).",
+    "key_contribution": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters).",
+    "why_it_matters": "Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Fine-Tuning.",
+    "one_line_takeaway": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Fine-Tuning.",
+    "url": "https://arxiv.org/abs/2610.05608",
+    "difficulty": "beginner"
+  },
+  {
+    "id": "arxiv:2611.26052",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Do Network Mechanisms in Science Vary Across Research Topics? Contextual Relational Hyperevent Models for Large-Scale Bibliometric Data",
+    "abstract": "Collaboration and citation networks in science are shaped by well-documented mechanisms such as preferential attachment, gender homophily, and self-citation. Whether these mechanisms operate uniformly across research areas, however, is rarely tested, because statistical network models that estimate several mechanisms jointly are difficult to apply to large bibliometric data and to compare across subnetworks. We introduce contextual relational hyperevent models (C-RHEMs), which extend relational hyperevent models by allowing network effects to vary across research topics within a single model. C-RHEMs treat each publication as one event linking its authors to its references, accommodate reference lists spanning several topics, and scale to hundreds of thousands of publications on standard hardware. In a second step, meta-analysis and meta-regression quantify heterogeneity in topic-specific effects and relate it to topic characteristics. We illustrate the approach with about 590,000 oncology publications from the PubMed Knowledge Graph, assigned to 32 OpenAlex research topics. We find that preferential attachment, gender homophily, and self-citation vary substantially across topics, with between-topic standard deviations of 30 to 70 percent of the corresponding pooled effects. Topic age, size, and gender composition account for between a third and two-thirds of this variation: older topics exhibit stronger preferential attachment, self-citation, and gender homophily, and topics with a higher share of male authors exhibit stronger self-citation. The results caution against treating network mechanisms estimated on pooled data as uniform, and C-RHEMs offer a scalable way to study how they differ across research areas.",
+    "authors": [
+      "Jürgen Lerner",
+      "Mark Wittek",
+      "Raphael Heiberger"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-19",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.26052",
+    "pdf_url": "https://arxiv.org/pdf/2611.26052",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Knowledge Graphs"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.2,
+    "read_first_score": 4.71,
+    "content_potential_score": 1.0,
+    "interestingness_score": 2.1,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Collaboration and citation networks in science are shaped by well-documented mechanisms such as preferential attachment, gender homophily, and self-citation. Whether these mechanisms operate uniformly across research areas, however, is rarely tested, because statistical network models that estimate several mechanisms jointly are difficult to apply to large bibliometric data and to compare across subnetworks.",
+    "key_contribution": "We introduce contextual relational hyperevent models (C-RHEMs), which extend relational hyperevent models by allowing network effects to vary across research topics within a single model.",
+    "why_it_matters": "Do Network Mechanisms in Science Vary Across Research Topics? Contextual Relational Hyperevent Models for Large-Scale Bibliometric Data represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Knowledge Graphs.",
+    "one_line_takeaway": "We introduce contextual relational hyperevent models (C-RHEMs), which extend relational hyperevent models by allowing…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Knowledge Graphs.",
+    "url": "https://arxiv.org/abs/2611.26052",
+    "difficulty": "intermediate"
+  },
+  {
     "id": "arxiv:2610.28907",
     "source": "arxiv",
     "source_type": "preprint",
@@ -15422,8 +15759,8 @@
     "topics": [],
     "tags": [
       "RL",
-      "Multi-Agent Systems",
       "Machine Learning",
+      "Multi-Agent Systems",
       "Artificial Intelligence"
     ],
     "paper_type": "theory",
@@ -15941,8 +16278,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -16076,8 +16413,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -16441,8 +16778,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -16457,10 +16794,10 @@
     "summary": "Recursive self-improvement (RSI), in which a system also improves the way it improves, is a long-standing aspiration on the path to AGI. Language agents increasingly store procedural knowledge in reusable skills.",
     "key_contribution": "Optimizing skills offers a direct way to achieve RSI, because the optimization procedure itself can be encoded as a skill.",
     "why_it_matters": "Skill$^{\\infty}$: Recursive Self-Improvement for Agent Skill Optimization represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about NLP.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "Optimizing skills offers a direct way to achieve RSI, because the optimization procedure itself can be encoded as a…",
     "biggest_caveat": "however, follow a hand-designed procedure.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in NLP.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2610.35434",
     "difficulty": "intermediate"
   },
@@ -16662,9 +16999,9 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Artificial Intelligence",
+      "Machine Learning",
       "NLP",
-      "Machine Learning"
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17183,8 +17520,8 @@
     "topics": [],
     "tags": [
       "Info Extraction",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17268,8 +17605,8 @@
     "topics": [],
     "tags": [
       "Code Generation",
-      "Software Engineering",
       "Programming Languages",
+      "Software Engineering",
       "Cryptography & Security",
       "Artificial Intelligence"
     ],
@@ -17367,9 +17704,9 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Multi-Agent Systems",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Multi-Agent Systems"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -17686,138 +18023,6 @@
     "difficulty": "frontier"
   },
   {
-    "id": "arxiv:2610.05608",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation",
-    "abstract": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters). Both models generate 5-second video clips with synchronized 44 kHz audio, including lip-sync, in text-to-audio-video (T2AV) and image-to-audio-video (I2AV) modes; a built-in super-resolution model raises the output resolution to Full-HD (1920$\\times$1080). Building on the video generation capabilities of Kandinsky 5.0, Kandinsky 6.0 Video employs a dual-stream CrossDiT architecture that connects a pretrained video stream and a newly trained audio stream through bidirectional cross-attention for temporal and semantic alignment. Our continuous pretraining strategy first trains the audio stream from scratch on large-scale audio corpora and then trains both streams jointly on paired audio-video data while preserving unimodal fidelity; pretraining is followed by supervised fine-tuning, reinforcement-learning-based post-training, and distillation. In side-by-side human evaluation, Kandinsky 6.0 Video Pro clearly outperforms its predecessor, Kandinsky 5.0 Video Pro, and remains competitive with leading audio-video generation models, particularly in speech quality. To accelerate open research and deployment in multimedia generation, we release the code, model checkpoints, and diffusers integration under the MIT license.",
-    "authors": [
-      "Team Kandinsky",
-      "Julia Agafonova",
-      "Bulat Akhmatov",
-      "Mikhail Aksyutin",
-      "Grigorii Alekseenko",
-      "Anastasia Aliaskina",
-      "Olga Androsova",
-      "Vladimir Arkhipkin",
-      "Anna Averchenkova",
-      "Alexander Belykh",
-      "Serafima Bocharova",
-      "Sofiya Bogakovskaya",
-      "Anton Bukashkin",
-      "Mark Bulygin",
-      "Kirill Buzygin",
-      "Irina Cheremnykh",
-      "Kirill Chernyshev",
-      "Mikhail Chernyshov",
-      "Vladimir Chernyy",
-      "David Chikovani",
-      "Georgy Daniltsev",
-      "Denis Dimitrov",
-      "Anna Dmitrienko",
-      "Vladimir Dokholyan",
-      "Sergey Emelyanov",
-      "Dmitry Ermilov",
-      "Georgii Fedorov",
-      "Polina Gavrilova",
-      "Nikolai Gerasimenko",
-      "Aleksandr Gordeev",
-      "Andrey Inozemtsev",
-      "Andrei Ivaniuta",
-      "Alexander Ivanov",
-      "Mikhail Karaev",
-      "Anastasiia Kargapoltseva",
-      "Ivan Kirillov",
-      "Nikita Kiselev",
-      "Valeria Kobenko",
-      "Yury Kolabushin",
-      "Denis Koposov",
-      "Anatoly Korobov",
-      "Vladimir Korviakov",
-      "Kirill Kozlov",
-      "Denis Krzhivokolskiy",
-      "Konstantin Kuklev",
-      "Alexander Kunitsyn",
-      "Sergey Kuzin",
-      "Vladislav Lakhtionov",
-      "Alexey Letunovskiy",
-      "Maxim Litvinov",
-      "Alexander Lyulkov",
-      "Georgy Makarov",
-      "Kirill Malakhov",
-      "Egor Malykh",
-      "Mikhail Mamaev",
-      "Dmitrii Mikhailov",
-      "Polina Mikhailova",
-      "Ivan Mikheev",
-      "Elizaveta Muromtseva",
-      "Nikolai Nazarkin",
-      "Tatiana Nikulina",
-      "Lev Novitskiy",
-      "Stanislav Onuchin",
-      "Nikita Osterov",
-      "Denis Parkhomenko",
-      "Anatoliy Parpara",
-      "Vladimir Polovnikov",
-      "Konstantin Reznikov",
-      "Azat Saginbaev",
-      "Nikita Samsonov",
-      "Alexander Sentsov",
-      "Nikita Shaimov",
-      "Artem Sherstyuk",
-      "Andrey Shutkin",
-      "Egor Silvestrov",
-      "Bulat Suleimanov",
-      "Matvey Suprunov",
-      "Sergey Taranov",
-      "Irina Tolstykh",
-      "Tatiana Trofimuk",
-      "Ilya Trushkin",
-      "Aleksandra Tsybina",
-      "Olga Varlashina",
-      "Viacheslav Vasilev",
-      "Ilya Vasiliev",
-      "Eugeny Vilisov",
-      "Sergey Yakubson",
-      "Konstantin Zakharov"
-    ],
-    "year": 2026,
-    "published_date": "2026-10-04",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2610.05608",
-    "pdf_url": "https://arxiv.org/pdf/2610.05608",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Fine-Tuning",
-      "AI Safety",
-      "Video AI",
-      "Diffusion",
-      "Self-Supervised"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Survey, tutorial, or introductory material — accessible to beginners.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.2,
-    "read_first_score": 5.05,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.1,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters). Both models generate 5-second video clips with synchronized 44 kHz audio, including lip-sync, in text-to-audio-video (T2AV) and image-to-audio-video (I2AV) modes; a built-in super-resolution model raises the output resolution to Full-HD (1920$\\times$1080).",
-    "key_contribution": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video generation, comprising Kandinsky 6.0 Video Lite (3B parameters) and Kandinsky 6.0 Video Pro (29B parameters).",
-    "why_it_matters": "Kandinsky 6.0 Video: Foundation Models for Synchronized Video and Audio Generation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Fine-Tuning.",
-    "one_line_takeaway": "We present Kandinsky 6.0 Video, a family of foundation diffusion models for synchronized text-to-audio-video…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Fine-Tuning.",
-    "url": "https://arxiv.org/abs/2610.05608",
-    "difficulty": "beginner"
-  },
-  {
     "id": "arxiv:2609.40272",
     "source": "arxiv",
     "source_type": "preprint",
@@ -18050,8 +18255,8 @@
       "Fine-Tuning",
       "Federated Learning",
       "Structured Data",
-      "Distributed Computing",
-      "Computer Vision"
+      "Computer Vision",
+      "Distributed Computing"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -18117,61 +18322,6 @@
     "biggest_caveat": "butes (employer size and industry, function, seniority) and has obtained them by matching identities across sites.",
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in Federated Learning.",
     "url": "https://arxiv.org/abs/2609.36153",
-    "difficulty": "advanced"
-  },
-  {
-    "id": "arxiv:2607.21653",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Molt: A Scalable PyTorch-Native Training Framework for Agentic Reinforcement Learning",
-    "abstract": "Agentic reinforcement learning requires infrastructure that researchers can modify without sacrificing model scale or control over agent execution. We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent interfaces. Molt integrates four capabilities: a compact training implementation built on composable model parallelism; unified OpenAI and Anthropic interfaces with automatic trajectory segmentation after context compaction; fully asynchronous rollout and optimization; and distributed experience storage for long, multimodal trajectories. Existing agents retain their execution and context-management logic while a shared capture layer records generated tokens and behavior probabilities. Rollout workers place heavy experience payloads in Ray's object store, and trainer ranks retrieve their assigned experiences by reference, avoiding a centralized gather of the full rollout batch. The framework-owned RL implementation comprises approximately 9.2K Python code lines, and its rollout, weight-refit, and training-update path has executed end to end on a one-trillion-parameter policy. On a 35B multimodal mixture-of-experts workload, speculative decoding accelerates the generation stage by 5.14x, and optimizer offload reduces peak actor memory by 18.3 GB. Together, these results establish a compact training framework for agentic RL research at trillion-parameter scale.",
-    "authors": [
-      "Jian Hu",
-      "Huiying Li",
-      "Hao Zhang",
-      "Binfeng Xu",
-      "Yifan Zhang",
-      "Shaokun Zhang",
-      "Hemil Desai",
-      "Michael Demoret",
-      "Pavlo Molchanov",
-      "Jan Kautz",
-      "Yi Dong"
-    ],
-    "year": 2026,
-    "published_date": "2026-09-16",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2607.21653",
-    "pdf_url": "https://arxiv.org/pdf/2607.21653",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "AI Agents",
-      "Multimodal",
-      "Info Extraction",
-      "RL",
-      "NLP"
-    ],
-    "paper_type": "systems",
-    "difficulty_level": "L3",
-    "difficulty_reason": "Advanced topic (RL) requiring graduate-level background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.2,
-    "read_first_score": 3.84,
-    "content_potential_score": 1.0,
-    "interestingness_score": 2.1,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Agentic reinforcement learning requires infrastructure that researchers can modify without sacrificing model scale or control over agent execution. We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent interfaces.",
-    "key_contribution": "We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent interfaces.",
-    "why_it_matters": "Molt: A Scalable PyTorch-Native Training Framework for Agentic Reinforcement Learning represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about AI Agents.",
-    "one_line_takeaway": "We present Molt, a lightweight PyTorch-native framework that combines trillion-parameter training with standard agent…",
-    "biggest_caveat": "buted experience storage for long, multimodal trajectories.",
-    "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in AI Agents.",
-    "url": "https://arxiv.org/abs/2607.21653",
     "difficulty": "advanced"
   },
   {
@@ -18242,8 +18392,8 @@
       "LLMs",
       "RLHF",
       "AI Agents",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -18427,8 +18577,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Distributed Computing",
-      "Systems & Control"
+      "Systems & Control",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -18443,10 +18593,10 @@
     "summary": "The reliance on scarce and expensive accelerators such as GPUs and TPUs in modern datacenters places unprecedented demands on backend infrastructure. For workloads characterized by heterogeneous service times and complex multi-stage processing, such as Generative AI, conventional load balancing techniques are often inadequate, relying heavily on costly overprovisioning to maintain service level objectives.",
     "key_contribution": "This paper introduces DLB, the Distributed Load Balancer, a novel system designed to minimize end-to-end user latency for large-scale, heterogeneous workloads.",
     "why_it_matters": "DLB: Distributed Load Balancing at Scale for Generative AI Inference represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Distributed Computing.",
+    "content_hook": "A new paper that could change how we think about Systems & Control.",
     "one_line_takeaway": "This paper introduces DLB, the Distributed Load Balancer, a novel system designed to minimize end-to-end user latency…",
     "biggest_caveat": "buted Load Balancer, a novel system designed to minimize end-to-end user latency for large-scale, heterogeneous workloads.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Distributed Computing.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Systems & Control.",
     "url": "https://arxiv.org/abs/2609.21079",
     "difficulty": "intermediate"
   },
@@ -19263,8 +19413,8 @@
     "tags": [
       "LLMs",
       "Info Extraction",
-      "Artificial Intelligence",
-      "Cryptography & Security"
+      "Cryptography & Security",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -19357,8 +19507,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -19373,10 +19523,10 @@
     "summary": "Continuous deployment to large scale production systems creates a tension between release velocity and reliability. Every change is a potential reliability incident, yet every delay is a missed opportunity.",
     "key_contribution": "Continuous deployment to large scale production systems creates a tension between release velocity and reliability.",
     "why_it_matters": "Making Deployments Safe at Meta: Health Checks for Continuous Change-Safety represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Software Engineering.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "Continuous deployment to large scale production systems creates a tension between release velocity and reliability.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Software Engineering.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2608.20513",
     "difficulty": "intermediate"
   },
@@ -19443,8 +19593,8 @@
     "tags": [
       "VLMs",
       "Interpretability",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -19622,8 +19772,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Human-Computer Interaction",
-      "Computer Graphics"
+      "Computer Graphics",
+      "Human-Computer Interaction"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -19638,10 +19788,10 @@
     "summary": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel natural, avatars need to respond to users without forcing them through a controller-based interface first. This paper describes a gesture-driven interaction layer built for a browser-based metaverse onboarding environment, where users explore a set of virtual rooms as an avatar and interact with embedded video, document, and quiz content using hand, arm, and head gestures instead of a keyboard or controller.",
     "key_contribution": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel natural, avatars need to respond to users without forcing them through a controller-based interface first.",
     "why_it_matters": "A Browser-Based Gesture-Driven Avatar Interaction Framework for Metaverse Onboarding Environments represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Human-Computer Interaction.",
+    "content_hook": "A new paper that could change how we think about Computer Graphics.",
     "one_line_takeaway": "Avatar interaction shapes how engaging and immersive a metaverse experience feels, and for that interaction to feel…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Human-Computer Interaction.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
     "url": "https://arxiv.org/abs/2608.11708",
     "difficulty": "intermediate"
   },
@@ -19667,8 +19817,8 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Computer Vision",
       "Machine Learning",
+      "Computer Vision",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -19684,10 +19834,10 @@
     "summary": "Rapid urbanization in Dhaka District, Bangladesh has triggered substantial alterations in land use and environmental conditions, necessitating systematic monitoring for informed urban planning and ecological sustainability. This study employs remote sensing data and machine learning techniques to analyze spatiotemporal changes in land cover and vegetation dynamics between 2019 and 2024.",
     "key_contribution": "Rapid urbanization in Dhaka District, Bangladesh has triggered substantial alterations in land use and environmental conditions, necessitating systematic monitoring for informed urban planning and ecological sustainability.",
     "why_it_matters": "Remote Sensing and Machine Learning-Based Analysis of Land Use and Vegetation Change in Dhaka District, Bangladesh advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Vision.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "Rapid urbanization in Dhaka District, Bangladesh has triggered substantial alterations in land use and environmental…",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Vision.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2608.12001",
     "difficulty": "intermediate"
   },
@@ -20161,9 +20311,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
+      "Artificial Intelligence",
       "Game Theory",
-      "Distributed Computing",
-      "Artificial Intelligence"
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -20178,10 +20328,10 @@
     "summary": "Stock recommendation systems face the dual challenge of adapting to rapidly changing market conditions while maintaining low-latency predictions for end users. Traditional batch-trained models fail to capture concept drift, and monolithic architectures struggle to provide fault tolerance under load.",
     "key_contribution": "Results demonstrate that the system serves stock recommendations in 23 seconds per request and processes up to 500 portfolio addition requests per second per follower.",
     "why_it_matters": "A scalable online machine learning approach for Stock Recommendation represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Game Theory.",
+    "content_hook": "A new paper that could change how we think about Artificial Intelligence.",
     "one_line_takeaway": "Results demonstrate that the system serves stock recommendations in 23 seconds per request and processes up to 500…",
     "biggest_caveat": "buted microservices architecture using Kubernetes, Docker, and RabbitMQ.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Game Theory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Artificial Intelligence.",
     "url": "https://arxiv.org/abs/2607.23120",
     "difficulty": "intermediate"
   },
@@ -21042,8 +21192,8 @@
     "tags": [
       "Dialogue",
       "Code Generation",
-      "Human-Computer Interaction",
       "Software Engineering",
+      "Human-Computer Interaction",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -21365,8 +21515,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -21764,8 +21914,8 @@
     "tags": [
       "Reasoning",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -22203,8 +22353,8 @@
     "tags": [
       "LLMs",
       "Adversarial",
-      "NLP",
       "Machine Learning",
+      "NLP",
       "Artificial Intelligence"
     ],
     "paper_type": "methods",
@@ -22739,8 +22889,8 @@
       "AI Agents",
       "RAG",
       "Evaluation",
-      "Information Retrieval",
-      "Machine Learning"
+      "Machine Learning",
+      "Information Retrieval"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -22972,8 +23122,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Machine Learning",
-      "Systems & Control"
+      "Systems & Control",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -23488,8 +23638,8 @@
       "LLMs",
       "Reasoning",
       "Federated Learning",
-      "Distributed Computing",
-      "Multi-Agent Systems"
+      "Multi-Agent Systems",
+      "Distributed Computing"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -23582,8 +23732,8 @@
     "topics": [],
     "tags": [
       "Robotics",
-      "Machine Learning",
       "Systems & Control",
+      "Machine Learning",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -23772,8 +23922,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L1",
@@ -23918,8 +24068,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L4",
@@ -24126,6 +24276,56 @@
     "difficulty": "advanced"
   },
   {
+    "id": "arxiv:2611.00515",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "AStockArena: Beyond Returns, Can We Entrust Real Capital to the Decisions of Financial Agents?",
+    "abstract": "Large language models (LLMs) are increasingly used in dynamic financial trading, yet real-time trading benchmarks mainly evaluate agents by cumulative returns and risk-adjusted performance. Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states. We introduce AStockArena, a real-time decision-auditing benchmark for continuous trading in China's A-share market. Under shared market conditions and execution constraints, we evaluate 13 open- and closed-source models over 3,198 sequential decisions. AStockArena reconstructsthe actions actually posted to accounts by aligning reports, trade requests, execution responses, and account states, and audits them with eight checks spanning execution traceability (O), evidence sufficiency (RK), and financial meta-awareness (B), combining record verification with consensus expert annotation. Of 1,070 trading points, 72.99% exhibit at least one audit gap; model-level rates range from52.2% to 91.2%, with evidence gaps most prevalent. Historical trade-filtering replay further shows thatportfolio outcomes are sensitive to these flagged trades. Decision-process auditing thus offers a verifiable complement to return-based evaluation of financial agents.",
+    "authors": [
+      "Zeyu Liu",
+      "Sing Kwong Lai",
+      "Xuanzhi Feng",
+      "HaoYang Shang",
+      "Yang Li",
+      "Zihao Fang",
+      "Xuan Liu"
+    ],
+    "year": 2026,
+    "published_date": "2026-10-31",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2611.00515",
+    "pdf_url": "https://arxiv.org/pdf/2611.00515",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Evaluation",
+      "Artificial Intelligence",
+      "NLP"
+    ],
+    "paper_type": "benchmark",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.13,
+    "read_first_score": 5.45,
+    "content_potential_score": 1.5,
+    "interestingness_score": 2.31,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Large language models (LLMs) are increasingly used in dynamic financial trading, yet real-time trading benchmarks mainly evaluate agents by cumulative returns and risk-adjusted performance. Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states.",
+    "key_contribution": "Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states.",
+    "why_it_matters": "AStockArena: Beyond Returns, Can We Entrust Real Capital to the Decisions of Financial Agents? represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and…",
+    "biggest_caveat": "cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2611.00515",
+    "difficulty": "beginner"
+  },
+  {
     "id": "arxiv:2611.13782",
     "source": "arxiv",
     "source_type": "preprint",
@@ -24219,56 +24419,6 @@
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Hallucination.",
     "url": "https://arxiv.org/abs/2611.14424",
     "difficulty": "frontier"
-  },
-  {
-    "id": "arxiv:2611.00515",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "AStockArena: Beyond Returns, Can We Entrust Real Capital to the Decisions of Financial Agents?",
-    "abstract": "Large language models (LLMs) are increasingly used in dynamic financial trading, yet real-time trading benchmarks mainly evaluate agents by cumulative returns and risk-adjusted performance. Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states. We introduce AStockArena, a real-time decision-auditing benchmark for continuous trading in China's A-share market. Under shared market conditions and execution constraints, we evaluate 13 open- and closed-source models over 3,198 sequential decisions. AStockArena reconstructsthe actions actually posted to accounts by aligning reports, trade requests, execution responses, and account states, and audits them with eight checks spanning execution traceability (O), evidence sufficiency (RK), and financial meta-awareness (B), combining record verification with consensus expert annotation. Of 1,070 trading points, 72.99% exhibit at least one audit gap; model-level rates range from52.2% to 91.2%, with evidence gaps most prevalent. Historical trade-filtering replay further shows thatportfolio outcomes are sensitive to these flagged trades. Decision-process auditing thus offers a verifiable complement to return-based evaluation of financial agents.",
-    "authors": [
-      "Zeyu Liu",
-      "Sing Kwong Lai",
-      "Xuanzhi Feng",
-      "HaoYang Shang",
-      "Yang Li",
-      "Zihao Fang",
-      "Xuan Liu"
-    ],
-    "year": 2026,
-    "published_date": "2026-10-31",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2611.00515",
-    "pdf_url": "https://arxiv.org/pdf/2611.00515",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
-    ],
-    "paper_type": "benchmark",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.13,
-    "read_first_score": 5.45,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.31,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Large language models (LLMs) are increasingly used in dynamic financial trading, yet real-time trading benchmarks mainly evaluate agents by cumulative returns and risk-adjusted performance. Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states.",
-    "key_contribution": "Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states.",
-    "why_it_matters": "AStockArena: Beyond Returns, Can We Entrust Real Capital to the Decisions of Financial Agents? represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "Such outcome metrics cannot show whether trades are faithfully reported, supported by available evidence, and…",
-    "biggest_caveat": "cannot show whether trades are faithfully reported, supported by available evidence, and consistent with account states.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2611.00515",
-    "difficulty": "beginner"
   },
   {
     "id": "arxiv:2610.33674",
@@ -24541,8 +24691,8 @@
     "topics": [],
     "tags": [
       "Object Detection",
-      "Artificial Intelligence",
-      "Computer Vision"
+      "Computer Vision",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -25189,8 +25339,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -25274,8 +25424,8 @@
     "topics": [],
     "tags": [
       "Transformers",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L1",
@@ -25558,9 +25708,9 @@
     "topics": [],
     "tags": [
       "Multimodal",
-      "NLP",
       "Machine Learning",
       "Multimedia",
+      "NLP",
       "Artificial Intelligence"
     ],
     "paper_type": "methods",
@@ -26291,8 +26441,8 @@
     "tags": [
       "AI Safety",
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -26815,8 +26965,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -27246,8 +27396,8 @@
     "tags": [
       "Prompting",
       "Self-Supervised",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27351,8 +27501,8 @@
       "Prompting",
       "AI Safety",
       "Self-Supervised",
-      "Human-Computer Interaction",
-      "Machine Learning"
+      "Machine Learning",
+      "Human-Computer Interaction"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -27682,8 +27832,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "Information Retrieval",
-      "Machine Learning"
+      "Machine Learning",
+      "Information Retrieval"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -27775,8 +27925,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Machine Learning",
-      "Systems & Control"
+      "Systems & Control",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -27898,8 +28048,8 @@
     "tags": [
       "Transformers",
       "Interpretability",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -28913,56 +29063,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2510.23509",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Logic-Guided Socially-aware Robot Navigation World Model",
-    "abstract": "Social robot navigation increasingly relies on large language models for reasoning, path planning, and enabling movement in dynamic human spaces. However, relying solely on LLMs for planning often leads to unpredictable and unsafe behaviors, especially in dynamic human spaces, due to limited physical grounding and weak logical consistency. In this work, we introduce NaviWM, a socially-aware robot Navigation World Model that augments LLM reasoning with a structured world model and a logic-driven chain-of-thought process. NaviWM consists of two main components: (1) a spatial-temporal world model that captures the positions, velocities, and activities of agents in the environment, and (2) a deductive reasoning module that guides LLMs through a multi-step, logic-based inference process. This integration enables the robot to generate navigation decisions that are both socially compliant and physically safe, under well-defined constraints such as personal space, collision avoidance, and timing. Unlike previous methods based on prompting or fine-tuning, NaviWM encodes social norms as first-order logic, enabling interpretable and verifiable reasoning. Experiments show that NaviWM improves success rates and reduces social violations, particularly in crowded environments. These results demonstrate the benefit of combining formal reasoning with LLMs for robust social navigation. Additional experimental details and demo videos for this work can be found at: https://sites.google.com/view/NaviWM.",
-    "authors": [
-      "Weizheng Wang",
-      "Obi Ike",
-      "Soyun Choi",
-      "Sungeun Hong",
-      "Aniket Bera",
-      "Byung-Cheol Min"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2510.23509",
-    "pdf_url": "https://arxiv.org/pdf/2510.23509",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Reasoning",
-      "Hallucination",
-      "Fine-Tuning",
-      "Robotics"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.11,
-    "read_first_score": 5.22,
-    "content_potential_score": 0.42,
-    "interestingness_score": 1.76,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Social robot navigation increasingly relies on large language models for reasoning, path planning, and enabling movement in dynamic human spaces. However, relying solely on LLMs for planning often leads to unpredictable and unsafe behaviors, especially in dynamic human spaces, due to limited physical grounding and weak logical consistency.",
-    "key_contribution": "In this work, we introduce NaviWM, a socially-aware robot Navigation World Model that augments LLM reasoning with a structured world model and a logic-driven chain-of-thought process.",
-    "why_it_matters": "Logic-Guided Socially-aware Robot Navigation World Model represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "In this work, we introduce NaviWM, a socially-aware robot Navigation World Model that augments LLM reasoning with a…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2510.23509",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2603.01140",
     "source": "arxiv",
     "source_type": "preprint",
@@ -29227,8 +29327,8 @@
     "tags": [
       "AI Agents",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -29293,6 +29393,53 @@
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Systems & Control.",
     "url": "https://arxiv.org/abs/2605.26626",
     "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2502.16759",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Can Explanations Improve Recommendations? Evidence from Prediction-Informed Explanations",
+    "abstract": "Recommender systems are central to digital platforms, yet they face a fundamental trade-off between accuracy and explainability: Black-box models achieve strong performance but lack interpretability needed for trust and adoption, while existing explainable AI approaches often generate explanations post hoc or sacrifice accuracy. We challenge this view, proposing that explanations, when designed as an integral component of the system and aligned with predictions, can improve \\emph{both} interpretability and accuracy. We introduce RecPIE (Recommendation with Prediction-Informed Explanations), a framework that jointly optimizes recommendation predictions and natural-language explanations. RecPIE embeds explanation generation into the learning loop: predictions guide explanation generation (prediction-informed explanations), which are fed back to refine subsequent predictions (explanation-informed predictions) via alternating training. The LLM is fine-tuned using LoRA and reinforcement learning with a usefulness reward derived from recommendation accuracy. We evaluate RecPIE on large-scale point-of-interest recommendation data from Google Maps, where consumer preferences span diverse place categories. RecPIE improves predictive accuracy by 1.7-3.6\\% over state-of-the-art baselines and outperforms the strongest full-data baselines using only 25\\% of the training data. In human evaluations with 566 participants, RecPIE explanations are preferred 61.5% of the time (versus 16.6% for the best baseline) and rated closer to human-generated explanations. Together, these results suggest that insights about consumer behavior and AI decisions need not be imposed externally or generated post hoc; they can be learned as an integral component \\emph{within} the AI systems, allowing systems themselves to discover which insights are useful for improving predictive performance.",
+    "authors": [
+      "Yuyan Wang",
+      "Pan Li",
+      "Minmin Chen"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-19",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2502.16759",
+    "pdf_url": "https://arxiv.org/pdf/2502.16759",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Fine-Tuning",
+      "RL",
+      "Interpretability",
+      "Evaluation"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.1,
+    "read_first_score": 5.33,
+    "content_potential_score": 0.42,
+    "interestingness_score": 1.76,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Recommender systems are central to digital platforms, yet they face a fundamental trade-off between accuracy and explainability: Black-box models achieve strong performance but lack interpretability needed for trust and adoption, while existing explainable AI approaches often generate explanations post hoc or sacrifice accuracy. We challenge this view, proposing that explanations, when designed as an integral component of the system and aligned with predictions, can improve \\emph{both} interpretability and accuracy.",
+    "key_contribution": "Recommender systems are central to digital platforms, yet they face a fundamental trade-off between accuracy and explainability: Black-box models achieve strong performance but lack interpretability needed for trust and adoption, while existing explainable AI approaches often generate explanations post hoc or sacrifice accuracy.",
+    "why_it_matters": "Can Explanations Improve Recommendations? Evidence from Prediction-Informed Explanations represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "Recommender systems are central to digital platforms, yet they face a fundamental trade-off between accuracy and…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2502.16759",
+    "difficulty": "beginner"
   },
   {
     "id": "arxiv:2611.20449",
@@ -31093,8 +31240,8 @@
       "MoE",
       "Fairness & Ethics",
       "Interpretability",
-      "Information Retrieval",
-      "Machine Learning"
+      "Machine Learning",
+      "Information Retrieval"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -31792,9 +31939,9 @@
     "tags": [
       "LLMs",
       "Info Extraction",
+      "Machine Learning",
       "Information Retrieval",
-      "NLP",
-      "Machine Learning"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -32164,9 +32311,9 @@
     "topics": [],
     "tags": [
       "Fine-Tuning",
-      "NLP",
       "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -32209,8 +32356,8 @@
     "tags": [
       "RL",
       "Evaluation",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -32305,8 +32452,8 @@
     "tags": [
       "LLMs",
       "Model Compression",
-      "NLP",
       "Machine Learning",
+      "NLP",
       "Artificial Intelligence"
     ],
     "paper_type": "methods",
@@ -32508,61 +32655,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
     "url": "https://arxiv.org/abs/2607.27893",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2605.25050",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Multimodality Stacking with Blockwise missing values and application to the PIONeeR biomarkers study for prediction of resistance to immunotherapy",
-    "abstract": "Integrating multimodal datasets in clinical oncology is frequently hindered by high dimensionality and blockwise missingness, where entire data sources are unavailable for specific patient subsets. Standard survival models often struggle with these gaps, leading to biased results or patient exclusion.   We introduce Multimodality Stacking with Blockwise missing values (MSB), a late-fusion framework for survival analysis that independently models modality-specific features before aggregating predictions via a cross-validated stacking meta-learner. MSB was validated on the PIONeeR study (n=443 patients, 378 biomarkers across eight heterogeneous sources) to predict progression-free survival in advanced non-small cell lung cancer patients receiving immunotherapy.   MSB yielded higher predictive performance (C-index) than baseline algorithms. Improvements varied by baseline strength: linear models showed a 15.9% increase (p<0.001 for the Wilcoxon signed-rank test), random survival forests gained 5.4% (p=0.002), and gradient boosting methods improved by 2.1% (p=0.030). Beyond discrimination, MSB reduced the generalization gap (train-test difference in 5 folds cross-validation repeated 3 times: 0.055 vs 0.380 for linear models). Permutation importance analysis identified routine laboratory markers, clinical features, and PD-L1 expression as primary predictive drivers. Missing block indicators showed negligible importance, suggesting the model learned from biomarker values rather than data availability patterns.   MSB provides a statistically validated framework for multimodal survival prediction with blockwise missingness. By enabling systematic biomarker evaluation without requiring complete data, MSB offers a practical tool for predictive modeling in biomedical research, pending external validation. Implementation is available at https://github.com/MohamedBoussena/MSB under Inria license.",
-    "authors": [
-      "Mohamed Boussena",
-      "Florence Monville",
-      "Jacques Fieschi-Meric",
-      "Frederic Vely",
-      "Pierre Milpied",
-      "Julien Mazieres",
-      "Maurice Perol",
-      "Eric Vivier",
-      "Laurent Greillier",
-      "Fabrice Barlesi",
-      "Sebastien Benzekry"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.25050",
-    "pdf_url": "https://arxiv.org/pdf/2605.25050",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Multimodal",
-      "Info Extraction",
-      "Biomedical AI",
-      "Fairness & Ethics",
-      "Machine Learning"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.09,
-    "read_first_score": 4.71,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.54,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Integrating multimodal datasets in clinical oncology is frequently hindered by high dimensionality and blockwise missingness, where entire data sources are unavailable for specific patient subsets. Standard survival models often struggle with these gaps, leading to biased results or patient exclusion.",
-    "key_contribution": "We introduce Multimodality Stacking with Blockwise missing values (MSB), a late-fusion framework for survival analysis that independently models modality-specific features before aggregating predictions via a cross-validated stacking meta-learner.",
-    "why_it_matters": "Multimodality Stacking with Blockwise missing values and application to the PIONeeR biomarkers study for prediction of resistance to immunotherapy represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Multimodal.",
-    "one_line_takeaway": "We introduce Multimodality Stacking with Blockwise missing values (MSB), a late-fusion framework for survival analysis…",
-    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Multimodal.",
-    "url": "https://arxiv.org/abs/2605.25050",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2607.18830",
@@ -33360,55 +33452,6 @@
     "difficulty": "frontier"
   },
   {
-    "id": "arxiv:2601.06870",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "QASA: Quality-Aware Semantic Augmentation for Robust Multimodal Sentiment Analysis",
-    "abstract": "Multimodal large language models have demonstrated strong ability in capturing semantic representations for multimodal sentiment analysis. Their capacity to learn stable and generalizable multimodal features is limited, however, by the scarcity of high-quality training data. To address this, we propose QASA (Quality-Aware Semantic Augmentation), which uses diffusion models to generate augmented visual and auditory samples, thereby enlarging the training dataset and supporting multimodal learning. The generated samples can vary in quality and may exhibit cross-modal inconsistencies. To manage this, we introduce a decoupled quality-aware scoring module that assigns training weights based on the reliability of each augmented sample. This approach reduces the influence of low-quality data and contributes to more stable and robust model training. The framework combines the generative capabilities of diffusion models with the semantic reasoning of multimodal large models, providing an automated data augmentation strategy that does not require human annotation while improving generalization and robustness under limited high-quality data. Experiments on the CH-SIMS dataset show that QASA yields a relative increase of 18.0\\% and 5.9\\% in five-class accuracy (Acc5) and binary accuracy (Acc2), respectively, and it also outperforms existing methods on the CMU-MOSI and MUStARD benchmarks.",
-    "authors": [
-      "Jiazhang Liang",
-      "Jianheng Dai",
-      "Miaosen Luo",
-      "Menghua Jiang",
-      "Sijie Mai"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2601.06870",
-    "pdf_url": "https://arxiv.org/pdf/2601.06870",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Reasoning",
-      "Multimodal",
-      "Diffusion",
-      "Sentiment Analysis"
-    ],
-    "paper_type": "dataset",
-    "difficulty_level": "L1",
-    "difficulty_reason": "Applied NLP/ML topic (Sentiment Analysis) with no advanced math.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.06,
-    "read_first_score": 6.25,
-    "content_potential_score": 1.5,
-    "interestingness_score": 2.28,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Multimodal large language models have demonstrated strong ability in capturing semantic representations for multimodal sentiment analysis. Their capacity to learn stable and generalizable multimodal features is limited, however, by the scarcity of high-quality training data.",
-    "key_contribution": "To address this, we propose QASA (Quality-Aware Semantic Augmentation), which uses diffusion models to generate augmented visual and auditory samples, thereby enlarging the training dataset and supporting multimodal learning.",
-    "why_it_matters": "QASA: Quality-Aware Semantic Augmentation for Robust Multimodal Sentiment Analysis represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "To address this, we propose QASA (Quality-Aware Semantic Augmentation), which uses diffusion models to generate…",
-    "biggest_caveat": "however, by the scarcity of high-quality training data.",
-    "read_this_if": "Read this if you are a beginner and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2601.06870",
-    "difficulty": "beginner"
-  },
-  {
     "id": "arxiv:2610.17368v1",
     "source": "arxiv",
     "source_type": "preprint",
@@ -33433,9 +33476,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Information Retrieval",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Information Retrieval"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L3",
@@ -34629,9 +34672,9 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
+      "Machine Learning",
       "Human-Computer Interaction",
       "NLP",
-      "Machine Learning",
       "Artificial Intelligence"
     ],
     "paper_type": "systems",
@@ -34997,6 +35040,50 @@
     "difficulty": "advanced"
   },
   {
+    "id": "arxiv:2609.25845",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Visual Jev: Accurate and Efficient Decisions from Shared Visual Context",
+    "abstract": "Applications increasingly ask multiple closed-choice questions about the same image, requiring accurate probabilities and efficient inference. We present Visual Jev, a visual decision model combining LM-head candidate readout, answer-supervised post-training, and independent question branches over a shared visual prefix. On held-out test images from four benchmarks, task SFT raises the 4B model's macro accuracy from 83.4% to 88.5% and error-discrimination AUROC from 0.834 to 0.890. Its macro accuracy exceeds the hosted Jev and OpenAI Decisions APIs by 2.77 and 5.06 percentage points, respectively, with the lowest NLL. We further show that better accuracy and calibration do not ensure reliable decisions. Fixed confidence thresholds exceed target error rates, and simply reordering options changes 17% of the model's accept-or-review decisions on SNLI-VE. At 32 questions per image, shared-prefix inference reduces amortized time per question from 20.5 to 5.6 ms, a 3.7x speedup over batched full sequences on one RTX 5090. Engine-level prefix caching reduces KV memory to 24.3% of that used by our custom shared-prefix path.",
+    "authors": [
+      "Guanxu Yu",
+      "Yuhang Yao"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2609.25845",
+    "pdf_url": "https://arxiv.org/pdf/2609.25845",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Evaluation",
+      "Computer Vision",
+      "Machine Learning"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L1",
+    "difficulty_reason": "Applied NLP/ML topic (Evaluation) with no advanced math.",
+    "maturity_stage": "emerging",
+    "paper_score": 3.0,
+    "read_first_score": 4.95,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.5,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Applications increasingly ask multiple closed-choice questions about the same image, requiring accurate probabilities and efficient inference. We present Visual Jev, a visual decision model combining LM-head candidate readout, answer-supervised post-training, and independent question branches over a shared visual prefix.",
+    "key_contribution": "We present Visual Jev, a visual decision model combining LM-head candidate readout, answer-supervised post-training, and independent question branches over a shared visual prefix.",
+    "why_it_matters": "Visual Jev: Accurate and Efficient Decisions from Shared Visual Context advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about Evaluation.",
+    "one_line_takeaway": "We present Visual Jev, a visual decision model combining LM-head candidate readout, answer-supervised post-training,…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a beginner and want to understand recent progress in Evaluation.",
+    "url": "https://arxiv.org/abs/2609.25845",
+    "difficulty": "beginner"
+  },
+  {
     "id": "arxiv:2604.19139",
     "source": "arxiv",
     "source_type": "preprint",
@@ -35125,8 +35212,8 @@
       "Multimodal",
       "Robotics",
       "Evaluation",
-      "Human-Computer Interaction",
-      "Computer Vision"
+      "Computer Vision",
+      "Human-Computer Interaction"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L4",
@@ -35862,8 +35949,8 @@
     "tags": [
       "AI Agents",
       "Programming Languages",
-      "Machine Learning",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Machine Learning"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -36000,8 +36087,8 @@
     "tags": [
       "Fine-Tuning",
       "Self-Supervised",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L3",
@@ -36187,8 +36274,8 @@
     "tags": [
       "Evaluation",
       "Cryptography & Security",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -37743,8 +37830,8 @@
     "tags": [
       "Reasoning",
       "AI Agents",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -37803,9 +37890,9 @@
     "topics": [],
     "tags": [
       "Biomedical AI",
-      "NLP",
+      "Artificial Intelligence",
       "Software Engineering",
-      "Artificial Intelligence"
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -38088,9 +38175,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Human-Computer Interaction",
+      "Multimedia",
       "Computer Graphics",
-      "Multimedia"
+      "Human-Computer Interaction"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -38178,8 +38265,8 @@
     "tags": [
       "Fine-Tuning",
       "Biomedical AI",
-      "Computer Vision",
-      "Machine Learning"
+      "Machine Learning",
+      "Computer Vision"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -38907,8 +38994,8 @@
       "Hallucination",
       "AI Safety",
       "VLMs",
-      "Human-Computer Interaction",
-      "Computer Vision"
+      "Computer Vision",
+      "Human-Computer Interaction"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L3",
@@ -39555,8 +39642,8 @@
     "tags": [
       "LLMs",
       "Evaluation",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -39788,8 +39875,8 @@
       "LLMs",
       "Robotics",
       "Evaluation",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -39963,8 +40050,8 @@
     "topics": [],
     "tags": [
       "LLMs",
-      "NLP",
-      "Programming Languages"
+      "Programming Languages",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -40238,51 +40325,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2604.26740",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Rendering-Aware Sparse Sampling for BRDF Acquisition",
-    "abstract": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive. We study how to select a small set of BRDF measurements that is most informative for reconstructing material appearance under a learned BRDF prior. Existing sparse-acquisition methods often optimize samples for BRDF-space reconstruction for all materials, while the perceptual importance of a adaptive measurement ultimately depends on its effect on each rendered appearance. We therefore formulate sparse adaptive acquisition as a rendering-aware optimization problem. Our method combines a set encoder for sparse coordinate--value observations, a pretrained hypernetwork-based/PCA-based BRDF reconstructor, and a differentiable renderer. During sampler training, the reconstructor remains fixed, and gradients from a rendered-image loss optimize the measurement locations. This separates acquisition design from prior fitting and encourages the sampler to choose directions that are informative under the learned material distribution. To make the comparison controlled, we evaluate the uniform baseline, meta-learning method, HyperBRDF method, and our learned sampler under matched sample numbers, train/test split, rendering scene, object mask, image mapping, and metrics. Our central claim: rendering-aware sampling improves extremely sparse BRDF acquisition when final rendered appearance is the target. BRDF-space and combined losses are reported only as ablations, together with joint refinement and image-only latent fitting for unseen materials.",
-    "authors": [
-      "W. Cao",
-      "D. Jönsson",
-      "Z. Huang",
-      "J. Unger"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2604.26740",
-    "pdf_url": "https://arxiv.org/pdf/2604.26740",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Computer Graphics",
-      "Computer Vision"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 4.56,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.5,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive. We study how to select a small set of BRDF measurements that is most informative for reconstructing material appearance under a learned BRDF prior.",
-    "key_contribution": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and expensive.",
-    "why_it_matters": "Rendering-Aware Sparse Sampling for BRDF Acquisition advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Computer Graphics.",
-    "one_line_takeaway": "Accurate BRDF acquisition is essential for realistic rendering, but dense gonioreflectometer measurements are slow and…",
-    "biggest_caveat": "but dense gonioreflectometer measurements are slow and expensive.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Computer Graphics.",
-    "url": "https://arxiv.org/abs/2604.26740",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2101.05993",
     "source": "arxiv",
     "source_type": "preprint",
@@ -40305,9 +40347,9 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Information Retrieval",
+      "Artificial Intelligence",
       "Machine Learning",
-      "Artificial Intelligence"
+      "Information Retrieval"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -40445,8 +40487,8 @@
       "Object Detection",
       "ASR",
       "Interpretability",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -40579,8 +40621,8 @@
     "tags": [
       "Robotics",
       "Evaluation",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "methods",
     "difficulty_level": "L1",
@@ -40861,8 +40903,8 @@
     "tags": [
       "LLMs",
       "Fine-Tuning",
-      "Artificial Intelligence",
-      "Distributed Computing"
+      "Distributed Computing",
+      "Artificial Intelligence"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -41220,95 +41262,6 @@
     "difficulty": "intermediate"
   },
   {
-    "id": "arxiv:2605.26159",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Device Context Protocol: A Compact, Safety-First Architecture for LLM-Driven Control of Constrained Devices",
-    "abstract": "Large language models are increasingly used as orchestrators of external tools via the Model Context Protocol (MCP), but MCP is built for software services with megabytes of memory and does not descend to the microcontrollers that dominate the long tail of physical devices. Recent work (IoT-MCP) ports MCP to edge gateways at 74 KB peak memory; this still excludes the smallest commodity MCUs and, critically, does not address the safety problem of giving an unreliable caller (an LLM that may hallucinate or be prompt-injected) direct control of physical hardware. We present the Device Context Protocol (DCP): a sub-50-byte typical frame (6-byte header + CBOR payload + optional 16-byte HMAC), a manifest schema in which capability scoping, range and type checks, dry-run evaluation, and units-as-types are protocol-layer primitives, and a host-side Bridge that rejects malformed or hallucinated calls before any byte reaches the device. Reference firmware measures 27.6 KB flash / 0.6 KB RAM on ESP32; the Python Bridge, ESP32 firmware, and a language-neutral conformance suite are MIT-licensed and public. An empirical study -- 675 tool calls produced by five LLMs across four vendors (DeepSeek, Alibaba, Zhipu, MiniMax) against six categories of adversarial prompts, with the injection category instantiating AgentDojo's attack templates -- shows DCP rejects 100% of capability-escalation attempts and 78% of prompt-injection attempts, versus 0--1% for Raw MCP and IoT-MCP, matching the expressiveness of a well-formed OpenAPI 3 schema at three orders of magnitude less firmware footprint. We position DCP as the missing layer between MCP (which is moving toward enterprise SaaS connectivity) and the physical devices it does not reach.",
-    "authors": [
-      "Dongxu Yang"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.26159",
-    "pdf_url": "https://arxiv.org/pdf/2605.26159",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "LLMs",
-      "Cryptography & Security",
-      "Machine Learning"
-    ],
-    "paper_type": "empirical",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 4.73,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.5,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Large language models are increasingly used as orchestrators of external tools via the Model Context Protocol (MCP), but MCP is built for software services with megabytes of memory and does not descend to the microcontrollers that dominate the long tail of physical devices. Recent work (IoT-MCP) ports MCP to edge gateways at 74 KB peak memory; this still excludes the smallest commodity MCUs and, critically, does not address the safety problem of giving an unreliable caller (an LLM that may hallucinate or be prompt-injected) direct control of physical hardware.",
-    "key_contribution": "We present the Device Context Protocol (DCP): a sub-50-byte typical frame (6-byte header + CBOR payload + optional 16-byte HMAC), a manifest schema in which capability scoping, range and type checks, dry-run evaluation, and units-as-types are protocol-layer primitives, and a host-side Bridge that rejects malformed or hallucinated calls before any byte reaches the device.",
-    "why_it_matters": "Device Context Protocol: A Compact, Safety-First Architecture for LLM-Driven Control of Constrained Devices represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about LLMs.",
-    "one_line_takeaway": "We present the Device Context Protocol (DCP): a sub-50-byte typical frame (6-byte header + CBOR payload + optional…",
-    "biggest_caveat": "does not descend to the microcontrollers that dominate the long tail of physical devices.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
-    "url": "https://arxiv.org/abs/2605.26159",
-    "difficulty": "intermediate"
-  },
-  {
-    "id": "arxiv:2605.25233",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Meta-Agent: From Task Descriptions to Verified Multi-Agent Systems",
-    "abstract": "AI agents are increasingly used to solve complex, multi-step tasks, but existing multi-agent frameworks remain brittle as workflows grow in scale and depth. Small errors at intermediate stages can propagate through agent interactions, while insufficient grounding and weak verification mechanisms further limit reliability. We present Meta-Agent, a two-phase framework that automatically constructs and executes specialized multi-agent systems from natural-language task descriptions. In the construction phase, a task planner decomposes a problem into a directed acyclic graph of agent specifications with explicit input/output contracts and verification criteria. A web search module grounds each specification with external evidence, and a code generation module produces system prompts and tool configurations. A construction-time verification stage then validates generated artifacts and triggers targeted regeneration when failures are detected. In the execution phase, a coordinator dispatches subtasks across the agent graph while execution-time verification gates intermediate outputs. We further introduce a three-level error attribution mechanism that distinguishes local, upstream, and structural failures, enabling targeted recovery strategies ranging from localized retries to partial re-execution and re-decomposition. We evaluate Meta-Agent across coding, contextual learning, and open-ended reasoning tasks. Experiments against strong multi-agent baselines and ablation studies demonstrate consistent improvements in task success rate, error recovery, and workflow stability. The results highlight the importance of tightly integrating planning, grounding, and verification for building reliable multi-agent systems.",
-    "authors": [
-      "Andy Xu",
-      "Yu-Wing Tai"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2605.25233",
-    "pdf_url": "https://arxiv.org/pdf/2605.25233",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Reasoning",
-      "Hallucination",
-      "AI Agents",
-      "Info Extraction",
-      "Code Generation"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 4.61,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.5,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "AI agents are increasingly used to solve complex, multi-step tasks, but existing multi-agent frameworks remain brittle as workflows grow in scale and depth. Small errors at intermediate stages can propagate through agent interactions, while insufficient grounding and weak verification mechanisms further limit reliability.",
-    "key_contribution": "We present Meta-Agent, a two-phase framework that automatically constructs and executes specialized multi-agent systems from natural-language task descriptions.",
-    "why_it_matters": "Meta-Agent: From Task Descriptions to Verified Multi-Agent Systems represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Reasoning.",
-    "one_line_takeaway": "We present Meta-Agent, a two-phase framework that automatically constructs and executes specialized multi-agent systems…",
-    "biggest_caveat": "but existing multi-agent frameworks remain brittle as workflows grow in scale and depth.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Reasoning.",
-    "url": "https://arxiv.org/abs/2605.25233",
-    "difficulty": "intermediate"
-  },
-  {
     "id": "arxiv:2512.10165",
     "source": "arxiv",
     "source_type": "preprint",
@@ -41404,53 +41357,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in Reasoning.",
     "url": "https://arxiv.org/abs/2605.30104",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2501.08087",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Automating Explanation Need Management in App Reviews: A Case Study from the Navigation App Industry",
-    "abstract": "Providing explanations in response to user reviews is a time-consuming and repetitive task for companies, as many reviews present similar issues requiring nearly identical responses. To improve efficiency, this paper proposes a semi-automated approach to managing explanation needs in user reviews. The approach leverages taxonomy categories to classify reviews and assign them to relevant internal teams or sources for responses. 2,366 app reviews from the Google Play Store and Apple App Store were scraped and analyzed using a word and phrase filtering system to detect explanation needs. The detected needs were categorized and assigned to specific internal teams at the company Graphmasters GmbH, using a hierarchical assignment strategy that prioritizes the most relevant teams. Additionally, external sources, such as existing support articles and past review responses, were integrated to provide comprehensive explanations. The system was evaluated through interviews and surveys with the Graphmasters support team, which consists of four employees. The results showed that the hierarchical assignment method improved the accuracy of team assignments, with correct teams being identified in 79.2% of cases. However, challenges in interrater agreement and the need for new responses in certain cases, particularly for Apple App Store reviews, were noted. Future work will focus on refining the taxonomy and enhancing the automation process to reduce manual intervention further.",
-    "authors": [
-      "Martin Obaidi",
-      "Nicolas Voß",
-      "Hannah Deters",
-      "Jakob Droste",
-      "Marc Herrmann",
-      "Jannik Fischbach",
-      "Kurt Schneider"
-    ],
-    "year": 2026,
-    "published_date": "2026-05-24",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "https://arxiv.org/abs/2501.08087",
-    "pdf_url": "https://arxiv.org/pdf/2501.08087",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Software Engineering"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 3.0,
-    "read_first_score": 4.59,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.5,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Providing explanations in response to user reviews is a time-consuming and repetitive task for companies, as many reviews present similar issues requiring nearly identical responses. To improve efficiency, this paper proposes a semi-automated approach to managing explanation needs in user reviews.",
-    "key_contribution": "Providing explanations in response to user reviews is a time-consuming and repetitive task for companies, as many reviews present similar issues requiring nearly identical responses.",
-    "why_it_matters": "Automating Explanation Need Management in App Reviews: A Case Study from the Navigation App Industry represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Software Engineering.",
-    "one_line_takeaway": "Providing explanations in response to user reviews is a time-consuming and repetitive task for companies, as many…",
-    "biggest_caveat": "However, challenges in interrater agreement and the need for new responses in certain cases, particularly for Apple App Store reviews, were noted.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Software Engineering.",
-    "url": "https://arxiv.org/abs/2501.08087",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2609.38090",
@@ -42520,8 +42426,8 @@
     "tags": [
       "Multimodal",
       "GNNs",
-      "Artificial Intelligence",
-      "Machine Learning"
+      "Machine Learning",
+      "Artificial Intelligence"
     ],
     "paper_type": "systems",
     "difficulty_level": "L3",
@@ -43053,8 +42959,8 @@
     "topics": [],
     "tags": [
       "Model Compression",
-      "Distributed Computing",
-      "Information Retrieval"
+      "Information Retrieval",
+      "Distributed Computing"
     ],
     "paper_type": "dataset",
     "difficulty_level": "L2",
@@ -43590,8 +43496,8 @@
     "tags": [
       "AI Safety",
       "GNNs",
-      "Information Retrieval",
       "Machine Learning",
+      "Information Retrieval",
       "Artificial Intelligence"
     ],
     "paper_type": "methods",
@@ -44243,8 +44149,8 @@
       "Fine-Tuning",
       "Self-Supervised",
       "Interpretability",
-      "NLP",
-      "Machine Learning"
+      "Machine Learning",
+      "NLP"
     ],
     "paper_type": "methods",
     "difficulty_level": "L4",
@@ -44575,8 +44481,8 @@
       "Object Detection",
       "3D Vision",
       "Robotics",
-      "Artificial Intelligence",
-      "Systems & Control"
+      "Systems & Control",
+      "Artificial Intelligence"
     ],
     "paper_type": "methods",
     "difficulty_level": "L2",
@@ -45259,8 +45165,8 @@
     "topics": [],
     "tags": [
       "Evaluation",
-      "Software Engineering",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Software Engineering"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -45651,8 +45557,8 @@
     "topics": [],
     "tags": [
       "AI Agents",
-      "NLP",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "NLP"
     ],
     "paper_type": "systems",
     "difficulty_level": "L2",
@@ -45986,9 +45892,9 @@
     "citations": 0,
     "topics": [],
     "tags": [
-      "Data Structures & Algorithms",
+      "Machine Learning",
       "Game Theory",
-      "Machine Learning"
+      "Data Structures & Algorithms"
     ],
     "paper_type": "theory",
     "difficulty_level": "L4",
@@ -46003,10 +45909,10 @@
     "summary": "Our results show that the existence of a short high-utility protocol already suffices for efficient communication. In particular, in a game with $n$ possible observations and $m$ actions: (1) For any achievable target utility $α$, we give an algorithm with $\\mathrm{poly}(n, m, 1/ε)$ runtime that designs a protocol achieving utility at least $α-ε$ using only $2^{\\mathcal O(CC_α(G))}/ε^2$ bits of communication.",
     "key_contribution": "Our results show that the existence of a short high-utility protocol already suffices for efficient communication.",
     "why_it_matters": "Computationally Efficient Collaborative Communication Via Regularity-Based Coarsening represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Data Structures & Algorithms.",
+    "content_hook": "A new paper that could change how we think about Machine Learning.",
     "one_line_takeaway": "Our results show that the existence of a short high-utility protocol already suffices for efficient communication.",
     "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Data Structures & Algorithms.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Machine Learning.",
     "url": "https://arxiv.org/abs/2608.05327",
     "difficulty": "frontier"
   },
@@ -47685,8 +47591,8 @@
     "tags": [
       "VLMs",
       "Evaluation",
-      "Computer Vision",
-      "Artificial Intelligence"
+      "Artificial Intelligence",
+      "Computer Vision"
     ],
     "paper_type": "benchmark",
     "difficulty_level": "L1",
@@ -47707,95 +47613,6 @@
     "read_this_if": "Read this if you are a beginner and want to understand recent progress in VLMs.",
     "url": "https://arxiv.org/abs/2605.30341",
     "difficulty": "beginner"
-  },
-  {
-    "id": "arxiv:2611.26352v1",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "Polylogarithmic Approximation for Packing Convex Polyhedra",
-    "abstract": "We study translational packing of convex polyhedra in three dimensions. Given $n$ convex polyhedra in $\\mathbb{R}^3$, we seek a placement with pairwise disjoint interiors that minimizes the volume of an axis-parallel bounding box. Constant-factor approximation algorithms are known when rotations are allowed, but no approximation guarantee was previously known for arbitrary convex polyhedra with fixed orientations.   A central difficulty is that, unlike in the plane, the total volume and the coordinate extents of the objects do not provide a useful lower bound on the optimum: even objects with small total volume and small diameter may require a container of large volume. We overcome this difficulty using a better geometric lower bound based on a surprising connection to Wang and Zahl's celebrated recent proof of the three-dimensional Kakeya conjecture.   Using this, we obtain a polynomial-time $n^{o(1)}$-approximation algorithm. A recent strengthening of Wang and Zahl's theorem claimed by OpenAI gives a polylogarithmic approximation ratio for the same algorithm.   Our ideas extend to bin and strip packing: for any fixed $δ>0$, we obtain the same approximation guarantees for translational packing of convex polyhedra whose coordinate widths are at most a $1-δ$ fraction of the corresponding container widths.",
-    "authors": [
-      "Anders Aamand",
-      "Mikkel Abrahamsen",
-      "Simon Bartlmae"
-    ],
-    "year": 2026,
-    "published_date": "2026-11-19",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "http://arxiv.org/abs/2611.26352v1",
-    "pdf_url": "https://arxiv.org/pdf/2611.26352v1",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Info Extraction",
-      "Data Structures & Algorithms"
-    ],
-    "paper_type": "theory",
-    "difficulty_level": "L4",
-    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 3.72,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.45,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "We study translational packing of convex polyhedra in three dimensions. Given $n$ convex polyhedra in $\\mathbb{R}^3$, we seek a placement with pairwise disjoint interiors that minimizes the volume of an axis-parallel bounding box.",
-    "key_contribution": "We study translational packing of convex polyhedra in three dimensions.",
-    "why_it_matters": "Polylogarithmic Approximation for Packing Convex Polyhedra represents a meaningful contribution to its field and opens new research directions.",
-    "content_hook": "A new paper that could change how we think about Info Extraction.",
-    "one_line_takeaway": "We study translational packing of convex polyhedra in three dimensions.",
-    "biggest_caveat": "but no approximation guarantee was previously known for arbitrary convex polyhedra with fixed orientations.",
-    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Info Extraction.",
-    "url": "http://arxiv.org/abs/2611.26352v1",
-    "difficulty": "frontier"
-  },
-  {
-    "id": "arxiv:2611.25134v1",
-    "source": "arxiv",
-    "source_type": "preprint",
-    "title": "GEMS: Generation and Experience Memory for Subgoal-Guided Long-Horizon World Model Planning",
-    "abstract": "Visual world models enable effective short-horizon goal-conditioned planning, such as reaching nearby targets and pushing objects over short distances, by predicting candidate action outcomes and comparing their representations with a goal representation. However, extending this approach to long-horizon tasks is challenging: prediction errors accumulate over extended rollouts, while latent-space similarity to distant goals provides limited guidance for ranking candidate outcomes. Existing methods address these limitations by introducing intermediate subgoals, either generated by learned models or selected from experience memory. Generated subgoals can contain hallucinations or be inaccurate in aspects such as object positions and timing. Memory-based approaches are constrained by experience coverage and may lack precise guidance for selecting appropriate intermediate states from stored observations. We introduce GEMS, which generates temporally structured subgoals to guide action search and state selection from Latent Experience Memory (LEM). A distance gate determines whether predicted outcomes are evaluated against the generated subgoal or the selected memory state. Experiments across six tasks and task suites spanning manipulation, navigation, and reaching demonstrate the effectiveness of GEMS for long-horizon planning. GEMS outperforms state-of-the-art world-model planning baselines across different manipulation settings, achieving success rates of 92.8% on Cube, 68.4% on Push-T, and 54.1% on Meta-World. It improves over the strongest evaluated baseline on these tasks by 24.0, 7.3, and 22.2 percentage points, respectively. These results demonstrate that generated subgoals and experience memory can jointly strengthen long-horizon planning with a frozen world model.",
-    "authors": [
-      "Yangchen Zhao",
-      "Ali Payani",
-      "Caiwen Ding"
-    ],
-    "year": 2026,
-    "published_date": "2026-11-18",
-    "venue": "arXiv",
-    "conference_rank": "",
-    "presentation_type": "",
-    "paper_url": "http://arxiv.org/abs/2611.25134v1",
-    "pdf_url": "https://arxiv.org/pdf/2611.25134v1",
-    "citations": 0,
-    "topics": [],
-    "tags": [
-      "Hallucination",
-      "Robotics",
-      "Computer Vision"
-    ],
-    "paper_type": "methods",
-    "difficulty_level": "L2",
-    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
-    "maturity_stage": "emerging",
-    "paper_score": 2.9,
-    "read_first_score": 4.7,
-    "content_potential_score": 0.0,
-    "interestingness_score": 1.45,
-    "hype_score": 0.0,
-    "evidence_strength": 0.0,
-    "summary": "Visual world models enable effective short-horizon goal-conditioned planning, such as reaching nearby targets and pushing objects over short distances, by predicting candidate action outcomes and comparing their representations with a goal representation. However, extending this approach to long-horizon tasks is challenging: prediction errors accumulate over extended rollouts, while latent-space similarity to distant goals provides limited guidance for ranking candidate outcomes.",
-    "key_contribution": "We introduce GEMS, which generates temporally structured subgoals to guide action search and state selection from Latent Experience Memory (LEM).",
-    "why_it_matters": "GEMS: Generation and Experience Memory for Subgoal-Guided Long-Horizon World Model Planning advances machine perception, enabling better visual understanding in real-world applications.",
-    "content_hook": "A new paper that could change how we think about Hallucination.",
-    "one_line_takeaway": "We introduce GEMS, which generates temporally structured subgoals to guide action search and state selection from…",
-    "biggest_caveat": "limitations by introducing intermediate subgoals, either generated by learned models or selected from experience memory.",
-    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Hallucination.",
-    "url": "http://arxiv.org/abs/2611.25134v1",
-    "difficulty": "intermediate"
   },
   {
     "id": "arxiv:2611.24165v1",
@@ -47847,6 +47664,138 @@
     "read_this_if": "Read this if you are an advanced practitioner and want to understand recent progress in AI Safety.",
     "url": "http://arxiv.org/abs/2611.24165v1",
     "difficulty": "advanced"
+  },
+  {
+    "id": "arxiv:2606.26185",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Necessary, Not Sufficient, and No Longer Available: Grader Non-Determinism After the Withdrawal of Sampling Controls",
+    "abstract": "LLM-as-judge (\"grader\") components are now standard in evaluation harnesses, including safety evaluations where a pass/fail verdict may gate downstream deployment decisions. Earlier work, my own included, treated temperature=0 as the remedy for grader non-determinism and asked whether it was sufficient. It was necessary and not sufficient. It is now also unavailable. I report a two-vendor measurement taken in October and November 2026. Anthropic's current models reject the setting outright, and under the API version dated 2026-10-21 all fifteen models listed for my key reject it, the older generations included. On the chat completions endpoint OpenAI's current models accept the parameter and refuse every value but one, so a harness grading through that endpoint is obliged to sample its judge at temperature 1. On the Responses endpoint a request carrying temperature=0 is accepted by four of five current models once reasoning is switched off, a configuration I have not graded under, and by gpt-6.1-sol under no setting I tried. I propose the measurement that replaces the earlier protocol: the per-item normalized entropy of the grade distribution, reported at whatever setting the vendor permits. The direct alternative is closed too: gpt-4o returns token log-probabilities, while gpt-5.6-sol refuses the parameter and the Anthropic Messages API does not accept it at all. Across twenty-two condition runs and 4,760 calls the index orders graders without requiring a rate estimate, and identifies items at which a judge retains no information at all. I further show that a borderline item set carries across model generations only in part and not predictably, so a harness cannot inherit its calibration set. I argue that grader disagreement must be reported as an error bar on every verdict, because it is no longer something an evaluator can configure away.",
+    "authors": [
+      "Hiroki Tamba"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "https://arxiv.org/abs/2606.26185",
+    "pdf_url": "https://arxiv.org/pdf/2606.26185",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "LLMs",
+      "Reasoning",
+      "Machine Learning"
+    ],
+    "paper_type": "systems",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 5.55,
+    "content_potential_score": 1.0,
+    "interestingness_score": 1.95,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "LLM-as-judge (\"grader\") components are now standard in evaluation harnesses, including safety evaluations where a pass/fail verdict may gate downstream deployment decisions. Earlier work, my own included, treated temperature=0 as the remedy for grader non-determinism and asked whether it was sufficient.",
+    "key_contribution": "I propose the measurement that replaces the earlier protocol: the per-item normalized entropy of the grade distribution, reported at whatever setting the vendor permits.",
+    "why_it_matters": "Necessary, Not Sufficient, and No Longer Available: Grader Non-Determinism After the Withdrawal of Sampling Controls represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about LLMs.",
+    "one_line_takeaway": "I propose the measurement that replaces the earlier protocol: the per-item normalized entropy of the grade…",
+    "biggest_caveat": "but one, so a harness grading through that endpoint is obliged to sample its judge at temperature 1.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in LLMs.",
+    "url": "https://arxiv.org/abs/2606.26185",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2611.25134v1",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "GEMS: Generation and Experience Memory for Subgoal-Guided Long-Horizon World Model Planning",
+    "abstract": "Visual world models enable effective short-horizon goal-conditioned planning, such as reaching nearby targets and pushing objects over short distances, by predicting candidate action outcomes and comparing their representations with a goal representation. However, extending this approach to long-horizon tasks is challenging: prediction errors accumulate over extended rollouts, while latent-space similarity to distant goals provides limited guidance for ranking candidate outcomes. Existing methods address these limitations by introducing intermediate subgoals, either generated by learned models or selected from experience memory. Generated subgoals can contain hallucinations or be inaccurate in aspects such as object positions and timing. Memory-based approaches are constrained by experience coverage and may lack precise guidance for selecting appropriate intermediate states from stored observations. We introduce GEMS, which generates temporally structured subgoals to guide action search and state selection from Latent Experience Memory (LEM). A distance gate determines whether predicted outcomes are evaluated against the generated subgoal or the selected memory state. Experiments across six tasks and task suites spanning manipulation, navigation, and reaching demonstrate the effectiveness of GEMS for long-horizon planning. GEMS outperforms state-of-the-art world-model planning baselines across different manipulation settings, achieving success rates of 92.8% on Cube, 68.4% on Push-T, and 54.1% on Meta-World. It improves over the strongest evaluated baseline on these tasks by 24.0, 7.3, and 22.2 percentage points, respectively. These results demonstrate that generated subgoals and experience memory can jointly strengthen long-horizon planning with a frozen world model.",
+    "authors": [
+      "Yangchen Zhao",
+      "Ali Payani",
+      "Caiwen Ding"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-18",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "http://arxiv.org/abs/2611.25134v1",
+    "pdf_url": "https://arxiv.org/pdf/2611.25134v1",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Hallucination",
+      "Robotics",
+      "Computer Vision"
+    ],
+    "paper_type": "methods",
+    "difficulty_level": "L2",
+    "difficulty_reason": "Intermediate: suitable for readers with undergraduate ML/NLP background.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 4.7,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "Visual world models enable effective short-horizon goal-conditioned planning, such as reaching nearby targets and pushing objects over short distances, by predicting candidate action outcomes and comparing their representations with a goal representation. However, extending this approach to long-horizon tasks is challenging: prediction errors accumulate over extended rollouts, while latent-space similarity to distant goals provides limited guidance for ranking candidate outcomes.",
+    "key_contribution": "We introduce GEMS, which generates temporally structured subgoals to guide action search and state selection from Latent Experience Memory (LEM).",
+    "why_it_matters": "GEMS: Generation and Experience Memory for Subgoal-Guided Long-Horizon World Model Planning advances machine perception, enabling better visual understanding in real-world applications.",
+    "content_hook": "A new paper that could change how we think about Hallucination.",
+    "one_line_takeaway": "We introduce GEMS, which generates temporally structured subgoals to guide action search and state selection from…",
+    "biggest_caveat": "limitations by introducing intermediate subgoals, either generated by learned models or selected from experience memory.",
+    "read_this_if": "Read this if you are familiar with ML and want to understand recent progress in Hallucination.",
+    "url": "http://arxiv.org/abs/2611.25134v1",
+    "difficulty": "intermediate"
+  },
+  {
+    "id": "arxiv:2611.26352v1",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Polylogarithmic Approximation for Packing Convex Polyhedra",
+    "abstract": "We study translational packing of convex polyhedra in three dimensions. Given $n$ convex polyhedra in $\\mathbb{R}^3$, we seek a placement with pairwise disjoint interiors that minimizes the volume of an axis-parallel bounding box. Constant-factor approximation algorithms are known when rotations are allowed, but no approximation guarantee was previously known for arbitrary convex polyhedra with fixed orientations.   A central difficulty is that, unlike in the plane, the total volume and the coordinate extents of the objects do not provide a useful lower bound on the optimum: even objects with small total volume and small diameter may require a container of large volume. We overcome this difficulty using a better geometric lower bound based on a surprising connection to Wang and Zahl's celebrated recent proof of the three-dimensional Kakeya conjecture.   Using this, we obtain a polynomial-time $n^{o(1)}$-approximation algorithm. A recent strengthening of Wang and Zahl's theorem claimed by OpenAI gives a polylogarithmic approximation ratio for the same algorithm.   Our ideas extend to bin and strip packing: for any fixed $δ>0$, we obtain the same approximation guarantees for translational packing of convex polyhedra whose coordinate widths are at most a $1-δ$ fraction of the corresponding container widths.",
+    "authors": [
+      "Anders Aamand",
+      "Mikkel Abrahamsen",
+      "Simon Bartlmae"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-19",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "http://arxiv.org/abs/2611.26352v1",
+    "pdf_url": "https://arxiv.org/pdf/2611.26352v1",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Info Extraction",
+      "Data Structures & Algorithms"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses proof and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.72,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We study translational packing of convex polyhedra in three dimensions. Given $n$ convex polyhedra in $\\mathbb{R}^3$, we seek a placement with pairwise disjoint interiors that minimizes the volume of an axis-parallel bounding box.",
+    "key_contribution": "We study translational packing of convex polyhedra in three dimensions.",
+    "why_it_matters": "Polylogarithmic Approximation for Packing Convex Polyhedra represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Info Extraction.",
+    "one_line_takeaway": "We study translational packing of convex polyhedra in three dimensions.",
+    "biggest_caveat": "but no approximation guarantee was previously known for arbitrary convex polyhedra with fixed orientations.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Info Extraction.",
+    "url": "http://arxiv.org/abs/2611.26352v1",
+    "difficulty": "frontier"
   },
   {
     "id": "arxiv:2611.16664",
@@ -48664,6 +48613,48 @@
     "biggest_caveat": "bution deterministically in $\\mathrm{poly}(n+m)\\,2^{O(n(\\log\\log n)^2/\\sqrt{\\log n})}$ time and polynomial working space.",
     "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Info Extraction.",
     "url": "http://arxiv.org/abs/2611.02548v1",
+    "difficulty": "frontier"
+  },
+  {
+    "id": "arxiv:2611.02560v1",
+    "source": "arxiv",
+    "source_type": "preprint",
+    "title": "Circuit Lower Bounds for Extended Gate Bases from Subexponential Counting",
+    "abstract": "We study circuit lower bounds for extended gate bases using exact CNF counting and an extension-ring form of the contraction theorem of OpenAI. The deterministic counting theorem of Claude (Anthropic) yields an $\\mathsf{E}^{\\mathsf{NP}}$ language requiring $Ω(m\\sqrt{\\log m}/\\log\\log m)$ gates over unbounded AND/OR with binary XOR, infinitely often. Using that contraction theorem, a bounded binary base with a linear budget of arbitrary XOR and symmetric gates requires $Ω(m\\sqrt{\\log m})$ gates infinitely often. These results extend the binary-gate lower bound of OpenAI. Signed long-clause selectors reduce the first counting problem to the difference of two ordinary 3-CNF counts. Affine characters and unit-separated interpolation give the second counting interface, with logarithmic cost per symmetric-gate arity. A quantitative local-reduction transfer accounts for auxiliary variables, branch counts, and integer recovery.",
+    "authors": [
+      "Mengyang Wu",
+      "Minghao Wang"
+    ],
+    "year": 2026,
+    "published_date": "2026-11-02",
+    "venue": "arXiv",
+    "conference_rank": "",
+    "presentation_type": "",
+    "paper_url": "http://arxiv.org/abs/2611.02560v1",
+    "pdf_url": "https://arxiv.org/pdf/2611.02560v1",
+    "citations": 0,
+    "topics": [],
+    "tags": [
+      "Data Structures & Algorithms"
+    ],
+    "paper_type": "theory",
+    "difficulty_level": "L4",
+    "difficulty_reason": "Requires deep theoretical background — uses theorem and related concepts.",
+    "maturity_stage": "emerging",
+    "paper_score": 2.9,
+    "read_first_score": 3.17,
+    "content_potential_score": 0.0,
+    "interestingness_score": 1.45,
+    "hype_score": 0.0,
+    "evidence_strength": 0.0,
+    "summary": "We study circuit lower bounds for extended gate bases using exact CNF counting and an extension-ring form of the contraction theorem of OpenAI. The deterministic counting theorem of Claude (Anthropic) yields an $\\mathsf{E}^{\\mathsf{NP}}$ language requiring $Ω(m\\sqrt{\\log m}/\\log\\log m)$ gates over unbounded AND/OR with binary XOR, infinitely often.",
+    "key_contribution": "We study circuit lower bounds for extended gate bases using exact CNF counting and an extension-ring form of the contraction theorem of OpenAI.",
+    "why_it_matters": "Circuit Lower Bounds for Extended Gate Bases from Subexponential Counting represents a meaningful contribution to its field and opens new research directions.",
+    "content_hook": "A new paper that could change how we think about Data Structures & Algorithms.",
+    "one_line_takeaway": "We study circuit lower bounds for extended gate bases using exact CNF counting and an extension-ring form of the…",
+    "biggest_caveat": "Results may not generalise beyond the tested benchmarks.",
+    "read_this_if": "Read this if you are a researcher at the frontier and want to understand recent progress in Data Structures & Algorithms.",
+    "url": "http://arxiv.org/abs/2611.02560v1",
     "difficulty": "frontier"
   }
 ]
